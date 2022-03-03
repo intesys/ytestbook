@@ -1,4 +1,4 @@
-# y-testbook
+# yTestbook
 
 ## Motivation
 
