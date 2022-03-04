@@ -111,4 +111,11 @@ Suggested tools
   - electron
 - react
 - ui kit: https://mantine.dev/
-- mermaid
+- mermaid: https://mermaid-js.github.io/mermaid/#/
+- json database options:
+  - plain json
+  - https://github.com/pubkey/rxdb
+  - https://pouchdb.com
+  - https://github.com/Nozbe/WatermelonDB
+  - https://github.com/techfort/LokiJS
+  - https://github.com/typicode/lowdb
