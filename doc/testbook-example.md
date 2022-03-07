@@ -1,14 +1,6 @@
 # Testbook di esempio (inserisci il nome del progetto al posto di questo titolo)
 
-## Use case 1
-
-**Status: TODO, WORKING, PASSED, FAILED, BLOCKED**
-
-<!-- ### Descrizione -->
-
-Qui descriviamo l'oggetto del test, a grandi linee, ad es: *L'utente inserisce i suoi dati e arriva correttamente alla pagine finale.*
-
-### Plan
+## Test planning
 
 Pianificazione dei test:
 
@@ -31,6 +23,14 @@ gantt
     Test 1     :crit, a2, 2014-02-01, 2014-02-10
     Test 2 :a3, 2014-02-10, 2014-02-20
 ```
+
+## Use case 1
+
+**Status: TODO, WORKING, PASSED, FAILED, BLOCKED**
+
+<!-- ### Descrizione -->
+
+Qui descriviamo l'oggetto del test, a grandi linee, ad es: *L'utente inserisce i suoi dati e arriva correttamente alla pagine finale.*
 
 ### Step
 
