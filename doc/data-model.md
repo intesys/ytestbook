@@ -16,8 +16,8 @@ erDiagram
     string title
     string description
     string requirements "Data preparation"
-    int accountantId "Accountable user"
-    array responsibleId "List of responsible users"
+    string accountant "Accountable user"
+    string responsible "List of responsible users"
     enum status "TODO, WORKING, PASSED, FAILED, BLOCKED"
     date startDate
     date endDate
@@ -58,15 +58,9 @@ erDiagram
     string entity "belongs to UseCase, Test and Step"
     int entityId "Entity id"
     string text
-    int userId "optional"
+    string user "Comment signature"
     date date
     array tags "List tag ids"
-  }
-  User {
-    int id
-    string name
-    string description
-    string role "descriptive, not related to permissions"
   }
   Tag {
     int id
