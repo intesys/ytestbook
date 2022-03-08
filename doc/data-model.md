@@ -10,7 +10,7 @@ We want data to be explored by many points of view, such as:
 - view comments per session, data or test
 
 ```mermaid
-erDiagram  
+erDiagram
   UseCase {
     int id
     string title
@@ -31,7 +31,6 @@ erDiagram
     string requirements
     string inputData
     string expectation
-    enum status "TODO, WORKING, PASSED, FAILED, BLOCKED"
     array tags "List tag ids"
   }
   Step {
@@ -48,7 +47,6 @@ erDiagram
   }
   Status {
     int id
-    int stepId
     int sessionId
     enum value "TODO, WORKING, PASSED, FAILED, BLOCKED"
   }
@@ -65,8 +63,8 @@ erDiagram
   User {
     int id
     string name
-    string description
-    string role "descriptive, not related to permissions"
+    string surname
+    string role "Working role e.g (Manager, Developer)"
   }
   Tag {
     int id
@@ -75,6 +73,7 @@ erDiagram
   UseCase   ||--o{   Test     : hasMany
   Test      ||--o{   Step     : hasMany
   Test      ||--o{   Session  : hasMany
+  Step      ||--o{   Session  : hasMany
+  Test      ||--o{   Status   : hasMany
   Step      ||--o{   Status   : hasMany
-  Session   ||--o{   Status   : hasMany 
 ```

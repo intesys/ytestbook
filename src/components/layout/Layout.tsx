@@ -59,7 +59,7 @@ const Layout: React.FC = () => {
         </Header>
       }
     >
-      <p>Hurrà!</p>
+      <Text>Hurrà!</Text>
     </AppShell>
   );
 };
