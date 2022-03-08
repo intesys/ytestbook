@@ -10,14 +10,14 @@ We want data to be explored by many points of view, such as:
 - view comments per session, data or test
 
 ```mermaid
-erDiagram  
+erDiagram
   UseCase {
     int id
     string title
     string description
     string requirements "Data preparation"
-    string accountant "Accountable user"
-    string responsible "List of responsible users"
+    int accountantId "Accountable user"
+    array responsibleId "List of responsible users"
     enum status "TODO, WORKING, PASSED, FAILED, BLOCKED"
     date startDate
     date endDate
@@ -39,6 +39,7 @@ erDiagram
     string title
     string description
     string expectation
+    enum status "TODO, WORKING, PASSED, FAILED, BLOCKED"
     array tags "List tag ids"
   }
   Session {
@@ -46,22 +47,21 @@ erDiagram
     string title
     date date
   }
-  Status {
-    int id
-    string entity "belongs to Test and Step"
-    int entityId "Entity id"
-    int sessionId
-    enum value "TODO, WORKING, PASSED, FAILED, BLOCKED"
-  }
   Comment {
     int id
     int sessionId
     string entity "belongs to UseCase, Test and Step"
     int entityId "Entity id"
     string text
-    string user "Comment signature"
+    int userId "optional"
     date date
     array tags "List tag ids"
+  }
+  User {
+    int id
+    string name
+    string surname
+    string role "Working role e.g (Manager, Developer)"
   }
   Tag {
     int id
@@ -69,7 +69,6 @@ erDiagram
   }
   UseCase   ||--o{   Test     : hasMany
   Test      ||--o{   Step     : hasMany
-  Test      ||--o{   Status   : "has one status per session" 
-  Step      ||--o{   Status   : "has one status per session"
-  Status    }o--||   Session  : belongsTo
+  Test      ||--o{   Session  : hasMany
+  Step      ||--o{   Session  : hasMany
 ```
