@@ -1,19 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import {
-  AppShell,
-  Burger,
-  Group,
-  Header,
-  MediaQuery,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
+import { AppShell, Text } from "@mantine/core";
 import Sidebar from "./Sidebar";
+import { Header } from "./Header";
 
 const Layout: React.FC = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const theme = useMantineTheme();
 
   return (
     <AppShell
@@ -31,32 +23,9 @@ const Layout: React.FC = () => {
       header={
         <Header
           height={50}
-          padding="md"
-          sx={(t) => ({
-            background: `#0f33ce`,
-            borderBottom: `1px solid ${t.colors.dark}`,
-          })}
-        >
-          <div
-            style={{ display: "flex", alignItems: "center", height: "100%" }}
-          >
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-              <Burger
-                opened={showSidebar}
-                onClick={() => setShowSidebar((o) => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-                mr="xl"
-              />
-            </MediaQuery>
-
-            <Group>
-              <Text size={"sm"} weight={500}>
-                yTestbook
-              </Text>
-            </Group>
-          </div>
-        </Header>
+          showSidebar={showSidebar}
+          setShowSidebar={setShowSidebar}
+        />
       }
     >
       <Text>Hurrà!</Text>
