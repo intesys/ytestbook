@@ -48,7 +48,8 @@ erDiagram
   }
   Status {
     int id
-    int stepId
+    string entity "belongs to Test and Step"
+    int entityId "Entity id"
     int sessionId
     enum value "TODO, WORKING, PASSED, FAILED, BLOCKED"
   }
@@ -68,7 +69,7 @@ erDiagram
   }
   UseCase   ||--o{   Test     : hasMany
   Test      ||--o{   Step     : hasMany
-  Test      ||--o{   Session  : hasMany
-  Step      ||--o{   Status   : hasMany
-  Session   ||--o{   Status   : hasMany 
+  Test      ||--o{   Status   : "has one status per session" 
+  Step      ||--o{   Status   : "has one status per session"
+  Status    }o--||   Session  : belongsTo
 ```
