@@ -23,7 +23,6 @@ erDiagram
     date endDate
     array tags "List tag ids"
   }
-
   Test {
     int id
     int useCaseId
@@ -35,7 +34,6 @@ erDiagram
     enum status "TODO, WORKING, PASSED, FAILED, BLOCKED"
     array tags "List tag ids"
   }
-
   Step {
     int id
     string title
@@ -43,20 +41,17 @@ erDiagram
     string expectation
     array tags "List tag ids"
   }
-
   Session {
     int id
     string title
     date date
   }
-
   Status {
     int id
     int stepId
     int sessionId
     enum value "TODO, WORKING, PASSED, FAILED, BLOCKED"
   }
-
   Comment {
     int id
     int sessionId
@@ -67,19 +62,16 @@ erDiagram
     date date
     array tags "List tag ids"
   }
-
   User {
     int id
     string name
     string description
     string role "descriptive, not related to permissions"
   }
-
   Tag {
     int id
     string label
   }
-  
   UseCase   ||--o{   Test     : hasMany
   Test      ||--o{   Step     : hasMany
   Test      ||--o{   Session  : hasMany
