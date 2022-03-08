@@ -31,7 +31,6 @@ erDiagram
     string requirements
     string inputData
     string expectation
-    enum status "TODO, WORKING, PASSED, FAILED, BLOCKED"
     array tags "List tag ids"
   }
   Step {
@@ -39,13 +38,17 @@ erDiagram
     string title
     string description
     string expectation
-    enum status "TODO, WORKING, PASSED, FAILED, BLOCKED"
     array tags "List tag ids"
   }
   Session {
     int id
     string title
     date date
+  }
+  Status {
+    int id
+    int sessionId
+    enum value "TODO, WORKING, PASSED, FAILED, BLOCKED"
   }
   Comment {
     int id
@@ -71,4 +74,6 @@ erDiagram
   Test      ||--o{   Step     : hasMany
   Test      ||--o{   Session  : hasMany
   Step      ||--o{   Session  : hasMany
+  Test      ||--o{   Status   : hasMany
+  Step      ||--o{   Status   : hasMany
 ```
