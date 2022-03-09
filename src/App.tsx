@@ -4,7 +4,7 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import React, { useState } from "react";
-import Layout from "./components/layout/Layout";
+import Routes from "./routes";
 import { theme } from "./theme";
 
 const App: React.FC = () => {
@@ -22,7 +22,7 @@ const App: React.FC = () => {
           theme={{ colorScheme: colorScheme, ...theme }}
           withGlobalStyles
         >
-          <Layout />
+          <Routes />
         </MantineProvider>
       </ColorSchemeProvider>
     </div>
