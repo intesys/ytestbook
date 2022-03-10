@@ -16,8 +16,8 @@ export const primaryMenu: Array<IMenuItem> = [
         path: "/plan/usecases",
       },
       {
-        label: "Task",
-        path: "/plan/task",
+        label: "Test",
+        path: "/plan/test",
       },
     ],
   },

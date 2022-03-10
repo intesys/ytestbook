@@ -7,12 +7,15 @@ import {
   Modal,
   Space,
   Title,
+  Text,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import { useUseCasesContext } from "../../../context/useCasesContext";
 import { ENTITIES_ACTIONS } from "../../../types";
+import UseCasesDelete from "./UseCasesDelete";
 import UseCasesDetail from "./UseCasesDetail";
+import UseCasesEdit from "./UseCasesEdit";
 import UseCasesRow from "./UseCasesRow";
 
 const UseCases: React.FC = () => {
@@ -71,13 +74,21 @@ const UseCases: React.FC = () => {
       <Modal
         opened={opened && useCases.action === ENTITIES_ACTIONS.EDIT}
         onClose={() => setUseCases({ action: ENTITIES_ACTIONS.IDLE })}
-        title="EDIT Use Case!"
-      ></Modal>
+        title="Edit Use Case"
+      >
+        <UseCasesEdit />
+      </Modal>
       <Modal
         opened={opened && useCases.action === ENTITIES_ACTIONS.DELETE}
         onClose={() => setUseCases({ action: ENTITIES_ACTIONS.IDLE })}
-        title="Delete Use Case!"
-      ></Modal>
+        title={
+          <>
+            <Text>Are you sure to proceed?</Text>
+          </>
+        }
+      >
+        <UseCasesDelete />
+      </Modal>
     </>
   );
 };
