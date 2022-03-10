@@ -25,7 +25,7 @@ const UseCasesRow: React.FC = () => {
 
   return (
     <Paper
-      padding="md"
+      p="md"
       shadow="xs"
       sx={(theme) => ({
         cursor: "pointer",

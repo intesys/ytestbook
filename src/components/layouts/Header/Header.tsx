@@ -35,7 +35,7 @@ export const Header: React.FC<IOwnProps & Omit<HeaderProps, "children">> = ({
   return (
     <MHeader
       {...headerProps}
-      padding="md"
+      p="md"
       sx={(t) => ({
         borderBottom: `1px solid ${t.colors.dark}`,
       })}

@@ -32,7 +32,7 @@ const UseCases: React.FC = () => {
 
   return (
     <>
-      <Container padding={0} sx={{ maxWidth: "960px", margin: "auto" }}>
+      <Container p={0} sx={{ maxWidth: "960px", margin: "auto" }}>
         <Group>
           <Title order={2}>Use Cases</Title>
           <Button

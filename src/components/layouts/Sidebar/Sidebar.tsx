@@ -11,7 +11,7 @@ const Sidebar: React.FC<OwnProps> = ({ ...navbarProps }) => {
   };
 
   return (
-    <Navbar padding={"md"} {...navbarProps}>
+    <Navbar p={"md"} {...navbarProps}>
       <Navbar.Section grow>{renderMenu()}</Navbar.Section>
     </Navbar>
   );
