@@ -23,7 +23,8 @@ const Primary: React.FC<IPrimaryMenu> = ({ item }) => {
         sx={(t) => ({
           display: "block",
           padding: `${t.spacing.xs}px`,
-          borderRadius: "5px",
+          borderRadius:
+            openSubmenu && item.children ? "5px 5px 0px 0px" : "5px",
           color:
             location.pathname === item.path || openSubmenu
               ? t.colorScheme === "dark"

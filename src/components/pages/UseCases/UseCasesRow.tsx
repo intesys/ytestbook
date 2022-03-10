@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import React from "react";
 import { useUseCasesContext } from "../../../context/useCasesContext";
+import { theme } from "../../../theme";
 import { ENTITIES_ACTIONS } from "../../../types";
 import ActionMenu from "../../ui/ActionMenu/ActionMenu";
 
@@ -69,6 +70,17 @@ const UseCasesRow: React.FC = () => {
                 in possesso di SPiD
               </Text>
             </MediaQuery>
+            <Text
+              size="xs"
+              sx={(theme) => ({
+                color:
+                  theme.colorScheme === "dark"
+                    ? theme.colors.gray[5]
+                    : theme.colors.dark[6],
+              })}
+            >
+              10 Settembre 2022 - 10 Novembre 2022
+            </Text>
           </Group>
         </Group>
         <Group ml={"auto"}>

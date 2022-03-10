@@ -58,7 +58,7 @@ const UseCasesDetail: React.FC = () => {
           <List.Item>Submit a pull request once you are done</List.Item>
         </List>
         <Divider my="xs" label="Period" />
-        <DateRangePicker value={value} disabled={true} onChange={() => {}} />
+        <Text size="sm">10 Settembre 2022 - 10 Novembre 2022</Text>
         <Divider my="xs" label="Reported by" />
         <Group>
           <Group>
