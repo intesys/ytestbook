@@ -17,7 +17,7 @@ const Layout: React.FC = ({ children }) => {
           position={{ top: 0, left: 0 }}
           hiddenBreakpoint="sm"
           hidden={!showSidebar}
-          width={{ sm: 300, lg: 400 }}
+          width={{ sm: 240, lg: 300 }}
         />
       }
       header={

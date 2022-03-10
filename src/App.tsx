@@ -4,6 +4,7 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import React, { useState } from "react";
+import { UseCasesContextProvider } from "./context/useCasesContext";
 import Routes from "./routes";
 import { theme } from "./theme";
 
@@ -22,7 +23,9 @@ const App: React.FC = () => {
           theme={{ colorScheme: colorScheme, ...theme }}
           withGlobalStyles
         >
-          <Routes />
+          <UseCasesContextProvider>
+            <Routes />
+          </UseCasesContextProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </div>
