@@ -11,6 +11,11 @@ We want data to be explored by many points of view, such as:
 
 ```mermaid
 erDiagram
+  Testbook{
+    string name
+    string description
+    string version
+  }
   UseCase {
     int id
     string title
