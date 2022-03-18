@@ -12,12 +12,20 @@ export const primaryMenu: Array<IMenuItem> = [
     icon: <MdOutlineArticle style={{ width: 16, height: 16 }} />,
     children: [
       {
+        label: "Testbook",
+        path: "/plan/testbook",
+      },
+      {
         label: "Use cases",
         path: "/plan/usecases",
       },
       {
         label: "Test",
         path: "/plan/test",
+      },
+      {
+        label: "Members",
+        path: "/plan/members",
       },
     ],
   },

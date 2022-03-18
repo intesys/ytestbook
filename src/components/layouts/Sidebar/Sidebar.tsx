@@ -7,7 +7,7 @@ type OwnProps = Omit<NavbarProps, "children">;
 
 const Sidebar: React.FC<OwnProps> = ({ ...navbarProps }) => {
   const renderMenu = () => {
-    return primaryMenu.map((item, key) => <Primary item={item} />);
+    return primaryMenu.map((item, key) => <Primary item={item} key={key} />);
   };
 
   return (

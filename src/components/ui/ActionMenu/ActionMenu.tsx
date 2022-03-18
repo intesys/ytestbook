@@ -1,7 +1,6 @@
 import { Menu } from "@mantine/core";
 import React from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
-import { IUseCasesContext } from "../../../context/useCasesContext";
 
 interface IOwnProps {
   onEdit: () => void;
