@@ -26,7 +26,6 @@ const _create = async (): Promise<RxDatabase> => {
     storage: getRxStoragePouch("idb"),
   });
   console.log("DatabaseService: created database");
-  window["db"] = db;
 
   // init collections
   await collectionsInit(db);
@@ -43,11 +42,7 @@ const _create = async (): Promise<RxDatabase> => {
   return db;
 };
 
-export const init = () => {
-  if (!dbPromise) dbPromise = _create();
-};
-
-export const get = (): Promise<RxDatabase> => {
+export const getInstance = (): Promise<RxDatabase> => {
   if (!dbPromise) dbPromise = _create();
   return dbPromise;
 };

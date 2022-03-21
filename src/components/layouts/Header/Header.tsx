@@ -34,19 +34,12 @@ export const Header: React.FC<IOwnProps & Omit<HeaderProps, "children">> = ({
     state: {
       testbook: { item: testbookItem },
     },
-    getTestbook,
   } = useTestbookContext();
 
   const theme = useMantineTheme();
 
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
-
-  useEffect(() => {
-    getTestbook();
-  }, []);
-
-  console.log(testbookItem);
 
   return (
     <MHeader

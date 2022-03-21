@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useReducer } from "react";
+import React, { useCallback, useContext, useEffect, useReducer } from "react";
 import TTestbookAction from "../reducer/testbook/actions";
 import testbookReducer from "../reducer/testbook/reducer";
 import * as Database from "../database/database";
@@ -6,6 +6,7 @@ import {
   ITestbookState,
   TTestbookData,
   LOADING_STATUS,
+  OperationEnum,
 } from "../reducer/testbook/types";
 
 export interface ITestbookContext {
@@ -22,6 +23,7 @@ const initialState: ITestbookState = {
   testbook: {
     item: undefined,
     status: LOADING_STATUS.INIT,
+    operation: OperationEnum.IDLE,
   },
 };
 
@@ -38,12 +40,20 @@ export const TestbookContext =
 export const TestbookContextProvider: React.FC = (props) => {
   const [state, dispatch] = useReducer(testbookReducer, initialState);
 
+  useEffect(() => {
+    if (
+      state.testbook.status === LOADING_STATUS.SUCCESS &&
+      state.testbook.operation === OperationEnum.SET
+    )
+      getTestbook();
+  }, [state.testbook.status, state.testbook.operation]);
+
   const setTestbook = useCallback(async (obj: TTestbookData) => {
     dispatch({
       type: "TESTBOOK_SET_LOADING",
     });
 
-    const db = await Database.get();
+    const db = await Database.getInstance();
     if (db) {
       const result = await db.testbooks.upsert(obj);
       if (result) {
@@ -67,11 +77,10 @@ export const TestbookContextProvider: React.FC = (props) => {
       type: "TESTBOOK_GET_LOADING",
     });
 
-    const db = await Database.get();
+    const db = await Database.getInstance();
     if (db) {
       const data = await db.testbooks.findOne().exec();
       data.$.subscribe((testbook: any) => {
-        console.log(testbook);
         dispatch({
           type: "TESTBOOK_GET_SUCCESS",
           payload: testbook,

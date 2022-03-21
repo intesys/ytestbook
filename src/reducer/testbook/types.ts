@@ -6,7 +6,9 @@ export enum LOADING_STATUS {
 }
 
 export enum OperationEnum {
-  UPDATE,
+  IDLE,
+  SET,
+  GET,
 }
 
 export type TTestbookData = {
@@ -19,6 +21,7 @@ export type TTestbookData = {
 export interface ITestbookStatus {
   item?: TTestbookData;
   status: LOADING_STATUS;
+  operation: OperationEnum;
 }
 
 export interface ITestbookState {

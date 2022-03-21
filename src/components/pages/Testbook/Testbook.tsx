@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { useTestbookContext } from "../../../context/useTestbookContext";
-import { LOADING_STATUS, OperationEnum } from "../../../reducer/testbook/types";
+import { LOADING_STATUS } from "../../../reducer/testbook/types";
 
 const UseCases: React.FC = () => {
   const {
@@ -17,16 +17,11 @@ const UseCases: React.FC = () => {
       testbook: { item: testbookItem, status: testbookStatus },
     },
     setTestbook,
-    getTestbook,
   } = useTestbookContext();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [version, setVersion] = useState("");
-
-  useEffect(() => {
-    getTestbook();
-  }, []);
 
   useEffect(() => {
     if (testbookItem && testbookStatus === LOADING_STATUS.SUCCESS) {
