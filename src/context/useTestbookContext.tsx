@@ -41,6 +41,10 @@ export const TestbookContextProvider: React.FC = (props) => {
   const [state, dispatch] = useReducer(testbookReducer, initialState);
 
   useEffect(() => {
+    getTestbook();
+  }, []);
+
+  useEffect(() => {
     if (
       state.testbook.status === LOADING_STATUS.SUCCESS &&
       state.testbook.operation === OperationEnum.SET
@@ -80,7 +84,7 @@ export const TestbookContextProvider: React.FC = (props) => {
     const db = await Database.getInstance();
     if (db) {
       const data = await db.testbooks.findOne().exec();
-      data.$.subscribe((testbook: any) => {
+      data?.$.subscribe((testbook: any) => {
         dispatch({
           type: "TESTBOOK_GET_SUCCESS",
           payload: testbook,
