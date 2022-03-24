@@ -10,7 +10,7 @@ const Primary: React.FC<IPrimaryMenu> = ({ item }) => {
   const location = useLocation();
 
   const renderSubmenu = () => {
-    return item.children?.map((item, key) => <Submenu item={item} />);
+    return item.children?.map((item, key) => <Submenu item={item} key={key} />);
   };
 
   return (
@@ -18,7 +18,7 @@ const Primary: React.FC<IPrimaryMenu> = ({ item }) => {
       <Anchor
         component={Link}
         underline={false}
-        to={item.path ? item.path : undefined}
+        to={item.path ? item.path : "#"}
         onClick={!item.path ? () => setOpenSubmenu(!openSubmenu) : undefined}
         sx={(t) => ({
           display: "block",

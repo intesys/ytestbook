@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, useMantineTheme, ThemeIcon, Anchor, Group } from "@mantine/core";
-import { ISecondaryMenu, ISubmenuItem } from "./types";
+import { Text, useMantineTheme, Anchor } from "@mantine/core";
+import { ISecondaryMenu } from "./types";
 import { Link, useLocation } from "react-router-dom";
 
 const Submenu: React.FC<ISecondaryMenu> = ({ item }) => {

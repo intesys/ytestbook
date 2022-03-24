@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { UseCasesContextProvider } from "./context/useCasesContext";
 import Routes from "./routes";
 import { theme } from "./theme";
+import { TestbookContextProvider } from "./context/useTestbookContext";
 
 const App: React.FC = () => {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
@@ -23,9 +24,11 @@ const App: React.FC = () => {
           theme={{ colorScheme: colorScheme, ...theme }}
           withGlobalStyles
         >
-          <UseCasesContextProvider>
-            <Routes />
-          </UseCasesContextProvider>
+          <TestbookContextProvider>
+            <UseCasesContextProvider>
+              <Routes />
+            </UseCasesContextProvider>
+          </TestbookContextProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </div>
