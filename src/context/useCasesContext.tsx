@@ -42,5 +42,12 @@ export const UseCasesContextProvider: React.FC = (props) => {
   );
 };
 
-export const useUseCasesContext = (): TUseCasesContext =>
-  useContext(UseCasesContext);
+export const useUseCasesContext = (): TUseCasesContext => {
+  const context = React.useContext(UseCasesContext);
+  if (context === undefined) {
+    throw new Error(
+      "useUseCasesContext must be used within a UseCasesContext.Provider"
+    );
+  }
+  return context;
+};
