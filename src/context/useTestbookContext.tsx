@@ -107,5 +107,12 @@ export const TestbookContextProvider: React.FC = (props) => {
   );
 };
 
-export const useTestbookContext = (): ITestbookContext =>
-  useContext(TestbookContext);
+export const useTestbookContext = () => {
+  const context = React.useContext(TestbookContext);
+  if (context === undefined) {
+    throw new Error(
+      "useTestbookContext must be used within a TestbookContext.Provider"
+    );
+  }
+  return context;
+};
