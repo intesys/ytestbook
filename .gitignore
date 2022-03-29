@@ -1,2 +1,15 @@
-/node_modules
-/.parcel-cache
+# dependencies
+node_modules/
+
+# folders
+dist/
+.parcel-cache/
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+log.txt

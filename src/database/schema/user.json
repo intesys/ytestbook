@@ -1,0 +1,22 @@
+{
+  "title": "User",
+  "version": 0,
+  "description": "User schema",
+  "primaryKey": "id",
+  "type": "object",
+  "required": ["id", "name", "surname", "role"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "surname": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    }
+  }
+}
