@@ -1,0 +1,28 @@
+{
+  "title": "Status",
+  "version": 0,
+  "description": "Status schema",
+  "primaryKey": "id",
+  "type": "object",
+  "required": ["id", "sessionId", "entity", "entityId", "value"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "sessionId": {
+      "type": "string",
+      "ref": "session"
+    },
+    "entity": {
+      "type": "string",
+      "enum": ["TEST", "STEP"]
+    },
+    "entityId": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string",
+      "enum": ["TODO", "WORKING", "PASSED", "FAILED", "BLOCKED"]
+    }
+  }
+}

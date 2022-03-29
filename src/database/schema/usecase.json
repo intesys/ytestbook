@@ -1,0 +1,60 @@
+{
+  "title": "useCase",
+  "version": 0,
+  "description": "useCase schema",
+  "primaryKey": "id",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "description",
+    "requirements",
+    "status",
+    "startDate",
+    "endDate"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "string"
+    },
+    "accountantId": {
+      "type": "string",
+      "ref": "user"
+    },
+    "responsibleId": {
+      "type": "array",
+      "ref": "user",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["TODO", "WORKING", "PASSED", "FAILED", "BLOCKED"]
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tags": {
+      "type": "array",
+      "ref": "tag",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
