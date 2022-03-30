@@ -4,20 +4,15 @@
   "description": "useCase schema",
   "primaryKey": "id",
   "type": "object",
-  "required": [
-    "id",
-    "title",
-    "description",
-    "requirements",
-    "status",
-    "startDate",
-    "endDate"
-  ],
+  "required": ["id", "title", "description", "status"],
   "properties": {
     "id": {
       "type": "string"
     },
     "title": {
+      "type": "string"
+    },
+    "preview": {
       "type": "string"
     },
     "description": {
@@ -36,10 +31,6 @@
       "items": {
         "type": "string"
       }
-    },
-    "status": {
-      "type": "string",
-      "enum": ["TODO", "WORKING", "PASSED", "FAILED", "BLOCKED"]
     },
     "startDate": {
       "type": "string",

@@ -4,15 +4,7 @@
   "description": "Test schema",
   "primaryKey": "id",
   "type": "object",
-  "required": [
-    "id",
-    "useCaseId",
-    "title",
-    "description",
-    "requirements",
-    "inputData",
-    "expectation"
-  ],
+  "required": ["id", "useCaseId", "title", "description", "expectation"],
   "properties": {
     "id": {
       "type": "string"

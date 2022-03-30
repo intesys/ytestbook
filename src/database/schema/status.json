@@ -15,7 +15,7 @@
     },
     "entity": {
       "type": "string",
-      "enum": ["TEST", "STEP"]
+      "enum": ["USECASE", "TEST", "STEP"]
     },
     "entityId": {
       "type": "string"

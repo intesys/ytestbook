@@ -4,7 +4,7 @@
   "description": "User schema",
   "primaryKey": "id",
   "type": "object",
-  "required": ["id", "name", "surname", "role"],
+  "required": ["id", "name", "surname"],
   "properties": {
     "id": {
       "type": "string"
