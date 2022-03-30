@@ -3,6 +3,7 @@ export enum LOADING_STATUS {
   LOADING,
   SUCCESS,
   ERROR,
+  RELOAD,
 }
 
 export enum OperationEnum {

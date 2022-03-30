@@ -29,12 +29,17 @@ interface GetTestbookSuccess {
   payload: TTestbookData;
 }
 
+interface SetTestbookReload {
+  type: "TESTBOOK_RELOAD";
+}
+
 type TTestbookAction =
   | SetTestbookLoading
   | SetTestbookError
   | SetTestbookSuccess
   | GetTestbookLoading
   | GetTestbookError
-  | GetTestbookSuccess;
+  | GetTestbookSuccess
+  | SetTestbookReload;
 
 export default TTestbookAction;

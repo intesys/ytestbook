@@ -14,6 +14,7 @@ export interface ITestbookContext {
   dispatch: React.Dispatch<TTestbookAction>;
   setTestbook: (obj: TTestbookData) => void;
   getTestbook: () => void;
+  testbookReload: () => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -32,6 +33,7 @@ const contextInitialState: ITestbookContext = {
   dispatch: noop,
   setTestbook: noop,
   getTestbook: noop,
+  testbookReload: noop,
 };
 
 export const TestbookContext =
@@ -51,6 +53,11 @@ export const TestbookContextProvider: React.FC = (props) => {
     )
       getTestbook();
   }, [state.testbook.status, state.testbook.operation]);
+
+  useEffect(() => {
+    if (state.testbook.status === LOADING_STATUS.RELOAD) getTestbook();
+    if (state.testbook.status === LOADING_STATUS.RELOAD) console.log("reload");
+  }, [state.testbook.status]);
 
   const setTestbook = useCallback(async (obj: TTestbookData) => {
     dispatch({
@@ -97,6 +104,12 @@ export const TestbookContextProvider: React.FC = (props) => {
     }
   }, []);
 
+  const testbookReload = useCallback(async () => {
+    dispatch({
+      type: "TESTBOOK_RELOAD",
+    });
+  }, []);
+
   return (
     <TestbookContext.Provider
       value={{
@@ -104,6 +117,7 @@ export const TestbookContextProvider: React.FC = (props) => {
         dispatch,
         setTestbook,
         getTestbook,
+        testbookReload,
       }}
     >
       {props.children}
