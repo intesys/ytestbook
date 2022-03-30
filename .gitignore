@@ -1,9 +1,10 @@
 # dependencies
-/node_modules
+node_modules/
 
 # folders
-/dist
-/.parcel-cache
+dist/
+.parcel-cache/
+.vscode/
 
 # misc
 .env.local
