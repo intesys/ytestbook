@@ -1,0 +1,51 @@
+{
+  "title": "useCase",
+  "version": 0,
+  "description": "useCase schema",
+  "primaryKey": "id",
+  "type": "object",
+  "required": ["id", "title", "description", "status"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "preview": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "string"
+    },
+    "accountantId": {
+      "type": "string",
+      "ref": "user"
+    },
+    "responsibleId": {
+      "type": "array",
+      "ref": "user",
+      "items": {
+        "type": "string"
+      }
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tags": {
+      "type": "array",
+      "ref": "tag",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

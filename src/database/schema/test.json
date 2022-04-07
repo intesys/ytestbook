@@ -1,0 +1,39 @@
+{
+  "title": "Test",
+  "version": 0,
+  "description": "Test schema",
+  "primaryKey": "id",
+  "type": "object",
+  "required": ["id", "useCaseId", "title", "description", "expectation"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "useCaseId": {
+      "type": "string",
+      "ref": "usecase"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "string"
+    },
+    "inputData": {
+      "type": "string"
+    },
+    "expectation": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "ref": "tag",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

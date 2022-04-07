@@ -24,22 +24,30 @@ Tests are executed in **sessions**. Sessions are meant to record test execution,
 
 User journey shuold be divided in three main **contexts**:
 
-- **Plan**
-  - Manage people: for test assignment only
-  - Testbook has a global title, description and optional version
-  - Describe tests in a tree structure like:
-    ```
-    - use case 1
-      - test 1
-        - step 1
-        - step 2 ...
-      - test 2
-        - step 1
-        - step 2 ...
-    - use case 2
-      - tests ...
-        - steps ...
-    ```
+**Plan**
+
+This section represents the administrative part of the App in order to manage the entities and their relationships.
+The section in preparatory in order to describe tests in a tree structure like:
+
+```
+- use case 1
+  - test 1
+    - step 1
+    - step 2 ...
+  - test 2
+    - step 1
+    - step 2 ...
+- use case 2
+  - tests ...
+    - steps ...
+```
+
+Pages:
+
+- Testbook: edit the testbook fields (name, description, version)
+- Members: Manage the users (no authentication logic)
+- Use cases:
+
   - each use case has:
     - a title
     - an optional description
@@ -48,10 +56,13 @@ User journey shuold be divided in three main **contexts**:
     - a status (TODO, WORKING, PASSED, FAILED, BLOCKED)
     - an optional tag (es: category)
     - a list of requirements (for data preparation): what is necessary to execute tests (list of strings or texts, in case of configuration files, stubs etc.)
-    - an otional plan, made of:
-      - start date
-      - end date
+    - start date
+    - end date
+
+- Test:
+
   - each test has:
+
     - a title
     - an optional description
     - a status (TODO, WORKING, PASSED, FAILED, BLOCKED)
@@ -61,11 +72,14 @@ User journey shuold be divided in three main **contexts**:
     - multiple comments, associated to:
       - session
       - user
-    - *optional*: link to automated test
+    - _optional_: link to automated test
       - url
       - http method
       - input params
       - expected: result expected to pass
+
+- Step
+
   - each step has:
     - a title
     - an optional description
@@ -73,25 +87,33 @@ User journey shuold be divided in three main **contexts**:
     - an optional tag (es: category)
     - input data: an object or a list of data to run test properly
     - expectation: a description of what makes it pass
-- **Execute**
-  - Iterate: tests can be executed more than once, in "sessions", with different results, date of each test should be saved
-  - each session has:
-    - description
-    - comments
-  - use cases, tests and steps have multiple comments
-- **Report**
-  - total number of use cases, test, steps
-  - number of use cases for each status
-  - number of test for each status
-  - number of steps for each status
-  - list of sessions, and possibility to view what's related to
-  - export
+
+**Execute**
+
+> 1° Step: The page displays a list of Use Cases teasers. For each of them, if the user click on it, then it shows the detail of his.
+
+> 2° Step: Inside the use case details there is the list of the test.
+
+> 3° Step: if the user starts a test, the app loads the test details with the requirments, the extected result and a list of task in order to complete the test.
+
+A session corresponds to a day. If the user start a test, the app check if there already is a session for that day. If there is no session already created for that day, a new one will be created and automatically associated to the test that you started before.
+
+Use cases, tests and steps can have multiple comments
+
+**Report**
+
+- total number of use cases, test, steps
+- number of use cases for each status
+- number of test for each status
+- number of steps for each status
+- list of sessions, and possibility to view what's related to
+- export
 
 ## Nice to have
 
 - kanban view, using status as column and use cases or tests for cards
 - kanban view by tag
-- gantt views: 
+- gantt views:
   - for planning, using use cases start/end dates
   - for execution: using sessions as "sections" and use cases /tests as "tasks"
 - UI deployed to github pages, with public access, where load a local testbook and save it (download)
