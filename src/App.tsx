@@ -8,6 +8,7 @@ import { UseCasesContextProvider } from "./context/useCasesContext";
 import Routes from "./routes";
 import { theme } from "./theme";
 import { TestbookContextProvider } from "./context/useTestbookContext";
+import { NotificationsProvider } from "@mantine/notifications";
 
 const App: React.FC = () => {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
@@ -24,11 +25,18 @@ const App: React.FC = () => {
           theme={{ colorScheme: colorScheme, ...theme }}
           withGlobalStyles
         >
-          <TestbookContextProvider>
-            <UseCasesContextProvider>
-              <Routes />
-            </UseCasesContextProvider>
-          </TestbookContextProvider>
+          <NotificationsProvider
+            position="top-right"
+            limit={3}
+            autoClose={4000}
+            zIndex={999}
+          >
+            <TestbookContextProvider>
+              <UseCasesContextProvider>
+                <Routes />
+              </UseCasesContextProvider>
+            </TestbookContextProvider>
+          </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </div>

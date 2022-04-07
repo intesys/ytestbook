@@ -1,0 +1,42 @@
+{
+  "title": "Comment",
+  "version": 0,
+  "description": "Comment schema",
+  "primaryKey": "id",
+  "type": "object",
+  "required": ["id", "sessionId", "entity", "entityId", "text", "date"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "sessionId": {
+      "type": "string",
+      "ref": "session"
+    },
+    "entity": {
+      "type": "string",
+      "enum": ["USECASE", "TEST", "STEP"]
+    },
+    "entityId": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string",
+      "ref": "user"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tags": {
+      "type": "array",
+      "ref": "tag",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
