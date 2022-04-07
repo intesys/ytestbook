@@ -4,6 +4,7 @@ node_modules/
 # folders
 dist/
 .parcel-cache/
+.vscode/
 
 # misc
 .env.local

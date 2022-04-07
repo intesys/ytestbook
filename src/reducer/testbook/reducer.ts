@@ -5,6 +5,10 @@ import { ITestbookState, LOADING_STATUS, OperationEnum } from "./types";
 const testbookReducer = produce(
   (state: ITestbookState, action: TTestbookAction): ITestbookState => {
     switch (action.type) {
+      case "TESTBOOK_RELOAD":
+        state.testbook.status = LOADING_STATUS.RELOAD;
+        break;
+
       case "TESTBOOK_SET_LOADING":
         state.testbook.status = LOADING_STATUS.LOADING;
         state.testbook.operation = OperationEnum.SET;

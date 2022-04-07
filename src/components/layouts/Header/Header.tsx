@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import {
   Burger,
   Group,
@@ -24,6 +24,8 @@ import { MdEdit } from "react-icons/md";
 import { IOwnProps } from "./types";
 import { Link } from "react-router-dom";
 import { useTestbookContext } from "../../../context/useTestbookContext";
+import { exportDb, importDb } from "../../../database/database";
+import { fileReader } from "../../../lib/file";
 
 export const Header: React.FC<IOwnProps & Omit<HeaderProps, "children">> = ({
   showSidebar,
@@ -34,12 +36,25 @@ export const Header: React.FC<IOwnProps & Omit<HeaderProps, "children">> = ({
     state: {
       testbook: { item: testbookItem },
     },
+    testbookReload,
   } = useTestbookContext();
 
   const theme = useMantineTheme();
 
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
+
+  const exportHandler = async () => {
+    await exportDb();
+  };
+
+  const importHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as EventTarget & HTMLInputElement;
+    const file = await fileReader(target?.files?.[0]);
+    await importDb(file);
+    testbookReload();
+    e.target.value = "";
+  };
 
   return (
     <MHeader
@@ -113,17 +128,18 @@ export const Header: React.FC<IOwnProps & Omit<HeaderProps, "children">> = ({
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <ActionIcon
               color={dark ? "gray" : "gray"}
-              onClick={() => {}}
               variant="outline"
+              component="label"
               title="Import Database"
             >
+              <input type="file" hidden onChange={importHandler} />
               <MdUpload style={{ width: 16, height: 16 }} />
             </ActionIcon>
           </MediaQuery>
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <ActionIcon
               color={dark ? "gray" : "gray"}
-              onClick={() => {}}
+              onClick={exportHandler}
               variant="outline"
               title="Export Database"
             >
