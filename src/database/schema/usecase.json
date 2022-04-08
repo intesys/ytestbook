@@ -4,7 +4,7 @@
   "description": "useCase schema",
   "primaryKey": "id",
   "type": "object",
-  "required": ["id", "title", "description", "status"],
+  "required": ["id", "title", "description"],
   "properties": {
     "id": {
       "type": "string"
@@ -34,11 +34,11 @@
     },
     "startDate": {
       "type": "string",
-      "format": "date-time"
+      "format": "date"
     },
     "endDate": {
       "type": "string",
-      "format": "date-time"
+      "format": "date"
     },
     "tags": {
       "type": "array",

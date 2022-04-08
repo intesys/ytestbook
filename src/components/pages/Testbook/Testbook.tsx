@@ -10,7 +10,7 @@ import {
 import { useNotifications } from "@mantine/notifications";
 import React, { useEffect, useState } from "react";
 import { useTestbookContext } from "../../../context/useTestbookContext";
-import { LOADING_STATUS, OperationEnum } from "../../../reducer/testbook/types";
+import { LOADING_STATUS, OPERATIONS_ACTIONS } from "../../../types";
 
 const UseCases: React.FC = () => {
   const {
@@ -50,7 +50,7 @@ const UseCases: React.FC = () => {
   useEffect(() => {
     if (
       testbookStatus === LOADING_STATUS.SUCCESS &&
-      testbookOperation === OperationEnum.SET
+      testbookOperation === OPERATIONS_ACTIONS.SET
     )
       notifications.showNotification({
         title: "Content saved",
@@ -62,7 +62,7 @@ const UseCases: React.FC = () => {
   useEffect(() => {
     if (
       testbookStatus === LOADING_STATUS.ERROR &&
-      testbookOperation === OperationEnum.SET
+      testbookOperation === OPERATIONS_ACTIONS.SET
     )
       notifications.showNotification({
         title: "Something was wrong",

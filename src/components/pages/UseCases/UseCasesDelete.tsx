@@ -9,8 +9,16 @@ import {
   Text,
 } from "@mantine/core";
 import { MdDelete } from "react-icons/md";
+import { useUseCasesContext } from "../../../context/useCasesContext";
+import { ENTITIES_ACTIONS } from "../../../types";
 
-const UseCasesDelete: React.FC = () => {
+interface IOwnProp {
+  id: string;
+}
+
+const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
+  const { setAction, deleteUseCase } = useUseCasesContext();
+
   const [checked, setChecked] = useState(false);
 
   const handleOnChange = (
@@ -45,7 +53,10 @@ const UseCasesDelete: React.FC = () => {
           variant="light"
           color={"red"}
           leftIcon={<MdDelete />}
-          onClick={() => {}}
+          onClick={() => {
+            deleteUseCase(id);
+            setAction(ENTITIES_ACTIONS.IDLE);
+          }}
         >
           Delete
         </Button>

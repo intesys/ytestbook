@@ -11,10 +11,10 @@ import tagSchema from "./schema/tag.json";
 
 export const collectionsInit = async (db: RxDatabase) => {
   // create collections
-  console.log("DatabaseService: create Testbook collections");
+  console.log("DatabaseService: create collections");
 
   await db.addCollections({
-    testbooks: {
+    testbook: {
       schema: testBookSchema,
     },
     usecase: {

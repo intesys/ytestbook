@@ -7,21 +7,27 @@ import {
   Badge,
   MediaQuery,
 } from "@mantine/core";
+import { format } from "date-fns";
 import React from "react";
 import { useUseCasesContext } from "../../../context/useCasesContext";
+import { TUseCasesData } from "../../../reducer/usecases/types";
 import { theme } from "../../../theme";
 import { ENTITIES_ACTIONS } from "../../../types";
 import ActionMenu from "../../ui/ActionMenu/ActionMenu";
 
-const UseCasesRow: React.FC = () => {
-  const { setUseCases } = useUseCasesContext();
+interface IOwnProp {
+  item: TUseCasesData;
+}
+
+const UseCasesRow: React.FC<IOwnProp> = ({ item }) => {
+  const { setAction } = useUseCasesContext();
 
   const handleOnEdit = () => {
-    setUseCases({ id: 1, action: ENTITIES_ACTIONS.EDIT });
+    setAction(ENTITIES_ACTIONS.EDIT, item.id);
   };
 
   const handleOnDelete = () => {
-    setUseCases({ id: 1, action: ENTITIES_ACTIONS.DELETE });
+    setAction(ENTITIES_ACTIONS.DELETE, item.id);
   };
 
   return (
@@ -41,9 +47,7 @@ const UseCasesRow: React.FC = () => {
       })}
     >
       <Group>
-        <Group
-          onClick={() => setUseCases({ id: 1, action: ENTITIES_ACTIONS.VIEW })}
-        >
+        <Group onClick={() => setAction(ENTITIES_ACTIONS.VIEW, item.id)}>
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Avatar color="yellow" radius="xl">
               UC1
@@ -51,11 +55,10 @@ const UseCasesRow: React.FC = () => {
           </MediaQuery>
           <Group direction="column" spacing={0}>
             <Group spacing="xs">
-              <Badge size="xs">Tag 1</Badge>
-              <Badge size="xs">Tag 2</Badge>
-              <Badge size="xs">Tag 2</Badge>
+              {item.tags &&
+                item.tags.map((tag) => <Badge size="xs">{tag}</Badge>)}
             </Group>
-            <Title order={6}>Richiesta finanziamento con SPID</Title>
+            <Title order={6}>{item.title}</Title>
             <MediaQuery smallerThan="md" styles={{ display: "none" }}>
               <Text
                 size="xs"
@@ -66,8 +69,7 @@ const UseCasesRow: React.FC = () => {
                   whiteSpace: "nowrap",
                 }}
               >
-                Richiesta finanziamento per Cliente con cittadinanza Italiana,
-                in possesso di SPiD
+                {item.preview}
               </Text>
             </MediaQuery>
             <Text
@@ -79,7 +81,11 @@ const UseCasesRow: React.FC = () => {
                     : theme.colors.dark[6],
               })}
             >
-              10 Settembre 2022 - 10 Novembre 2022
+              {item.startDate &&
+                item.endDate &&
+                format(new Date(item.startDate), "dd-MM-yyyy") +
+                  " - " +
+                  format(new Date(item.endDate), "dd-MM-yyyy")}
             </Text>
           </Group>
         </Group>
