@@ -9,6 +9,7 @@ import {
   Title,
   Text,
   Alert,
+  Loader,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import React, { useEffect, useState } from "react";
@@ -39,6 +40,7 @@ const UseCases: React.FC = () => {
     },
     getUseCase,
     getUseCases,
+    resetUseCase,
     setAction,
   } = useUseCasesContext();
 
@@ -53,8 +55,9 @@ const UseCases: React.FC = () => {
     if (
       useCasesStatus === LOADING_STATUS.SUCCESS &&
       useCasesOperation === OPERATIONS_ACTIONS.SET
-    )
+    ) {
       getUseCases();
+    }
   }, [useCasesStatus, useCasesOperation]);
 
   useEffect(() => {
@@ -72,17 +75,40 @@ const UseCases: React.FC = () => {
   }, [action]);
 
   const renderUseCases = () => {
-    if (!useCasesItems || useCasesItems.length === 0) {
-      return (
-        <Alert icon={<MdErrorOutline size={16} />} title="No data">
-          There is no Use Cases created yet, click on "Add new" button in order
-          to create a new item.
-        </Alert>
-      );
-    } else {
-      return useCasesItems.map((useCase) => {
-        return <UseCasesRow key={useCase.id} item={useCase} />;
-      });
+    switch (useCasesStatus) {
+      case LOADING_STATUS.INIT:
+      case LOADING_STATUS.LOADING:
+        return (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "50px 0px",
+            }}
+          >
+            <Loader />
+          </div>
+        );
+      case LOADING_STATUS.ERROR:
+        return (
+          <Alert icon={<MdErrorOutline size={16} />} title="Error">
+            Something was wrong, please retry later.
+          </Alert>
+        );
+      case LOADING_STATUS.SUCCESS:
+        if (!useCasesItems || useCasesItems.length === 0) {
+          return (
+            <Alert icon={<MdErrorOutline size={16} />} title="No data">
+              There is no Use Cases created yet, click on "Add new" button in
+              order to create a new item.
+            </Alert>
+          );
+        } else {
+          return useCasesItems.map((useCase) => {
+            return <UseCasesRow key={useCase.id} item={useCase} />;
+          });
+        }
     }
   };
 
@@ -131,7 +157,7 @@ const UseCases: React.FC = () => {
       </Modal>
       <Modal
         opened={opened && action.type === ENTITIES_ACTIONS.EDIT}
-        onClose={() => setAction(ENTITIES_ACTIONS.IDLE)}
+        onClose={() => resetUseCase()}
         title="Edit Use Case"
         size={wideScreen ? "70%" : " 100%"}
         centered
@@ -144,7 +170,7 @@ const UseCases: React.FC = () => {
       </Modal>
       <Modal
         opened={opened && action.type === ENTITIES_ACTIONS.DELETE}
-        onClose={() => setAction(ENTITIES_ACTIONS.IDLE)}
+        onClose={() => resetUseCase()}
         title={
           <>
             <Text>Are you sure to proceed?</Text>

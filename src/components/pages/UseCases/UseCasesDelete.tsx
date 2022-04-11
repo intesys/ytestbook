@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -10,14 +10,29 @@ import {
 } from "@mantine/core";
 import { MdDelete } from "react-icons/md";
 import { useUseCasesContext } from "../../../context/useCasesContext";
-import { ENTITIES_ACTIONS } from "../../../types";
+import {
+  ENTITIES_ACTIONS,
+  LOADING_STATUS,
+  OPERATIONS_ACTIONS,
+} from "../../../types";
+import { useNotifications } from "@mantine/notifications";
 
 interface IOwnProp {
   id: string;
 }
 
 const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
-  const { setAction, deleteUseCase } = useUseCasesContext();
+  const {
+    state: {
+      action: { type: actionType },
+      usecase: { status: useCaseStatus, operation: useCaseOperation },
+    },
+    setAction,
+    resetUseCase,
+    deleteUseCase,
+  } = useUseCasesContext();
+
+  const notifications = useNotifications();
 
   const [checked, setChecked] = useState(false);
 
@@ -27,6 +42,39 @@ const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
     const target = e.target as EventTarget & HTMLInputElement;
     setChecked(target.checked);
   };
+
+  const exitStrategy = () => {
+    resetUseCase();
+    setAction(ENTITIES_ACTIONS.IDLE);
+  };
+
+  useEffect(() => {
+    // DELETE : SUCCESS
+    if (
+      useCaseStatus === LOADING_STATUS.SUCCESS &&
+      useCaseOperation === OPERATIONS_ACTIONS.DELETE
+    ) {
+      notifications.showNotification({
+        title: "Content deleted successfully",
+        color: "green",
+        message: "The Use Case was delete successfully",
+      });
+      exitStrategy();
+    }
+
+    // DELETE : ERROR
+    if (
+      useCaseStatus === LOADING_STATUS.ERROR &&
+      useCaseOperation === OPERATIONS_ACTIONS.DELETE
+    ) {
+      notifications.showNotification({
+        title: "Something was wrong",
+        color: "red",
+        message: "Something was wrong during the delete process",
+      });
+      exitStrategy();
+    }
+  }, [useCaseStatus, useCaseOperation, actionType]);
 
   return (
     <div>
@@ -55,7 +103,6 @@ const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
           leftIcon={<MdDelete />}
           onClick={() => {
             deleteUseCase(id);
-            setAction(ENTITIES_ACTIONS.IDLE);
           }}
         >
           Delete

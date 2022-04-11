@@ -5,13 +5,14 @@ import {
   Title,
   Badge,
   Divider,
-  List,
   Button,
   Space,
+  Alert,
+  Loader,
 } from "@mantine/core";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdDelete, MdEdit, MdErrorOutline } from "react-icons/md";
 import { useUseCasesContext } from "../../../context/useCasesContext";
 import { ENTITIES_ACTIONS, LOADING_STATUS } from "../../../types";
 
@@ -34,6 +35,24 @@ const UseCasesDetail: React.FC<IOwnProp> = ({ id }) => {
 
   return (
     <div>
+      {(useCaseStatus === LOADING_STATUS.INIT ||
+        useCaseStatus === LOADING_STATUS.LOADING) && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "50px 0px",
+          }}
+        >
+          <Loader />
+        </div>
+      )}
+      {(useCaseStatus === LOADING_STATUS.ERROR || !useCaseItem) && (
+        <Alert icon={<MdErrorOutline size={16} />} title="Error">
+          Something was wrong, please retry later.
+        </Alert>
+      )}
       {useCaseItem !== undefined && useCaseStatus === LOADING_STATUS.SUCCESS && (
         <>
           <Group direction="column" spacing="xs" grow>

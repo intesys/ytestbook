@@ -1,5 +1,9 @@
 import produce from "immer";
-import { LOADING_STATUS, OPERATIONS_ACTIONS } from "../../types";
+import {
+  ENTITIES_ACTIONS,
+  LOADING_STATUS,
+  OPERATIONS_ACTIONS,
+} from "../../types";
 import TUseCasesAction from "./actions";
 import { IUseCasesState } from "./types";
 
@@ -58,6 +62,11 @@ const usecasesReducer = produce(
         state.usecases.status = LOADING_STATUS.SUCCESS;
         state.usecases.operation = OPERATIONS_ACTIONS.GET;
         state.usecases.items = action.payload;
+        break;
+
+      case "USECASE_RESET":
+        state.usecase.status = LOADING_STATUS.INIT;
+        state.action.type = ENTITIES_ACTIONS.IDLE;
         break;
 
       case "SET_ACTION":

@@ -54,6 +54,10 @@ interface DeleteUseCaseSuccess {
   type: "USECASE_DELETE_SUCCESS";
 }
 
+interface ResetUseCase {
+  type: "USECASE_RESET";
+}
+
 interface SetAction {
   type: "SET_ACTION";
   payload: IUseCasesAction;
@@ -72,6 +76,7 @@ type TUseCasesAction =
   | DeleteUseCaseLoading
   | DeleteUseCaseError
   | DeleteUseCaseSuccess
+  | ResetUseCase
   | SetAction;
 
 export default TUseCasesAction;

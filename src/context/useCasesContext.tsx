@@ -12,6 +12,7 @@ export interface IUseCasesContext {
   getUseCase: (id: string) => void;
   getUseCases: () => void;
   deleteUseCase: (id: string) => void;
+  resetUseCase: () => void;
   setAction: (type: ENTITIES_ACTIONS, id?: string) => void;
 }
 
@@ -39,6 +40,7 @@ const contextInitialState: IUseCasesContext = {
   getUseCase: noop,
   getUseCases: noop,
   deleteUseCase: noop,
+  resetUseCase: noop,
   setAction: noop,
 };
 
@@ -173,6 +175,12 @@ export const UseCasesContextProvider: React.FC = (props) => {
     });
   }, []);
 
+  const resetUseCase = useCallback(() => {
+    dispatch({
+      type: "USECASE_RESET",
+    });
+  }, []);
+
   return (
     <UseCasesContext.Provider
       value={{
@@ -182,6 +190,7 @@ export const UseCasesContextProvider: React.FC = (props) => {
         getUseCase,
         getUseCases,
         deleteUseCase,
+        resetUseCase,
         setAction,
       }}
     >

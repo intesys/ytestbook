@@ -9778,3 +9778,9 @@
 [Fri, 08 Apr 2022 09:37:31 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /user/_local/s6DAJAonXfErCQ_9512BFw%3D%3D? 200
 [Fri, 08 Apr 2022 09:37:31 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /tag/_local/RrNStJIU3t8MiShhN8_aDQ%3D%3D? 200
 [Fri, 08 Apr 2022 09:37:31 GMT] [info] [<0.000.0>] 127.0.0.1 - - POST /usecase/_changes?style=all_docs&filter=_doc_ids&since=0&limit=25 200
+[Fri, 08 Apr 2022 16:08:10 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /step/_changes?style=all_docs&feed=longpoll&heartbeat=10000&since=0&limit=100 200
+[Fri, 08 Apr 2022 16:08:10 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /status/_changes?style=all_docs&feed=longpoll&heartbeat=10000&since=0&limit=100 200
+[Fri, 08 Apr 2022 16:08:10 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /session/_changes?style=all_docs&feed=longpoll&heartbeat=10000&since=0&limit=100 200
+[Fri, 08 Apr 2022 16:08:10 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /testbook/_changes?style=all_docs&feed=longpoll&heartbeat=10000&since=1&limit=100 200
+[Fri, 08 Apr 2022 16:08:10 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /usecase/_changes?style=all_docs&feed=longpoll&heartbeat=10000&since=3&limit=100 200
+[Fri, 08 Apr 2022 16:08:10 GMT] [info] [<0.000.0>] 127.0.0.1 - - GET /test/_changes?style=all_docs&feed=longpoll&heartbeat=10000&since=0&limit=100 200

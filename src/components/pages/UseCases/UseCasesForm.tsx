@@ -18,31 +18,82 @@ import {
 } from "react-icons/md";
 import { useForm } from "@mantine/form";
 import { useUseCasesContext } from "../../../context/useCasesContext";
-import { ENTITIES_ACTIONS } from "../../../types";
+import {
+  ENTITIES_ACTIONS,
+  LOADING_STATUS,
+  OPERATIONS_ACTIONS,
+} from "../../../types";
 import { TUseCasesData } from "../../../reducer/usecases/types";
 import { format } from "date-fns";
 import "dayjs/locale/it";
 import RichTextEditor from "@mantine/rte";
+import { useNotifications } from "@mantine/notifications";
+import { EVENT_EMITTER_BY_POUCH_INSTANCE } from "rxdb";
 
 interface IOwnProps {
   initialValues: TUseCasesData;
 }
 
 const UseCasesEdit: React.FC<IOwnProps> = ({ initialValues }) => {
-  const { setAction, setUseCase } = useUseCasesContext();
+  const {
+    state: {
+      action: { type: actionType },
+      usecase: { status: useCaseStatus, operation: useCaseOperation },
+    },
+    setAction,
+    setUseCase,
+    resetUseCase,
+  } = useUseCasesContext();
 
   const wideScreen = useMediaQuery("(min-width: 768px)");
+
+  const notifications = useNotifications();
 
   const form = useForm({
     initialValues,
   });
+
+  const exitStrategy = () => {
+    resetUseCase();
+    setAction(ENTITIES_ACTIONS.IDLE);
+  };
+
+  useEffect(() => {
+    // EDIT / NEW : SUCCESS
+    if (
+      useCaseStatus === LOADING_STATUS.SUCCESS &&
+      useCaseOperation === OPERATIONS_ACTIONS.SET
+    ) {
+      notifications.showNotification({
+        title:
+          actionType === ENTITIES_ACTIONS.EDIT
+            ? "Content saved"
+            : "Content created",
+        color: "green",
+        message: "The Use Case was saved successfully",
+      });
+      exitStrategy();
+    }
+
+    // EDIT / NEW : ERROR
+    if (
+      useCaseStatus === LOADING_STATUS.ERROR &&
+      useCaseOperation === OPERATIONS_ACTIONS.SET
+    ) {
+      notifications.showNotification({
+        title: "Something was wrong",
+        color: "red",
+        message: "Something was wrong during the saving process",
+      });
+      exitStrategy();
+    }
+  }, [useCaseStatus, useCaseOperation, actionType]);
 
   return (
     <Container fluid pl={0} pr={0}>
       <form
         onSubmit={form.onSubmit((values) => {
           setUseCase(values);
-          setAction(ENTITIES_ACTIONS.IDLE);
         })}
       >
         <Group direction="column" grow>
