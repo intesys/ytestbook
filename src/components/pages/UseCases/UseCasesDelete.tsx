@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Checkbox,
@@ -10,27 +10,15 @@ import {
 } from "@mantine/core";
 import { MdDelete } from "react-icons/md";
 import { useUseCasesContext } from "../../../context/useCasesContext";
-import {
-  ENTITIES_ACTIONS,
-  LOADING_STATUS,
-  OPERATIONS_ACTIONS,
-} from "../../../types";
 import { useNotifications } from "@mantine/notifications";
+import useHandleStatus from "./hooks/useHandleStatus";
 
 interface IOwnProp {
   id: string;
 }
 
 const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
-  const {
-    state: {
-      action: { type: actionType },
-      usecase: { status: useCaseStatus, operation: useCaseOperation },
-    },
-    setAction,
-    resetUseCase,
-    deleteUseCase,
-  } = useUseCasesContext();
+  const { deleteUseCase } = useUseCasesContext();
 
   const notifications = useNotifications();
 
@@ -43,38 +31,7 @@ const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
     setChecked(target.checked);
   };
 
-  const exitStrategy = () => {
-    resetUseCase();
-    setAction(ENTITIES_ACTIONS.IDLE);
-  };
-
-  useEffect(() => {
-    // DELETE : SUCCESS
-    if (
-      useCaseStatus === LOADING_STATUS.SUCCESS &&
-      useCaseOperation === OPERATIONS_ACTIONS.DELETE
-    ) {
-      notifications.showNotification({
-        title: "Content deleted successfully",
-        color: "green",
-        message: "The Use Case was delete successfully",
-      });
-      exitStrategy();
-    }
-
-    // DELETE : ERROR
-    if (
-      useCaseStatus === LOADING_STATUS.ERROR &&
-      useCaseOperation === OPERATIONS_ACTIONS.DELETE
-    ) {
-      notifications.showNotification({
-        title: "Something was wrong",
-        color: "red",
-        message: "Something was wrong during the delete process",
-      });
-      exitStrategy();
-    }
-  }, [useCaseStatus, useCaseOperation, actionType]);
+  useHandleStatus();
 
   return (
     <div>

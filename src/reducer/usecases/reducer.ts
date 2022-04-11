@@ -65,6 +65,7 @@ const usecasesReducer = produce(
         break;
 
       case "USECASE_RESET":
+        state.usecase.item = undefined;
         state.usecase.status = LOADING_STATUS.INIT;
         state.action.type = ENTITIES_ACTIONS.IDLE;
         break;

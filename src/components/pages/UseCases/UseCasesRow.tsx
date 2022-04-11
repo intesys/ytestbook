@@ -50,7 +50,7 @@ const UseCasesRow: React.FC<IOwnProp> = ({ item }) => {
         <Group onClick={() => setAction(ENTITIES_ACTIONS.VIEW, item.id)}>
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Avatar color="yellow" radius="xl">
-              UC1
+              UC
             </Avatar>
           </MediaQuery>
           <Group direction="column" spacing={0}>
