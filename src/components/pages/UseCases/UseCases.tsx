@@ -67,6 +67,12 @@ const UseCases: React.FC = () => {
   }, [action.type]);
 
   useEffect(() => {
+    if (action.id && action.type === ENTITIES_ACTIONS.DELETE) {
+      getUseCase(action.id);
+    }
+  }, [action.type]);
+
+  useEffect(() => {
     if (action.type !== ENTITIES_ACTIONS.IDLE) {
       setOpened(true);
     } else {

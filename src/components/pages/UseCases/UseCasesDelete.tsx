@@ -10,7 +10,6 @@ import {
 } from "@mantine/core";
 import { MdDelete } from "react-icons/md";
 import { useUseCasesContext } from "../../../context/useCasesContext";
-import { useNotifications } from "@mantine/notifications";
 import useHandleStatus from "./hooks/useHandleStatus";
 
 interface IOwnProp {
@@ -18,9 +17,12 @@ interface IOwnProp {
 }
 
 const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
-  const { deleteUseCase } = useUseCasesContext();
-
-  const notifications = useNotifications();
+  const {
+    state: {
+      usecase: { item: useCaseItem },
+    },
+    deleteUseCase,
+  } = useUseCasesContext();
 
   const [checked, setChecked] = useState(false);
 
@@ -36,7 +38,7 @@ const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
   return (
     <div>
       <Text size="sm">
-        You are about to delete <strong>Use Case 1</strong>.
+        You are about to delete <strong>{useCaseItem?.title}</strong>.
       </Text>
       <Divider my="xs" label="Read this carefully" />
       <Text size="sm">This also:</Text>
