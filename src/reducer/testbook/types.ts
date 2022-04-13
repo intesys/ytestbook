@@ -1,16 +1,4 @@
-export enum LOADING_STATUS {
-  INIT,
-  LOADING,
-  SUCCESS,
-  ERROR,
-  RELOAD,
-}
-
-export enum OperationEnum {
-  IDLE,
-  SET,
-  GET,
-}
+import { LOADING_STATUS, OPERATIONS_ACTIONS } from "../../types";
 
 export type TTestbookData = {
   id: string;
@@ -22,7 +10,7 @@ export type TTestbookData = {
 export interface ITestbookStatus {
   item?: TTestbookData;
   status: LOADING_STATUS;
-  operation: OperationEnum;
+  operation: OPERATIONS_ACTIONS;
 }
 
 export interface ITestbookState {

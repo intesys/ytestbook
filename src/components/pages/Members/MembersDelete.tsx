@@ -9,20 +9,21 @@ import {
   Text,
 } from "@mantine/core";
 import { MdDelete } from "react-icons/md";
-import { useUseCasesContext } from "../../../context/useCasesContext";
+import { useMembersContext } from "../../../context/useMembersContext";
+import { useNotifications } from "@mantine/notifications";
 import useHandleStatus from "./hooks/useHandleStatus";
 
 interface IOwnProp {
   id: string;
 }
 
-const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
+const MembersDelete: React.FC<IOwnProp> = ({ id }) => {
   const {
     state: {
-      usecase: { item: useCaseItem },
+      member: { item: memberItem },
     },
-    deleteUseCase,
-  } = useUseCasesContext();
+    deleteMember,
+  } = useMembersContext();
 
   const [checked, setChecked] = useState(false);
 
@@ -38,7 +39,11 @@ const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
   return (
     <div>
       <Text size="sm">
-        You are about to delete <strong>{useCaseItem?.title}</strong>.
+        You are about to delete member:{" "}
+        <strong>
+          {memberItem?.name}&nbsp;{memberItem?.surname}
+        </strong>
+        .
       </Text>
       <Divider my="xs" label="Read this carefully" />
       <Text size="sm">This also:</Text>
@@ -61,7 +66,7 @@ const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
           color={"red"}
           leftIcon={<MdDelete />}
           onClick={() => {
-            deleteUseCase(id);
+            deleteMember(id);
           }}
         >
           Delete
@@ -71,4 +76,4 @@ const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
   );
 };
 
-export default UseCasesDelete;
+export default MembersDelete;

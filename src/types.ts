@@ -6,6 +6,21 @@ export enum ENTITIES_ACTIONS {
   DELETE,
 }
 
+export enum LOADING_STATUS {
+  INIT,
+  LOADING,
+  SUCCESS,
+  ERROR,
+  RELOAD,
+}
+
+export enum OPERATIONS_ACTIONS {
+  IDLE,
+  SET,
+  GET,
+  DELETE,
+}
+
 export interface IConfigBase {
   testBookTitle: string;
   testBookDesc: string;

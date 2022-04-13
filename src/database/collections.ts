@@ -5,16 +5,16 @@ import useCaseSchema from "./schema/usecase.json";
 import testSchema from "./schema/test.json";
 import stepSchema from "./schema/step.json";
 import sessionSchema from "./schema/session.json";
-import userSchema from "./schema/user.json";
+import memberSchema from "./schema/member.json";
 import statusSchema from "./schema/status.json";
 import tagSchema from "./schema/tag.json";
 
 export const collectionsInit = async (db: RxDatabase) => {
   // create collections
-  console.log("DatabaseService: create Testbook collections");
+  console.log("DatabaseService: create collections");
 
   await db.addCollections({
-    testbooks: {
+    testbook: {
       schema: testBookSchema,
     },
     usecase: {
@@ -32,8 +32,8 @@ export const collectionsInit = async (db: RxDatabase) => {
     status: {
       schema: statusSchema,
     },
-    user: {
-      schema: userSchema,
+    member: {
+      schema: memberSchema,
     },
     tag: {
       schema: tagSchema,

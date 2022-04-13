@@ -4,6 +4,8 @@ import Layout from "./components/layouts/Layout/Layout";
 import Report from "./components/pages/Report/Report";
 import Testbook from "./components/pages/Testbook/Testbook";
 import UseCases from "./components/pages/UseCases/UseCases";
+import Members from "./components/pages/Members/Members";
+import Tags from "./components/pages/Tags/Tags";
 
 const Routes: React.FC = () => {
   return (
@@ -17,6 +19,16 @@ const Routes: React.FC = () => {
         <Route path="/plan/usecases">
           <Layout>
             <UseCases />
+          </Layout>
+        </Route>
+        <Route path="/plan/members">
+          <Layout>
+            <Members />
+          </Layout>
+        </Route>
+        <Route path="/plan/tags">
+          <Layout>
+            <Tags />
           </Layout>
         </Route>
         <Route path="/">
