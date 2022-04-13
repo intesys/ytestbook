@@ -11,7 +11,7 @@ const useHandleStatus = () => {
   const {
     state: {
       action: { type: actionType },
-      Tag: { status: TagStatus, operation: TagOperation },
+      tag: { status: tagStatus, operation: tagOperation },
     },
     setAction,
     resetTag,
@@ -27,8 +27,8 @@ const useHandleStatus = () => {
   useEffect(() => {
     // EDIT / NEW : SUCCESS
     if (
-      TagStatus === LOADING_STATUS.SUCCESS &&
-      TagOperation === OPERATIONS_ACTIONS.SET
+      tagStatus === LOADING_STATUS.SUCCESS &&
+      tagOperation === OPERATIONS_ACTIONS.SET
     ) {
       notifications.showNotification({
         title:
@@ -43,8 +43,8 @@ const useHandleStatus = () => {
 
     // EDIT / NEW : ERROR
     if (
-      TagStatus === LOADING_STATUS.ERROR &&
-      TagOperation === OPERATIONS_ACTIONS.SET
+      tagStatus === LOADING_STATUS.ERROR &&
+      tagOperation === OPERATIONS_ACTIONS.SET
     ) {
       notifications.showNotification({
         title: "Something was wrong",
@@ -55,8 +55,8 @@ const useHandleStatus = () => {
 
     // DELETE: SUCCESS
     if (
-      TagStatus === LOADING_STATUS.SUCCESS &&
-      TagOperation === OPERATIONS_ACTIONS.DELETE
+      tagStatus === LOADING_STATUS.SUCCESS &&
+      tagOperation === OPERATIONS_ACTIONS.DELETE
     ) {
       notifications.showNotification({
         title: "Content deleted successfully",
@@ -68,8 +68,8 @@ const useHandleStatus = () => {
 
     // DELETE: ERROR
     if (
-      TagStatus === LOADING_STATUS.ERROR &&
-      TagOperation === OPERATIONS_ACTIONS.DELETE
+      tagStatus === LOADING_STATUS.ERROR &&
+      tagOperation === OPERATIONS_ACTIONS.DELETE
     ) {
       notifications.showNotification({
         title: "Something was wrong",
@@ -77,7 +77,7 @@ const useHandleStatus = () => {
         message: "Something was wrong during the delete process",
       });
     }
-  }, [TagStatus, TagOperation, actionType]);
+  }, [tagStatus, tagOperation, actionType]);
 };
 
 export default useHandleStatus;
