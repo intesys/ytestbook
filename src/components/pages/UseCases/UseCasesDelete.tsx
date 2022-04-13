@@ -9,8 +9,21 @@ import {
   Text,
 } from "@mantine/core";
 import { MdDelete } from "react-icons/md";
+import { useUseCasesContext } from "../../../context/useCasesContext";
+import useHandleStatus from "./hooks/useHandleStatus";
 
-const UseCasesDelete: React.FC = () => {
+interface IOwnProp {
+  id: string;
+}
+
+const UseCasesDelete: React.FC<IOwnProp> = ({ id }) => {
+  const {
+    state: {
+      usecase: { item: useCaseItem },
+    },
+    deleteUseCase,
+  } = useUseCasesContext();
+
   const [checked, setChecked] = useState(false);
 
   const handleOnChange = (
@@ -20,10 +33,12 @@ const UseCasesDelete: React.FC = () => {
     setChecked(target.checked);
   };
 
+  useHandleStatus();
+
   return (
     <div>
       <Text size="sm">
-        You are about to delete <strong>Use Case 1</strong>.
+        You are about to delete <strong>{useCaseItem?.title}</strong>.
       </Text>
       <Divider my="xs" label="Read this carefully" />
       <Text size="sm">This also:</Text>
@@ -45,7 +60,9 @@ const UseCasesDelete: React.FC = () => {
           variant="light"
           color={"red"}
           leftIcon={<MdDelete />}
-          onClick={() => {}}
+          onClick={() => {
+            deleteUseCase(id);
+          }}
         >
           Delete
         </Button>

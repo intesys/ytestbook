@@ -35,6 +35,15 @@ const _create = async (): Promise<RxDatabase> => {
   // init collections
   await collectionsInit(db);
 
+  console.log("DatabaseService: sync");
+  Object.values(db.collections)
+    .map((col) => col.name)
+    .forEach((colName) =>
+      db[colName].syncCouchDB({
+        remote: syncURL + colName + "/",
+      })
+    );
+
   return db;
 };
 
