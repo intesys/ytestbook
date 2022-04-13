@@ -11,7 +11,7 @@ const useHandleStatus = () => {
   const {
     state: {
       action: { type: actionType },
-      member: { status: MemberStatus, operation: MemberOperation },
+      member: { status: memberStatus, operation: memberOperation },
     },
     setAction,
     resetMember,
@@ -27,8 +27,8 @@ const useHandleStatus = () => {
   useEffect(() => {
     // EDIT / NEW : SUCCESS
     if (
-      MemberStatus === LOADING_STATUS.SUCCESS &&
-      MemberOperation === OPERATIONS_ACTIONS.SET
+      memberStatus === LOADING_STATUS.SUCCESS &&
+      memberOperation === OPERATIONS_ACTIONS.SET
     ) {
       notifications.showNotification({
         title:
@@ -43,8 +43,8 @@ const useHandleStatus = () => {
 
     // EDIT / NEW : ERROR
     if (
-      MemberStatus === LOADING_STATUS.ERROR &&
-      MemberOperation === OPERATIONS_ACTIONS.SET
+      memberStatus === LOADING_STATUS.ERROR &&
+      memberOperation === OPERATIONS_ACTIONS.SET
     ) {
       notifications.showNotification({
         title: "Something was wrong",
@@ -55,8 +55,8 @@ const useHandleStatus = () => {
 
     // DELETE: SUCCESS
     if (
-      MemberStatus === LOADING_STATUS.SUCCESS &&
-      MemberOperation === OPERATIONS_ACTIONS.DELETE
+      memberStatus === LOADING_STATUS.SUCCESS &&
+      memberOperation === OPERATIONS_ACTIONS.DELETE
     ) {
       notifications.showNotification({
         title: "Content deleted successfully",
@@ -68,8 +68,8 @@ const useHandleStatus = () => {
 
     // DELETE: ERROR
     if (
-      MemberStatus === LOADING_STATUS.ERROR &&
-      MemberOperation === OPERATIONS_ACTIONS.DELETE
+      memberStatus === LOADING_STATUS.ERROR &&
+      memberOperation === OPERATIONS_ACTIONS.DELETE
     ) {
       notifications.showNotification({
         title: "Something was wrong",
@@ -77,7 +77,7 @@ const useHandleStatus = () => {
         message: "Something was wrong during the delete process",
       });
     }
-  }, [MemberStatus, MemberOperation, actionType]);
+  }, [memberStatus, memberOperation, actionType]);
 };
 
 export default useHandleStatus;
