@@ -1,9 +1,9 @@
 import _ from "lodash";
-import { TUseCasesData } from "../../reducer/usecases/types";
+import { TFormFields } from "./types";
 
 export const updateFieldsEditMode = (
-  fields: TUseCasesData,
-  values: TUseCasesData
-): TUseCasesData => {
+  fields: TFormFields,
+  values: TFormFields
+): TFormFields => {
   return _.merge({}, fields, values);
 };
