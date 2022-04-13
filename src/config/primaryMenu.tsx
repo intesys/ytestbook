@@ -27,6 +27,10 @@ export const primaryMenu: Array<IMenuItem> = [
         label: "Members",
         path: "/plan/members",
       },
+      {
+        label: "Tags",
+        path: "/plan/tags",
+      },
     ],
   },
   {
