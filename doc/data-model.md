@@ -56,7 +56,7 @@ erDiagram
     int sessionId
     string entity "belongs to Test and Step"
     int entityId "Entity id"
-    enum value "TODO, WORKING, PASSED, FAILED, BLOCKED"
+    enum value "TODO, WORKING, PASSED, FAILED, BLOCKED, SKIPPED"
   }
   Comment {
     int id
