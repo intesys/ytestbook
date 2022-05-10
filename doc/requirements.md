@@ -53,7 +53,7 @@ Pages:
     - an optional description
     - an optional accountable user (reporter)
     - a list of optional responsible users
-    - a status (TODO, WORKING, PASSED, FAILED, BLOCKED)
+    - a status (TODO, WORKING, PASSED, FAILED, BLOCKED, SKIPPED)
     - an optional tag (es: category)
     - a list of requirements (for data preparation): what is necessary to execute tests (list of strings or texts, in case of configuration files, stubs etc.)
     - start date
@@ -65,7 +65,7 @@ Pages:
 
     - a title
     - an optional description
-    - a status (TODO, WORKING, PASSED, FAILED, BLOCKED)
+    - a status (TODO, WORKING, PASSED, FAILED, BLOCKED, SKIPPED)
     - an optional tag (es: category)
     - multiple sessions
     - input data: an object or a list of data to run test properly
@@ -83,7 +83,7 @@ Pages:
   - each step has:
     - a title
     - an optional description
-    - a status (TODO, WORKING, PASSED, FAILED, BLOCKED)
+    - a status (TODO, WORKING, PASSED, FAILED, BLOCKED, SKIPPED)
     - an optional tag (es: category)
     - input data: an object or a list of data to run test properly
     - expectation: a description of what makes it pass
