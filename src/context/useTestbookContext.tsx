@@ -1,13 +1,9 @@
-import React, { useCallback, useContext, useEffect, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
 import TTestbookAction from "../reducer/testbook/actions";
 import testbookReducer from "../reducer/testbook/reducer";
 import * as Database from "../database/database";
-import {
-  ITestbookState,
-  TTestbookData,
-  LOADING_STATUS,
-  OperationEnum,
-} from "../reducer/testbook/types";
+import { ITestbookState, TTestbookData } from "../reducer/testbook/types";
+import { LOADING_STATUS, OPERATIONS_ACTIONS } from "../types";
 
 export interface ITestbookContext {
   state: ITestbookState;
@@ -24,7 +20,7 @@ const initialState: ITestbookState = {
   testbook: {
     item: undefined,
     status: LOADING_STATUS.INIT,
-    operation: OperationEnum.IDLE,
+    operation: OPERATIONS_ACTIONS.IDLE,
   },
 };
 
@@ -49,14 +45,13 @@ export const TestbookContextProvider: React.FC = (props) => {
   useEffect(() => {
     if (
       state.testbook.status === LOADING_STATUS.SUCCESS &&
-      state.testbook.operation === OperationEnum.SET
+      state.testbook.operation === OPERATIONS_ACTIONS.SET
     )
       getTestbook();
   }, [state.testbook.status, state.testbook.operation]);
 
   useEffect(() => {
     if (state.testbook.status === LOADING_STATUS.RELOAD) getTestbook();
-    if (state.testbook.status === LOADING_STATUS.RELOAD) console.log("reload");
   }, [state.testbook.status]);
 
   const setTestbook = useCallback(async (obj: TTestbookData) => {
@@ -66,7 +61,7 @@ export const TestbookContextProvider: React.FC = (props) => {
 
     const db = await Database.getInstance();
     if (db) {
-      const result = await db.testbooks.upsert(obj);
+      const result = await db.testbook.upsert(obj);
       if (result) {
         dispatch({
           type: "TESTBOOK_SET_SUCCESS",
@@ -90,13 +85,19 @@ export const TestbookContextProvider: React.FC = (props) => {
 
     const db = await Database.getInstance();
     if (db) {
-      const data = await db.testbooks.findOne().exec();
-      data?.$.subscribe((testbook: any) => {
-        dispatch({
-          type: "TESTBOOK_GET_SUCCESS",
-          payload: testbook,
+      const data = await db.testbook.findOne().exec();
+      if (data) {
+        data?.$.subscribe((testbook: any) => {
+          dispatch({
+            type: "TESTBOOK_GET_SUCCESS",
+            payload: testbook,
+          });
         });
-      });
+      } else {
+        dispatch({
+          type: "TESTBOOK_GET_ERROR",
+        });
+      }
     } else {
       dispatch({
         type: "TESTBOOK_GET_ERROR",

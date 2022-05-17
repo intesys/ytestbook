@@ -1,6 +1,7 @@
 import produce from "immer";
+import { LOADING_STATUS, OPERATIONS_ACTIONS } from "../../types";
 import TTestbookAction from "./actions";
-import { ITestbookState, LOADING_STATUS, OperationEnum } from "./types";
+import { ITestbookState } from "./types";
 
 const testbookReducer = produce(
   (state: ITestbookState, action: TTestbookAction): ITestbookState => {
@@ -11,28 +12,28 @@ const testbookReducer = produce(
 
       case "TESTBOOK_SET_LOADING":
         state.testbook.status = LOADING_STATUS.LOADING;
-        state.testbook.operation = OperationEnum.SET;
+        state.testbook.operation = OPERATIONS_ACTIONS.SET;
         break;
       case "TESTBOOK_SET_ERROR":
         state.testbook.status = LOADING_STATUS.ERROR;
-        state.testbook.operation = OperationEnum.SET;
+        state.testbook.operation = OPERATIONS_ACTIONS.SET;
         break;
       case "TESTBOOK_SET_SUCCESS":
         state.testbook.status = LOADING_STATUS.SUCCESS;
-        state.testbook.operation = OperationEnum.SET;
+        state.testbook.operation = OPERATIONS_ACTIONS.SET;
         break;
 
       case "TESTBOOK_GET_LOADING":
         state.testbook.status = LOADING_STATUS.LOADING;
-        state.testbook.operation = OperationEnum.GET;
+        state.testbook.operation = OPERATIONS_ACTIONS.GET;
         break;
       case "TESTBOOK_GET_ERROR":
         state.testbook.status = LOADING_STATUS.ERROR;
-        state.testbook.operation = OperationEnum.GET;
+        state.testbook.operation = OPERATIONS_ACTIONS.GET;
         break;
       case "TESTBOOK_GET_SUCCESS":
         state.testbook.status = LOADING_STATUS.SUCCESS;
-        state.testbook.operation = OperationEnum.GET;
+        state.testbook.operation = OPERATIONS_ACTIONS.GET;
         state.testbook.item = action.payload;
         break;
     }
