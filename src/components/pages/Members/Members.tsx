@@ -31,11 +31,11 @@ const Members: React.FC = () => {
   const {
     state: {
       action,
-      member: { item: MemberItem },
+      member: { item: memberItem },
       members: {
-        items: MembersItems,
-        status: MembersStatus,
-        operation: MembersOperation,
+        items: membersItems,
+        status: membersStatus,
+        operation: membersOperation,
       },
     },
     getMember,
@@ -53,12 +53,12 @@ const Members: React.FC = () => {
 
   useEffect(() => {
     if (
-      MembersStatus === LOADING_STATUS.SUCCESS &&
-      MembersOperation === OPERATIONS_ACTIONS.SET
+      membersStatus === LOADING_STATUS.SUCCESS &&
+      membersOperation === OPERATIONS_ACTIONS.SET
     ) {
       getMembers();
     }
-  }, [MembersStatus, MembersOperation]);
+  }, [membersStatus, membersOperation]);
 
   useEffect(() => {
     if (action.id && action.type === ENTITIES_ACTIONS.EDIT) {
@@ -81,7 +81,7 @@ const Members: React.FC = () => {
   }, [action]);
 
   const renderMembers = () => {
-    switch (MembersStatus) {
+    switch (membersStatus) {
       case LOADING_STATUS.INIT:
       case LOADING_STATUS.LOADING:
         return (
@@ -103,7 +103,7 @@ const Members: React.FC = () => {
           </Alert>
         );
       case LOADING_STATUS.SUCCESS:
-        if (!MembersItems || MembersItems.length === 0) {
+        if (!membersItems || membersItems.length === 0) {
           return (
             <Alert icon={<MdErrorOutline size={16} />} title="No data">
               There is no Use Cases created yet, click on "Add new" button in
@@ -111,7 +111,7 @@ const Members: React.FC = () => {
             </Alert>
           );
         } else {
-          return MembersItems.map((member) => {
+          return membersItems.map((member) => {
             return <MembersRow key={member.id} item={member} />;
           });
         }
@@ -156,10 +156,10 @@ const Members: React.FC = () => {
         size={wideScreen ? "70%" : " 100%"}
         centered
       >
-        {action.id !== undefined && MemberItem && (
+        {action.id !== undefined && memberItem && (
           <MembersForm
             initialValues={
-              updateFieldsEditMode(initialFields, MemberItem) as TMembersData
+              updateFieldsEditMode(initialFields, memberItem) as TMembersData
             }
           />
         )}
@@ -173,7 +173,7 @@ const Members: React.FC = () => {
           </>
         }
       >
-        {action.id !== undefined && MemberItem && (
+        {action.id !== undefined && memberItem && (
           <MembersDelete id={action.id} />
         )}
       </Modal>
