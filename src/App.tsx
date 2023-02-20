@@ -10,6 +10,7 @@ import { theme } from "./theme";
 import { TestbookContextProvider } from "./context/useTestbookContext";
 import { NotificationsProvider } from "@mantine/notifications";
 import { MembersContextProvider } from "./context/useMembersContext";
+import { TagsContextProvider } from "./context/useTagsContext";
 
 const App: React.FC = () => {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
@@ -35,7 +36,9 @@ const App: React.FC = () => {
             <TestbookContextProvider>
               <UseCasesContextProvider>
                 <MembersContextProvider>
-                  <Routes />
+                  <TagsContextProvider>
+                    <Routes />
+                  </TagsContextProvider>
                 </MembersContextProvider>
               </UseCasesContextProvider>
             </TestbookContextProvider>
