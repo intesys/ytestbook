@@ -8,27 +8,115 @@ import {
   Space,
   Title,
   Text,
+  Alert,
+  Loader,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import React, { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdErrorOutline } from "react-icons/md";
 import { useUseCasesContext } from "../../../context/useCasesContext";
-import { ENTITIES_ACTIONS } from "../../../types";
+import { updateFieldsEditMode } from "../../../lib/dataHandling";
+import {
+  ENTITIES_ACTIONS,
+  LOADING_STATUS,
+  OPERATIONS_ACTIONS,
+} from "../../../types";
+import { initialFields } from "./const";
 import UseCasesDelete from "./UseCasesDelete";
 import UseCasesDetail from "./UseCasesDetail";
-import UseCasesEdit from "./UseCasesEdit";
+import UseCasesForm from "./UseCasesForm";
 import UseCasesRow from "./UseCasesRow";
 
 const UseCases: React.FC = () => {
-  const { useCases, setUseCases } = useUseCasesContext();
+  const {
+    state: {
+      action,
+      usecase: { item: useCaseItem },
+      usecases: {
+        items: useCasesItems,
+        status: useCasesStatus,
+        operation: useCasesOperation,
+      },
+    },
+    getUseCase,
+    getUseCases,
+    resetUseCase,
+    setAction,
+  } = useUseCasesContext();
+
   const [opened, setOpened] = useState(false);
+  const wideScreen = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
-    if (useCases.action !== ENTITIES_ACTIONS.IDLE) {
+    getUseCases();
+  }, []);
+
+  useEffect(() => {
+    if (
+      useCasesStatus === LOADING_STATUS.SUCCESS &&
+      useCasesOperation === OPERATIONS_ACTIONS.SET
+    ) {
+      getUseCases();
+    }
+  }, [useCasesStatus, useCasesOperation]);
+
+  useEffect(() => {
+    if (action.id && action.type === ENTITIES_ACTIONS.EDIT) {
+      getUseCase(action.id);
+    }
+  }, [action.type]);
+
+  useEffect(() => {
+    if (action.id && action.type === ENTITIES_ACTIONS.DELETE) {
+      getUseCase(action.id);
+    }
+  }, [action.type]);
+
+  useEffect(() => {
+    if (action.type !== ENTITIES_ACTIONS.IDLE) {
       setOpened(true);
     } else {
       setOpened(false);
     }
-  }, [useCases.action]);
+  }, [action]);
+
+  const renderUseCases = () => {
+    switch (useCasesStatus) {
+      case LOADING_STATUS.INIT:
+      case LOADING_STATUS.LOADING:
+        return (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "50px 0px",
+            }}
+          >
+            <Loader />
+          </div>
+        );
+      case LOADING_STATUS.ERROR:
+        return (
+          <Alert icon={<MdErrorOutline size={16} />} title="Error">
+            Something was wrong, please retry later.
+          </Alert>
+        );
+      case LOADING_STATUS.SUCCESS:
+        if (!useCasesItems || useCasesItems.length === 0) {
+          return (
+            <Alert icon={<MdErrorOutline size={16} />} title="No data">
+              There is no Use Cases created yet, click on "Add new" button in
+              order to create a new item.
+            </Alert>
+          );
+        } else {
+          return useCasesItems.map((useCase) => {
+            return <UseCasesRow key={useCase.id} item={useCase} />;
+          });
+        }
+    }
+  };
 
   return (
     <>
@@ -40,7 +128,7 @@ const UseCases: React.FC = () => {
             color={"green"}
             leftIcon={<MdAdd />}
             ml={"auto"}
-            onClick={() => setUseCases({ action: ENTITIES_ACTIONS.NEW })}
+            onClick={() => setAction(ENTITIES_ACTIONS.NEW)}
           >
             Add new
           </Button>
@@ -49,45 +137,53 @@ const UseCases: React.FC = () => {
         <Divider />
         <Space h="xs" />
         <Group spacing={"sm"} direction="column" grow>
-          <UseCasesRow />
-          <UseCasesRow />
-          <UseCasesRow />
+          {renderUseCases()}
         </Group>
       </Container>
       <Drawer
-        opened={opened && useCases.action === ENTITIES_ACTIONS.VIEW}
+        opened={opened && action.type === ENTITIES_ACTIONS.VIEW}
         position="right"
-        onClose={() => setUseCases({ action: ENTITIES_ACTIONS.IDLE })}
+        onClose={() => setAction(ENTITIES_ACTIONS.IDLE)}
         padding="xl"
         size="680px"
         styles={{
           drawer: { overflowY: "scroll", height: "100%" },
         }}
       >
-        <UseCasesDetail />
+        {action.id !== undefined && <UseCasesDetail id={action.id} />}
       </Drawer>
       <Modal
-        opened={opened && useCases.action === ENTITIES_ACTIONS.NEW}
-        onClose={() => setUseCases({ action: ENTITIES_ACTIONS.IDLE })}
-        title="NEW Use Case!"
-      ></Modal>
-      <Modal
-        opened={opened && useCases.action === ENTITIES_ACTIONS.EDIT}
-        onClose={() => setUseCases({ action: ENTITIES_ACTIONS.IDLE })}
-        title="Edit Use Case"
+        opened={opened && action.type === ENTITIES_ACTIONS.NEW}
+        onClose={() => setAction(ENTITIES_ACTIONS.IDLE)}
+        title="Add a new Use Case"
+        size={wideScreen ? "70%" : " 100%"}
+        centered
       >
-        <UseCasesEdit />
+        <UseCasesForm initialValues={initialFields} />
       </Modal>
       <Modal
-        opened={opened && useCases.action === ENTITIES_ACTIONS.DELETE}
-        onClose={() => setUseCases({ action: ENTITIES_ACTIONS.IDLE })}
+        opened={opened && action.type === ENTITIES_ACTIONS.EDIT}
+        onClose={() => resetUseCase()}
+        title="Edit Use Case"
+        size={wideScreen ? "70%" : " 100%"}
+        centered
+      >
+        {action.id !== undefined && useCaseItem && (
+          <UseCasesForm
+            initialValues={updateFieldsEditMode(initialFields, useCaseItem)}
+          />
+        )}
+      </Modal>
+      <Modal
+        opened={opened && action.type === ENTITIES_ACTIONS.DELETE}
+        onClose={() => resetUseCase()}
         title={
           <>
             <Text>Are you sure to proceed?</Text>
           </>
         }
       >
-        <UseCasesDelete />
+        {action.id !== undefined && <UseCasesDelete id={action.id} />}
       </Modal>
     </>
   );
