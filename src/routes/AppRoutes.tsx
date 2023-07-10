@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthRoutes } from "./AuthRoutes";
+import Dashboard from "../components/Dashboard";
 
 export const AppRoutes = () => {
   let location = useLocation();
@@ -20,7 +21,7 @@ export const AppRoutes = () => {
           path="/app"
           element={
             <AuthRoutes>
-              <>App</>
+              <Dashboard />
             </AuthRoutes>
           }
         />
