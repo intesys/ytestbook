@@ -1,0 +1,33 @@
+---
+openapi: 3.0.2
+info:
+  title: yTestbook
+  version: 1.0.0
+paths:
+  "/login":
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/LoginRequest"
+      responses:
+        '200':
+          description: User logged successfully
+components:
+  schemas:
+    LoginRequest:
+      title: Root Type for LoginRequest
+      description: ''
+      required:
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      example:
+        username: admin
+        password: admin

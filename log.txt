@@ -1,4 +1,0 @@
-[Mon, 10 Jul 2023 08:11:02 GMT] [info] [<0.000.0>] pouchdb-server has started on http://0.0.0.0:10102/
-[Mon, 10 Jul 2023 08:11:02 GMT] [info] [<0.000.0>] database is in-memory; no changes will be saved.
-[Mon, 10 Jul 2023 08:11:02 GMT] [info] [<0.000.0>] database files will be saved to /tmp/pouchdb-server/
-[Mon, 10 Jul 2023 08:11:02 GMT] [info] [<0.000.0>] navigate to http://0.0.0.0:10102/_utils for the Fauxton UI.
