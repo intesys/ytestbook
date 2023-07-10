@@ -6,6 +6,8 @@ info:
 paths:
   "/login":
     post:
+      tags:
+      - yTestbook
       requestBody:
         content:
           application/json:
@@ -14,6 +16,7 @@ paths:
       responses:
         '200':
           description: User logged successfully
+      operationId: userLogin
 components:
   schemas:
     LoginRequest:

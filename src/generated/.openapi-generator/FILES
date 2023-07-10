@@ -1,5 +1,5 @@
 .gitignore
-apis/DefaultApi.ts
+apis/YTestbookApi.ts
 apis/index.ts
 index.ts
 models/LoginRequest.ts

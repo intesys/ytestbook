@@ -1,10 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
-ReactDOM.render(
+if (process.env.API_MOCK === "true") {
+  console.log("start dev");
+  const { worker } = require("./mocks/browser");
+  worker.printHandlers();
+  worker.start();
+}
+
+let root = createRoot(document.getElementById("ytestbook_root") as HTMLElement);
+
+root.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );
