@@ -17,6 +17,7 @@ import { BaseAPI } from '../runtime';
 import type { OperationOpts, HttpHeaders } from '../runtime';
 import type {
     LoginRequest,
+    LoginResponse,
 } from '../models';
 
 export interface UserLoginRequest {
@@ -30,15 +31,15 @@ export class YTestbookApi extends BaseAPI {
 
     /**
      */
-    userLogin({ loginRequest }: UserLoginRequest): Observable<void>
-    userLogin({ loginRequest }: UserLoginRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
-    userLogin({ loginRequest }: UserLoginRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
+    userLogin({ loginRequest }: UserLoginRequest): Observable<LoginResponse>
+    userLogin({ loginRequest }: UserLoginRequest, opts?: OperationOpts): Observable<AjaxResponse<LoginResponse>>
+    userLogin({ loginRequest }: UserLoginRequest, opts?: OperationOpts): Observable<LoginResponse | AjaxResponse<LoginResponse>> {
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
-        return this.request<void>({
+        return this.request<LoginResponse>({
             url: '/login',
             method: 'POST',
             headers,

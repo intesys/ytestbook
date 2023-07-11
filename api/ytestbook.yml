@@ -6,15 +6,19 @@ info:
 paths:
   "/login":
     post:
-      tags:
-      - yTestbook
       requestBody:
         content:
           application/json:
             schema:
               "$ref": "#/components/schemas/LoginRequest"
+      tags:
+      - yTestbook
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LoginResponse"
           description: User logged successfully
       operationId: userLogin
 components:
@@ -34,3 +38,12 @@ components:
       example:
         username: admin
         password: admin
+    LoginResponse:
+      title: Root Type for LoginResponse
+      description: ''
+      type: object
+      properties:
+        accessToken:
+          type: string
+      example:
+        accessToken: string

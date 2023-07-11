@@ -11,6 +11,7 @@ const yTestbookReducer = produce(
         break;
       case "USER_LOGIN_SUCCESS":
         state.auth.status = LOADING_STATUS.SUCCESS;
+        state.auth.data = action.payload;
         break;
       case "USER_LOGIN_ERROR":
         state.auth.status = LOADING_STATUS.ERROR;

@@ -1,6 +1,8 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthRoutes } from "./AuthRoutes";
-import Dashboard from "../components/Dashboard";
+import Dashboard from "../sections/Dashboard/Dashboard";
+import Login from "../sections/UserLogin/UserLogin";
+import { RedirectRoutes } from "./RedirectRoutes";
 
 export const AppRoutes = () => {
   let location = useLocation();
@@ -16,7 +18,14 @@ export const AppRoutes = () => {
             </AuthRoutes>
           }
         />
-        <Route path="/login" element={<>Login</>} />
+        <Route
+          path="/login"
+          element={
+            <RedirectRoutes route="/app">
+              <Login />
+            </RedirectRoutes>
+          }
+        />
         <Route
           path="/app"
           element={

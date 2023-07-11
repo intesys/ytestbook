@@ -9,6 +9,9 @@ const Styles: React.FC = () => {
         "h1, h2, h3, h4, h5, h6, p": { margin: "0px" },
         body: {
           overflowX: "hidden",
+          fontFamily: theme.fontFamily,
+          fontSize: theme.fontSizes.sm,
+          lineHeight: theme.lineHeight,
           color: theme.colors.font[4],
         },
         h1: {
@@ -52,6 +55,13 @@ const Styles: React.FC = () => {
           fontSize: theme.headings.sizes.h6.fontSize,
           fontWeight: theme.headings.sizes.h6.fontWeight as number,
           lineHeight: theme.headings.sizes.h6.lineHeight,
+        },
+        input: {
+          "&:-webkit-autofill, &:-webkit-autofill::first-line, &:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active":
+            {
+              fontFamily: theme.fontFamily,
+              transition: "background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s",
+            },
         },
       })}
     />

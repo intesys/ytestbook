@@ -3,6 +3,7 @@ apis/YTestbookApi.ts
 apis/index.ts
 index.ts
 models/LoginRequest.ts
+models/LoginResponse.ts
 models/index.ts
 runtime.ts
 servers.ts
