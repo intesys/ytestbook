@@ -11,6 +11,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/LoginRequest"
+        required: true
       tags:
       - yTestbook
       responses:
@@ -21,6 +22,36 @@ paths:
                 "$ref": "#/components/schemas/LoginResponse"
           description: User logged successfully
       operationId: userLogin
+  "/testbook/all":
+    get:
+      tags:
+      - yTestbook
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/TestbookResponse"
+          description: List of all testbook
+  "/testbook/":
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TestbookRequest"
+        required: true
+      tags:
+      - yTestbook
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/TestbookResponse"
+          description: Testbook created successfully
 components:
   schemas:
     LoginRequest:
@@ -47,3 +78,33 @@ components:
           type: string
       example:
         accessToken: string
+    TestbookResponse:
+      title: Root Type for TestbookResponse
+      description: ''
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        client:
+          type: string
+        lastEdit:
+          type: string
+      example:
+        id: asd
+        name: string
+        client: string
+        lastEdit: string
+    TestbookRequest:
+      title: Root Type for TestbookRequest
+      description: ''
+      type: object
+      properties:
+        name:
+          type: string
+        client:
+          type: string
+      example:
+        name: string
+        client: string

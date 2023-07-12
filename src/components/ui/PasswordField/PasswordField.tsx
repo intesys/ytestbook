@@ -9,10 +9,11 @@ const PasswordField: React.FC<IProps> = ({
   required,
   value,
   type,
+  variant = "light",
   onChange,
   ...props
 }) => {
-  const { classes } = useStyles();
+  const { classes } = useStyles(variant);
 
   return (
     <PasswordInput

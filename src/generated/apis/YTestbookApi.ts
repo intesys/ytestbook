@@ -13,15 +13,21 @@
 
 import type { Observable } from 'rxjs';
 import type { AjaxResponse } from 'rxjs/ajax';
-import { BaseAPI } from '../runtime';
+import { BaseAPI, throwIfNullOrUndefined } from '../runtime';
 import type { OperationOpts, HttpHeaders } from '../runtime';
 import type {
     LoginRequest,
     LoginResponse,
+    TestbookRequest,
+    TestbookResponse,
 } from '../models';
 
+export interface TestbookPostRequest {
+    testbookRequest: TestbookRequest;
+}
+
 export interface UserLoginRequest {
-    loginRequest?: LoginRequest;
+    loginRequest: LoginRequest;
 }
 
 /**
@@ -31,9 +37,40 @@ export class YTestbookApi extends BaseAPI {
 
     /**
      */
+    testbookAllGet(): Observable<Array<TestbookResponse>>
+    testbookAllGet(opts?: OperationOpts): Observable<AjaxResponse<Array<TestbookResponse>>>
+    testbookAllGet(opts?: OperationOpts): Observable<Array<TestbookResponse> | AjaxResponse<Array<TestbookResponse>>> {
+        return this.request<Array<TestbookResponse>>({
+            url: '/testbook/all',
+            method: 'GET',
+        }, opts?.responseOpts);
+    };
+
+    /**
+     */
+    testbookPost({ testbookRequest }: TestbookPostRequest): Observable<TestbookResponse>
+    testbookPost({ testbookRequest }: TestbookPostRequest, opts?: OperationOpts): Observable<AjaxResponse<TestbookResponse>>
+    testbookPost({ testbookRequest }: TestbookPostRequest, opts?: OperationOpts): Observable<TestbookResponse | AjaxResponse<TestbookResponse>> {
+        throwIfNullOrUndefined(testbookRequest, 'testbookRequest', 'testbookPost');
+
+        const headers: HttpHeaders = {
+            'Content-Type': 'application/json',
+        };
+
+        return this.request<TestbookResponse>({
+            url: '/testbook/',
+            method: 'POST',
+            headers,
+            body: testbookRequest,
+        }, opts?.responseOpts);
+    };
+
+    /**
+     */
     userLogin({ loginRequest }: UserLoginRequest): Observable<LoginResponse>
     userLogin({ loginRequest }: UserLoginRequest, opts?: OperationOpts): Observable<AjaxResponse<LoginResponse>>
     userLogin({ loginRequest }: UserLoginRequest, opts?: OperationOpts): Observable<LoginResponse | AjaxResponse<LoginResponse>> {
+        throwIfNullOrUndefined(loginRequest, 'loginRequest', 'userLogin');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',

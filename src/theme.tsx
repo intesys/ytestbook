@@ -4,10 +4,10 @@ export const theme: MantineThemeOverride = {
   fontFamily: "Work Sans, sans-serif",
   colors: {
     primary: [
+      "#ebeefb",
+      "#d3d9f6",
       "#91A4F7",
       "#6F88F5",
-      "#5170F2",
-      "#1D44EF",
       "#0F33CE", // Default primary color
       "#0E2EB9",
       "#0C29A7",

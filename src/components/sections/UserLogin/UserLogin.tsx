@@ -2,14 +2,15 @@ import React from "react";
 import { Paper, Group, Container, Center, Button, Checkbox, Anchor, Stack } from "@mantine/core";
 import useStyles from "./styles";
 import { useForm } from "@mantine/form";
-import Logo from "../../assets/logo.svg";
-import TextField from "../../components/ui/TextField/TextField";
-import PasswordField from "../../components/ui/PasswordField/PasswordField";
-import { useYTestbookContext } from "../../context/useYTestbookContext";
+import Logo from "../../../assets/logo.svg";
+import TextField from "../../ui/TextField/TextField";
+import PasswordField from "../../ui/PasswordField/PasswordField";
+import { useYTestbookContext } from "../../../context/useYTestbookContext";
 import { userLogin_initialValues, userLogin_validate } from "./const";
-import { LOADING_STATUS } from "../../reducer/types";
+import { LOADING_STATUS } from "../../../reducer/types";
+import Card from "../../ui/Card/Card";
 
-const Login: React.FC = () => {
+const UserLogin: React.FC = () => {
   const { classes } = useStyles();
 
   const {
@@ -39,14 +40,19 @@ const Login: React.FC = () => {
         <Center className={classes.login_logo}>
           <Logo />
         </Center>
-        <div className={classes.card}>
-          <h3 className={classes.card_header}>Login</h3>
-          <Paper className={classes.card_content} p={32} mt={32} radius="xl">
+        <Card title="Login">
+          <>
             <Stack>
-              <TextField required placeholder="Your username" {...form.getInputProps(`username`)} />
+              <TextField
+                required
+                placeholder="Your username"
+                variant="blue"
+                {...form.getInputProps(`username`)}
+              />
               <PasswordField
                 required
                 placeholder="Your password"
+                variant="blue"
                 {...form.getInputProps(`password`)}
               />
             </Stack>
@@ -68,11 +74,11 @@ const Login: React.FC = () => {
             >
               Sign in
             </Button>
-          </Paper>
-        </div>
+          </>
+        </Card>
       </Container>
     </div>
   );
 };
 
-export default Login;
+export default UserLogin;

@@ -9,10 +9,11 @@ const TextField: React.FC<IProps & TextInputProps & React.RefAttributes<HTMLInpu
   required,
   value,
   type,
+  variant = "light",
   onChange,
   ...props
 }) => {
-  const { classes } = useStyles();
+  const { classes } = useStyles(variant);
 
   return (
     <TextInput

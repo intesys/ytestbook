@@ -3,7 +3,7 @@ import { IYTestbookState } from "../reducer/testbook/types";
 import TYTestbookAction from "../reducer/testbook/actions";
 import yTestbookReducer from "../reducer/testbook/reducer";
 import { yTestbookApiConfig } from "../config/yTestbookApiConfig";
-import { LoginRequest, YTestbookApi } from "../generated";
+import { LoginRequest, YTestbookApi, TestbookRequest } from "../generated";
 import type { AjaxError } from "rxjs/ajax";
 import { LOADING_STATUS } from "../reducer/types";
 import { readToken, saveToken } from "../lib/auth";
@@ -13,6 +13,8 @@ export interface IYTestbookContext {
   dispatch: React.Dispatch<TYTestbookAction>;
   userLogin: (credentials: LoginRequest) => void;
   refreshAuth: (accessToken: string) => void;
+  getTestbooks: () => void;
+  postTestbook: (testbookRequest: TestbookRequest) => void;
 }
 
 export interface IYTestbookContextProvider {
@@ -24,6 +26,8 @@ const noop = () => {};
 
 const initialState: IYTestbookState = {
   auth: { status: LOADING_STATUS.IDLE },
+  testbooks: { status: LOADING_STATUS.IDLE, data: [] },
+  testbook: { status: LOADING_STATUS.IDLE },
 };
 
 const contextInitialState: IYTestbookContext = {
@@ -31,6 +35,8 @@ const contextInitialState: IYTestbookContext = {
   dispatch: noop,
   userLogin: noop,
   refreshAuth: noop,
+  getTestbooks: noop,
+  postTestbook: noop,
 };
 
 export const YTestbookContext = React.createContext<IYTestbookContext>(contextInitialState);
@@ -77,6 +83,46 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (pr
     });
   }, []);
 
+  const getTestbooks = useCallback(() => {
+    dispatch({
+      type: "GET_TESTBOOKS_LOADING",
+    });
+
+    yTestbookApi.testbookAllGet().subscribe({
+      next: (response) => {
+        dispatch({
+          type: "GET_TESTBOOKS_SUCCESS",
+          payload: response,
+        });
+      },
+      error: (err: AjaxError) => {
+        dispatch({
+          type: "GET_TESTBOOKS_ERROR",
+        });
+      },
+    });
+  }, []);
+
+  const postTestbook = useCallback((testbookRequest: TestbookRequest) => {
+    dispatch({
+      type: "POST_TESTBOOK_LOADING",
+    });
+
+    yTestbookApi.testbookPost({ testbookRequest }).subscribe({
+      next: (response) => {
+        dispatch({
+          type: "POST_TESTBOOK_SUCCESS",
+          payload: response,
+        });
+      },
+      error: (err: AjaxError) => {
+        dispatch({
+          type: "POST_TESTBOOK_ERROR",
+        });
+      },
+    });
+  }, []);
+
   return (
     <YTestbookContext.Provider
       value={{
@@ -84,6 +130,8 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (pr
         dispatch,
         userLogin,
         refreshAuth,
+        getTestbooks,
+        postTestbook,
       }}
     >
       {props.children}

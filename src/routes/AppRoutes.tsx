@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthRoutes } from "./AuthRoutes";
-import Dashboard from "../sections/Dashboard/Dashboard";
-import Login from "../sections/UserLogin/UserLogin";
 import { RedirectRoutes } from "./RedirectRoutes";
+import UserLogin from "../components/sections/UserLogin/UserLogin";
+import Home from "../components/sections/Home/Home";
 
 export const AppRoutes = () => {
   let location = useLocation();
@@ -22,7 +22,7 @@ export const AppRoutes = () => {
           path="/login"
           element={
             <RedirectRoutes route="/app">
-              <Login />
+              <UserLogin />
             </RedirectRoutes>
           }
         />
@@ -30,7 +30,7 @@ export const AppRoutes = () => {
           path="/app"
           element={
             <AuthRoutes>
-              <Dashboard />
+              <Home />
             </AuthRoutes>
           }
         />
