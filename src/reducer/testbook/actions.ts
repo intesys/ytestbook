@@ -1,4 +1,4 @@
-import { LoginResponse, TestbookResponse } from "../../generated";
+import { LoginResponse, TestbookResponse, TestcaseResponse } from "../../generated";
 
 interface UserLoginLoading {
   type: "USER_LOGIN_LOADING";
@@ -39,6 +39,19 @@ interface PostTestbookError {
   type: "POST_TESTBOOK_ERROR";
 }
 
+interface GetTestcasesLoading {
+  type: "GET_TESTCASES_LOADING";
+}
+
+interface GetTestcasesSuccess {
+  type: "GET_TESTCASES_SUCCESS";
+  payload: Array<TestcaseResponse>;
+}
+
+interface GetTestcasesError {
+  type: "GET_TESTCASES_ERROR";
+}
+
 type TYTestbookAction =
   | UserLoginLoading
   | UserLoginSuccess
@@ -48,6 +61,9 @@ type TYTestbookAction =
   | GetTestbooksError
   | PostTestbookError
   | PostTestbookLoading
-  | PostTestbookSuccess;
+  | PostTestbookSuccess
+  | GetTestcasesLoading
+  | GetTestcasesSuccess
+  | GetTestcasesError;
 
 export default TYTestbookAction;

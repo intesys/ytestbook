@@ -8,16 +8,22 @@ import { useYTestbookContext } from "../../../context/useYTestbookContext";
 import { LOADING_STATUS } from "../../../reducer/types";
 import { useForm } from "@mantine/form";
 import { testbook_initialValues, testbook_validate } from "./const";
+import { ROUTES_NAME } from "../../../routes/routes";
+import { Navigate, useLocation } from "react-router";
+import { TestbookResponse } from "../../../generated";
 
 const Home: React.FC = () => {
   const { classes } = useStyles();
+  let location = useLocation();
 
   const {
     state: {
       testbooks: { data: testbooksData, status: testbooksStatus },
+      testbook: { data: testbookData, status: testbookStatus },
     },
     getTestbooks,
     postTestbook,
+    setTestbook,
   } = useYTestbookContext();
 
   useEffect(() => {
@@ -38,13 +44,21 @@ const Home: React.FC = () => {
     }
   };
 
+  const onClickTable = (elem: TestbookResponse) => {
+    elem && elem.id && setTestbook(elem);
+  };
+
   const rows = testbooksData?.map((element) => (
-    <tr key={element.id}>
+    <tr key={element.id} onClick={() => onClickTable(element)}>
       <td>{element.name}</td>
       <td>{element.client}</td>
       <td>{element.lastEdit}</td>
     </tr>
   ));
+
+  if (testbookStatus === LOADING_STATUS.SUCCESS && testbookData?.id) {
+    return <Navigate to={ROUTES_NAME.APP} state={{ from: location }} replace />;
+  }
 
   return (
     <div className={classes.home_layout}>
@@ -69,7 +83,12 @@ const Home: React.FC = () => {
                   {...form.getInputProps(`client`)}
                 />
               </Stack>
-              <Button mt="xl" fullWidth onClick={submitForm}>
+              <Button
+                mt="xl"
+                fullWidth
+                loading={testbookStatus === LOADING_STATUS.LOADING}
+                onClick={submitForm}
+              >
                 Create
               </Button>
             </>

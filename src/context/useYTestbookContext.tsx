@@ -15,6 +15,8 @@ export interface IYTestbookContext {
   refreshAuth: (accessToken: string) => void;
   getTestbooks: () => void;
   postTestbook: (testbookRequest: TestbookRequest) => void;
+  setTestbook: (testbookRequest: TestbookRequest) => void;
+  getTestcases: () => void;
 }
 
 export interface IYTestbookContextProvider {
@@ -28,6 +30,7 @@ const initialState: IYTestbookState = {
   auth: { status: LOADING_STATUS.IDLE },
   testbooks: { status: LOADING_STATUS.IDLE, data: [] },
   testbook: { status: LOADING_STATUS.IDLE },
+  testcases: { status: LOADING_STATUS.IDLE, data: [] },
 };
 
 const contextInitialState: IYTestbookContext = {
@@ -37,6 +40,8 @@ const contextInitialState: IYTestbookContext = {
   refreshAuth: noop,
   getTestbooks: noop,
   postTestbook: noop,
+  setTestbook: noop,
+  getTestcases: noop,
 };
 
 export const YTestbookContext = React.createContext<IYTestbookContext>(contextInitialState);
@@ -123,6 +128,33 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (pr
     });
   }, []);
 
+  const setTestbook = useCallback((testbookRequest: TestbookRequest) => {
+    dispatch({
+      type: "POST_TESTBOOK_SUCCESS",
+      payload: testbookRequest,
+    });
+  }, []);
+
+  const getTestcases = useCallback(() => {
+    dispatch({
+      type: "GET_TESTCASES_LOADING",
+    });
+
+    yTestbookApi.testcaseAllGet().subscribe({
+      next: (response) => {
+        dispatch({
+          type: "GET_TESTCASES_SUCCESS",
+          payload: response,
+        });
+      },
+      error: (err: AjaxError) => {
+        dispatch({
+          type: "GET_TESTCASES_ERROR",
+        });
+      },
+    });
+  }, []);
+
   return (
     <YTestbookContext.Provider
       value={{
@@ -132,6 +164,8 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (pr
         refreshAuth,
         getTestbooks,
         postTestbook,
+        setTestbook,
+        getTestcases,
       }}
     >
       {props.children}

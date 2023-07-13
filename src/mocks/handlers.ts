@@ -1,6 +1,7 @@
 import { rest } from "msw";
 import { APP_URL } from "../const";
 import { testbook, testbooks } from "./fixtures/testbook";
+import { testcases } from "./fixtures/testcase";
 
 export const handlers = [
   rest.post(APP_URL + "/login", (req, res, ctx) => {
@@ -13,5 +14,9 @@ export const handlers = [
 
   rest.post(APP_URL + "/testbook", (req, res, ctx) => {
     return res(ctx.delay(2000), ctx.status(200), ctx.json(testbook));
+  }),
+
+  rest.get(APP_URL + "/testcase/all", (req, res, ctx) => {
+    return res(ctx.delay(2000), ctx.status(200), ctx.json(testcases));
   }),
 ];

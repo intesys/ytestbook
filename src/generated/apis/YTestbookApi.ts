@@ -20,6 +20,7 @@ import type {
     LoginResponse,
     TestbookRequest,
     TestbookResponse,
+    TestcaseResponse,
 } from '../models';
 
 export interface TestbookPostRequest {
@@ -62,6 +63,17 @@ export class YTestbookApi extends BaseAPI {
             method: 'POST',
             headers,
             body: testbookRequest,
+        }, opts?.responseOpts);
+    };
+
+    /**
+     */
+    testcaseAllGet(): Observable<Array<TestcaseResponse>>
+    testcaseAllGet(opts?: OperationOpts): Observable<AjaxResponse<Array<TestcaseResponse>>>
+    testcaseAllGet(opts?: OperationOpts): Observable<Array<TestcaseResponse> | AjaxResponse<Array<TestcaseResponse>>> {
+        return this.request<Array<TestcaseResponse>>({
+            url: '/testcase/all',
+            method: 'GET',
         }, opts?.responseOpts);
     };
 

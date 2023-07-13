@@ -1,36 +1,27 @@
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { AuthRoutes } from "./AuthRoutes";
-import { RedirectRoutes } from "./RedirectRoutes";
 import UserLogin from "../components/sections/UserLogin/UserLogin";
 import Home from "../components/sections/Home/Home";
+import App from "../components/sections/App/App";
 
 export const AppRoutes = () => {
-  let location = useLocation();
-
   return (
     <Routes>
       <Route>
+        <Route path="/login" element={<UserLogin />} />
         <Route
           path="/"
           element={
             <AuthRoutes>
-              <Navigate to="/app" state={{ from: location }} replace />
+              <Home />
             </AuthRoutes>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <RedirectRoutes route="/app">
-              <UserLogin />
-            </RedirectRoutes>
           }
         />
         <Route
           path="/app"
           element={
-            <AuthRoutes>
-              <Home />
+            <AuthRoutes tbRequred>
+              <App />
             </AuthRoutes>
           }
         />

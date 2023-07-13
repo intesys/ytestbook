@@ -38,6 +38,17 @@ const yTestbookReducer = produce(
       case "POST_TESTBOOK_ERROR":
         state.testbook.status = LOADING_STATUS.ERROR;
         break;
+
+      case "GET_TESTCASES_LOADING":
+        state.testcases.status = LOADING_STATUS.LOADING;
+        break;
+      case "GET_TESTCASES_SUCCESS":
+        state.testcases.status = LOADING_STATUS.SUCCESS;
+        state.testcases.data = action.payload;
+        break;
+      case "GET_TESTCASES_ERROR":
+        state.testcases.status = LOADING_STATUS.ERROR;
+        break;
     }
 
     return state;

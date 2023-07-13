@@ -9,13 +9,16 @@ import { useYTestbookContext } from "../../../context/useYTestbookContext";
 import { userLogin_initialValues, userLogin_validate } from "./const";
 import { LOADING_STATUS } from "../../../reducer/types";
 import Card from "../../ui/Card/Card";
+import { Navigate, useLocation } from "react-router";
+import { ROUTES_NAME } from "../../../routes/routes";
 
 const UserLogin: React.FC = () => {
   const { classes } = useStyles();
+  let location = useLocation();
 
   const {
     state: {
-      auth: { status: authStatus },
+      auth: { status: authStatus, data: authData },
     },
     userLogin,
   } = useYTestbookContext();
@@ -33,6 +36,10 @@ const UserLogin: React.FC = () => {
       });
     }
   };
+
+  if (authStatus === LOADING_STATUS.SUCCESS && authData) {
+    return <Navigate to={ROUTES_NAME.HOME} state={{ from: location }} replace />;
+  }
 
   return (
     <div className={classes.login_layout}>

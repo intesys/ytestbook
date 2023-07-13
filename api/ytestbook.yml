@@ -52,6 +52,19 @@ paths:
               schema:
                 "$ref": "#/components/schemas/TestbookResponse"
           description: Testbook created successfully
+  "/testcase/all":
+    get:
+      tags:
+      - yTestbook
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/TestcaseResponse"
+          description: Get all testcases
 components:
   schemas:
     LoginRequest:
@@ -108,3 +121,33 @@ components:
       example:
         name: string
         client: string
+    TestcaseResponse:
+      title: Root Type for TestcaseResponse
+      description: ''
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+      example:
+        id: some text
+        title: some text
+        status: some text
+    TestResponse:
+      title: Root Type for TestResponse
+      description: ''
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        priority:
+          type: string
+      example:
+        id: '1'
+        title: string
+        priority: string

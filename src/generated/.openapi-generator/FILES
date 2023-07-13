@@ -4,8 +4,10 @@ apis/index.ts
 index.ts
 models/LoginRequest.ts
 models/LoginResponse.ts
+models/TestResponse.ts
 models/TestbookRequest.ts
 models/TestbookResponse.ts
+models/TestcaseResponse.ts
 models/index.ts
 runtime.ts
 servers.ts
