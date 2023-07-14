@@ -1,59 +1,62 @@
 import { ThemeIcon } from "@mantine/core";
-import StatusBlocked from "../assets/icons/status_blocked.svg";
-import StatusCancelled from "../assets/icons/status_cancelled.svg";
-import StatusDone from "../assets/icons/status_done.svg";
-import StatusFail from "../assets/icons/status_fail.svg";
-import StatusPaused from "../assets/icons/status_paused.svg";
-import StatusPending from "../assets/icons/status_pending.svg";
-import StatusTodo from "../assets/icons/status_todo.svg";
+import {
+  MdDeleteForever,
+  MdCheckCircle,
+  MdDangerous,
+  MdPauseCircle,
+  MdReportProblem,
+  MdPending,
+  MdPlayCircle,
+} from "react-icons/md";
 
 export const statusIcon = (status: string) => {
   switch (status) {
     case "blocked":
       return (
-        <ThemeIcon variant="outline" size={30}>
-          <StatusBlocked size="1.1rem" />
+        <ThemeIcon color="yellow" variant="light" size={30}>
+          <MdDeleteForever size="1.5rem" />
         </ThemeIcon>
       );
 
     case "cancelled":
       return (
-        <ThemeIcon variant="light" size={30}>
-          <StatusCancelled size="1.1rem" />
+        <ThemeIcon color="orange" variant="light" size={30}>
+          <MdDangerous size="1.5rem" />
         </ThemeIcon>
       );
 
     case "done":
       return (
-        <ThemeIcon variant="light" size={30}>
-          <StatusDone size="1.1rem" />
+        <ThemeIcon color="green" variant="light" size={30}>
+          <MdCheckCircle size="1.5rem" />
         </ThemeIcon>
       );
 
     case "fail":
       return (
-        <ThemeIcon variant="light" size={30}>
-          <StatusFail size="1.1rem" />
+        <ThemeIcon color="red" variant="light" size={30}>
+          <MdReportProblem size="1.5rem" />
         </ThemeIcon>
       );
 
     case "paused":
       return (
-        <ThemeIcon variant="light" size={30}>
-          <StatusPaused size="1.1rem" />
+        <ThemeIcon color="gray" variant="light" size={30}>
+          <MdPauseCircle size="1.5rem" />
         </ThemeIcon>
       );
 
     case "pending":
       return (
-        <ThemeIcon variant="light" size={30}>
-          <StatusPending size="1.1rem" />
+        <ThemeIcon color="blue" variant="light" size={30}>
+          <MdPending size="1.5rem" />
         </ThemeIcon>
       );
+
     case "todo":
       return (
-        <ThemeIcon variant="light" size={30}>
-          <StatusTodo size="1.1rem" />
+        <ThemeIcon color="violet" variant="light" size={30}>
+          <MdPlayCircle size="1.5rem" />
         </ThemeIcon>
       );
   }

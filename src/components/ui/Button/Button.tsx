@@ -3,11 +3,11 @@ import React from "react";
 import useStyles from "./styles";
 import { IProps } from "./types";
 
-const Button: React.FC<IProps & ButtonProps> = ({ children, ...props }) => {
+const Button: React.FC<IProps & ButtonProps> = ({ onClick, children, ...props }) => {
   const { classes } = useStyles();
 
   return (
-    <MuiButton {...props} classNames={classes} radius={8}>
+    <MuiButton {...props} classNames={classes} radius={8} onClick={onClick}>
       {children}
     </MuiButton>
   );
