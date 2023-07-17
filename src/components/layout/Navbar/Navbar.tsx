@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
 import EyeIcon from "../../../assets/icons/eye.svg";
-import { Navbar as MuiNavbar, Stack, ThemeIcon, UnstyledButton } from "@mantine/core";
+import {
+  Center,
+  Loader,
+  Navbar as MuiNavbar,
+  Stack,
+  ThemeIcon,
+  UnstyledButton,
+} from "@mantine/core";
 import { NavbarLink } from "../NavbarLink/NavbarLink";
 import Button from "../../ui/Button/Button";
 import { useYTestbookContext } from "../../../context/useYTestbookContext";
@@ -14,7 +21,7 @@ import classnames from "classnames";
 const Navbar: React.FC = () => {
   const { classes } = useStyles();
   const [active, setActive] = useState(0);
-  const [state, send, service] = useMachine(toggleMachine);
+  const [state, send] = useMachine(toggleMachine);
 
   const {
     state: {
@@ -106,7 +113,12 @@ const Navbar: React.FC = () => {
       </MuiNavbar.Section>
       <MuiNavbar.Section grow mt={40}>
         <Stack justify="center" spacing={0}>
-          {links}
+          {testcasesStatus === LOADING_STATUS.SUCCESS && links}
+          {testcasesStatus === LOADING_STATUS.LOADING && (
+            <Center>
+              <Loader />
+            </Center>
+          )}
         </Stack>
       </MuiNavbar.Section>
     </MuiNavbar>

@@ -1,9 +1,16 @@
 import React from "react";
 import useStyles from "./styles";
 import Logo from "../../../assets/logo.svg";
+import { useYTestbookContext } from "../../../context/useYTestbookContext";
 
 const Header: React.FC = () => {
   const { classes } = useStyles();
+
+  const {
+    state: {
+      testbook: { data: testbookData },
+    },
+  } = useYTestbookContext();
 
   return (
     <header className={classes.header}>
@@ -11,8 +18,8 @@ const Header: React.FC = () => {
         <Logo />
       </div>
       <div className={classes.header_title}>
-        <h4>Testbook</h4>
-        <small>Cliente</small>
+        <h4>{testbookData?.name}</h4>
+        <small>{testbookData?.client}</small>
       </div>
     </header>
   );
