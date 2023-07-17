@@ -11,6 +11,10 @@
  * Do not edit the class manually.
  */
 
+import type {
+    TagResponse,
+} from './';
+
 /**
  * 
  * @export
@@ -31,5 +35,35 @@ export interface TestResponse {
      * @type {string}
      * @memberof TestResponse
      */
-    priority?: string;
+    status?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestResponse
+     */
+    description?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestResponse
+     */
+    requirements?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestResponse
+     */
+    input?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestResponse
+     */
+    output?: string;
+    /**
+     * 
+     * @type {Array<TagResponse>}
+     * @memberof TestResponse
+     */
+    tag?: Array<TagResponse>;
 }

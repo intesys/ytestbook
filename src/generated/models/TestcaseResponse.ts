@@ -11,6 +11,11 @@
  * Do not edit the class manually.
  */
 
+import type {
+    TagResponse,
+    TestResponse,
+} from './';
+
 /**
  * 
  * @export
@@ -32,4 +37,40 @@ export interface TestcaseResponse {
      * @memberof TestcaseResponse
      */
     status?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestcaseResponse
+     */
+    requirements?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestcaseResponse
+     */
+    description?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestcaseResponse
+     */
+    startDate?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestcaseResponse
+     */
+    endDate?: string;
+    /**
+     * 
+     * @type {Array<TestResponse>}
+     * @memberof TestcaseResponse
+     */
+    test?: Array<TestResponse>;
+    /**
+     * 
+     * @type {Array<TagResponse>}
+     * @memberof TestcaseResponse
+     */
+    tag?: Array<TagResponse>;
 }
