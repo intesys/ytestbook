@@ -52,6 +52,19 @@ interface GetTestcasesError {
   type: "GET_TESTCASES_ERROR";
 }
 
+interface PostTestcaseLoading {
+  type: "POST_TESTCASE_LOADING";
+}
+
+interface PostTestcaseSuccess {
+  type: "POST_TESTCASE_SUCCESS";
+  payload: TestbookResponse;
+}
+
+interface PostTestcaseError {
+  type: "POST_TESTCASE_ERROR";
+}
+
 type TYTestbookAction =
   | UserLoginLoading
   | UserLoginSuccess
@@ -64,6 +77,9 @@ type TYTestbookAction =
   | PostTestbookSuccess
   | GetTestcasesLoading
   | GetTestcasesSuccess
-  | GetTestcasesError;
+  | GetTestcasesError
+  | PostTestcaseLoading
+  | PostTestcaseSuccess
+  | PostTestcaseError;
 
 export default TYTestbookAction;

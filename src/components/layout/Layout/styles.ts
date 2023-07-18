@@ -8,7 +8,7 @@ const useStyles = createStyles((theme) => ({
     height: "calc(100vh - 70px)",
   },
   app_sidebar: {},
-  app_main: { padding: "35px" },
+  app_main: { padding: `calc(${theme.spacing.lg} * 2)` },
 }));
 
 export default useStyles;

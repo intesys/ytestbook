@@ -1,5 +1,5 @@
 import React from "react";
-import { Group, Box, ThemeIcon, UnstyledButton, Tooltip } from "@mantine/core";
+import { Group, Box, UnstyledButton, Tooltip } from "@mantine/core";
 import useStyles from "./styles";
 import { IOwnProps } from "./types";
 import { statusIcon } from "../../../lib/misc";
@@ -29,7 +29,7 @@ export const NavbarLink: React.FC<IOwnProps> = ({
       transitionProps={{ duration: 0 }}
     >
       <UnstyledButton
-        onClick={onClick}
+        onClick={() => onClick && id && onClick(id)}
         className={classnames(classes.link, { [classes.active]: active })}
       >
         <Group position="apart" spacing={0}>

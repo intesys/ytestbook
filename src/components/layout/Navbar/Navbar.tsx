@@ -17,6 +17,7 @@ import { MdCloseFullscreen, MdOpenInFull, MdSkipNext, MdSkipPrevious } from "rea
 import { navbarConfig, NAVBAR_STATUS_ENUM, toggleMachine } from "./const";
 import { useMachine } from "@xstate/react";
 import classnames from "classnames";
+import { useTestcase } from "../../../lib/hooks/useTestcase";
 
 const Navbar: React.FC = () => {
   const { classes } = useStyles();
@@ -27,6 +28,7 @@ const Navbar: React.FC = () => {
     state: {
       testcases: { data: testcasesData, status: testcasesStatus },
     },
+    setTestcase,
     getTestcases,
   } = useYTestbookContext();
 
@@ -44,7 +46,7 @@ const Navbar: React.FC = () => {
     }
   };
 
-  const handlerNavCollapsed = () => {
+  const handleNavCollapsed = () => {
     if (state.matches(NAVBAR_STATUS_ENUM.full)) {
       send("RESET");
     } else if (state.matches(NAVBAR_STATUS_ENUM.collapsed)) {
@@ -52,6 +54,12 @@ const Navbar: React.FC = () => {
     } else {
       send("PREV");
     }
+  };
+
+  const handleClickLink = (id: string, index: number) => {
+    const testcase = useTestcase(id, testcasesData);
+    testcase && setTestcase(testcase);
+    setActive(index);
   };
 
   const links =
@@ -63,7 +71,7 @@ const Navbar: React.FC = () => {
         key={item.title}
         navStatus={state.value as NAVBAR_STATUS_ENUM}
         active={index === active}
-        onClick={() => setActive(index)}
+        onClick={(id) => handleClickLink(id, index)}
       />
     ));
 
@@ -95,7 +103,7 @@ const Navbar: React.FC = () => {
               <></>
             )}
           </Button>
-          <UnstyledButton onClick={handlerNavCollapsed} className={classes.navbar_toogle}>
+          <UnstyledButton onClick={handleNavCollapsed} className={classes.navbar_toogle}>
             <ThemeIcon
               radius="xl"
               color="white"
