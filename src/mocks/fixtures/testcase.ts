@@ -1,52 +1,54 @@
+import { StatusEnum } from "../../generated";
+
 export const testcases = [
   {
     id: "1",
     title: "Login / User auth",
-    status: "done",
+    status: StatusEnum.Done,
   },
   {
     id: "2",
     title: "Create a new patient",
-    status: "done",
+    status: StatusEnum.Done,
   },
   {
     id: "3",
     title: "Search a patient",
-    status: "fail",
+    status: StatusEnum.Fail,
   },
   {
     id: "4",
     title: "Patient Dashboard",
-    status: "todo",
+    status: StatusEnum.Todo,
   },
   {
     id: "5",
     title: "Patient OPD",
-    status: "pending",
+    status: StatusEnum.Pending,
   },
   {
     id: "6",
     title: "Patient Therapy",
-    status: "blocked",
+    status: StatusEnum.Blocked,
   },
   {
     id: "7",
     title: "Patient Laboratory",
-    status: "cancelled",
+    status: StatusEnum.Cancelled,
   },
   {
     id: "8",
     title: "Patient Admission/dismission",
-    status: "paused",
+    status: StatusEnum.Paused,
   },
   {
     id: "9",
     title: "Patient Exams",
-    status: "pending",
+    status: StatusEnum.Pending,
   },
   {
     id: "9",
     title: "Patient Triage",
-    status: "todo",
+    status: StatusEnum.Todo,
   },
 ];

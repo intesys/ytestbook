@@ -10,22 +10,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              $ref: "#/components/schemas/LoginRequest"
         required: true
       tags:
-      - yTestbook
+        - yTestbook
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginResponse'
+                $ref: "#/components/schemas/LoginResponse"
           description: User logged successfully
       operationId: userLogin
   /testbook/all:
     get:
       tags:
-      - yTestbook
+        - yTestbook
       responses:
         "200":
           content:
@@ -33,7 +33,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TestbookResponse'
+                  $ref: "#/components/schemas/TestbookResponse"
           description: List of all testbook
   /testbook/:
     post:
@@ -41,21 +41,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TestbookRequest'
+              $ref: "#/components/schemas/TestbookRequest"
         required: true
       tags:
-      - yTestbook
+        - yTestbook
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TestbookResponse'
+                $ref: "#/components/schemas/TestbookResponse"
           description: Testbook created successfully
   /testcase/all:
     get:
       tags:
-      - yTestbook
+        - yTestbook
       responses:
         "200":
           content:
@@ -63,7 +63,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TestcaseResponse'
+                  $ref: "#/components/schemas/TestcaseResponse"
           description: Get all testcases
 components:
   schemas:
@@ -71,8 +71,8 @@ components:
       title: Root Type for LoginRequest
       description: ""
       required:
-      - password
-      - username
+        - password
+        - username
       type: object
       properties:
         username:
@@ -131,7 +131,7 @@ components:
         title:
           type: string
         status:
-          type: string
+          $ref: "#/components/schemas/StatusEnum"
         requirements:
           description: ""
           type: string
@@ -148,12 +148,12 @@ components:
           description: ""
           type: array
           items:
-            $ref: '#/components/schemas/TestResponse'
+            $ref: "#/components/schemas/TestResponse"
         tag:
           description: ""
           type: array
           items:
-            $ref: '#/components/schemas/TagResponse'
+            $ref: "#/components/schemas/TagResponse"
       example:
         id: some text
         title: some text
@@ -168,7 +168,7 @@ components:
         title:
           type: string
         status:
-          type: string
+          $ref: "#/components/schemas/StatusEnum"
         description:
           description: ""
           type: string
@@ -185,14 +185,14 @@ components:
           description: ""
           type: array
           items:
-            $ref: '#/components/schemas/TagResponse'
+            $ref: "#/components/schemas/TagResponse"
       example:
         id: "1"
         title: string
         priority: string
     TagResponse:
       title: Root Type for FaqResponse
-      description: '    '
+      description: "    "
       type: object
       properties:
         id:
@@ -202,3 +202,14 @@ components:
       example:
         id: "1"
         title: string
+    StatusEnum:
+      description: ""
+      enum:
+        - BLOCKED
+        - CANCELLED
+        - DONE
+        - FAIL
+        - PAUSED
+        - PENDING
+        - TODO
+      type: string
