@@ -1,62 +1,79 @@
-import { ThemeIcon } from "@mantine/core";
+import { ThemeIcon, ThemeIconVariant } from "@mantine/core";
 import {
-  MdDeleteForever,
   MdCheckCircle,
   MdDangerous,
+  MdDeleteForever,
   MdPauseCircle,
-  MdReportProblem,
   MdPending,
   MdPlayCircle,
+  MdReportProblem,
 } from "react-icons/md";
+import { StatusEnum } from "../generated";
 
-export const statusIcon = (status: string) => {
+interface IProps {
+  status?: StatusEnum | string;
+  size?: number;
+  variant?: ThemeIconVariant;
+}
+
+export const statusIcon = ({
+  status,
+  size = 30,
+  variant = "light",
+}: IProps) => {
   switch (status) {
-    case "blocked":
+    case StatusEnum.Blocked:
       return (
-        <ThemeIcon color="yellow" variant="light" size={30}>
+        <ThemeIcon color="yellow" variant={variant} size={size}>
           <MdDeleteForever size="1.5rem" />
         </ThemeIcon>
       );
 
-    case "cancelled":
+    case StatusEnum.Cancelled:
       return (
-        <ThemeIcon color="orange" variant="light" size={30}>
+        <ThemeIcon color="orange" variant={variant} size={size}>
           <MdDangerous size="1.5rem" />
         </ThemeIcon>
       );
 
-    case "done":
+    case StatusEnum.Done:
       return (
-        <ThemeIcon color="green" variant="light" size={30}>
+        <ThemeIcon color="green" variant={variant} size={size}>
           <MdCheckCircle size="1.5rem" />
         </ThemeIcon>
       );
 
-    case "fail":
+    case StatusEnum.Fail:
       return (
-        <ThemeIcon color="red" variant="light" size={30}>
+        <ThemeIcon color="red" variant={variant} size={size}>
           <MdReportProblem size="1.5rem" />
         </ThemeIcon>
       );
 
-    case "paused":
+    case StatusEnum.Paused:
       return (
-        <ThemeIcon color="gray" variant="light" size={30}>
+        <ThemeIcon color="gray" variant={variant} size={size}>
           <MdPauseCircle size="1.5rem" />
         </ThemeIcon>
       );
 
-    case "pending":
+    case StatusEnum.Pending:
       return (
-        <ThemeIcon color="blue" variant="light" size={30}>
+        <ThemeIcon color="blue" variant={variant} size={size}>
           <MdPending size="1.5rem" />
         </ThemeIcon>
       );
 
-    case "todo":
+    case StatusEnum.Todo:
       return (
-        <ThemeIcon color="violet" variant="light" size={30}>
+        <ThemeIcon color="violet" variant={variant} size={size}>
           <MdPlayCircle size="1.5rem" />
+        </ThemeIcon>
+      );
+    default:
+      return (
+        <ThemeIcon variant={variant} size={size}>
+          {status}
         </ThemeIcon>
       );
   }

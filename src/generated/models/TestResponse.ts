@@ -12,6 +12,7 @@
  */
 
 import type {
+    StatusEnum,
     TagResponse,
 } from './';
 
@@ -32,10 +33,10 @@ export interface TestResponse {
      */
     title?: string;
     /**
-     * @type {string}
+     * @type {StatusEnum}
      * @memberof TestResponse
      */
-    status?: string;
+    status?: StatusEnum;
     /**
      * 
      * @type {string}
@@ -67,3 +68,5 @@ export interface TestResponse {
      */
     tag?: Array<TagResponse>;
 }
+
+

@@ -1,23 +1,35 @@
-import React, { useState, useEffect } from "react";
-import useStyles from "./styles";
-import EyeIcon from "../../../assets/icons/eye.svg";
 import {
   Center,
+  Group,
   Loader,
   Navbar as MuiNavbar,
   Stack,
   ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
-import { NavbarLink } from "../NavbarLink/NavbarLink";
-import Button from "../../ui/Button/Button";
-import { useYTestbookContext } from "../../../context/useYTestbookContext";
-import { LOADING_STATUS } from "../../../reducer/types";
-import { MdCloseFullscreen, MdOpenInFull, MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import { navbarConfig, NAVBAR_STATUS_ENUM, toggleMachine } from "./const";
+import { IconSearch } from "@tabler/icons-react";
 import { useMachine } from "@xstate/react";
 import classnames from "classnames";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  MdCloseFullscreen,
+  MdOpenInFull,
+  MdSkipNext,
+  MdSkipPrevious,
+} from "react-icons/md";
+import EyeIcon from "../../../assets/icons/eye.svg";
+import { useYTestbookContext } from "../../../context/useYTestbookContext";
+import { StatusEnum, TestcaseResponse } from "../../../generated";
 import { useTestcase } from "../../../lib/hooks/useTestcase";
+import { statusIcon } from "../../../lib/misc";
+import { LOADING_STATUS } from "../../../reducer/types";
+import Button from "../../ui/Button/Button";
+import SegmentedField from "../../ui/SegmentedField/SegmentedField";
+import TableAdvance from "../../ui/TableAdvance/TableAdvance";
+import TextField from "../../ui/TextField/TextField";
+import { NavbarLink } from "../NavbarLink/NavbarLink";
+import { NAVBAR_STATUS_ENUM, navbarConfig, toggleMachine } from "./const";
+import useStyles from "./styles";
 
 const Navbar: React.FC = () => {
   const { classes } = useStyles();
@@ -61,6 +73,15 @@ const Navbar: React.FC = () => {
     testcase && setTestcase(testcase);
     setActive(index);
   };
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "title", //simple recommended way to define a column
+        header: "Title",
+      },
+    ],
+    []
+  );
 
   const links =
     testcasesData &&
@@ -75,10 +96,65 @@ const Navbar: React.FC = () => {
       />
     ));
 
+  const filters = (
+    <>
+      <Group>
+        <TextField placeholder="Search" rightSection={<IconSearch />} />
+        <SegmentedField
+          data={[
+            {
+              label: statusIcon({
+                status: "All",
+                size: 20,
+              }),
+              value: "",
+            },
+            {
+              label: statusIcon({
+                status: StatusEnum.Blocked,
+                size: 20,
+              }),
+              value: StatusEnum.Blocked,
+            },
+            {
+              label: statusIcon({
+                status: StatusEnum.Cancelled,
+                size: 20,
+              }),
+              value: StatusEnum.Cancelled,
+            },
+            {
+              label: statusIcon({ status: StatusEnum.Done, size: 20 }),
+              value: StatusEnum.Done,
+            },
+            {
+              label: statusIcon({ status: StatusEnum.Fail, size: 20 }),
+              value: StatusEnum.Fail,
+            },
+            {
+              label: statusIcon({ status: StatusEnum.Paused, size: 20 }),
+              value: StatusEnum.Paused,
+            },
+            {
+              label: statusIcon({ status: StatusEnum.Pending, size: 20 }),
+              value: StatusEnum.Pending,
+            },
+            {
+              label: statusIcon({ status: StatusEnum.Todo, size: 20 }),
+              value: StatusEnum.Todo,
+            },
+          ]}
+        />
+      </Group>
+    </>
+  );
+
   return (
     <MuiNavbar
       width={{
-        base: state.value ? navbarConfig[state.value as NAVBAR_STATUS_ENUM] : navbarConfig.open,
+        base: state.value
+          ? navbarConfig[state.value as NAVBAR_STATUS_ENUM]
+          : navbarConfig.open,
       }}
       className={classes.navbar}
     >
@@ -103,7 +179,10 @@ const Navbar: React.FC = () => {
               <></>
             )}
           </Button>
-          <UnstyledButton onClick={handleNavCollapsed} className={classes.navbar_toogle}>
+          <UnstyledButton
+            onClick={handleNavCollapsed}
+            className={classes.navbar_toogle}
+          >
             <ThemeIcon
               radius="xl"
               color="white"
@@ -121,7 +200,16 @@ const Navbar: React.FC = () => {
       </MuiNavbar.Section>
       <MuiNavbar.Section grow mt={40}>
         <Stack justify="center" spacing={0}>
-          {testcasesStatus === LOADING_STATUS.SUCCESS && links}
+          {testcasesStatus === LOADING_STATUS.SUCCESS &&
+            (state.value !== NAVBAR_STATUS_ENUM.full ? (
+              links
+            ) : (
+              <TableAdvance<TestcaseResponse>
+                data={testcasesData ?? []}
+                columns={columns}
+                tableFilters={filters}
+              />
+            ))}
           {testcasesStatus === LOADING_STATUS.LOADING && (
             <Center>
               <Loader />

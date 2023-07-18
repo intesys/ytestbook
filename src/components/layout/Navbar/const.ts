@@ -9,12 +9,12 @@ export enum NAVBAR_STATUS_ENUM {
 export const navbarConfig = {
   [NAVBAR_STATUS_ENUM.collapsed]: 90,
   [NAVBAR_STATUS_ENUM.open]: 360,
-  [NAVBAR_STATUS_ENUM.full]: "90vw",
+  [NAVBAR_STATUS_ENUM.full]: "95vw",
 };
 
 export const toggleMachine = createMachine({
   id: "navbar_toggle",
-  initial: NAVBAR_STATUS_ENUM.open,
+  initial: NAVBAR_STATUS_ENUM.full,
   states: {
     [NAVBAR_STATUS_ENUM.collapsed]: {
       on: { NEXT: NAVBAR_STATUS_ENUM.open, FULL: NAVBAR_STATUS_ENUM.full },
@@ -23,7 +23,10 @@ export const toggleMachine = createMachine({
       on: { PREV: NAVBAR_STATUS_ENUM.collapsed, NEXT: NAVBAR_STATUS_ENUM.full },
     },
     [NAVBAR_STATUS_ENUM.full]: {
-      on: { PREV: NAVBAR_STATUS_ENUM.open, RESET: NAVBAR_STATUS_ENUM.collapsed },
+      on: {
+        PREV: NAVBAR_STATUS_ENUM.open,
+        RESET: NAVBAR_STATUS_ENUM.collapsed,
+      },
     },
   },
 });
