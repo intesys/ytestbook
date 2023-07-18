@@ -6,4 +6,5 @@ export interface IYTestbookState {
   testbooks: IApiResponse<Array<TestbookResponse>>;
   testbook: IApiResponse<TestbookResponse>;
   testcases: IApiResponse<Array<TestcaseResponse>>;
+  testcase: IApiResponse<TestcaseResponse>;
 }

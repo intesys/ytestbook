@@ -6,5 +6,5 @@ export interface IOwnProps {
   status?: string;
   active?: boolean;
   navStatus?: NAVBAR_STATUS_ENUM;
-  onClick?: () => void;
+  onClick?: (id: string) => void;
 }

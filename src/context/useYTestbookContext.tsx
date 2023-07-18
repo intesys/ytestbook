@@ -3,7 +3,13 @@ import { IYTestbookState } from "../reducer/testbook/types";
 import TYTestbookAction from "../reducer/testbook/actions";
 import yTestbookReducer from "../reducer/testbook/reducer";
 import { yTestbookApiConfig } from "../config/yTestbookApiConfig";
-import { LoginRequest, YTestbookApi, TestbookRequest } from "../generated";
+import {
+  LoginRequest,
+  YTestbookApi,
+  TestbookRequest,
+  TestbookResponse,
+  TestcaseResponse,
+} from "../generated";
 import type { AjaxError } from "rxjs/ajax";
 import { LOADING_STATUS } from "../reducer/types";
 import { readToken, saveToken } from "../lib/auth";
@@ -15,8 +21,9 @@ export interface IYTestbookContext {
   refreshAuth: (accessToken: string) => void;
   getTestbooks: () => void;
   postTestbook: (testbookRequest: TestbookRequest) => void;
-  setTestbook: (testbookRequest: TestbookRequest) => void;
+  setTestbook: (testbook: TestbookResponse) => void;
   getTestcases: () => void;
+  setTestcase: (testcaseRequest: TestcaseResponse) => void;
 }
 
 export interface IYTestbookContextProvider {
@@ -31,6 +38,7 @@ const initialState: IYTestbookState = {
   testbooks: { status: LOADING_STATUS.IDLE, data: [] },
   testbook: { status: LOADING_STATUS.IDLE },
   testcases: { status: LOADING_STATUS.IDLE, data: [] },
+  testcase: { status: LOADING_STATUS.IDLE },
 };
 
 const contextInitialState: IYTestbookContext = {
@@ -42,6 +50,7 @@ const contextInitialState: IYTestbookContext = {
   postTestbook: noop,
   setTestbook: noop,
   getTestcases: noop,
+  setTestcase: noop,
 };
 
 export const YTestbookContext = React.createContext<IYTestbookContext>(contextInitialState);
@@ -155,6 +164,13 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (pr
     });
   }, []);
 
+  const setTestcase = useCallback((testcase: TestcaseResponse) => {
+    dispatch({
+      type: "POST_TESTCASE_SUCCESS",
+      payload: testcase,
+    });
+  }, []);
+
   return (
     <YTestbookContext.Provider
       value={{
@@ -166,6 +182,7 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (pr
         postTestbook,
         setTestbook,
         getTestcases,
+        setTestcase,
       }}
     >
       {props.children}
