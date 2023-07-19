@@ -33,8 +33,6 @@ const App: React.FC = () => {
       .catch((error) => console.log(error));
   };
 
-  console.log(testbooks);
-
   return (
     <div className="App">
       <button onClick={handleOnClick_testbook}>ADD TESTBOOK</button>

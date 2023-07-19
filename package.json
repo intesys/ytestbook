@@ -2,6 +2,7 @@
   "name": "ytestbook",
   "version": "0.2.1",
   "private": true,
+  "source": "public/index.html",
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
