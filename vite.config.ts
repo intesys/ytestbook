@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
 import react from "@vitejs/plugin-react";
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   build: {
@@ -28,5 +29,6 @@ export default defineConfig({
       },
     ]),
     renderer(),
+    svgr(),
   ],
 });
