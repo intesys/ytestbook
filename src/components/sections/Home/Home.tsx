@@ -47,18 +47,18 @@ const Home: React.FC = () => {
   };
 
   const onClickTable = (elem: ITestbookModel) => {
-    elem && elem.id && setTestbook(elem);
+    elem && elem._id && setTestbook(elem);
   };
 
   const rows = testbooksData?.map((element) => (
-    <tr key={element.id} onClick={() => onClickTable(element)}>
+    <tr key={element._id} onClick={() => onClickTable(element)}>
       <td>{element.name}</td>
       <td>{element.client}</td>
       <td>{element.lastEdit}</td>
     </tr>
   ));
 
-  if (testbookStatus === LOADING_STATUS.SUCCESS && testbookData?.id) {
+  if (testbookStatus === LOADING_STATUS.SUCCESS && testbookData?._id) {
     return <Navigate to={ROUTES_NAME.APP} state={{ from: location }} replace />;
   }
 

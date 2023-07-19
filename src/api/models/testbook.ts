@@ -4,7 +4,7 @@ export interface ITestbookRequest {
 }
 
 export interface ITestbookModel {
-  id: string;
+  _id: string;
   name: string;
   client: string;
   lastEdit: string;

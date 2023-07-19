@@ -1,4 +1,4 @@
 export interface ITagModel {
-  id?: string;
+  _id?: string;
   title?: string;
 }

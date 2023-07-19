@@ -1,7 +1,7 @@
 import { StatusEnum, ITagModel } from ".";
 
 export interface ITestModel {
-  id: string;
+  _id: string;
   title: string;
   status: StatusEnum;
   description?: string;

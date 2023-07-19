@@ -21,6 +21,7 @@ export class YTestbookApi {
   }
 
   getTestbook = (): Promise<AxiosResponse<ITestbookModel[]>> => {
+    console.log(this.basePath + "/testbook");
     return axios.get(this.basePath + "/testbook");
   };
 

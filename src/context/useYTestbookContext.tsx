@@ -3,7 +3,6 @@ import { IYTestbookState } from "../reducer/testbook/types";
 import TYTestbookAction from "../reducer/testbook/actions";
 import yTestbookReducer from "../reducer/testbook/reducer";
 import { LOADING_STATUS } from "../reducer/types";
-import { readToken, saveToken } from "../lib/auth";
 import { ITestbookModel, ITestbookRequest, ITestcaseModel } from "../api/models";
 import { YTestbookApi } from "../api";
 import { yTestbookApiConfig } from "../api/config";
