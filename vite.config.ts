@@ -5,15 +5,8 @@ import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
-  build: {
-    rollupOptions: {
-      input: {
-        app: "./public/index.html",
-      },
-    },
-  },
   server: {
-    open: "/public/index.html",
+    open: "/",
   },
   plugins: [
     react(),

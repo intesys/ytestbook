@@ -11,6 +11,7 @@ import { testbook_initialValues, testbook_validate } from "./const";
 import { ROUTES_NAME } from "../../../routes/routes";
 import { Navigate, useLocation } from "react-router";
 import { ITestbookModel } from "../../../api/models";
+import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 
 const Home: React.FC = () => {
   const { classes } = useStyles();
@@ -67,7 +68,7 @@ const Home: React.FC = () => {
       <div className={classes.home_first}>
         <Container size="xs" className={classes.home_container}>
           <Center className={classes.home_logo}>
-            <></>
+            <SvgIcon iconName="logo" />
           </Center>
           <Card title="Create a new Testbook">
             <>

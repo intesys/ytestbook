@@ -12,7 +12,6 @@ import { useMachine } from "@xstate/react";
 import classnames from "classnames";
 import React, { useEffect, useMemo, useState } from "react";
 import { MdCloseFullscreen, MdOpenInFull, MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import EyeIcon from "../../../assets/icons/eye.svg";
 import { useYTestbookContext } from "../../../context/useYTestbookContext";
 import { statusIcon } from "../../../lib/misc";
 import { LOADING_STATUS } from "../../../reducer/types";
@@ -25,6 +24,7 @@ import { NAVBAR_STATUS_ENUM, navbarConfig, toggleMachine } from "./const";
 import useStyles from "./styles";
 import { ITestcaseModel, StatusEnum } from "../../../api/models";
 import _ from "lodash";
+import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 
 const Navbar: React.FC = () => {
   const { classes } = useStyles();
@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
   };
 
   const handleClickLink = (id: string, index: number) => {
-    const testcase = _.find(testcasesData, { id });
+    const testcase = _.find(testcasesData, { _id: id });
     testcase && setTestcase(testcase);
     setActive(index);
   };
@@ -156,6 +156,7 @@ const Navbar: React.FC = () => {
           <Button
             fullWidth
             className={classnames(classes.navbar_overview_toogle, state.value)}
+            leftIcon={<SvgIcon iconName="eye" />}
             onClick={handleNavbarStatus}
           >
             {state.value !== NAVBAR_STATUS_ENUM.collapsed ? (
@@ -188,23 +189,25 @@ const Navbar: React.FC = () => {
         </>
       </MuiNavbar.Section>
       <MuiNavbar.Section grow mt={40}>
-        {/*<Stack justify="center" spacing={0}>
-          {testcasesStatus === LOADING_STATUS.SUCCESS &&
-            (state.value !== NAVBAR_STATUS_ENUM.full ? (
-              links
-            ) : (
-              <TableAdvance<ITestcaseModel>
-                data={testcasesData ?? []}
-                columns={columns}
-                tableFilters={filters}
-              />
-            ))}
-          {testcasesStatus === LOADING_STATUS.LOADING && (
-            <Center>
-              <Loader />
-            </Center>
-          )}
-          </Stack>*/}
+        {
+          <Stack justify="center" spacing={0}>
+            {testcasesStatus === LOADING_STATUS.SUCCESS &&
+              (state.value !== NAVBAR_STATUS_ENUM.full ? (
+                links
+              ) : (
+                <TableAdvance<ITestcaseModel>
+                  data={testcasesData ?? []}
+                  columns={[]}
+                  tableFilters={filters}
+                />
+              ))}
+            {testcasesStatus === LOADING_STATUS.LOADING && (
+              <Center>
+                <Loader />
+              </Center>
+            )}
+          </Stack>
+        }
       </MuiNavbar.Section>
     </MuiNavbar>
   );
