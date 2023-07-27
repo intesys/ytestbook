@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import useStyles from "./styles";
-import Layout from "../../layout/Layout/Layout";
-import { useYTestbookContext } from "../../../context/useYTestbookContext";
-import Testcase from "../Testcase/Testcase";
-import { LOADING_STATUS } from "../../../reducer/types";
 import { Center, Loader } from "@mantine/core";
+import React from "react";
+import { useYTestbookContext } from "../../../context/useYTestbookContext";
+import { LOADING_STATUS } from "../../../reducer/types";
+import Layout from "../../layout/Layout/Layout";
+import Testcase from "../Testcase/Testcase";
+import useStyles from "./styles";
 
 const App: React.FC = () => {
   const { classes } = useStyles();

@@ -12,7 +12,11 @@ export const getHost = (protocol?: string, hostname?: string, port?: string): st
 export const environmentApiBasePath = (): string => {
   try {
     const host = trim(
-      getHost(process.env.API_PROTOCOL, process.env.API_HOSTNAME, process.env.API_PORT)
+      getHost(
+        import.meta.env.VITE_API_PROTOCOL,
+        import.meta.env.VITE_API_HOSTNAME,
+        import.meta.env.VITE_API_PORT
+      )
     );
 
     const apiPrefix = trim(API_PREFIX);

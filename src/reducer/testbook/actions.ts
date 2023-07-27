@@ -1,17 +1,4 @@
-import { LoginResponse, TestbookResponse, TestcaseResponse } from "../../generated";
-
-interface UserLoginLoading {
-  type: "USER_LOGIN_LOADING";
-}
-
-interface UserLoginSuccess {
-  type: "USER_LOGIN_SUCCESS";
-  payload: LoginResponse;
-}
-
-interface UserLoginError {
-  type: "USER_LOGIN_ERROR";
-}
+import { ITestbookModel, ITestcaseModel } from "../../api/models";
 
 interface GetTestbooksLoading {
   type: "GET_TESTBOOKS_LOADING";
@@ -19,7 +6,7 @@ interface GetTestbooksLoading {
 
 interface GetTestbooksSuccess {
   type: "GET_TESTBOOKS_SUCCESS";
-  payload: Array<TestbookResponse>;
+  payload: Array<ITestbookModel>;
 }
 
 interface GetTestbooksError {
@@ -32,7 +19,7 @@ interface PostTestbookLoading {
 
 interface PostTestbookSuccess {
   type: "POST_TESTBOOK_SUCCESS";
-  payload: TestbookResponse;
+  payload: ITestbookModel;
 }
 
 interface PostTestbookError {
@@ -45,7 +32,7 @@ interface GetTestcasesLoading {
 
 interface GetTestcasesSuccess {
   type: "GET_TESTCASES_SUCCESS";
-  payload: Array<TestcaseResponse>;
+  payload: Array<ITestcaseModel>;
 }
 
 interface GetTestcasesError {
@@ -66,9 +53,6 @@ interface PostTestcaseError {
 }
 
 type TYTestbookAction =
-  | UserLoginLoading
-  | UserLoginSuccess
-  | UserLoginError
   | GetTestbooksLoading
   | GetTestbooksSuccess
   | GetTestbooksError

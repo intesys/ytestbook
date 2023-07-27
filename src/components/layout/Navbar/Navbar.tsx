@@ -7,26 +7,20 @@ import {
   ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
 import { useMachine } from "@xstate/react";
 import classnames from "classnames";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MdCloseFullscreen,
   MdOpenInFull,
   MdSkipNext,
   MdSkipPrevious,
 } from "react-icons/md";
-import EyeIcon from "../../../assets/icons/eye.svg";
 import { useYTestbookContext } from "../../../context/useYTestbookContext";
-import { StatusEnum, TestcaseResponse } from "../../../generated";
 import { useTestcase } from "../../../lib/hooks/useTestcase";
-import { statusIcon } from "../../../lib/misc";
 import { LOADING_STATUS } from "../../../reducer/types";
+import Overview from "../../sections/Overview/Overview";
 import Button from "../../ui/Button/Button";
-import SegmentedField from "../../ui/SegmentedField/SegmentedField";
-import TableAdvance from "../../ui/TableAdvance/TableAdvance";
-import TextField from "../../ui/TextField/TextField";
 import { NavbarLink } from "../NavbarLink/NavbarLink";
 import { NAVBAR_STATUS_ENUM, navbarConfig, toggleMachine } from "./const";
 import useStyles from "./styles";
@@ -73,15 +67,6 @@ const Navbar: React.FC = () => {
     testcase && setTestcase(testcase);
     setActive(index);
   };
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "title", //simple recommended way to define a column
-        header: "Title",
-      },
-    ],
-    []
-  );
 
   const links =
     testcasesData &&
@@ -163,7 +148,7 @@ const Navbar: React.FC = () => {
           <Button
             fullWidth
             className={classnames(classes.navbar_overview_toogle, state.value)}
-            leftIcon={<EyeIcon />}
+            leftIcon={<SvgIcon iconName="eye" />}
             onClick={handleNavbarStatus}
           >
             {state.value !== NAVBAR_STATUS_ENUM.collapsed ? (
@@ -179,10 +164,14 @@ const Navbar: React.FC = () => {
               <></>
             )}
           </Button>
+<<<<<<< HEAD
+          <UnstyledButton onClick={handleNavCollapsed} className={classes.navbar_toogle}>
+=======
           <UnstyledButton
             onClick={handleNavCollapsed}
             className={classes.navbar_toogle}
           >
+>>>>>>> develop
             <ThemeIcon
               radius="xl"
               color="white"
@@ -204,11 +193,7 @@ const Navbar: React.FC = () => {
             (state.value !== NAVBAR_STATUS_ENUM.full ? (
               links
             ) : (
-              <TableAdvance<TestcaseResponse>
-                data={testcasesData ?? []}
-                columns={columns}
-                tableFilters={filters}
-              />
+              <Overview data={testcasesData} />
             ))}
           {testcasesStatus === LOADING_STATUS.LOADING && (
             <Center>

@@ -1,6 +1,10 @@
-export const API_PREFIX = process.env.API_PREFIX || "";
-const API_PORT = process.env.API_PORT ? ":" + process.env.API_PORT : process.env.API_PORT;
+export const API_PREFIX = import.meta.env.VITE_API_PREFIX || "";
+const API_PORT = import.meta.env.VITE_API_PORT
+  ? ":" + import.meta.env.VITE_API_PORT
+  : import.meta.env.VITE_API_PORT;
 
-export const APP_URL = `${process.env.API_PROTOCOL}://${process.env.API_HOSTNAME}${API_PORT}${API_PREFIX}`;
+export const APP_URL = `${import.meta.env.VITE_API_PROTOCOL}://${
+  import.meta.env.VITE_API_HOSTNAME
+}${API_PORT}${API_PREFIX}`;
 
 export const AUTH_KEY = "authToken";

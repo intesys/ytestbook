@@ -10,11 +10,14 @@ import { useForm } from "@mantine/form";
 import { testbook_initialValues, testbook_validate } from "./const";
 import { ROUTES_NAME } from "../../../routes/routes";
 import { Navigate, useLocation } from "react-router";
-import { TestbookResponse } from "../../../generated";
+import { ITestbookModel } from "../../../api/models";
+import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 
 const Home: React.FC = () => {
   const { classes } = useStyles();
   let location = useLocation();
+
+  console.log("asd");
 
   const {
     state: {
@@ -44,19 +47,19 @@ const Home: React.FC = () => {
     }
   };
 
-  const onClickTable = (elem: TestbookResponse) => {
-    elem && elem.id && setTestbook(elem);
+  const onClickTable = (elem: ITestbookModel) => {
+    elem && elem._id && setTestbook(elem);
   };
 
   const rows = testbooksData?.map((element) => (
-    <tr key={element.id} onClick={() => onClickTable(element)}>
+    <tr key={element._id} onClick={() => onClickTable(element)}>
       <td>{element.name}</td>
       <td>{element.client}</td>
       <td>{element.lastEdit}</td>
     </tr>
   ));
 
-  if (testbookStatus === LOADING_STATUS.SUCCESS && testbookData?.id) {
+  if (testbookStatus === LOADING_STATUS.SUCCESS && testbookData?._id) {
     return <Navigate to={ROUTES_NAME.APP} state={{ from: location }} replace />;
   }
 
@@ -65,7 +68,7 @@ const Home: React.FC = () => {
       <div className={classes.home_first}>
         <Container size="xs" className={classes.home_container}>
           <Center className={classes.home_logo}>
-            <Logo />
+            <SvgIcon iconName="logo" />
           </Center>
           <Card title="Create a new Testbook">
             <>

@@ -1,4 +1,3 @@
-import { LoginResponse, TestbookResponse, TestcaseResponse } from "../../generated";
 import { IApiResponse } from "../types";
 
 export interface IYTestbookState {

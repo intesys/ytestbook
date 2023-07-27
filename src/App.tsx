@@ -6,6 +6,7 @@ import { theme } from "./theme";
 import Styles from "./Styles";
 
 const App: React.FC = () => {
+  console.log("route");
   return (
     <div className="App">
       <MantineProvider theme={{ ...theme }} withGlobalStyles withNormalizeCSS>
