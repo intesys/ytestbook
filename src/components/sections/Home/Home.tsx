@@ -1,23 +1,20 @@
-import React, { useEffect } from "react";
-import { Container, Center, Button, Stack, Table, Loader } from "@mantine/core";
-import useStyles from "./styles";
-import Logo from "../../../assets/logo.svg";
-import TextField from "../../ui/TextField/TextField";
-import Card from "../../ui/Card/Card";
-import { useYTestbookContext } from "../../../context/useYTestbookContext";
-import { LOADING_STATUS } from "../../../reducer/types";
+import { Button, Center, Container, Loader, Stack, Table } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { testbook_initialValues, testbook_validate } from "./const";
-import { ROUTES_NAME } from "../../../routes/routes";
+import React, { useEffect } from "react";
 import { Navigate, useLocation } from "react-router";
 import { ITestbookModel } from "../../../api/models";
+import { useYTestbookContext } from "../../../context/useYTestbookContext";
+import { LOADING_STATUS } from "../../../reducer/types";
+import { ROUTES_NAME } from "../../../routes/routes";
 import SvgIcon from "../../misc/SvgIcon/SvgIcon";
+import Card from "../../ui/Card/Card";
+import TextField from "../../ui/TextField/TextField";
+import { testbook_initialValues, testbook_validate } from "./const";
+import useStyles from "./styles";
 
 const Home: React.FC = () => {
   const { classes } = useStyles();
   let location = useLocation();
-
-  console.log("asd");
 
   const {
     state: {

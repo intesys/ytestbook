@@ -1,7 +1,7 @@
 import { Group } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import React from "react";
-import { StatusEnum } from "../../../generated";
+import { StatusEnum } from "../../../api/models/enum";
 import { statusIcon } from "../../../lib/misc";
 import MultipleSelectField from "../../ui/MultipleSelectField/MultipleSelectField";
 import SegmentedField from "../../ui/SegmentedField/SegmentedField";

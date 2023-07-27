@@ -8,7 +8,7 @@ import {
   MdPlayCircle,
   MdReportProblem,
 } from "react-icons/md";
-import { StatusEnum } from "../generated";
+import { StatusEnum } from "../api/models/enum";
 
 interface IProps {
   status?: StatusEnum | string;

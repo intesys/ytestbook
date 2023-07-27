@@ -1,6 +1,4 @@
-import { TInputVariant } from "../../../types";
 
-export interface IProps {
+export interface IProps extends React.PropsWithChildren {
   onClick?: () => void;
-  children: JSX.Element;
 }

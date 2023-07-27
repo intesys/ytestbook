@@ -1,12 +1,11 @@
-import React from "react";
-import { AppRoutes } from "./routes/AppRoutes";
-import { YTestbookContextProvider } from "./context/useYTestbookContext";
 import { MantineProvider } from "@mantine/core";
-import { theme } from "./theme";
+import React from "react";
 import Styles from "./Styles";
+import { YTestbookContextProvider } from "./context/useYTestbookContext";
+import { AppRoutes } from "./routes/AppRoutes";
+import { theme } from "./theme";
 
 const App: React.FC = () => {
-  console.log("route");
   return (
     <div className="App">
       <MantineProvider theme={{ ...theme }} withGlobalStyles withNormalizeCSS>

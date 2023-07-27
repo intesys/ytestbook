@@ -1,6 +1,5 @@
 import {
   Center,
-  Group,
   Loader,
   Navbar as MuiNavbar,
   Stack,
@@ -19,6 +18,7 @@ import {
 import { useYTestbookContext } from "../../../context/useYTestbookContext";
 import { useTestcase } from "../../../lib/hooks/useTestcase";
 import { LOADING_STATUS } from "../../../reducer/types";
+import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 import Overview from "../../sections/Overview/Overview";
 import Button from "../../ui/Button/Button";
 import { NavbarLink } from "../NavbarLink/NavbarLink";
@@ -81,59 +81,6 @@ const Navbar: React.FC = () => {
       />
     ));
 
-  const filters = (
-    <>
-      <Group>
-        <TextField placeholder="Search" rightSection={<IconSearch />} />
-        <SegmentedField
-          data={[
-            {
-              label: statusIcon({
-                status: "All",
-                size: 20,
-              }),
-              value: "",
-            },
-            {
-              label: statusIcon({
-                status: StatusEnum.Blocked,
-                size: 20,
-              }),
-              value: StatusEnum.Blocked,
-            },
-            {
-              label: statusIcon({
-                status: StatusEnum.Cancelled,
-                size: 20,
-              }),
-              value: StatusEnum.Cancelled,
-            },
-            {
-              label: statusIcon({ status: StatusEnum.Done, size: 20 }),
-              value: StatusEnum.Done,
-            },
-            {
-              label: statusIcon({ status: StatusEnum.Fail, size: 20 }),
-              value: StatusEnum.Fail,
-            },
-            {
-              label: statusIcon({ status: StatusEnum.Paused, size: 20 }),
-              value: StatusEnum.Paused,
-            },
-            {
-              label: statusIcon({ status: StatusEnum.Pending, size: 20 }),
-              value: StatusEnum.Pending,
-            },
-            {
-              label: statusIcon({ status: StatusEnum.Todo, size: 20 }),
-              value: StatusEnum.Todo,
-            },
-          ]}
-        />
-      </Group>
-    </>
-  );
-
   return (
     <MuiNavbar
       width={{
@@ -164,14 +111,10 @@ const Navbar: React.FC = () => {
               <></>
             )}
           </Button>
-<<<<<<< HEAD
-          <UnstyledButton onClick={handleNavCollapsed} className={classes.navbar_toogle}>
-=======
           <UnstyledButton
             onClick={handleNavCollapsed}
             className={classes.navbar_toogle}
           >
->>>>>>> develop
             <ThemeIcon
               radius="xl"
               color="white"
@@ -207,3 +150,6 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+function useCallback(arg0: () => void, arg1: never[]) {
+  throw new Error("Function not implemented.");
+}

@@ -1,16 +1,11 @@
 import React, { useCallback, useReducer } from "react";
+import { YTestbookApi } from "../api";
+import { yTestbookApiConfig } from "../api/config";
 import {
   ITestbookModel,
   ITestbookRequest,
   ITestcaseModel,
 } from "../api/models";
-import { yTestbookApiConfig } from "../config/yTestbookApiConfig";
-import {
-  TestbookRequest,
-  TestbookResponse,
-  TestcaseResponse,
-  YTestbookApi,
-} from "../generated";
 import TYTestbookAction from "../reducer/testbook/actions";
 import yTestbookReducer from "../reducer/testbook/reducer";
 import { IYTestbookState } from "../reducer/testbook/types";
@@ -20,10 +15,11 @@ export interface IYTestbookContext {
   state: IYTestbookState;
   dispatch: React.Dispatch<TYTestbookAction>;
   getTestbooks: () => void;
-  postTestbook: (testbookRequest: TestbookRequest) => void;
-  setTestbook: (testbook: TestbookResponse) => void;
+  postTestbook: (testbookRequest: ITestbookRequest) => void;
+  setTestbook: (testbook: ITestbookModel) => void;
   getTestcases: () => void;
-  setTestcase: (testcaseRequest: TestcaseResponse) => void;
+  postTestcase: (testcaseRequest: ITestcaseModel) => void;
+  setTestcase: (testcaseRequest: ITestcaseModel) => void;
 }
 
 export interface IYTestbookContextProvider {
@@ -47,6 +43,7 @@ const contextInitialState: IYTestbookContext = {
   postTestbook: noop,
   setTestbook: noop,
   getTestcases: noop,
+  postTestcase: noop,
   setTestcase: noop,
 };
 
@@ -133,11 +130,24 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (
     });
   }, []);
 
-  const setTestcase = useCallback((testcase: TestcaseResponse) => {
+  const postTestcase = useCallback((testcase: ITestcaseModel) => {
     dispatch({
-      type: "POST_TESTCASE_SUCCESS",
-      payload: testcase,
+      type: "POST_TESTCASE_LOADING",
     });
+
+    yTestbookApi
+      .postTestcase(testcase)
+      .then(function (response) {
+        dispatch({
+          type: "POST_TESTCASE_SUCCESS",
+          payload: response.data,
+        });
+      })
+      .catch(function (error) {
+        dispatch({
+          type: "POST_TESTCASE_ERROR",
+        });
+      });
   }, []);
 
   return (
@@ -149,6 +159,7 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (
         postTestbook,
         setTestbook,
         getTestcases,
+        postTestcase,
         setTestcase,
       }}
     >

@@ -32,4 +32,9 @@ export class YTestbookApi {
   getTestcase = (): Promise<AxiosResponse<ITestcaseModel[]>> => {
     return axios.get(this.basePath + "/testcase");
   };
+
+  postTestcase = (testcase: ITestcaseModel): Promise<AxiosResponse<ITestcaseModel>> => {
+    return axios.post(this.basePath + "/testcase", { ...testcase });
+  };
+
 }
