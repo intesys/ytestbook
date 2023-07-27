@@ -8,7 +8,7 @@ import {
   MdPlayCircle,
   MdReportProblem,
 } from "react-icons/md";
-import { StatusEnum } from "../api/models";
+import { StatusEnum } from "../generated";
 
 interface IProps {
   status?: StatusEnum | string;
@@ -16,7 +16,11 @@ interface IProps {
   variant?: ThemeIconVariant;
 }
 
-export const statusIcon = ({ status, size = 30, variant = "light" }: IProps) => {
+export const statusIcon = ({
+  status,
+  size = 30,
+  variant = "light",
+}: IProps) => {
   switch (status) {
     case StatusEnum.Blocked:
       return (

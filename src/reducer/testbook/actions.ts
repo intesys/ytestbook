@@ -45,7 +45,7 @@ interface PostTestcaseLoading {
 
 interface PostTestcaseSuccess {
   type: "POST_TESTCASE_SUCCESS";
-  payload: ITestcaseModel;
+  payload: TestbookResponse;
 }
 
 interface PostTestcaseError {

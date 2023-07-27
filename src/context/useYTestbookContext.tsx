@@ -1,20 +1,29 @@
-import React, { useCallback, useEffect, useReducer } from "react";
-import { IYTestbookState } from "../reducer/testbook/types";
+import React, { useCallback, useReducer } from "react";
+import {
+  ITestbookModel,
+  ITestbookRequest,
+  ITestcaseModel,
+} from "../api/models";
+import { yTestbookApiConfig } from "../config/yTestbookApiConfig";
+import {
+  TestbookRequest,
+  TestbookResponse,
+  TestcaseResponse,
+  YTestbookApi,
+} from "../generated";
 import TYTestbookAction from "../reducer/testbook/actions";
 import yTestbookReducer from "../reducer/testbook/reducer";
+import { IYTestbookState } from "../reducer/testbook/types";
 import { LOADING_STATUS } from "../reducer/types";
-import { ITestbookModel, ITestbookRequest, ITestcaseModel } from "../api/models";
-import { YTestbookApi } from "../api";
-import { yTestbookApiConfig } from "../api/config";
 
 export interface IYTestbookContext {
   state: IYTestbookState;
   dispatch: React.Dispatch<TYTestbookAction>;
   getTestbooks: () => void;
-  postTestbook: (testbook: ITestbookRequest) => void;
-  setTestbook: (testbook: ITestbookModel) => void;
+  postTestbook: (testbookRequest: TestbookRequest) => void;
+  setTestbook: (testbook: TestbookResponse) => void;
   getTestcases: () => void;
-  setTestcase: (testcaseRequest: ITestcaseModel) => void;
+  setTestcase: (testcaseRequest: TestcaseResponse) => void;
 }
 
 export interface IYTestbookContextProvider {
@@ -41,9 +50,12 @@ const contextInitialState: IYTestbookContext = {
   setTestcase: noop,
 };
 
-export const YTestbookContext = React.createContext<IYTestbookContext>(contextInitialState);
+export const YTestbookContext =
+  React.createContext<IYTestbookContext>(contextInitialState);
 
-export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (props) => {
+export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (
+  props
+) => {
   const [state, dispatch] = useReducer(yTestbookReducer, initialState);
   const yTestbookApi = new YTestbookApi(yTestbookApiConfig());
 
@@ -121,6 +133,13 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (pr
     });
   }, []);
 
+  const setTestcase = useCallback((testcase: TestcaseResponse) => {
+    dispatch({
+      type: "POST_TESTCASE_SUCCESS",
+      payload: testcase,
+    });
+  }, []);
+
   return (
     <YTestbookContext.Provider
       value={{
@@ -141,7 +160,9 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (pr
 export const useYTestbookContext = (): IYTestbookContext => {
   const context = React.useContext(YTestbookContext);
   if (context === undefined) {
-    throw new Error("useYTestbookContext must be used within a useYTestbookContext.Provider");
+    throw new Error(
+      "useYTestbookContext must be used within a useYTestbookContext.Provider"
+    );
   }
   return context;
 };

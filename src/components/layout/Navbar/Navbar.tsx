@@ -7,24 +7,23 @@ import {
   ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
 import { useMachine } from "@xstate/react";
 import classnames from "classnames";
-import React, { useEffect, useMemo, useState } from "react";
-import { MdCloseFullscreen, MdOpenInFull, MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import React, { useEffect, useState } from "react";
+import {
+  MdCloseFullscreen,
+  MdOpenInFull,
+  MdSkipNext,
+  MdSkipPrevious,
+} from "react-icons/md";
 import { useYTestbookContext } from "../../../context/useYTestbookContext";
-import { statusIcon } from "../../../lib/misc";
+import { useTestcase } from "../../../lib/hooks/useTestcase";
 import { LOADING_STATUS } from "../../../reducer/types";
+import Overview from "../../sections/Overview/Overview";
 import Button from "../../ui/Button/Button";
-import SegmentedField from "../../ui/SegmentedField/SegmentedField";
-import TableAdvance from "../../ui/TableAdvance/TableAdvance";
-import TextField from "../../ui/TextField/TextField";
 import { NavbarLink } from "../NavbarLink/NavbarLink";
 import { NAVBAR_STATUS_ENUM, navbarConfig, toggleMachine } from "./const";
 import useStyles from "./styles";
-import { ITestcaseModel, StatusEnum } from "../../../api/models";
-import _ from "lodash";
-import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 
 const Navbar: React.FC = () => {
   const { classes } = useStyles();
@@ -64,19 +63,10 @@ const Navbar: React.FC = () => {
   };
 
   const handleClickLink = (id: string, index: number) => {
-    const testcase = _.find(testcasesData, { _id: id });
+    const testcase = useTestcase(id, testcasesData);
     testcase && setTestcase(testcase);
     setActive(index);
   };
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "title", //simple recommended way to define a column
-        header: "Title",
-      },
-    ],
-    []
-  );
 
   const links =
     testcasesData &&
@@ -147,7 +137,9 @@ const Navbar: React.FC = () => {
   return (
     <MuiNavbar
       width={{
-        base: state.value ? navbarConfig[state.value as NAVBAR_STATUS_ENUM] : navbarConfig.open,
+        base: state.value
+          ? navbarConfig[state.value as NAVBAR_STATUS_ENUM]
+          : navbarConfig.open,
       }}
       className={classes.navbar}
     >
@@ -172,7 +164,14 @@ const Navbar: React.FC = () => {
               <></>
             )}
           </Button>
+<<<<<<< HEAD
           <UnstyledButton onClick={handleNavCollapsed} className={classes.navbar_toogle}>
+=======
+          <UnstyledButton
+            onClick={handleNavCollapsed}
+            className={classes.navbar_toogle}
+          >
+>>>>>>> develop
             <ThemeIcon
               radius="xl"
               color="white"
@@ -189,25 +188,19 @@ const Navbar: React.FC = () => {
         </>
       </MuiNavbar.Section>
       <MuiNavbar.Section grow mt={40}>
-        {
-          <Stack justify="center" spacing={0}>
-            {testcasesStatus === LOADING_STATUS.SUCCESS &&
-              (state.value !== NAVBAR_STATUS_ENUM.full ? (
-                links
-              ) : (
-                <TableAdvance<ITestcaseModel>
-                  data={testcasesData ?? []}
-                  columns={[]}
-                  tableFilters={filters}
-                />
-              ))}
-            {testcasesStatus === LOADING_STATUS.LOADING && (
-              <Center>
-                <Loader />
-              </Center>
-            )}
-          </Stack>
-        }
+        <Stack justify="center" spacing={0}>
+          {testcasesStatus === LOADING_STATUS.SUCCESS &&
+            (state.value !== NAVBAR_STATUS_ENUM.full ? (
+              links
+            ) : (
+              <Overview data={testcasesData} />
+            ))}
+          {testcasesStatus === LOADING_STATUS.LOADING && (
+            <Center>
+              <Loader />
+            </Center>
+          )}
+        </Stack>
       </MuiNavbar.Section>
     </MuiNavbar>
   );
