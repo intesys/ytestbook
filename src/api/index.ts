@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ITestbookModel, ITestbookRequest, ITestcaseModel } from "./models";
+import { ITestbookModel, ITestbookRequest, ITestcaseModel, IUserModel } from "./models";
 
 export interface ConfigurationParameters {
   basePath?: string;
@@ -21,7 +21,6 @@ export class YTestbookApi {
   }
 
   getTestbook = (): Promise<AxiosResponse<ITestbookModel[]>> => {
-    console.log(this.basePath + "/testbook");
     return axios.get(this.basePath + "/testbook");
   };
 
@@ -36,5 +35,14 @@ export class YTestbookApi {
   postTestcase = (testcase: ITestcaseModel): Promise<AxiosResponse<ITestcaseModel>> => {
     return axios.post(this.basePath + "/testcase", { ...testcase });
   };
+  
+  getUser = (): Promise<AxiosResponse<IUserModel[]>> => {
+    return axios.get(this.basePath + "/user");
+  };
+
+  postUser = (user: IUserModel): Promise<AxiosResponse<IUserModel>> => {
+    return axios.post(this.basePath + "/user", { ...user });
+  };
+  
 
 }

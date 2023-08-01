@@ -1,7 +1,7 @@
 import { SegmentedControl } from "@mantine/core";
 import { IProps } from "./types";
 
-const SegmentedField: React.FC<IProps> = ({ data }) => {
+const SegmentedField: React.FC<IProps> = ({ data, ...rest }) => {
   return (
     <SegmentedControl
       data={data}
@@ -10,6 +10,7 @@ const SegmentedField: React.FC<IProps> = ({ data }) => {
           lineHeight: 0,
         },
       }}
+      {...rest}
     />
   );
 };

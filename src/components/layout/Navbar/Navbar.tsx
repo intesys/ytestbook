@@ -16,6 +16,7 @@ import {
   MdSkipPrevious,
 } from "react-icons/md";
 import { useYTestbookContext } from "../../../context/useYTestbookContext";
+// import { testcasesDemo } from "../../../demo/testcases";
 import { useTestcase } from "../../../lib/hooks/useTestcase";
 import { LOADING_STATUS } from "../../../reducer/types";
 import SvgIcon from "../../misc/SvgIcon/SvgIcon";
@@ -35,10 +36,14 @@ const Navbar: React.FC = () => {
       testcases: { data: testcasesData, status: testcasesStatus },
     },
     setTestcase,
+    // postTestcase,
     getTestcases,
   } = useYTestbookContext();
 
   useEffect(() => {
+    // testcasesDemo.map((item) => {
+    //   postTestcase(item);
+    // });
     getTestcases();
   }, []);
 

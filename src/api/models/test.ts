@@ -1,7 +1,6 @@
-import { StatusEnum, ITagModel } from ".";
+import { IBaseModel, ITagModel, StatusEnum } from ".";
 
-export interface ITestModel {
-  _id: string;
+export interface ITestModel extends IBaseModel {
   title: string;
   status: StatusEnum;
   description?: string;

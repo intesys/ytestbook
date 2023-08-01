@@ -1,13 +1,14 @@
-import { StatusEnum, ITagModel, ITestModel } from ".";
+import { IBaseModel, ITestModel, StatusEnum } from ".";
 
-export interface ITestcaseModel {
-  _id: string;
+export interface ITestcaseModel extends IBaseModel {
   title: string;
   status: StatusEnum;
   requirements?: string;
   description?: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: number;
+  endDate?: number;
+  lastEditDate?: number;
   test?: Array<ITestModel>;
-  tag?: Array<ITagModel>;
+  tag?: Array<string>;
+  user?: Array<string>;
 }

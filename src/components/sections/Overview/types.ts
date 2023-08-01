@@ -1,6 +1,9 @@
-import { TestcaseResponse } from "../../../generated";
+import { ITestcaseModel } from "../../../api/models";
 
 export interface OverviewProps {
-  data?: TestcaseResponse[];
+  data?: ITestcaseModel[];
 }
-export interface OverviewFiltersProps {}
+export interface OverviewFiltersProps {
+  tableId: string;
+  data?: ITestcaseModel[];
+}

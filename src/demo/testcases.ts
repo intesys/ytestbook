@@ -1,6 +1,8 @@
+import dayjs from "dayjs";
 import { ITestcaseModel, StatusEnum } from "../api/models";
 
 
+const getRandomDateDayJs = (): number => dayjs().subtract(Math.floor(Math.random() * 100), "day").valueOf();
 
 export const testcasesDemo: ITestcaseModel[] = [
     {
@@ -12,12 +14,19 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
+        "UAT"      ],
+      user: [
+        "Mario Rossi",
+        "Luigi Verdi",
+        "Giovanni Bianchi",
+        "Marco Neri",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "2",
@@ -28,12 +37,19 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
+        "Demo",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      user: [
+        "Mario Rossi",
+        "Giovanni Bianchi",
+        "Marco Neri",
+      ],
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "3",
@@ -44,12 +60,18 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      user: [
+        "Mario Rossi",
+        "Luigi Verdi",
+        "Giovanni Bianchi",
+      ],
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "4",
@@ -60,12 +82,17 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      user: [
+        "Giovanni Bianchi",
+        "Marco Neri",
+      ],
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "5",
@@ -76,12 +103,16 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      user: [
+        "Marco Neri",
+      ],
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "6",
@@ -92,12 +123,18 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
+        "Demo",
+        "UAT"      ],
+      user: [
+        "Mario Rossi",
+        "Luigi Verdi",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "7",
@@ -108,12 +145,19 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      user: [
+        "Mario Rossi",
+        "Luigi Verdi",
+        "Giovanni Bianchi",
+        "Marco Neri",
+      ],
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "8",
@@ -124,12 +168,17 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      user: [
+        "Mario Rossi",
+        "Marco Neri",
+      ],
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "9",
@@ -140,12 +189,19 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
+        "Frontend",
+        "Backend",
+        "API",
+        "UAT"      ],
+      user: [
+        "Mario Rossi",
+        "Luigi Verdi",
+        "Giovanni Bianchi",
+        "Marco Neri",
       ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+      lastEditDate: getRandomDateDayJs(),
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
     {
       _id: "9",
@@ -156,11 +212,11 @@ export const testcasesDemo: ITestcaseModel[] = [
       requirements:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",
       tag: [
-        { _id: "1", title: "frontend" },
-        { _id: "2", title: "backend" },
-        { _id: "2", title: "api" },
-      ],
-      startDate: "1689151382",
-      endDate: "1689151382",
+        "Frontend",
+        "Backend",
+        "API",
+        "UAT"      ],
+      startDate: getRandomDateDayJs(),
+      endDate: getRandomDateDayJs(),
     },
   ] 

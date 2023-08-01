@@ -1,15 +1,24 @@
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
+import { createContext } from "react";
+import { YAdvanceTableContextProvider, useAdvanceTableContext } from "../../../context/useAdvanceTableContext";
 import { IProps } from "./types";
 
-function TableAdvance<T extends object>({
-  columns,
-  data,
+export const TableAdvanceContext = createContext({});
+
+function Table<T extends object>({
+  tableId,
   tableFilters,
-  tableOptions,
+  options,
 }: IProps<T>) {
+
+  
+  const {state} = useAdvanceTableContext();
+
   const table = useMantineReactTable({
-    columns,
-    data,
+    data: options?.data || [],
+    columns: options?.columns || [],
+    enableFilterMatchHighlighting: false,
+    enableFilters: false,
     renderTopToolbar: tableFilters,
     enableTopToolbar: true,
     enableBottomToolbar: false,
@@ -27,11 +36,27 @@ function TableAdvance<T extends object>({
         backgroundColor: "transparent",
       },
     },
-
-    ...tableOptions,
+    state: {
+      density: "xs",
+      columnFilters: state.tables[tableId]?.filters || [],
+    },
+    ...options,
   });
 
   return <MantineReactTable table={table} />;
 }
 
+function TableAdvance<T extends object>({ tableId, tableFilters, options }: IProps<T>) {
+  return (
+  <YAdvanceTableContextProvider tableId={tableId}>
+    <Table<T> tableId={tableId} tableFilters={tableFilters} options={options} />
+  </YAdvanceTableContextProvider>
+  )
+}
+
 export default TableAdvance;
+
+
+
+
+

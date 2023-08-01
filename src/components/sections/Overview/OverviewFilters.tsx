@@ -2,18 +2,31 @@ import { Group } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import React from "react";
 import { StatusEnum } from "../../../api/models/enum";
+import { useAdvanceTableContext } from "../../../context/useAdvanceTableContext";
+import { getSelectOptionsFromData } from "../../../lib/filters/filters";
 import { statusIcon } from "../../../lib/misc";
 import MultipleSelectField from "../../ui/MultipleSelectField/MultipleSelectField";
 import SegmentedField from "../../ui/SegmentedField/SegmentedField";
 import TextField from "../../ui/TextField/TextField";
 import { OverviewFiltersProps } from "./types";
 
-const OverviewFilters: React.FC<OverviewFiltersProps> = () => {
+const OverviewFilters: React.FC<OverviewFiltersProps> = ({ data = [] }) => {
+  const { setFilters } = useAdvanceTableContext();
+
+  const tags = getSelectOptionsFromData(data, "tag");
+  const users = getSelectOptionsFromData(data, "user");
+
   return (
     <>
       <Group>
-        <TextField placeholder="Search" rightSection={<IconSearch />} />
+        <TextField
+          placeholder="Search"
+          rightSection={<IconSearch />}
+          onChange={(value) => setFilters([{ id: "title", value: value }])}
+        />
         <SegmentedField
+          name="status"
+          onChange={(value) => setFilters([{ id: "status", value: value }])}
           data={[
             {
               label: statusIcon({
@@ -60,21 +73,13 @@ const OverviewFilters: React.FC<OverviewFiltersProps> = () => {
         />
         <MultipleSelectField
           placeholder="Filter by tag"
-          data={[
-            { value: "react", label: "React" },
-            { value: "ng", label: "Angular" },
-            { value: "svelte", label: "Svelte" },
-            { value: "vue", label: "Vue" },
-          ]}
+          data={tags}
+          onChange={(value) => setFilters([{ id: "tag", value: value }])}
         />
         <MultipleSelectField
           placeholder="Filter assegnee"
-          data={[
-            { value: "1", label: "Marco" },
-            { value: "2", label: "Alessandro" },
-            { value: "3", label: "Filippo" },
-            { value: "4", label: "Mario" },
-          ]}
+          data={users}
+          onChange={(value) => setFilters([{ id: "user", value: value }])}
         />
       </Group>
     </>

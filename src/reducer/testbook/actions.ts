@@ -1,4 +1,4 @@
-import { ITestbookModel, ITestcaseModel } from "../../api/models";
+import { ITestbookModel, ITestcaseModel, IUserModel } from "../../api/models";
 
 interface GetTestbooksLoading {
   type: "GET_TESTBOOKS_LOADING";
@@ -45,11 +45,37 @@ interface PostTestcaseLoading {
 
 interface PostTestcaseSuccess {
   type: "POST_TESTCASE_SUCCESS";
-  payload: TestbookResponse;
+  payload: ITestcaseModel;
 }
 
 interface PostTestcaseError {
   type: "POST_TESTCASE_ERROR";
+}
+
+interface GetUsersLoading {
+  type: "GET_USERS_LOADING";
+}
+
+interface GetUsersSuccess {
+  type: "GET_USERS_SUCCESS";
+  payload: Array<ITestcaseModel>;
+}
+
+interface GetUsersError {
+  type: "GET_USERS_ERROR";
+}
+
+interface PostUserLoading {
+  type: "POST_USER_LOADING";
+}
+
+interface PostUSerSuccess {
+  type: "POST_USER_SUCCESS";
+  payload: IUserModel;
+}
+
+interface PostUSerError {
+  type: "POST_USER_ERROR";
 }
 
 type TYTestbookAction =
@@ -64,6 +90,12 @@ type TYTestbookAction =
   | GetTestcasesError
   | PostTestcaseLoading
   | PostTestcaseSuccess
-  | PostTestcaseError;
+  | PostTestcaseError
+  | GetUsersLoading
+  | GetUsersSuccess
+  | GetUsersError
+  | PostUserLoading
+  | PostUSerSuccess
+  | PostUSerError;
 
 export default TYTestbookAction;
