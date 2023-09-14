@@ -19,7 +19,6 @@
     "@mantine/notifications": "^6.0.16",
     "@mantine/tiptap": "^6.0.16",
     "@tabler/icons-react": "^2.26.0",
-    "@openapitools/openapi-generator-cli": "^2.5.1",
     "@parcel/transformer-svg-react": "^2.7.0",
     "@types/lodash": "^4.14.195",
     "@xstate/react": "^3.2.2",

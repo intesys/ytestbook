@@ -1,10 +1,9 @@
 import _ from "lodash";
-import { useYTestbookContext } from "../../context/useYTestbookContext";
-import { TestcaseResponse } from "../../generated";
+import { ITestcaseModel } from "../../api/models";
 
 export const useTestcase = (
   id: string,
-  testcasesData: Array<TestcaseResponse> | undefined
-): TestcaseResponse | undefined => {
+  testcasesData: Array<ITestcaseModel> | undefined
+): ITestcaseModel | undefined => {
   return _.find(testcasesData, { id });
 };
