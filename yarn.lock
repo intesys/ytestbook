@@ -1202,7 +1202,7 @@
     "@types/node" "*"
     "@types/responselike" "^1.0.0"
 
-"@types/debug@^4.1.6":
+"@types/debug@*", "@types/debug@^4.1.6":
   "integrity" "sha512-/vPO1EPOs306Cvhwv7KfVfYvOJqA/S/AXjaHQiJboCZzcNDb+TIJFN9/2C9DZ//ijSKWioNyUxD792QmDJ+HKQ=="
   "resolved" "https://registry.npmjs.org/@types/debug/-/debug-4.1.8.tgz"
   "version" "4.1.8"
@@ -1287,6 +1287,21 @@
   "integrity" "sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA=="
   "resolved" "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz"
   "version" "4.0.0"
+
+"@types/pouchdb-core@*", "@types/pouchdb-core@^7.0.11":
+  "integrity" "sha512-KTKj0Taf8pLTj8eW3qBtCd1Fh+/yhEyVo6/1czTN46MnseobdmnqgXtzaKgHMbuLouh+SHK1vM++aMPaG1qTTA=="
+  "resolved" "https://registry.npmjs.org/@types/pouchdb-core/-/pouchdb-core-7.0.11.tgz"
+  "version" "7.0.11"
+  dependencies:
+    "@types/debug" "*"
+    "@types/pouchdb-find" "*"
+
+"@types/pouchdb-find@*", "@types/pouchdb-find@^7.3.0":
+  "integrity" "sha512-sFPli5tBjGX9UfXioik1jUzPdcN84eV82n0lmEFuoPepWqkLjQcyri0eOa++HYOaNPyMDhKFBqEALEZivK2dRg=="
+  "resolved" "https://registry.npmjs.org/@types/pouchdb-find/-/pouchdb-find-7.3.0.tgz"
+  "version" "7.3.0"
+  dependencies:
+    "@types/pouchdb-core" "*"
 
 "@types/prop-types@*":
   "integrity" "sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w=="
