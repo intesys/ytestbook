@@ -1,7 +1,6 @@
 import { Group } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import React from "react";
-import { StatusEnum } from "../../../api/models/enum";
 import { useAdvanceTableContext } from "../../../context/useAdvanceTableContext";
 import { getSelectOptionsFromData } from "../../../lib/filters/filters";
 import { statusIcon } from "../../../lib/misc";
@@ -9,6 +8,7 @@ import MultipleSelectField from "../../ui/MultipleSelectField/MultipleSelectFiel
 import SegmentedField from "../../ui/SegmentedField/SegmentedField";
 import TextField from "../../ui/TextField/TextField";
 import { OverviewFiltersProps } from "./types";
+import { STATUS } from "../../../types/status";
 
 const OverviewFilters: React.FC<OverviewFiltersProps> = ({ data = [] }) => {
   const { setFilters } = useAdvanceTableContext();
@@ -37,37 +37,37 @@ const OverviewFilters: React.FC<OverviewFiltersProps> = ({ data = [] }) => {
             },
             {
               label: statusIcon({
-                status: StatusEnum.Blocked,
+                status: STATUS.BLOCKED,
                 size: 20,
               }),
-              value: StatusEnum.Blocked,
+              value: STATUS.BLOCKED,
             },
             {
               label: statusIcon({
-                status: StatusEnum.Cancelled,
+                status: STATUS.CANCELLED,
                 size: 20,
               }),
-              value: StatusEnum.Cancelled,
+              value: STATUS.CANCELLED,
             },
             {
-              label: statusIcon({ status: StatusEnum.Done, size: 20 }),
-              value: StatusEnum.Done,
+              label: statusIcon({ status: STATUS.DONE, size: 20 }),
+              value: STATUS.DONE,
             },
             {
-              label: statusIcon({ status: StatusEnum.Fail, size: 20 }),
-              value: StatusEnum.Fail,
+              label: statusIcon({ status: STATUS.FAIL, size: 20 }),
+              value: STATUS.FAIL,
             },
             {
-              label: statusIcon({ status: StatusEnum.Paused, size: 20 }),
-              value: StatusEnum.Paused,
+              label: statusIcon({ status: STATUS.PAUSED, size: 20 }),
+              value: STATUS.PAUSED,
             },
             {
-              label: statusIcon({ status: StatusEnum.Pending, size: 20 }),
-              value: StatusEnum.Pending,
+              label: statusIcon({ status: STATUS.PENDING, size: 20 }),
+              value: STATUS.PENDING,
             },
             {
-              label: statusIcon({ status: StatusEnum.Todo, size: 20 }),
-              value: StatusEnum.Todo,
+              label: statusIcon({ status: STATUS.TODO, size: 20 }),
+              value: STATUS.TODO,
             },
           ]}
         />

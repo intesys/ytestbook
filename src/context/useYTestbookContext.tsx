@@ -51,7 +51,7 @@ export const YTestbookContext =
   React.createContext<IYTestbookContext>(contextInitialState);
 
 export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (
-  props
+  props,
 ) => {
   const [state, dispatch] = useReducer(yTestbookReducer, initialState);
   const yTestbookApi = new YTestbookApi(yTestbookApiConfig());
@@ -151,18 +151,7 @@ export const YTestbookContextProvider: React.FC<IYTestbookContextProvider> = (
   }, []);
 
   return (
-    <YTestbookContext.Provider
-      value={{
-        state,
-        dispatch,
-        getTestbooks,
-        postTestbook,
-        setTestbook,
-        getTestcases,
-        postTestcase,
-        setTestcase,
-      }}
-    >
+    <YTestbookContext.Provider value={{}}>
       {props.children}
     </YTestbookContext.Provider>
   );
@@ -172,7 +161,7 @@ export const useYTestbookContext = (): IYTestbookContext => {
   const context = React.useContext(YTestbookContext);
   if (context === undefined) {
     throw new Error(
-      "useYTestbookContext must be used within a useYTestbookContext.Provider"
+      "useYTestbookContext must be used within a useYTestbookContext.Provider",
     );
   }
   return context;

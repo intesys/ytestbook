@@ -60,7 +60,8 @@ const Styles: React.FC = () => {
           "&:-webkit-autofill, &:-webkit-autofill::first-line, &:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active":
             {
               fontFamily: theme.fontFamily,
-              transition: "background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s",
+              transition:
+                "background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s",
             },
         },
       })}

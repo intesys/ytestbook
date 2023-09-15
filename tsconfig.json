@@ -18,8 +18,8 @@
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src", "electron"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["server/**/*"]
 }

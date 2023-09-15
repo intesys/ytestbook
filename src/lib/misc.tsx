@@ -8,10 +8,10 @@ import {
   MdPlayCircle,
   MdReportProblem,
 } from "react-icons/md";
-import { StatusEnum } from "../api/models/enum";
+import { STATUS } from "../types/status";
 
 interface IProps {
-  status?: StatusEnum | string;
+  status?: STATUS | string;
   size?: number;
   variant?: ThemeIconVariant;
 }
@@ -22,49 +22,49 @@ export const statusIcon = ({
   variant = "light",
 }: IProps) => {
   switch (status) {
-    case StatusEnum.Blocked:
+    case STATUS.BLOCKED:
       return (
         <ThemeIcon color="yellow" variant={variant} size={size}>
           <MdDeleteForever size="1.5rem" />
         </ThemeIcon>
       );
 
-    case StatusEnum.Cancelled:
+    case STATUS.CANCELLED:
       return (
         <ThemeIcon color="orange" variant={variant} size={size}>
           <MdDangerous size="1.5rem" />
         </ThemeIcon>
       );
 
-    case StatusEnum.Done:
+    case STATUS.DONE:
       return (
         <ThemeIcon color="green" variant={variant} size={size}>
           <MdCheckCircle size="1.5rem" />
         </ThemeIcon>
       );
 
-    case StatusEnum.Fail:
+    case STATUS.FAIL:
       return (
         <ThemeIcon color="red" variant={variant} size={size}>
           <MdReportProblem size="1.5rem" />
         </ThemeIcon>
       );
 
-    case StatusEnum.Paused:
+    case STATUS.PAUSED:
       return (
         <ThemeIcon color="gray" variant={variant} size={size}>
           <MdPauseCircle size="1.5rem" />
         </ThemeIcon>
       );
 
-    case StatusEnum.Pending:
+    case STATUS.PENDING:
       return (
         <ThemeIcon color="blue" variant={variant} size={size}>
           <MdPending size="1.5rem" />
         </ThemeIcon>
       );
 
-    case StatusEnum.Todo:
+    case STATUS.TODO:
       return (
         <ThemeIcon color="violet" variant={variant} size={size}>
           <MdPlayCircle size="1.5rem" />

@@ -1,11 +1,9 @@
-import { Configuration, ConfigurationParameters } from "..";
-import { environmentApiBasePath } from "../../lib/envHelper";
+import { server } from '../../../config.json';
+import { initializeIndexes } from "./initialize";
 
-export const yTestbookApiConfig: (
-  configParams?: Partial<ConfigurationParameters>
-) => Configuration = (configParams = {}) => {
-  return new Configuration({
-    ...configParams,
-    basePath: environmentApiBasePath(),
-  });
-};
+// const dbURL = `${server.protocol}://${server.host}:${server.port}/${server.basePath}/`;
+const dbURL = `:${server.port}/${server.basePath}/`; // same domain, cors ok
+
+export const DB = new PouchDB(dbURL);
+
+initializeIndexes(DB);

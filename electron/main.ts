@@ -33,6 +33,7 @@ function createWindow() {
 
 app.on("window-all-closed", () => {
   win = null;
+  // shutdown express server
 });
 
 app.whenReady().then(createWindow);

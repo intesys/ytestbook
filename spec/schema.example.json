@@ -1,0 +1,38 @@
+{
+  "version": "0.0.1",
+  "name": "string",
+  "client": "string",
+  "created": "date",
+  "modified": "date",
+  "descsription": "string",
+  "useCases": [
+    {
+      "_id": "uuid",
+      "title": "srting",
+      "desription": "string",
+      "requirements": "string",
+      "accountantId": "foreignKey",
+      "responsibleId": "foreignKey",
+      "status": "enum[TODO, WORKING, PASSED, FAILED, BLOCKED]",
+      "startDate": "date",
+      "endDate": "date",
+      "tags": [
+        "foreignKey"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "_id": "uuid",
+      "useCaseId": "foreignKey",
+      "title": "string",
+      "description": "string",
+      "requirements": "string",
+      "inputData": {},
+      "expectations": "string",
+      "tags": [
+        "foreignKey"
+      ]
+    }
+  ]
+}

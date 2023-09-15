@@ -1,0 +1,9 @@
+{
+  "server": {
+    "protocol": "http",
+    "host": "localhost",
+    "port": 3333,
+    "basePath": "db"
+  },
+  "client": {}
+}
