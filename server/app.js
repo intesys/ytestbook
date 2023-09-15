@@ -5,7 +5,7 @@ const PouchDB = require("pouchdb");
 const pouchdbFind = require("pouchdb-find");
 const { server } = require("../config");
 
-const DB = PouchDB.defaults({ prefix: "./server/data/" });
+const DB = PouchDB.defaults({ prefix: "./db/" });
 DB.plugin(pouchdbFind);
 
 const app = express();
