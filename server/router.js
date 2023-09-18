@@ -8,16 +8,16 @@ const { server } = require("../config.json");
 const DB = PouchDB.defaults({ prefix: "./db/" });
 DB.plugin(pouchdbFind);
 
-const app = express();
+const router = express.Router();
 
 // const enableCors = (req, cb) => {
 //   const origin = req.header("Origin");
 //   console.log(origin);
 //   cb(null, origin);
 // };
-// app.options("*", cors(enableCors));
-// app.use(cors(enableCors));
+// router.options("*", cors(enableCors));
+// router.use(cors(enableCors));
 
-app.use(`/${server.db}`, expressPouchdb(DB));
+router.use(`/${server.db}`, expressPouchdb(DB));
 
-module.exports = app;
+module.exports = router;

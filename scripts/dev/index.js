@@ -1,18 +1,26 @@
-const app = require("../../server/app");
+const dbRouter = require("../../server/router");
 const { server } = require("../../config.json");
 const { createServer } = require("vite");
+const express = require("express");
+const exp = require("constants");
 
 const devConfig = {
-  server: { middlewareMode: false, open: "/" },
+  server: { middlewareMode: true, open: "/" },
   appType: "spa",
 };
 
 async function start() {
+  const app = express();
+
   const vite = await createServer(devConfig);
 
-  vite.middlewares.use(app);
+  // vite.middlewares.use(dbRouter);
+  app.use(dbRouter);
+  app.use(vite.middlewares);
 
-  vite.listen(server.port);
+  await app.listen(server.port);
+
+  // vite.printUrls();
 }
 
 start();
