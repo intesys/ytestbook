@@ -6,7 +6,7 @@ import {
   getFormattedDateDayJs,
   sortingByDateDayJs,
 } from "../../../lib/date/date";
-import { statusIcon } from "../../../lib/misc";
+import { StatusIcon } from "../../misc/StatusIcon";
 import { getIntialLettersFromName } from "../../../lib/string/string";
 import TableAdvance from "../../ui/TableAdvance/TableAdvance";
 import OverviewFilters from "./OverviewFilters";
@@ -29,7 +29,7 @@ const Overview: React.FC<OverviewProps> = ({ data = [] }) => {
             return (
               <Group spacing="xs">
                 <>
-                  {statusIcon({
+                  {StatusIcon({
                     status: row.original.status,
                     size: 20,
                   })}{" "}
@@ -128,7 +128,7 @@ const Overview: React.FC<OverviewProps> = ({ data = [] }) => {
           },
         },
       ] as MRT_ColumnDef<ITestcaseModel>[],
-    []
+    [],
   );
 
   return (

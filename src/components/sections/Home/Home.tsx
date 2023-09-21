@@ -1,33 +1,28 @@
-import { Button, Center, Container, Loader, Stack, Table } from "@mantine/core";
+import { Button, Center, Container, Stack, Table } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { useEffect } from "react";
-import { Navigate, useLocation } from "react-router";
-import { ITestbookModel } from "../../../api/models";
-import { useYTestbookContext } from "../../../context/useYTestbookContext";
-import { LOADING_STATUS } from "../../../reducer/types";
-import { ROUTES_NAME } from "../../../routes/routes";
+import React, { useEffect, useState } from "react";
+import { findAllTestbooks, createTestbook } from "../../../api/models/testbook";
+import { DBRegistryKey } from "../../../types/pouchDB";
 import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 import Card from "../../ui/Card/Card";
 import TextField from "../../ui/TextField/TextField";
 import { testbook_initialValues, testbook_validate } from "./const";
 import useStyles from "./styles";
+import { useNavigate } from "react-router";
 
-const Home: React.FC = () => {
+export const Home: React.FC = () => {
+  const [testbooks, setTestbooks] = useState<DBRegistryKey[]>([]);
   const { classes } = useStyles();
-  let location = useLocation();
-
-  const {
-    state: {
-      testbooks: { data: testbooksData, status: testbooksStatus },
-      testbook: { data: testbookData, status: testbookStatus },
-    },
-    getTestbooks,
-    postTestbook,
-    setTestbook,
-  } = useYTestbookContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getTestbooks();
+    const watcher = findAllTestbooks()
+      .on("change", (res) => {
+        setTestbooks(res.doc?.data ?? []);
+      })
+      .on("error", console.error) // TODO: add notifications
+      .on("complete", () => console.log("completed")); // TODO: remove
+    return () => watcher.cancel();
   }, []);
 
   const form = useForm({
@@ -37,28 +32,29 @@ const Home: React.FC = () => {
 
   const submitForm = () => {
     if (!form.validate().hasErrors) {
-      postTestbook({
-        name: form.values.name,
-        client: form.values.client,
-      });
+      createTestbook(form.values.name, form.values.client)
+        .then(console.log)
+        .then(() => form.reset())
+        .catch((err) => {
+          form.setFieldError(
+            "name",
+            "Can't create testbook with this name, please try with another one",
+          );
+        });
     }
   };
 
-  const onClickTable = (elem: ITestbookModel) => {
-    elem && elem._id && setTestbook(elem);
+  const onClickTable = (testbook: DBRegistryKey) => {
+    navigate(`/testbook/${testbook.slug}`);
   };
 
-  const rows = testbooksData?.map((element) => (
-    <tr key={element._id} onClick={() => onClickTable(element)}>
-      <td>{element.name}</td>
-      <td>{element.client}</td>
-      <td>{element.lastEdit}</td>
+  const rows = testbooks?.map((testbook) => (
+    <tr key={testbook.location} onClick={() => onClickTable(testbook)}>
+      <td>{testbook.name}</td>
+      <td>{testbook.client || ""}</td>
+      <td>{testbook.created || ""}</td>
     </tr>
   ));
-
-  if (testbookStatus === LOADING_STATUS.SUCCESS && testbookData?._id) {
-    return <Navigate to={ROUTES_NAME.APP} state={{ from: location }} replace />;
-  }
 
   return (
     <div className={classes.home_layout}>
@@ -83,12 +79,7 @@ const Home: React.FC = () => {
                   {...form.getInputProps(`client`)}
                 />
               </Stack>
-              <Button
-                mt="xl"
-                fullWidth
-                loading={testbookStatus === LOADING_STATUS.LOADING}
-                onClick={submitForm}
-              >
+              <Button mt="xl" fullWidth onClick={submitForm}>
                 Create
               </Button>
             </>
@@ -98,36 +89,24 @@ const Home: React.FC = () => {
 
       <div className={classes.home_second}>
         <Container size="md" className={classes.home_container}>
-          {testbooksStatus === LOADING_STATUS.ERROR && <h5>Qualcosa è andato storto</h5>}
-          {testbooksStatus === LOADING_STATUS.LOADING && (
-            <Center>
-              <Loader />
-            </Center>
-          )}
-          {testbooksStatus === LOADING_STATUS.SUCCESS && (
-            <>
-              <h3 className={classes.table_header}>Last testbook</h3>
-              <Table
-                className={classes.table_content}
-                mt={16}
-                highlightOnHover
-                verticalSpacing={10}
-              >
-                <thead>
-                  <tr>
-                    <th>Testbook name</th>
-                    <th>Client</th>
-                    <th>Last edit</th>
-                  </tr>
-                </thead>
-                <tbody>{rows}</tbody>
-              </Table>
-            </>
-          )}
+          <h3 className={classes.table_header}>Saved testbooks</h3>
+          <Table
+            className={classes.table_content}
+            mt={16}
+            highlightOnHover
+            verticalSpacing={10}
+          >
+            <thead>
+              <tr>
+                <th>Testbook name</th>
+                <th>Client</th>
+                <th>Last edit</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
         </Container>
       </div>
     </div>
   );
 };
-
-export default Home;

@@ -8,7 +8,7 @@ import {
   MdPlayCircle,
   MdReportProblem,
 } from "react-icons/md";
-import { STATUS } from "../types/status";
+import { STATUS } from "../../types/status";
 
 interface IProps {
   status?: STATUS | string;
@@ -16,7 +16,7 @@ interface IProps {
   variant?: ThemeIconVariant;
 }
 
-export const statusIcon = ({
+export const StatusIcon = ({
   status,
   size = 30,
   variant = "light",

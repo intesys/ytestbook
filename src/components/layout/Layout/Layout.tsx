@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../Header/Header";
 import { IProps } from "./types";
 import useStyles from "./styles";
-import Navbar from "../Navbar/Navbar";
+import { Navbar } from "../Navbar/Navbar";
 
 const Layout: React.FC<IProps> = ({ children }) => {
   const { classes } = useStyles();

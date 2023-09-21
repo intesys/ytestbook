@@ -1,16 +1,9 @@
 import React from "react";
 import useStyles from "./styles";
-import { useYTestbookContext } from "../../../context/useYTestbookContext";
 import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 
 const Header: React.FC = () => {
   const { classes } = useStyles();
-
-  const {
-    state: {
-      testbook: { data: testbookData },
-    },
-  } = useYTestbookContext();
 
   return (
     <header className={classes.header}>
@@ -18,8 +11,8 @@ const Header: React.FC = () => {
         <SvgIcon iconName="logo" />
       </div>
       <div className={classes.header_title}>
-        <h4>{testbookData?.name}</h4>
-        <small>{testbookData?.client}</small>
+        <h4>Testbook title</h4>
+        <small>Testbook client</small>
       </div>
     </header>
   );

@@ -14,7 +14,7 @@ database is reachable at ${server.protocol}://${server.host}:${server.port}/${se
 
 process.on("SIGTERM", () => {
   console.log("Closing HTTP server");
-  router.close(() => {
+  app.close(() => {
     console.log("HTTP server closed");
   });
 });

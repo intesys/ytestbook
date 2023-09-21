@@ -2,10 +2,19 @@ import React, { useEffect } from "react";
 import useStyles from "./styles";
 import Layout from "../../layout/Layout/Layout";
 import { useYTestbookContext } from "../../../context/useYTestbookContext";
-import { statusIcon } from "../../../lib/misc";
+import { StatusIcon } from "../../misc/StatusIcon";
 import { FaJira } from "react-icons/fa";
 import { MdMoreVert } from "react-icons/md";
-import { ActionIcon, Badge, Box, Flex, Grid, Group, Progress, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Badge,
+  Box,
+  Flex,
+  Grid,
+  Group,
+  Progress,
+  Title,
+} from "@mantine/core";
 
 const App: React.FC = () => {
   const { classes, theme } = useStyles();
@@ -33,7 +42,7 @@ const App: React.FC = () => {
         </Group>
         <Group className={classes.testcase_detail__header_first}>
           <Group>
-            {statusIcon(testcaseData?.status || "")}
+            {StatusIcon(testcaseData?.status || "")}
             <h2>{testcaseData?.title}</h2>
             <FaJira />
           </Group>
@@ -49,7 +58,9 @@ const App: React.FC = () => {
       </Flex>
       <Grid>
         <Grid.Col span={10} className={classes.testcase_detail__body}>
-          <div className={classes.testcase_detail__body_desc}>{testcaseData?.description}</div>
+          <div className={classes.testcase_detail__body_desc}>
+            {testcaseData?.description}
+          </div>
           <div className={classes.testcase_detail__body_req}>
             <Title order={6} mb={theme.spacing.xs}>
               Requirements

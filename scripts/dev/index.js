@@ -20,6 +20,21 @@ async function start() {
 
   await app.listen(server.port);
 
+  console.log(
+    `Server running on ${server.protocol}://${server.host}:${server.port}`,
+  );
+
+  console.log(
+    `Database running on  ${server.protocol}://${server.host}:${server.port}/${server.db}`,
+  );
+
+  process.on("SIGTERM", () => {
+    console.log("Closing dev server");
+    app.close(() => {
+      console.log("Dev server closed");
+    });
+  });
+
   // vite.printUrls();
 }
 

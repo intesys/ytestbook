@@ -3,7 +3,7 @@ import { IconSearch } from "@tabler/icons-react";
 import React from "react";
 import { useAdvanceTableContext } from "../../../context/useAdvanceTableContext";
 import { getSelectOptionsFromData } from "../../../lib/filters/filters";
-import { statusIcon } from "../../../lib/misc";
+import { StatusIcon } from "../../misc/StatusIcon";
 import MultipleSelectField from "../../ui/MultipleSelectField/MultipleSelectField";
 import SegmentedField from "../../ui/SegmentedField/SegmentedField";
 import TextField from "../../ui/TextField/TextField";
@@ -29,44 +29,44 @@ const OverviewFilters: React.FC<OverviewFiltersProps> = ({ data = [] }) => {
           onChange={(value) => setFilters([{ id: "status", value: value }])}
           data={[
             {
-              label: statusIcon({
+              label: StatusIcon({
                 status: "All",
                 size: 20,
               }),
               value: "",
             },
             {
-              label: statusIcon({
+              label: StatusIcon({
                 status: STATUS.BLOCKED,
                 size: 20,
               }),
               value: STATUS.BLOCKED,
             },
             {
-              label: statusIcon({
+              label: StatusIcon({
                 status: STATUS.CANCELLED,
                 size: 20,
               }),
               value: STATUS.CANCELLED,
             },
             {
-              label: statusIcon({ status: STATUS.DONE, size: 20 }),
+              label: StatusIcon({ status: STATUS.DONE, size: 20 }),
               value: STATUS.DONE,
             },
             {
-              label: statusIcon({ status: STATUS.FAIL, size: 20 }),
+              label: StatusIcon({ status: STATUS.FAIL, size: 20 }),
               value: STATUS.FAIL,
             },
             {
-              label: statusIcon({ status: STATUS.PAUSED, size: 20 }),
+              label: StatusIcon({ status: STATUS.PAUSED, size: 20 }),
               value: STATUS.PAUSED,
             },
             {
-              label: statusIcon({ status: STATUS.PENDING, size: 20 }),
+              label: StatusIcon({ status: STATUS.PENDING, size: 20 }),
               value: STATUS.PENDING,
             },
             {
-              label: statusIcon({ status: STATUS.TODO, size: 20 }),
+              label: StatusIcon({ status: STATUS.TODO, size: 20 }),
               value: STATUS.TODO,
             },
           ]}

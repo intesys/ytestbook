@@ -2,8 +2,7 @@ import { MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import React from "react";
 import Styles from "./Styles";
-// import { YTestbookContextProvider } from "./context/useYTestbookContext";
-import { AppRoutes } from "./routes/AppRoutes";
+import { MainNavigation } from "./Navigation";
 import { theme } from "./theme";
 
 const App: React.FC = () => {
@@ -12,9 +11,7 @@ const App: React.FC = () => {
       <MantineProvider theme={{ ...theme }} withGlobalStyles withNormalizeCSS>
         <DatesProvider settings={{ locale: "it" }}>
           <Styles />
-          {/* <YTestbookContextProvider> */}
-          <AppRoutes />
-          {/* </YTestbookContextProvider> */}
+          <MainNavigation />
         </DatesProvider>
       </MantineProvider>
     </div>

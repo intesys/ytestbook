@@ -1,8 +1,8 @@
 import { Box, Group, Tooltip, UnstyledButton } from "@mantine/core";
 import classnames from "classnames";
 import React from "react";
-import { statusIcon } from "../../../lib/misc";
-import { NAVBAR_STATUS_ENUM } from "../Navbar/const";
+import { StatusIcon } from "../../misc/StatusIcon";
+import { NAVBAR_STATUS } from "../Navbar/const";
 import useStyles from "./styles";
 import { IOwnProps } from "./types";
 
@@ -34,10 +34,8 @@ export const NavbarLink: React.FC<IOwnProps> = ({
       >
         <Group position="apart" spacing={0}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {statusIcon({ status })}
-            {navStatus !== NAVBAR_STATUS_ENUM.collapsed && (
-              <Box ml={7}>{title}</Box>
-            )}
+            {StatusIcon({ status })}
+            {navStatus !== NAVBAR_STATUS.COLLAPSED && <Box ml={7}>{title}</Box>}
           </Box>
         </Group>
       </UnstyledButton>

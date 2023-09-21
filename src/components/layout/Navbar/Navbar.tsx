@@ -1,97 +1,77 @@
 import {
-  Center,
-  Loader,
   Navbar as MuiNavbar,
   Stack,
   ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
-import { useMachine } from "@xstate/react";
 import classnames from "classnames";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   MdCloseFullscreen,
   MdOpenInFull,
   MdSkipNext,
   MdSkipPrevious,
 } from "react-icons/md";
-import { useYTestbookContext } from "../../../context/useYTestbookContext";
-// import { testcasesDemo } from "../../../demo/testcases";
-import { useTestcase } from "../../../lib/hooks/useTestcase";
-import { LOADING_STATUS } from "../../../reducer/types";
 import SvgIcon from "../../misc/SvgIcon/SvgIcon";
-import Overview from "../../sections/Overview/Overview";
 import Button from "../../ui/Button/Button";
 import { NavbarLink } from "../NavbarLink/NavbarLink";
-import { NAVBAR_STATUS_ENUM, navbarConfig, toggleMachine } from "./const";
+import { NAVBAR_STATUS, navbarConfig } from "./const";
 import useStyles from "./styles";
 
-const Navbar: React.FC = () => {
+export const Navbar: React.FC = () => {
   const { classes } = useStyles();
+  const [navbarStatus, setNavbarStatus] = useState<NAVBAR_STATUS>(
+    NAVBAR_STATUS.COLLAPSED,
+  );
+
+  // handles active test
   const [active, setActive] = useState(0);
-  const [state, send] = useMachine(toggleMachine);
-
-  const {
-    state: {
-      testcases: { data: testcasesData, status: testcasesStatus },
-    },
-    setTestcase,
-    // postTestcase,
-    getTestcases,
-  } = useYTestbookContext();
-
-  useEffect(() => {
-    // testcasesDemo.map((item) => {
-    //   postTestcase(item);
-    // });
-    getTestcases();
-  }, []);
 
   const handleNavbarStatus = () => {
-    if (state.matches(NAVBAR_STATUS_ENUM.collapsed)) {
-      send("FULL");
-    } else if (state.matches(NAVBAR_STATUS_ENUM.full)) {
-      send("PREV");
+    if (navbarStatus === NAVBAR_STATUS.COLLAPSED) {
+      // send("FULL");
+    } else if (navbarStatus === NAVBAR_STATUS.FULLSCREEN) {
+      // send("PREV");
     } else {
-      send("NEXT");
+      // send("NEXT");
     }
   };
 
   const handleNavCollapsed = () => {
-    if (state.matches(NAVBAR_STATUS_ENUM.full)) {
-      send("RESET");
-    } else if (state.matches(NAVBAR_STATUS_ENUM.collapsed)) {
-      send("NEXT");
+    if (navbarStatus === NAVBAR_STATUS.FULLSCREEN) {
+      // send("RESET");
+    } else if (navbarStatus === NAVBAR_STATUS.COLLAPSED) {
+      // send("NEXT");
     } else {
-      send("PREV");
+      // send("PREV");
     }
   };
 
   const handleClickLink = (id: string, index: number) => {
-    const testcase = useTestcase(id, testcasesData);
-    testcase && setTestcase(testcase);
+    // const testcase = useTestcase(id, testcasesData);
+    // testcase && setTestcase(testcase);
     setActive(index);
   };
 
-  const links =
-    testcasesData &&
-    testcasesStatus === LOADING_STATUS.SUCCESS &&
-    testcasesData.map((item, index) => (
-      <NavbarLink
-        {...item}
-        key={item.title}
-        navStatus={state.value as NAVBAR_STATUS_ENUM}
-        active={index === active}
-        onClick={(id) => handleClickLink(id, index)}
-      />
-    ));
+  const links = <NavbarLink />;
+  // testcasesData &&
+  // testcasesStatus === LOADING_STATUS.SUCCESS &&
+  // testcasesData.map((item, index) => (
+  //   <NavbarLink
+  //     {...item}
+  //     key={item.title}
+  //     navStatus={state.value as NAVBAR_STATUS}
+  //     active={index === active}
+  //     onClick={(id) => handleClickLink(id, index)}
+  //   />
+  // ));
 
   return (
     <MuiNavbar
       width={{
-        base: state.value
-          ? navbarConfig[state.value as NAVBAR_STATUS_ENUM]
-          : navbarConfig.open,
+        base: navbarStatus
+          ? navbarConfig[navbarStatus as NAVBAR_STATUS]
+          : navbarConfig[NAVBAR_STATUS.OPEN],
       }}
       className={classes.navbar}
     >
@@ -99,14 +79,14 @@ const Navbar: React.FC = () => {
         <>
           <Button
             fullWidth
-            className={classnames(classes.navbar_overview_toogle, state.value)}
+            className={classnames(classes.navbar_overview_toogle, navbarStatus)}
             leftIcon={<SvgIcon iconName="eye" />}
             onClick={handleNavbarStatus}
           >
-            {state.value !== NAVBAR_STATUS_ENUM.collapsed ? (
+            {navbarStatus !== NAVBAR_STATUS.COLLAPSED ? (
               <div className={classes.navbar_overview_toogle_content}>
                 <span>OVERVIEW</span>
-                {state.value !== NAVBAR_STATUS_ENUM.full ? (
+                {navbarStatus !== NAVBAR_STATUS.FULLSCREEN ? (
                   <MdSkipNext size={"1.5rem"} />
                 ) : (
                   <MdSkipPrevious size={"1.5rem"} />
@@ -126,7 +106,7 @@ const Navbar: React.FC = () => {
               variant="default"
               className={classes.navbar_toogle_inner}
             >
-              {state.value === NAVBAR_STATUS_ENUM.collapsed ? (
+              {navbarStatus === NAVBAR_STATUS.COLLAPSED ? (
                 <MdOpenInFull />
               ) : (
                 <MdCloseFullscreen />
@@ -137,24 +117,14 @@ const Navbar: React.FC = () => {
       </MuiNavbar.Section>
       <MuiNavbar.Section grow mt={40}>
         <Stack justify="center" spacing={0}>
-          {testcasesStatus === LOADING_STATUS.SUCCESS &&
-            (state.value !== NAVBAR_STATUS_ENUM.full ? (
-              links
-            ) : (
-              <Overview data={testcasesData} />
-            ))}
-          {testcasesStatus === LOADING_STATUS.LOADING && (
-            <Center>
-              <Loader />
-            </Center>
+          {navbarStatus !== NAVBAR_STATUS.FULLSCREEN ? (
+            links
+          ) : (
+            <>Testcase data</>
+            // <Overview data={testcasesData} />
           )}
         </Stack>
       </MuiNavbar.Section>
     </MuiNavbar>
   );
 };
-
-export default Navbar;
-function useCallback(arg0: () => void, arg1: never[]) {
-  throw new Error("Function not implemented.");
-}
