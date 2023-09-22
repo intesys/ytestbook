@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Container,
-  Modal,
   Table,
   Text,
   UnstyledButton,
@@ -12,10 +11,10 @@ import { useNavigate } from "react-router-dom";
 import { removeTestbook } from "../../../api/models/testbook";
 import { DBRegistryDoc } from "../../../types/pouchDB";
 import { useAllTestbooks } from "./hooks/useAllTestbooks";
-import useStyles from "./styles";
+import { useTableStyles } from "./styles";
 
 export const TestbookList: React.FC = () => {
-  const { classes } = useStyles();
+  const { classes } = useTableStyles();
   const navigate = useNavigate();
   const testbooks = useAllTestbooks();
 
@@ -26,19 +25,20 @@ export const TestbookList: React.FC = () => {
 
   const handleRemove = (testbook: DBRegistryDoc) =>
     modals.openConfirmModal({
-      title: `Do you really want to delete ${testbook.name}?`,
+      title: `Do you want to delete ${testbook.name}?`,
       children: (
         <Text size="sm">
           This action can't be recovered, but you can download testbook before.
         </Text>
       ),
       labels: { confirm: "Confirm", cancel: "Cancel" },
-      onCancel: () => console.log("Cancel"),
-      onConfirm: () => removeTestbook(testbook._id),
+      onConfirm: () => {
+        removeTestbook(testbook._id);
+      },
     });
 
   return (
-    <Container size="md" className={classes.home_container}>
+    <Container size="md">
       <h3 className={classes.table_header}>Saved testbooks</h3>
       <Table
         className={classes.table_content}

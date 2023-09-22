@@ -1,6 +1,6 @@
 import { createStyles } from "@mantine/core";
 
-const useStyles = createStyles((theme) => ({
+export const useHomeStyles = createStyles((theme) => ({
   home_layout: {
     height: "100vh",
   },
@@ -20,9 +20,13 @@ const useStyles = createStyles((theme) => ({
     minHeight: "50vh",
     padding: "100px 0px",
     backgroundColor: theme.colors.primary?.[0],
-  },
+  }
+}));
+
+export const useCardStyles = createStyles((theme) => ({
   card: {
     textAlign: "initial",
+    backgroundColor: theme.colors.primary?.[2],
   },
   card_header: {
     color: "#fff",
@@ -39,7 +43,10 @@ const useStyles = createStyles((theme) => ({
       color: "#fff",
       cursor: "pointer",
     },
-  },
+  }
+}));
+
+export const useTableStyles = createStyles((theme) => ({
   table_header: {},
   table_content: {
     thead: {
@@ -48,4 +55,3 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default useStyles;

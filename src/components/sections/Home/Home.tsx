@@ -1,35 +1,12 @@
-import { Button, Center, Container, Stack } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Center, Container } from "@mantine/core";
 import React from "react";
-import { createTestbook } from "../../../api/models/testbook";
 import SvgIcon from "../../misc/SvgIcon/SvgIcon";
-import Card from "../../ui/Card/Card";
-import TextField from "../../ui/TextField/TextField";
-import { testbook_initialValues, testbook_validate } from "./const";
-import useStyles from "./styles";
+import { CreateTestbook } from "./CreateTestbook";
 import { TestbookList } from "./TestbookList";
+import { useHomeStyles } from "./styles";
 
 export const Home: React.FC = () => {
-  const { classes } = useStyles();
-
-  const form = useForm({
-    initialValues: testbook_initialValues,
-    validate: testbook_validate,
-  });
-
-  const submitForm = () => {
-    if (!form.validate().hasErrors) {
-      createTestbook(form.values.name, form.values.client)
-        .then(console.log)
-        .then(() => form.reset())
-        .catch((err) => {
-          form.setFieldError(
-            "name",
-            "Can't create testbook with this name, please try with another one",
-          );
-        });
-    }
-  };
+  const { classes } = useHomeStyles();
 
   return (
     <div className={classes.home_layout}>
@@ -38,27 +15,7 @@ export const Home: React.FC = () => {
           <Center className={classes.home_logo}>
             <SvgIcon iconName="logo" />
           </Center>
-          <Card title="Create a new Testbook">
-            <>
-              <Stack>
-                <TextField
-                  required
-                  placeholder="Testbook name"
-                  variant="blue"
-                  {...form.getInputProps(`name`)}
-                />
-                <TextField
-                  required
-                  placeholder="Client"
-                  variant="blue"
-                  {...form.getInputProps(`client`)}
-                />
-              </Stack>
-              <Button mt="xl" fullWidth onClick={submitForm}>
-                Create
-              </Button>
-            </>
-          </Card>
+          <CreateTestbook />
         </Container>
       </div>
 
