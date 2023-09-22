@@ -1,6 +1,7 @@
+import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
-import { DBRegistryDoc } from "../../../../types/pouchDB";
-import { findAllTestbooks } from "../../../../api/models/testbook";
+import { findAllTestbooks } from "../api/models/testbook";
+import { DBRegistryDoc } from "../types/pouchDB";
 
 /**
  * Adds, updates or removes resource from list.
@@ -39,8 +40,13 @@ export const useAllTestbooks = (): DBRegistryDoc[] => {
       .on("change", (res) => {
         setTestbooks(updateIndex(res));
       })
-      .on("error", console.error) // TODO: add notifications
-      .on("complete", () => console.log("completed")); // TODO: remove
+      .on("error", (err) =>
+        notifications.show({
+          id: "err_find_testbooks",
+          title: "An error occurred loading database",
+          message: err
+        })
+      );
     return () => watcher.cancel();
   }, []);
 

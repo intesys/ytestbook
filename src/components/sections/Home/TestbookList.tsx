@@ -1,26 +1,30 @@
 import {
   ActionIcon,
   Container,
+  Group,
   Table,
   Text,
   UnstyledButton,
 } from "@mantine/core";
+import { useToggle } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdDownload, MdOutlineRemoveRedEye } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { removeTestbook } from "../../../api/models/testbook";
 import { DBRegistryDoc } from "../../../types/pouchDB";
-import { useAllTestbooks } from "./hooks/useAllTestbooks";
+import { useAllTestbooks } from "../../../hooks/useAllTestbooks";
 import { useTableStyles } from "./styles";
+import { notifications } from "@mantine/notifications";
 
 export const TestbookList: React.FC = () => {
   const { classes } = useTableStyles();
   const navigate = useNavigate();
   const testbooks = useAllTestbooks();
+  const [showTestbookNames, toggle] = useToggle([true, false]);
 
   const handleGoTo = (testbook: DBRegistryDoc) => {
     console.log("clicked", testbook);
-    navigate(`/testbook/${testbook._id}`);
+    navigate(`/${testbook._id}`);
   };
 
   const handleRemove = (testbook: DBRegistryDoc) =>
@@ -33,13 +37,35 @@ export const TestbookList: React.FC = () => {
       ),
       labels: { confirm: "Confirm", cancel: "Cancel" },
       onConfirm: () => {
-        removeTestbook(testbook._id);
+        removeTestbook(testbook._id)
+          .then(() =>
+            notifications.show({
+              id: `deleted_${testbook._id}`,
+              message: `Testbook ${testbook.name} deleted`,
+            }),
+          )
+          .catch((err) =>
+            notifications.show({
+              id: `error_deleting_${testbook._id}`,
+              title: `Error deleting testbook ${testbook.name}`,
+              message: err,
+              color: "red",
+            }),
+          );
       },
     });
 
   return (
     <Container size="md">
-      <h3 className={classes.table_header}>Saved testbooks</h3>
+      <Group position="apart">
+        <h3 className={classes.table_header}>Load testbook</h3>
+        <ActionIcon
+          onClick={() => toggle()}
+          title="Show/hide testbooks and clients"
+        >
+          <MdOutlineRemoveRedEye />
+        </ActionIcon>
+      </Group>
       <Table
         className={classes.table_content}
         mt={16}
@@ -59,15 +85,25 @@ export const TestbookList: React.FC = () => {
             <tr key={testbook.location}>
               <td>
                 <UnstyledButton onClick={() => handleGoTo(testbook)}>
-                  <Text size="sm">{testbook.name}</Text>
+                  <Text size="sm">
+                    {showTestbookNames ? testbook.name : "***"}
+                  </Text>
                 </UnstyledButton>
               </td>
-              <td>{testbook.client || ""}</td>
+              <td>{showTestbookNames ? testbook.client || "" : "***"}</td>
               <td>{testbook.created || ""}</td>
               <td>
-                <ActionIcon onClick={() => handleRemove(testbook)}>
-                  <MdDelete></MdDelete>
-                </ActionIcon>
+                <Group>
+                  <ActionIcon>
+                    <MdDownload title="Download" />
+                  </ActionIcon>
+                  <ActionIcon
+                    title="Delete"
+                    onClick={() => handleRemove(testbook)}
+                  >
+                    <MdDelete />
+                  </ActionIcon>
+                </Group>
               </td>
             </tr>
           ))}

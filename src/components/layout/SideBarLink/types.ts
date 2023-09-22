@@ -1,11 +1,11 @@
 import { StatusEnum } from "../../../generated";
-import { NAVBAR_STATUS } from "../Navbar/const";
+import { SIDEBAR_STATUS } from "../SideBar/const";
 
 export interface IOwnProps {
   id?: string;
   title?: string;
   status?: StatusEnum;
   active?: boolean;
-  navStatus?: NAVBAR_STATUS;
+  navStatus?: SIDEBAR_STATUS;
   onClick?: (id: string) => void;
 }

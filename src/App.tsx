@@ -5,11 +5,13 @@ import Styles from "./Styles";
 import { MainNavigation } from "./Navigation";
 import { theme } from "./theme";
 import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <MantineProvider theme={{ ...theme }} withGlobalStyles withNormalizeCSS>
+        <Notifications />
         <ModalsProvider>
           <DatesProvider settings={{ locale: "it" }}>
             <Styles />

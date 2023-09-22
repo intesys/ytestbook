@@ -2,11 +2,11 @@ import { Box, Group, Tooltip, UnstyledButton } from "@mantine/core";
 import classnames from "classnames";
 import React from "react";
 import { StatusIcon } from "../../misc/StatusIcon";
-import { NAVBAR_STATUS } from "../Navbar/const";
+import { SIDEBAR_STATUS } from "../SideBar/const";
 import useStyles from "./styles";
 import { IOwnProps } from "./types";
 
-export const NavbarLink: React.FC<IOwnProps> = ({
+export const SideBarLink: React.FC<IOwnProps> = ({
   id,
   title,
   status,
@@ -35,7 +35,9 @@ export const NavbarLink: React.FC<IOwnProps> = ({
         <Group position="apart" spacing={0}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {StatusIcon({ status })}
-            {navStatus !== NAVBAR_STATUS.COLLAPSED && <Box ml={7}>{title}</Box>}
+            {navStatus !== SIDEBAR_STATUS.COLLAPSED && (
+              <Box ml={7}>{title}</Box>
+            )}
           </Box>
         </Group>
       </UnstyledButton>

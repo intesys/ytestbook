@@ -4,6 +4,7 @@ import { useForm } from "@mantine/form";
 import { testbook_initialValues, testbook_validate } from "./const";
 import { createTestbook } from "../../../api/models/testbook";
 import { useCardStyles } from "./styles";
+import { notifications } from "@mantine/notifications";
 
 export const CreateTestbook: React.FC = () => {
   const { classes } = useCardStyles();
@@ -15,9 +16,15 @@ export const CreateTestbook: React.FC = () => {
   const submitForm = () => {
     if (!form.validate().hasErrors) {
       createTestbook(form.values.name, form.values.client)
-        .then(console.log)
         .then(() => form.reset())
+        .then(() =>
+          notifications.show({
+            id: "testbook_save",
+            message: "Testbook saved",
+          }),
+        )
         .catch((err) => {
+          console.error("Error saving db", err);
           form.setFieldError(
             "name",
             "Can't create testbook with this name, please try with another one",
@@ -27,7 +34,7 @@ export const CreateTestbook: React.FC = () => {
   };
 
   return (
-    <Card title="Create a new Testbook" className={classes.card}>
+    <Card title="Create a new Testbook" className={classes.card} padding="xl">
       <Stack>
         <TextField
           required

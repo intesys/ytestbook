@@ -1,8 +1,8 @@
+import slugify from 'slugify';
 import { DB_INDEX } from "..";
 import { getFormattedDateDayJs } from '../../lib/date/date';
-import { DBRegistryDoc } from "../../types/pouchDB";
-import { DB_INFO_ID, DB_REGISTRY_ID, dbLocation } from '../consts';
-import slugify from 'slugify';
+import { DBRegistryDoc, TestbookInfo } from "../../types/pouchDB";
+import { DB_INFO_ID, dbLocation } from '../consts';
 import { isValidUrl } from "./isValidUrl";
 
 /**
@@ -30,6 +30,7 @@ export const removeDB = async (slug: string) => {
   try {
     connectionRegistry[slug] ?? await connectionRegistry[slug].destroy();
   } catch (err) { }
+
   try {
     const dbLocation = getLocation(slug);
     if (isValidUrl(dbLocation)) {
@@ -37,9 +38,11 @@ export const removeDB = async (slug: string) => {
       await fetch(dbLocation, { method: "DELETE" });
     }
   } catch (err) { }
+
   try {
     delete connectionRegistry[slug];
   } catch (err) { }
+
   try {
     const dbDoc = await DB_INDEX.get(slug);
     await DB_INDEX.remove(dbDoc);
@@ -74,11 +77,14 @@ export const createDB = async (name: string, info: {}): Promise<PouchDB.Database
       slug,
       ...info,
       created
-    });
+    } as TestbookInfo);
     await register(name, slug, location, info);
     return DB;
   }
   catch (err) {
+    if ((err as { error: string }).error === "conflict") {
+      throw err;
+    }
     const slug = slugify(name);
     // rollback
     await removeDB(slug);
