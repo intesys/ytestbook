@@ -1,11 +1,11 @@
-import { Group, Navbar as MuiNavbar, Stack } from "@mantine/core";
+import { Group, Navbar } from "@mantine/core";
 import React from "react";
-import { SideBarLink } from "../SideBarLink/SideBarLink";
-import { OverviewButton } from "./OverviewButton";
+import { Menu } from "./Menu/Menu";
+import { Overview } from "./Overview/Overview";
+import { OverviewHeader } from "./OverviewHeader";
 import { QuickClose } from "./QuickClose";
 import { SIDEBAR_STATUS, navbarConfig } from "./const";
 import { useNavbarStyles } from "./styles";
-import Overview from "../Overview/Overview";
 
 export type WithNavbarStatus = {
   status: SIDEBAR_STATUS;
@@ -18,9 +18,9 @@ export type WithNavbarStatus = {
 const getContent = (status: SIDEBAR_STATUS) => {
   switch (status) {
     case SIDEBAR_STATUS.FULLSCREEN:
-      return "testbook manager";
+      return <Overview />;
     case SIDEBAR_STATUS.OPEN:
-      return "menu";
+      return <Menu />;
     case SIDEBAR_STATUS.COLLAPSED:
     default:
       return null;
@@ -32,7 +32,7 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
   const content = getContent(status);
 
   return (
-    <MuiNavbar
+    <Navbar
       width={{
         base: status
           ? navbarConfig[status as SIDEBAR_STATUS]
@@ -40,17 +40,15 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
       }}
       className={classes.navbar}
     >
-      <MuiNavbar.Section className={classes.navbar_header}>
+      <Navbar.Section className={classes.navbar_header}>
         <Group>
-          <OverviewButton toggle={toggle} status={status} />
+          <OverviewHeader toggle={toggle} status={status} />
           <QuickClose toggle={toggle} status={status} />
         </Group>
-      </MuiNavbar.Section>
-      <MuiNavbar.Section grow mt={40}>
-        <Stack justify="center" spacing={0}>
-          {content}
-        </Stack>
-      </MuiNavbar.Section>
-    </MuiNavbar>
+      </Navbar.Section>
+      <Navbar.Section grow mt={40}>
+        {content}
+      </Navbar.Section>
+    </Navbar>
   );
 };

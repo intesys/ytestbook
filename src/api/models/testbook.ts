@@ -1,10 +1,11 @@
 import { DB_INDEX, removeDB } from "..";
 import { createDB, getDB } from "../";
 import { getFormattedDateDayJs } from "../../lib/date/date";
-import { DBRegistryDoc, TestbookInfo } from "../../types/pouchDB";
+import { DBRegistryDoc } from "../../types/pouchDB";
+import { TestbookInfo } from "../../types/testbook";
 import { DB_INFO_ID } from "../consts";
 
-export const findAllTestbooks = () => {
+export const watchAllTestbooks = () => {
   return DB_INDEX.changes<DBRegistryDoc>({ live: true, include_docs: true });
 }
 
@@ -12,7 +13,7 @@ export const createTestbook = async (name: string, client: string) => {
   // feel free to add any string info to info object
   const info = { name, client, created: getFormattedDateDayJs() };
   const DB = await createDB(name, info);
-  return DB.get(DB_INFO_ID);
+  return DB.get<TestbookInfo>(DB_INFO_ID);
 }
 
 export const findTestbook = async (slug: string) => {

@@ -1,9 +1,10 @@
 import { getFormattedDateDayJs } from "../../lib/date/date";
 import { STATUS } from "../../types/status";
-import { USE_CASE, UseCase } from "../../types/useCase";
+import { TYPE } from "../../types/testbook";
+import { UseCase } from "../../types/useCase";
 
-export const scaffoldUseCase: UseCase = {
-  type: USE_CASE,
+export const scaffoldUseCase: Omit<UseCase, "_id"> = {
+  type: TYPE.USE_CASE,
   title: "",
   description: "",
   requirements: "",

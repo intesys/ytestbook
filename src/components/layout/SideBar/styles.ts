@@ -4,7 +4,7 @@ export const useNavbarStyles = createStyles((theme) => ({
   navbar: {
     backgroundColor: theme.colors.primary?.[0],
     paddingBottom: 0,
-    height: "100%",
+    // height: "100%",
     padding: theme.spacing.lg,
     transition: "all 0.3s ease-in-out",
   },

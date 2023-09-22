@@ -11,7 +11,7 @@ import { WithNavbarStatus } from "./SideBar";
 import { SIDEBAR_STATUS } from "./const";
 import { useOverviewButtonStyles } from "./styles";
 
-export const OverviewButton: React.FC<WithNavbarStatus> = ({
+export const OverviewHeader: React.FC<WithNavbarStatus> = ({
   status,
   toggle,
 }) => {

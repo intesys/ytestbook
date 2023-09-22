@@ -3,12 +3,14 @@ import {
   MdCheckCircle,
   MdDangerous,
   MdDeleteForever,
+  MdNotStarted,
   MdPauseCircle,
   MdPending,
   MdPlayCircle,
   MdReportProblem,
 } from "react-icons/md";
 import { STATUS } from "../../types/status";
+import { theme } from "../../theme";
 
 interface IProps {
   status?: STATUS | string;
@@ -66,15 +68,10 @@ export const StatusIcon = ({
 
     case STATUS.TODO:
       return (
-        <ThemeIcon color="violet" variant={variant} size={size}>
-          <MdPlayCircle size="1.5rem" />
-        </ThemeIcon>
+        <MdNotStarted size="1.5rem" color={theme.colors?.secondary?.[8]} />
       );
+
     default:
-      return (
-        <ThemeIcon variant={variant} size={size}>
-          {status}
-        </ThemeIcon>
-      );
+      return <MdPending size="1.5rem" color={theme.colors?.primary?.[5]} />;
   }
 };

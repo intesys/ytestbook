@@ -18,12 +18,3 @@ export type DBRegistryDoc = {
    */
   location: string;
 } & Record<string, string>;
-
-export type TestbookAdditionalInfo = "client" | "created";
-
-export type TestbookInfo = {
-  _id: string;
-  name: string;
-  slug: string;
-  created: string;
-} & Record<TestbookAdditionalInfo, string>;

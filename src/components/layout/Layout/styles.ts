@@ -5,7 +5,7 @@ const useStyles = createStyles((theme) => ({
   app_header: {},
   app_wrapper: {
     display: "flex",
-    height: "calc(100vh - 70px)",
+    height: "calc(100vh - 80px)",
   },
   app_sidebar: {},
   app_main: { padding: `calc(${theme.spacing.lg} * 2)` },

@@ -1,12 +1,26 @@
-import { PouchDBDocument } from "../../types/pouchDB";
-import { USE_CASE, UseCase } from "../../types/useCase";
 import { getDB } from "../";
+import { PouchDBDocument } from "../../types/pouchDB";
+import { TYPE } from "../../types/testbook";
+import { UseCase } from "../../types/useCase";
 import { scaffoldUseCase } from "../scaffolds/useCase";
 
+/**
+ * @param slug Database slug/id
+ * @returns 
+ */
 export const getUseCases = async (slug: string) => {
   const DB = getDB(slug);
   return DB.find({
-    selector: { type: USE_CASE }
+    selector: { type: TYPE.USE_CASE }
+  })
+}
+
+export const watchUseCases = (slug: string) => {
+  const DB = getDB(slug);
+  return DB.changes<UseCase>({
+    live: true,
+    include_docs: true,
+    filter: (doc) => doc.type === TYPE.USE_CASE
   })
 }
 

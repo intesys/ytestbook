@@ -1,32 +1,8 @@
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
-import { findAllTestbooks } from "../api/models/testbook";
+import { watchAllTestbooks } from "../api/models/testbook";
 import { DBRegistryDoc } from "../types/pouchDB";
-
-/**
- * Adds, updates or removes resource from list.
- * If resource.doc doesn't exists, it returns the original list
- */
-const updateIndex = (resource: PouchDB.Core.ChangesResponseChange<DBRegistryDoc>) => (list: DBRegistryDoc[]): DBRegistryDoc[] => {
-  if (!resource.doc) {
-    return list;
-  }
-
-  if (resource.deleted) {
-    const index = list.findIndex(el => el._id === resource.doc?._id);
-    let updatedList = [...list];
-    updatedList.splice(index, 1);
-    return updatedList;
-  }
-
-  const existsAtIndex = list.findIndex(el => el._id === resource.doc?._id);
-  if (existsAtIndex > -1) {
-    list[existsAtIndex] = resource.doc as DBRegistryDoc;
-    return list;
-  }
-
-  return [...list, resource.doc as DBRegistryDoc];
-}
+import { updateStateOnChange } from "../api/lib/updateStateOnChange";
 
 /**
  * Returns a react state value representing all available testbooks.
@@ -36,15 +12,16 @@ export const useAllTestbooks = (): DBRegistryDoc[] => {
   const [testbooks, setTestbooks] = useState<DBRegistryDoc[]>([]);
 
   useEffect(() => {
-    const watcher = findAllTestbooks()
+    const watcher = watchAllTestbooks()
       .on("change", (res) => {
-        setTestbooks(updateIndex(res));
+        setTestbooks(updateStateOnChange<DBRegistryDoc>(res));
       })
       .on("error", (err) =>
         notifications.show({
           id: "err_find_testbooks",
-          title: "An error occurred loading database",
-          message: err
+          title: "An error occurred loading testbooks",
+          message: err,
+          color: "red"
         })
       );
     return () => watcher.cancel();

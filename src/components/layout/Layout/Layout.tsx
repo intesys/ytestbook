@@ -1,20 +1,16 @@
 import { useToggle } from "@mantine/hooks";
 import React from "react";
 import { Outlet, useParams } from "react-router-dom";
+import { useTestbook } from "../../../hooks/useTestbook";
+import { TestbookInfo } from "../../../types/testbook";
 import Header from "../Header/Header";
 import { SideBar } from "../SideBar/SideBar";
 import { SIDEBAR_STATUS } from "../SideBar/const";
 import useStyles from "./styles";
-import { useTestbook } from "../../../hooks/useTestbook";
-import { TestbookInfo } from "../../../types/pouchDB";
 
 const Layout: React.FC = () => {
   const { testbook, testcase, test, step } = useParams();
-
   const [testbookInfo] = useTestbook(testbook ?? "");
-
-  console.table(testbookInfo);
-
   const { classes } = useStyles();
   const [sidebarStatus, toggle] = useToggle<SIDEBAR_STATUS>([
     SIDEBAR_STATUS.FULLSCREEN,
