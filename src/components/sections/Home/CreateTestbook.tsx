@@ -14,6 +14,7 @@ export const CreateTestbook: React.FC = () => {
   });
 
   const submitForm = () => {
+    console.log("submitted form");
     if (!form.validate().hasErrors) {
       createTestbook(form.values.name, form.values.client)
         .then(() => form.reset())
@@ -35,23 +36,25 @@ export const CreateTestbook: React.FC = () => {
 
   return (
     <Card title="Create a new Testbook" className={classes.card} padding="xl">
-      <Stack>
-        <TextField
-          required
-          placeholder="Testbook name"
-          variant="blue"
-          {...form.getInputProps(`name`)}
-        />
-        <TextField
-          required
-          placeholder="Client"
-          variant="blue"
-          {...form.getInputProps(`client`)}
-        />
-      </Stack>
-      <Button mt="xl" fullWidth onClick={submitForm}>
-        Create
-      </Button>
+      <form onSubmit={form.onSubmit(submitForm)}>
+        <Stack>
+          <TextField
+            required
+            placeholder="Testbook name"
+            variant="blue"
+            {...form.getInputProps(`name`)}
+          />
+          <TextField
+            required
+            placeholder="Client"
+            variant="blue"
+            {...form.getInputProps(`client`)}
+          />
+        </Stack>
+        <Button type="submit" mt="xl" fullWidth>
+          Create
+        </Button>
+      </form>
     </Card>
   );
 };
