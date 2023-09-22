@@ -1,11 +1,11 @@
-import { MAINDB } from "..";
+import { DB_INDEX, removeDB } from "..";
 import { getFormattedDateDayJs } from "../../lib/date/date";
-import { DBRegistryKey } from "../../types/pouchDB";
+import { DBRegistryDoc } from "../../types/pouchDB";
 import { DB_INFO_ID, DB_REGISTRY_ID } from "../consts";
-import { createDB, getDB } from "../lib/db";
+import { createDB, getDB } from "../";
 
 export const findAllTestbooks = () => {
-  return MAINDB.changes<{ data: DBRegistryKey[] }>({ doc_ids: [DB_REGISTRY_ID], live: true, include_docs: true });
+  return DB_INDEX.changes<DBRegistryDoc>({ live: true, include_docs: true });
 }
 
 export const createTestbook = async (name: string, client: string) => {
@@ -18,4 +18,8 @@ export const createTestbook = async (name: string, client: string) => {
 export const findTestbook = async (slug: string) => {
   const DB = getDB(slug);
   console.log(DB);
+}
+
+export const removeTestbook = async (slug: string) => {
+  return removeDB(slug);
 }

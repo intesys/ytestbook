@@ -1,29 +1,20 @@
-import { MAINDB } from "..";
+import { DB_INDEX } from "..";
 import { getFormattedDateDayJs } from '../../lib/date/date';
-import { DBRegistryKey } from "../../types/pouchDB";
+import { DBRegistryDoc } from "../../types/pouchDB";
 import { DB_INFO_ID, DB_REGISTRY_ID, dbLocation } from '../consts';
 import slugify from 'slugify';
+import { isValidUrl } from "./isValidUrl";
 
 /**
- * local registry of PouchDB instances
+ * Local registry of PouchDB instances
  */
-const localRegistry: Record<string, PouchDB.Database<{}>> = {};
-
-const getRegistry = async () => {
-  try {
-    return await MAINDB.get<{ data: DBRegistryKey[] }>(DB_REGISTRY_ID);
-  }
-  catch (err) {
-    return { _id: DB_REGISTRY_ID, data: [] };
-  }
-}
+const connectionRegistry: Record<string, PouchDB.Database<{}>> = {};
 
 const getLocation = (slug: string): string => `${dbLocation}${slug}/`;
 
-const register = async (name: string, slug: string, location: string, info: {}): Promise<DBRegistryKey[]> => {
-  const registry = await getRegistry().catch(() => ({ _id: DB_REGISTRY_ID, data: [] }));
-  await MAINDB.put({ ...registry, data: [...registry.data, { name, slug, location, ...info }] });
-  return MAINDB.get(DB_REGISTRY_ID);
+const register = async (name: string, slug: string, location: string, info: {}): Promise<DBRegistryDoc> => {
+  await DB_INDEX.put<DBRegistryDoc>({ _id: slug, name, location, ...info });
+  return DB_INDEX.get<DBRegistryDoc>(slug);
 }
 
 const initializeIndexes = async (DB: PouchDB.Database) => {
@@ -33,33 +24,64 @@ const initializeIndexes = async (DB: PouchDB.Database) => {
 }
 
 /**
+ * Removes db by slug and updates DB_INDEX and localRegistry
+ */
+export const removeDB = async (slug: string) => {
+  try {
+    connectionRegistry[slug] ?? await connectionRegistry[slug].destroy();
+  } catch (err) { }
+  try {
+    const dbLocation = getLocation(slug);
+    if (isValidUrl(dbLocation)) {
+      // It's a remote database
+      await fetch(dbLocation, { method: "DELETE" });
+    }
+  } catch (err) { }
+  try {
+    delete connectionRegistry[slug];
+  } catch (err) { }
+  try {
+    const dbDoc = await DB_INDEX.get(slug);
+    await DB_INDEX.remove(dbDoc);
+  } catch (err) { }
+}
+
+/**
  * Returns a PouchDB instance for requested slug
  * it caches and reuses connections using an internal registry
  */
 export const getDB = (slug: string): PouchDB.Database<{}> => {
-  if (!localRegistry[slug]) {
+  if (!connectionRegistry[slug]) {
     const instance = new PouchDB(getLocation(slug));
-    localRegistry[slug] = instance;
+    connectionRegistry[slug] = instance;
   }
-  return localRegistry[slug];
+  return connectionRegistry[slug];
 }
 
 /**
  * Creates a new database and registers it even in PouchDB internal index and in the local registry
  */
 export const createDB = async (name: string, info: {}): Promise<PouchDB.Database<{}>> => {
-  const slug = slugify(name);
-  const location = getLocation(slug);
-  const created = getFormattedDateDayJs();
-  const DB = getDB(slug)
-  initializeIndexes(DB);
-  await DB.put({
-    _id: DB_INFO_ID,
-    name,
-    slug,
-    ...info,
-    created
-  });
-  await register(name, slug, location, info);
-  return DB
+  try {
+    const slug = slugify(name);
+    const location = getLocation(slug);
+    const created = getFormattedDateDayJs();
+    const DB = getDB(slug)
+    initializeIndexes(DB);
+    await DB.put({
+      _id: DB_INFO_ID,
+      name,
+      slug,
+      ...info,
+      created
+    });
+    await register(name, slug, location, info);
+    return DB;
+  }
+  catch (err) {
+    const slug = slugify(name);
+    // rollback
+    await removeDB(slug);
+    throw err;
+  }
 }

@@ -7,14 +7,14 @@ import { server } from '../../config.json';
  */
 export const dbLocation = `${server.protocol}://${server.host}:${server.port}/${server.db}/`;
 
-export const TESTBOOK_INDEX = 'testbook_index_db';
+export const DB_INDEX_NAME = 'index_db__';
 
 /**
  * Registry key of the main database, its an array of objects representing installed testbooks
  * in this format:
  * { name: string, location: string } 
  */
-export const DB_REGISTRY_ID = 'registry';
+export const DB_REGISTRY_ID = 'registry'; // TODO remove
 
 /**
  * Special key where database infos are stored

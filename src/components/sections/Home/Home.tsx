@@ -1,29 +1,16 @@
-import { Button, Center, Container, Stack, Table } from "@mantine/core";
+import { Button, Center, Container, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { useEffect, useState } from "react";
-import { findAllTestbooks, createTestbook } from "../../../api/models/testbook";
-import { DBRegistryKey } from "../../../types/pouchDB";
+import React from "react";
+import { createTestbook } from "../../../api/models/testbook";
 import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 import Card from "../../ui/Card/Card";
 import TextField from "../../ui/TextField/TextField";
 import { testbook_initialValues, testbook_validate } from "./const";
 import useStyles from "./styles";
-import { useNavigate } from "react-router";
+import { TestbookList } from "./TestbookList";
 
 export const Home: React.FC = () => {
-  const [testbooks, setTestbooks] = useState<DBRegistryKey[]>([]);
   const { classes } = useStyles();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const watcher = findAllTestbooks()
-      .on("change", (res) => {
-        setTestbooks(res.doc?.data ?? []);
-      })
-      .on("error", console.error) // TODO: add notifications
-      .on("complete", () => console.log("completed")); // TODO: remove
-    return () => watcher.cancel();
-  }, []);
 
   const form = useForm({
     initialValues: testbook_initialValues,
@@ -43,18 +30,6 @@ export const Home: React.FC = () => {
         });
     }
   };
-
-  const onClickTable = (testbook: DBRegistryKey) => {
-    navigate(`/testbook/${testbook.slug}`);
-  };
-
-  const rows = testbooks?.map((testbook) => (
-    <tr key={testbook.location} onClick={() => onClickTable(testbook)}>
-      <td>{testbook.name}</td>
-      <td>{testbook.client || ""}</td>
-      <td>{testbook.created || ""}</td>
-    </tr>
-  ));
 
   return (
     <div className={classes.home_layout}>
@@ -88,24 +63,7 @@ export const Home: React.FC = () => {
       </div>
 
       <div className={classes.home_second}>
-        <Container size="md" className={classes.home_container}>
-          <h3 className={classes.table_header}>Saved testbooks</h3>
-          <Table
-            className={classes.table_content}
-            mt={16}
-            highlightOnHover
-            verticalSpacing={10}
-          >
-            <thead>
-              <tr>
-                <th>Testbook name</th>
-                <th>Client</th>
-                <th>Last edit</th>
-              </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-          </Table>
-        </Container>
+        <TestbookList />
       </div>
     </div>
   );

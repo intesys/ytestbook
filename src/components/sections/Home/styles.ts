@@ -45,11 +45,6 @@ const useStyles = createStyles((theme) => ({
     thead: {
       backgroundColor: theme.colors.primary?.[1],
     },
-    tbody: {
-      tr: {
-        cursor: "pointer",
-      },
-    },
   },
 }));
 

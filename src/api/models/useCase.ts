@@ -1,6 +1,6 @@
 import { PouchDBDocument } from "../../types/pouchDB";
 import { USE_CASE, UseCase } from "../../types/useCase";
-import { getDB } from "../lib/db";
+import { getDB } from "../";
 import { scaffoldUseCase } from "../scaffolds/useCase";
 
 export const getUseCases = async (slug: string) => {

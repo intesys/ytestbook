@@ -4,15 +4,15 @@ export type PouchDBDocument<T> = T & PouchDB.Core.IdMeta & PouchDB.Core.GetMeta;
  * Name and location of a registered testbook
  * plus any other useful string info
  */
-export type DBRegistryKey = {
+export type DBRegistryDoc = {
+  /**
+   * Real database name
+  */
+  _id: string;
   /**
    * Database label
    */
   name: string;
-  /**
-   * Real database name
-   */
-  slug: string;
   /**
    * URL or local URI
    */
