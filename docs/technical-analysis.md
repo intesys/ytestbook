@@ -61,8 +61,6 @@ App uses PouchDB as database, so data is modeled upon it's caracteristichs.
 
 App also relies on PouchDB capability to observe changes to manage it's state in a reactive way.
 
----
-
 ### Testbook
 
 A testbook represents a project and contains `use cases`, `tests` and `steps`. A testbook is an independent entity and can be added or removed without affecting other testbooks. It can also be imported/exported as json file (nice to have).
@@ -118,8 +116,6 @@ type TestbookAdditionalInfo = "client" | "created" | "description";
 #### Testbook index
 
 In addition, there is a global database called `index_db__` that contains an index of all testbooks installed in an app instance. It's used in the `/` page to list saved testbooks.
-
----
 
 ### Use case
 
