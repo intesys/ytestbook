@@ -187,8 +187,6 @@ type Test {
 } & PouchDB.Core.IdMeta;
 ```
 
-### Test properties
-
 ### Step
 
 Every test requires a set of actions to verify expectations, these are called `steps`. Every step is the exact statement user has to do in order to verify the test.
@@ -231,9 +229,7 @@ type Step {
 } & PouchDB.Core.IdMeta;
 ```
 
-### Secondary data
-
-#### Comment
+### Comment
 
 Comment are **polymorphic** entities, so they can be associated to many models. In the database it's represented as a couple of keys: `relatedEntity` and `relatedId`.
 
@@ -254,7 +250,7 @@ type Comment {
 } & PouchDB.Core.IdMeta;
 ```
 
-#### User
+### User
 
 User entities are shown as external entities in `use cases` as `accountantId` and `responsibleId`, and in `comments` as `authorId`.
 
