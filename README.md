@@ -18,4 +18,4 @@ Then you can manage test sessions, sunning tests and tracking success and failur
 
 At any time, you can monitor progress and evaluate problems.
 
-You can look at initial analysis in the [docs folder](./docs/requirements.md).
+Functional analysis in the [docs folder](./docs/requirements.md). Technical analysis is [here](./docs/technical-analysis.md)
