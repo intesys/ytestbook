@@ -14,11 +14,6 @@ export const Menu: React.FC = () => {
       {useCases.map((useCase) => (
         <List.Item icon={<StatusIcon status={useCase.status} />}>
           {useCase.title}
-          <List>
-            <List.Item>Test esempio</List.Item>
-            <List.Item>Test esempio di un test</List.Item>
-            <List.Item>Test</List.Item>
-          </List>
         </List.Item>
       ))}
     </List>

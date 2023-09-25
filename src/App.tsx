@@ -9,17 +9,15 @@ import { Notifications } from "@mantine/notifications";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <MantineProvider theme={{ ...theme }} withGlobalStyles withNormalizeCSS>
-        <Notifications />
-        <ModalsProvider>
-          <DatesProvider settings={{ locale: "it" }}>
-            <Styles />
-            <MainNavigation />
-          </DatesProvider>
-        </ModalsProvider>
-      </MantineProvider>
-    </div>
+    <MantineProvider theme={{ ...theme }} withGlobalStyles withNormalizeCSS>
+      <Notifications />
+      <ModalsProvider>
+        <DatesProvider settings={{ locale: "it" }}>
+          <Styles />
+          <MainNavigation />
+        </DatesProvider>
+      </ModalsProvider>
+    </MantineProvider>
   );
 };
 

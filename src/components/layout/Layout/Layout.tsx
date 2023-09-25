@@ -6,12 +6,11 @@ import { TestbookInfo } from "../../../types/testbook";
 import Header from "../Header/Header";
 import { SideBar } from "../SideBar/SideBar";
 import { SIDEBAR_STATUS } from "../SideBar/const";
-import useStyles from "./styles";
+import { Box, Flex, Stack } from "@mantine/core";
 
 const Layout: React.FC = () => {
   const { testbook, testcase, test, step } = useParams();
   const [testbookInfo] = useTestbook(testbook ?? "");
-  const { classes } = useStyles();
   const [sidebarStatus, toggle] = useToggle<SIDEBAR_STATUS>([
     SIDEBAR_STATUS.FULLSCREEN,
     SIDEBAR_STATUS.COLLAPSED,
@@ -19,21 +18,19 @@ const Layout: React.FC = () => {
   ]);
 
   return (
-    <div className={classes.app_layout}>
-      <div className={classes.app_header}>
+    <Stack spacing={0} style={{ height: "100vh", alignContent: "stretch" }}>
+      <Box>
         <Header {...(testbookInfo as TestbookInfo)} />
-      </div>
-      <div className={classes.app_wrapper}>
-        <div className={classes.app_sidebar}>
+      </Box>
+      <Flex style={{ flex: 1 }}>
+        <Box>
           <SideBar toggle={toggle} status={sidebarStatus} />
-        </div>
-        {sidebarStatus !== SIDEBAR_STATUS.FULLSCREEN && (
-          <div className={classes.app_main}>
-            <Outlet />
-          </div>
-        )}
-      </div>
-    </div>
+        </Box>
+        <Box py={20} px={30}>
+          {sidebarStatus !== SIDEBAR_STATUS.FULLSCREEN && <Outlet />}
+        </Box>
+      </Flex>
+    </Stack>
   );
 };
 
