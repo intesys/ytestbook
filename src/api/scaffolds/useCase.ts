@@ -1,6 +1,6 @@
 import { getFormattedDateDayJs } from "../../lib/date/date";
 import { STATUS } from "../../types/status";
-import { TYPE } from "../../types/testbook";
+import { TYPE } from "../../types/entityTypes";
 import { UseCase } from "../../types/useCase";
 
 export const scaffoldUseCase: Omit<UseCase, "_id"> = {

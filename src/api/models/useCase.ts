@@ -1,6 +1,6 @@
 import { getDB } from "../";
 import { PouchDBDocument } from "../../types/pouchDB";
-import { TYPE } from "../../types/testbook";
+import { TYPE } from "../../types/entityTypes";
 import { UseCase } from "../../types/useCase";
 import { scaffoldUseCase } from "../scaffolds/useCase";
 

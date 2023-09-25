@@ -1,14 +1,13 @@
-import { STATUS } from "./status"
 import { TYPE } from "./entityTypes";
+import { STATUS } from "./status";
 
-export type UseCase = {
-  type: TYPE.USE_CASE,
+export type Test {
+  type: TYPE.TEST,
   slug: string,
+  useCaseId: string,
   title?: string,
   description?: string,
   requirements?: string,
-  accountantId?: string,
-  responsibleId?: string,
   status: STATUS,
   startDate?: string,
   endDate?: string,

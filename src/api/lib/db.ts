@@ -1,8 +1,9 @@
 import slugify from 'slugify';
 import { DB_INDEX } from "..";
 import { getFormattedDateDayJs } from '../../lib/date/date';
+import { TYPE } from '../../types/entityTypes';
 import { DBRegistryDoc } from "../../types/pouchDB";
-import { TYPE, TestbookInfo } from '../../types/testbook';
+import { TestbookInfo } from '../../types/testbook';
 import { DB_INFO_ID, dbLocation } from '../consts';
 import { isValidUrl } from "./isValidUrl";
 
