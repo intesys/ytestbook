@@ -21,3 +21,4 @@ At any time, you can monitor progress and evaluate problems.
 - Functional analysis in the [docs folder](./docs/requirements.md)
 - Technical analysis is [here](./docs/technical-analysis.md)
 - Code architecture is described [in coding rules](./docs/coding-rules.md)
+- [Libraries and external documentation](./docs/external-dependencies.md)
