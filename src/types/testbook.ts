@@ -1,4 +1,4 @@
-type TestbookAdditionalInfo = "client" | "created";
+export type TestbookAdditionalInfo = "client" | "created";
 
 export type TestbookInfo = {
   _id: string;
