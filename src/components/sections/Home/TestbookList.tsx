@@ -10,7 +10,7 @@ import { useToggle } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { MdDelete, MdDownload, MdOutlineRemoveRedEye } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { removeTestbook } from "../../../api/models/testbook";
+import { removeTestbook } from "../../../api/lib/testbook";
 import { DBRegistryDoc } from "../../../types/pouchDB";
 import { useAllTestbooks } from "../../../hooks/useAllTestbooks";
 import { useTableStyles } from "./styles";

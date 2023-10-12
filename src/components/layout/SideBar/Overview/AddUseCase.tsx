@@ -1,9 +1,9 @@
-import { useForm } from "@mantine/form";
-import { create } from "../../../../api/models/useCase";
 import { TextInput, ThemeIcon } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { MdAddCircle } from "react-icons/md";
+import { create } from "../../../../api";
 import { scaffoldUseCase } from "../../../../api/scaffolds/useCase";
 import { UseCase } from "../../../../types/useCase";
-import { MdAddCircle } from "react-icons/md";
 import { useAddUseCaseStyles } from "./styles";
 
 const Add = ({ action }: { action: () => void }) => {
@@ -28,13 +28,17 @@ export const AddUseCase: React.FC<AddUseCase> = ({ testbook, useCases }) => {
   });
 
   const addUseCase = () => {
-    create(testbook ?? "", {
-      ...scaffoldUseCase,
-      title: form.values.title,
-      _id: `uc-${useCases.length}`,
-    });
+    create(
+      testbook ?? "",
+      {
+        title: form.values.title,
+        _id: `uc-${useCases.length}`,
+      },
+      scaffoldUseCase,
+    );
     form.reset();
   };
+
   return (
     <form onSubmit={form.onSubmit(addUseCase)}>
       <TextInput

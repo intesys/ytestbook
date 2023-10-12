@@ -2,7 +2,7 @@ import { Card, Stack, Button } from "@mantine/core";
 import TextField from "../../ui/TextField/TextField";
 import { useForm } from "@mantine/form";
 import { testbook_initialValues, testbook_validate } from "./const";
-import { createTestbook } from "../../../api/models/testbook";
+import { createTestbook } from "../../../api/lib/testbook";
 import { useCardStyles } from "./styles";
 import { notifications } from "@mantine/notifications";
 

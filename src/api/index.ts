@@ -1,6 +1,3 @@
-import { DB_INDEX_NAME, dbLocation } from "./consts";
-import { getDB, createDB, removeDB } from './lib/db';
+export { createTestbook, findTestbook, removeTestbook, updateTestbook, watchAllTestbooks } from './lib/testbook';
 
-export const DB_INDEX = new PouchDB(`${dbLocation}${DB_INDEX_NAME}/`);
-
-export { getDB, createDB, removeDB }; 
+export { create, find, findAll, remove, update, watchAll } from './lib/model';

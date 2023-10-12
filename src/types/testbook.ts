@@ -2,7 +2,7 @@ export type TestbookAdditionalInfo = "client" | "created";
 
 export type TestbookInfo = {
   _id: string;
-  slug: string;
+  id: string;
   name: string;
   description?: string,
   created: string;

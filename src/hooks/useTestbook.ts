@@ -1,7 +1,7 @@
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { findTestbook, saveTestbook } from "../api/models/testbook";
+import { findTestbook, updateTestbook } from "../api/lib/testbook";
 import { TestbookInfo } from "../types/testbook";
 
 export const useTestbook = (slug: string) => {
@@ -28,7 +28,7 @@ export const useTestbook = (slug: string) => {
   }, [slug]);
 
   const save = async (testbook: TestbookInfo) => {
-    saveTestbook(testbook)
+    updateTestbook(testbook)
       .then(setTestbook)
       .catch(err => notifications.show({
         id: "error_testbook_save",

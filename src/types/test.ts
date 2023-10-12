@@ -3,7 +3,6 @@ import { STATUS } from "./status";
 
 export type Test {
   type: TYPE.TEST,
-  slug: string,
   useCaseId: string,
   title?: string,
   description?: string,

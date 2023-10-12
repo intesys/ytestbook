@@ -3,7 +3,6 @@ import { TYPE } from "./entityTypes";
 
 export type UseCase = {
   type: TYPE.USE_CASE,
-  slug: string,
   title?: string,
   description?: string,
   requirements?: string,
