@@ -2,7 +2,7 @@ import { getFormattedDateDayJs } from "../../lib/date/date";
 import { DBRegistryDoc } from "../../types/pouchDB";
 import { TestbookInfo } from "../../types/testbook";
 import { DB_INFO_ID } from "../consts";
-import { DB_INDEX, createDB, getDB, removeDB } from "./db";
+import { DB_INDEX, createDB, getDB, removeDB, updateDB } from "./db";
 
 export const findTestbook = async (id: string) => {
   const DB = getDB(id);
@@ -26,8 +26,9 @@ export const createTestbook = async (name: string, client: string) => {
 
 export const updateTestbook = async (testbook: TestbookInfo) => {
   const DB = getDB(testbook.id);
-  await DB.put(testbook);
-  return DB.get<TestbookInfo>(testbook.id);
+  await DB.put({ ...testbook, _id: DB_INFO_ID });
+  await updateDB(testbook.id, testbook);
+  return DB.get<TestbookInfo>(DB_INFO_ID);
 }
 
 export const removeTestbook = async (id: string) => {

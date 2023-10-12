@@ -90,8 +90,16 @@ export const TestbookList: React.FC = () => {
                   </Text>
                 </UnstyledButton>
               </td>
-              <td>{showTestbookNames ? testbook.client || "" : "***"}</td>
-              <td>{testbook.created || ""}</td>
+              <td>
+                <UnstyledButton onClick={() => handleGoTo(testbook)}>
+                  <Text size="sm">
+                    {showTestbookNames ? testbook.client || "" : "***"}
+                  </Text>
+                </UnstyledButton>
+              </td>
+              <td>
+                <Text size="sm">{testbook.created || ""}</Text>
+              </td>
               <td>
                 <Group>
                   <ActionIcon>

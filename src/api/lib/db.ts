@@ -93,7 +93,7 @@ export const createDB = async (name: string, info: Record<TestbookAdditionalInfo
     // add db indexes
     await initializeIndexes(DB);
 
-    // Save an "info" document into db
+    // Save an "info" document in the new db
     await DB.put({
       _id: DB_INFO_ID,
       type: TYPE.INFO,
@@ -116,4 +116,13 @@ export const createDB = async (name: string, info: Record<TestbookAdditionalInfo
     await removeDB(slug);
     throw err;
   }
+}
+
+export const updateDB = async (name: string, info: TestbookInfo): Promise<DBRegistryDoc> => {
+  const id = slugify(name);
+  const location = getLocation(id);
+  // @ts-ignore ensure _rev is not passed
+  const { _id, _rev, ...rest } = info;
+  const revision = await DB_INDEX.get<DBRegistryDoc>(id);
+  return register(name, id, location, { ...rest, _rev: revision._rev });
 }
