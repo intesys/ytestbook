@@ -26,7 +26,7 @@ const Layout: React.FC = () => {
         <Box>
           <SideBar toggle={toggle} status={sidebarStatus} />
         </Box>
-        <Box py={20} px={30}>
+        <Box py={20} px={30} style={{ flexGrow: 2 }}>
           {sidebarStatus !== SIDEBAR_STATUS.FULLSCREEN && <Outlet />}
         </Box>
       </Flex>
