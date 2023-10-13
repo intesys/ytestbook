@@ -1,21 +1,18 @@
-import { Box, Button, Group, ThemeIcon } from "@mantine/core";
-import classnames from "classnames";
+import { Group, ThemeIcon } from "@mantine/core";
 import React from "react";
 import {
   MdOutlineRemoveRedEye,
   MdSkipNext,
   MdSkipPrevious,
 } from "react-icons/md";
-import SvgIcon from "../../misc/SvgIcon/SvgIcon";
 import { WithNavbarStatus } from "./SideBar";
 import { SIDEBAR_STATUS } from "./const";
-import { useOverviewButtonStyles } from "./styles";
+import classes from "./overviewHeader.module.scss";
 
 export const OverviewHeader: React.FC<WithNavbarStatus> = ({
   status,
   toggle,
 }) => {
-  const { classes } = useOverviewButtonStyles();
   const _toggle =
     status === SIDEBAR_STATUS.FULLSCREEN
       ? () => toggle(SIDEBAR_STATUS.OPEN)
@@ -29,7 +26,7 @@ export const OverviewHeader: React.FC<WithNavbarStatus> = ({
     return (
       <Group
         className={classes.group}
-        position="center"
+        justify="space-between"
         onClick={() => toggle(SIDEBAR_STATUS.OPEN)}
       >
         <ThemeIcon size="xl" color="transparent" className={classes.icon}>
@@ -41,7 +38,7 @@ export const OverviewHeader: React.FC<WithNavbarStatus> = ({
 
   // Show all elements
   return (
-    <Group className={classes.group} position="apart" onClick={_toggle}>
+    <Group className={classes.group} justify="space-between" onClick={_toggle}>
       <ThemeIcon size="xl" color="transparent" className={classes.icon}>
         <MdOutlineRemoveRedEye />
       </ThemeIcon>

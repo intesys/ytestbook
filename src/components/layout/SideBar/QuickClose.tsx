@@ -1,12 +1,10 @@
 import { ThemeIcon, UnstyledButton } from "@mantine/core";
 import { MdClose } from "react-icons/md";
 import { SIDEBAR_STATUS } from "./const";
-import { useQuickCloseStyles } from "./styles";
 import { WithNavbarStatus } from "./SideBar";
+import classes from "./quickClose.module.scss";
 
 export const QuickClose: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
-  const { classes } = useQuickCloseStyles();
-
   if (status === SIDEBAR_STATUS.COLLAPSED) {
     return null;
   }
@@ -14,14 +12,14 @@ export const QuickClose: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
   return (
     <UnstyledButton
       onClick={() => toggle(SIDEBAR_STATUS.COLLAPSED)}
-      className={classes.navbar_toogle}
+      className={classes.navbarToogle}
       title="Collapse sidebar"
     >
       <ThemeIcon
         radius="xl"
         color="white"
         variant="default"
-        className={classes.navbar_toogle_inner}
+        className={classes.navbarToogleInner}
       >
         <MdClose />
       </ThemeIcon>

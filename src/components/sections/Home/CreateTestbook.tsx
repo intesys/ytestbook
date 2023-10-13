@@ -1,16 +1,14 @@
-import { Card, Stack, Button } from "@mantine/core";
-import TextField from "../../ui/TextField/TextField";
+import { Button, Card, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { testbook_initialValues, testbook_validate } from "./const";
-import { createTestbook } from "../../../api/lib/testbook";
-import { useCardStyles } from "./styles";
 import { notifications } from "@mantine/notifications";
+import { createTestbook } from "../../../api/lib/testbook";
+import { testbookInitialValues, testbookValidate } from "./const";
+import classes from "./createTestbook.module.scss";
 
 export const CreateTestbook: React.FC = () => {
-  const { classes } = useCardStyles();
   const form = useForm({
-    initialValues: testbook_initialValues,
-    validate: testbook_validate,
+    initialValues: testbookInitialValues,
+    validate: testbookValidate,
   });
 
   const submitForm = () => {
@@ -35,19 +33,24 @@ export const CreateTestbook: React.FC = () => {
   };
 
   return (
-    <Card title="Create a new Testbook" className={classes.card} padding="xl">
+    <Card
+      title="Create a new Testbook"
+      className={classes.card}
+      padding="xl"
+      radius="lg"
+    >
       <form onSubmit={form.onSubmit(submitForm)}>
         <Stack>
-          <TextField
+          <TextInput
             required
             placeholder="Testbook name"
-            variant="blue"
+            className={classes.input}
             {...form.getInputProps(`name`)}
           />
-          <TextField
+          <TextInput
             required
             placeholder="Client"
-            variant="blue"
+            className={classes.input}
             {...form.getInputProps(`client`)}
           />
         </Stack>

@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { TestbookInfo } from "../../../types/testbook";
-import SvgIcon from "../../misc/SvgIcon/SvgIcon";
-import useStyles from "./styles";
+import SvgIcon from "../../shared/SvgIcon/SvgIcon";
+import classes from "./styles.module.scss";
 
 const Header: React.FC<TestbookInfo> = ({ name, client }) => {
-  const { classes } = useStyles();
-
   return (
     <header className={classes.header}>
       <div className={classes.header_logo}>
@@ -16,7 +14,7 @@ const Header: React.FC<TestbookInfo> = ({ name, client }) => {
       </div>
       <div className={classes.header_title}>
         <h4>{name}</h4>
-        <small>{client}</small>
+        <small>Client: {client}</small>
       </div>
     </header>
   );

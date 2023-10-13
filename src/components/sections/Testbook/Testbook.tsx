@@ -3,7 +3,10 @@ import React from "react";
 import { useParams } from "react-router";
 import { useTestbook } from "../../../hooks/useTestbook";
 import { TestbookInfo } from "../../../types/testbook";
-import { EditableText } from "../../misc/EditableText";
+import { EditableText } from "../../shared/EditableText";
+import classes from "./testbook.module.scss";
+import { EditableTitle } from "../../shared/EditableTitle";
+import { EditableHtmlText } from "../../shared/EditableHtmlText";
 
 export const Testbook: React.FC = () => {
   const { testbook, testcase, test, step } = useParams();
@@ -16,15 +19,13 @@ export const Testbook: React.FC = () => {
 
   return (
     <Box>
-      <Title>
-        <EditableText
-          name="name"
-          onChange={(value) => {
-            saveField("name", value);
-          }}
-          value={testbookInfo?.name}
-        />
-      </Title>
+      <EditableTitle
+        name="name"
+        onChange={(value) => {
+          saveField("name", value);
+        }}
+        value={testbookInfo?.name}
+      />
       <EditableText
         name="client"
         onChange={(value) => {
@@ -34,7 +35,7 @@ export const Testbook: React.FC = () => {
       />
       <Text>Created: {testbookInfo?.created}</Text>
       <Divider my={10} />
-      <EditableText
+      <EditableHtmlText
         name="description"
         onChange={(value) => {
           saveField("description", value);

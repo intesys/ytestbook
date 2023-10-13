@@ -1,11 +1,11 @@
-import { Group, Navbar } from "@mantine/core";
+import { Box, Group } from "@mantine/core";
 import React from "react";
 import { Menu } from "./Menu/Menu";
 import { Overview } from "./Overview/Overview";
 import { OverviewHeader } from "./OverviewHeader";
 import { QuickClose } from "./QuickClose";
 import { SIDEBAR_STATUS, navbarConfig } from "./const";
-import { useNavbarStyles } from "./styles";
+import classes from "./sideBar.module.scss";
 
 export type WithNavbarStatus = {
   status: SIDEBAR_STATUS;
@@ -28,27 +28,24 @@ const getContent = (status: SIDEBAR_STATUS) => {
 };
 
 export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
-  const { classes } = useNavbarStyles();
   const content = getContent(status);
 
   return (
-    <Navbar
-      width={{
-        base: status
+    <Box
+      style={{
+        width: status
           ? navbarConfig[status as SIDEBAR_STATUS]
           : navbarConfig[SIDEBAR_STATUS.OPEN],
       }}
       className={classes.navbar}
     >
-      <Navbar.Section className={classes.navbar_header}>
+      <Box className={classes.navbarHeader}>
         <Group>
           <OverviewHeader toggle={toggle} status={status} />
           <QuickClose toggle={toggle} status={status} />
         </Group>
-      </Navbar.Section>
-      <Navbar.Section grow mt={40}>
-        {content}
-      </Navbar.Section>
-    </Navbar>
+      </Box>
+      <Box mt={40}>{content}</Box>
+    </Box>
   );
 };

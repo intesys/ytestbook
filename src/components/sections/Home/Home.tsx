@@ -1,25 +1,23 @@
 import { Center, Container } from "@mantine/core";
 import React from "react";
-import SvgIcon from "../../misc/SvgIcon/SvgIcon";
+import SvgIcon from "../../shared/SvgIcon/SvgIcon";
 import { CreateTestbook } from "./CreateTestbook";
 import { TestbookList } from "./TestbookList";
-import { useHomeStyles } from "./styles";
+import classes from "./home.module.scss";
 
 export const Home: React.FC = () => {
-  const { classes } = useHomeStyles();
-
   return (
-    <div className={classes.home_layout}>
-      <div className={classes.home_first}>
-        <Container size="xs" className={classes.home_container}>
-          <Center className={classes.home_logo}>
+    <div className={classes.homeLayout}>
+      <div className={classes.homeFirst}>
+        <Container size="xs" className={classes.homeContainer}>
+          <Center className={classes.homeLogo}>
             <SvgIcon iconName="logo" />
           </Center>
           <CreateTestbook />
         </Container>
       </div>
 
-      <div className={classes.home_second}>
+      <div className={classes.homeSecond}>
         <TestbookList />
       </div>
     </div>

@@ -4,7 +4,7 @@ import { MdAddCircle } from "react-icons/md";
 import { create } from "../../../../api";
 import { scaffoldUseCase } from "../../../../api/scaffolds/useCase";
 import { UseCase } from "../../../../types/useCase";
-import { useAddUseCaseStyles } from "./styles";
+import classes from "./addUseCase.module.scss";
 
 const Add = ({ action }: { action: () => void }) => {
   return (
@@ -20,7 +20,6 @@ type AddUseCase = {
 };
 
 export const AddUseCase: React.FC<AddUseCase> = ({ testbook, useCases }) => {
-  const { classes } = useAddUseCaseStyles();
   const form = useForm({
     initialValues: {
       title: "",

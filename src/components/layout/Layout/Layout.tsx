@@ -18,7 +18,7 @@ const Layout: React.FC = () => {
   ]);
 
   return (
-    <Stack spacing={0} style={{ height: "100vh", alignContent: "stretch" }}>
+    <Stack gap={0} style={{ height: "100vh", alignContent: "stretch" }}>
       <Box>
         <Header {...(testbookInfo as TestbookInfo)} />
       </Box>

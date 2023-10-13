@@ -6,11 +6,10 @@ import {
   MdNotStarted,
   MdPauseCircle,
   MdPending,
-  MdPlayCircle,
   MdReportProblem,
 } from "react-icons/md";
-import { STATUS } from "../../types/status";
 import { theme } from "../../theme";
+import { STATUS } from "../../types/status";
 
 interface IProps {
   status?: STATUS | string;

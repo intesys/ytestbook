@@ -13,11 +13,10 @@ import { useNavigate } from "react-router-dom";
 import { removeTestbook } from "../../../api/lib/testbook";
 import { DBRegistryDoc } from "../../../types/pouchDB";
 import { useAllTestbooks } from "../../../hooks/useAllTestbooks";
-import { useTableStyles } from "./styles";
 import { notifications } from "@mantine/notifications";
+import classes from "./testbookList.module.scss";
 
 export const TestbookList: React.FC = () => {
-  const { classes } = useTableStyles();
   const navigate = useNavigate();
   const testbooks = useAllTestbooks();
   const [showTestbookNames, toggle] = useToggle([true, false]);
@@ -57,9 +56,10 @@ export const TestbookList: React.FC = () => {
 
   return (
     <Container size="md">
-      <Group position="apart">
+      <Group justify="space-between">
         <h3 className={classes.table_header}>Load testbook</h3>
         <ActionIcon
+          variant="subtle"
           onClick={() => toggle()}
           title="Show/hide testbooks and clients"
         >
@@ -67,55 +67,56 @@ export const TestbookList: React.FC = () => {
         </ActionIcon>
       </Group>
       <Table
-        className={classes.table_content}
+        className={classes.tableContent}
         mt={16}
         highlightOnHover
         verticalSpacing={10}
       >
-        <thead>
-          <tr>
-            <th>Testbook name</th>
-            <th>Client</th>
-            <th>Created</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Testbook name</Table.Th>
+            <Table.Th>Client</Table.Th>
+            <Table.Th>Created</Table.Th>
+            <Table.Th>Actions</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {testbooks?.map((testbook) => (
-            <tr key={testbook.location}>
-              <td>
+            <Table.Tr key={testbook.location}>
+              <Table.Td>
                 <UnstyledButton onClick={() => handleGoTo(testbook)}>
                   <Text size="sm">
                     {showTestbookNames ? testbook.name : "***"}
                   </Text>
                 </UnstyledButton>
-              </td>
-              <td>
+              </Table.Td>
+              <Table.Td>
                 <UnstyledButton onClick={() => handleGoTo(testbook)}>
                   <Text size="sm">
                     {showTestbookNames ? testbook.client || "" : "***"}
                   </Text>
                 </UnstyledButton>
-              </td>
-              <td>
+              </Table.Td>
+              <Table.Td>
                 <Text size="sm">{testbook.created || ""}</Text>
-              </td>
-              <td>
+              </Table.Td>
+              <Table.Td>
                 <Group>
-                  <ActionIcon>
+                  <ActionIcon variant="subtle">
                     <MdDownload title="Download" />
                   </ActionIcon>
                   <ActionIcon
+                    variant="subtle"
                     title="Delete"
                     onClick={() => handleRemove(testbook)}
                   >
                     <MdDelete />
                   </ActionIcon>
                 </Group>
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
     </Container>
   );
