@@ -1,9 +1,9 @@
-export const testbook_initialValues = {
+export const testbookInitialValues = {
   name: "",
   client: "",
 };
 
-export const testbook_validate = {
+export const testbookValidate = {
   name: (value: string) =>
     typeof value === "undefined" || value.length <= 0 ? "Campo obbligatorio" : null,
   client: (value: string) =>

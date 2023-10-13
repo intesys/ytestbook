@@ -1,25 +1,20 @@
 import React from "react";
-import useStyles from "./styles";
-import { useYTestbookContext } from "../../../context/useYTestbookContext";
-import SvgIcon from "../../misc/SvgIcon/SvgIcon";
+import { Link } from "react-router-dom";
+import { TestbookInfo } from "../../../types/testbook";
+import SvgIcon from "../../shared/SvgIcon/SvgIcon";
+import classes from "./styles.module.scss";
 
-const Header: React.FC = () => {
-  const { classes } = useStyles();
-
-  const {
-    state: {
-      testbook: { data: testbookData },
-    },
-  } = useYTestbookContext();
-
+const Header: React.FC<TestbookInfo> = ({ name, client }) => {
   return (
     <header className={classes.header}>
       <div className={classes.header_logo}>
-        <SvgIcon iconName="logo" />
+        <Link to="/">
+          <SvgIcon iconName="logo" wrapperStyle={classes.logo_wrapper} />
+        </Link>
       </div>
       <div className={classes.header_title}>
-        <h4>{testbookData?.name}</h4>
-        <small>{testbookData?.client}</small>
+        <h4>{name}</h4>
+        <small>Client: {client}</small>
       </div>
     </header>
   );

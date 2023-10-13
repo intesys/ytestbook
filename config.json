@@ -1,0 +1,12 @@
+{
+  "server": {
+    "protocol": "http",
+    "host": "localhost",
+    "port": 3333,
+    "db": "db"
+  },
+  "client": {},
+  "couchdb": {
+    "uuid": "3a23876e-4fd7-4911-addc-da25a4c66766"
+  }
+}

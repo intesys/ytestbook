@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+log.txt
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -10,7 +11,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-electron
-server/database/data/*
+db/
 release
 *.local
 

@@ -1,24 +1,22 @@
 import { MantineProvider } from "@mantine/core";
-import { DatesProvider } from '@mantine/dates';
+import "@mantine/core/styles.css";
+import { DatesProvider } from "@mantine/dates";
+import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
 import React from "react";
-import Styles from "./Styles";
-import { YTestbookContextProvider } from "./context/useYTestbookContext";
-import { AppRoutes } from "./routes/AppRoutes";
+import { MainNavigation } from "./Navigation";
 import { theme } from "./theme";
+import "./theme.scss";
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
-    <div className="App">
-      <MantineProvider theme={{ ...theme }} withGlobalStyles withNormalizeCSS>
-      <DatesProvider settings={{ locale: 'it' }}>
-        <Styles />
-        <YTestbookContextProvider>
-          <AppRoutes />
-        </YTestbookContextProvider>
+    <MantineProvider theme={{ ...theme }}>
+      <Notifications />
+      <ModalsProvider>
+        <DatesProvider settings={{ locale: "it" }}>
+          <MainNavigation />
         </DatesProvider>
-      </MantineProvider>
-    </div>
+      </ModalsProvider>
+    </MantineProvider>
   );
 };
-
-export default App;
