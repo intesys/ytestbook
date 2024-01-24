@@ -11,7 +11,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-electron
-db/
+db/*
+!db/.gitkeep
 release
 *.local
 
