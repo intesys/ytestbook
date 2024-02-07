@@ -1,7 +1,7 @@
 import { TYPE } from "./entityTypes";
 import { STATUS } from "./status";
 
-export type Test {
+export type Test = {
   type: TYPE.TEST,
   useCaseId: string,
   title?: string,
