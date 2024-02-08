@@ -47,6 +47,36 @@
 }
 
 .tabs {
-  margin: 0 auto
+  margin: 0 auto;
 }
+
+.tab {
+  
+  &[aria-selected="false"]{
+    border: none;
+  };
+  
+
+  &:nth-child(1){
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    padding: 5px 20px;
+  };
+  
+  &:nth-child(2){
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    padding: 6px 20px;
+  };
+
+  &[data-active]{
+    border: 1px solid blue;
+    color: white;
+    background-color: blue;
+  };
+
+
+  
+}
+
 

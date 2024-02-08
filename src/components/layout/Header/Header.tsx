@@ -9,47 +9,6 @@ import { useToggle } from "@mantine/hooks";
 import { SIDEBAR_STATUS } from "../SideBar/const";
 import { Tabs } from "@mantine/core";
 
-function StyledTabs(props: TabsProps) {
-  return (
-    <Tabs
-      unstyled
-      styles={(theme) => ({
-        tab: {
-          cursor: "pointer",
-
-          "&:disabled": {
-            opacity: 0.5,
-            cursor: "not-allowed",
-            border: "1px solid green",
-          },
-
-          "&:not(:first-of-type)": {
-            borderLeft: 0,
-          },
-
-          "&[data-active]": {
-            backgroundColor: "#0F33CE",
-            borderColor: "#0F33CE",
-            color: "white",
-            border: "1px solid red",
-          },
-        },
-
-        tabIcon: {
-          marginRight: theme.spacing.xs,
-          display: "flex",
-          alignItems: "center",
-        },
-
-        tabsList: {
-          display: "flex",
-        },
-      })}
-      {...props}
-    />
-  );
-}
-
 const Header: React.FC<TestbookInfo> = ({ name, client }) => {
   const [sidebarStatus, toggle] = useToggle<SIDEBAR_STATUS>([
     SIDEBAR_STATUS.COLLAPSED,
@@ -89,12 +48,12 @@ const Header: React.FC<TestbookInfo> = ({ name, client }) => {
         <small>Client: {client}</small>
       </div>
       <div className={classes.tabs}>
-        <StyledTabs>
+        <Tabs unstyled classNames={{ tab: classes.tab }}>
           <Tabs.List>
             <Tabs.Tab value="textbook">Textbook</Tabs.Tab>
             <Tabs.Tab value="report">Report</Tabs.Tab>
           </Tabs.List>
-        </StyledTabs>
+        </Tabs>
       </div>
     </header>
   );
