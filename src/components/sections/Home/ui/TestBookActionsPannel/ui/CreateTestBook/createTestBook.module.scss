@@ -1,0 +1,31 @@
+.card {
+  --card-bg-color: rgba(88, 113, 221, 1);
+  --generic-color: rgba(255, 255, 255, 1);
+
+  background-color: var(--card-bg-color);
+  //to align offset 2px with drag and drop card
+  border: 2px dashed transparent;
+
+  padding: 5.75rem 1.25rem 3rem;
+
+  cursor: pointer;
+
+  &:hover {
+    --card-bg-color: rgba(235, 238, 251, 1);
+    --generic-color: rgba(15, 51, 206, 1);
+
+  }
+
+}
+
+.textWrapper {
+  flex: 1;
+
+  color: var(--generic-color);
+
+  span,
+  p {
+    color: inherit;
+    text-align: center;
+  }
+}

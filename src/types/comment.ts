@@ -1,6 +1,6 @@
 import { TYPE } from "./entityTypes";
 
-export type Comment {
+export type Comment = {
   type: TYPE.COMMENT,
   relatedEntity: string, // can be any TYPE in ./entityTypes
   relatedId: string, // foreignKey

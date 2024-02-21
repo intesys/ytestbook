@@ -1,11 +1,11 @@
 import { Button, Card, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { createTestbook } from "../../../api/lib/testbook";
-import { testbookInitialValues, testbookValidate } from "./const";
-import classes from "./createTestbook.module.scss";
+import classes from "./createTestbookForm.module.scss";
+import { testbookInitialValues, testbookValidate } from "../../../../const";
+import { createTestbook } from "../../../../../../../api";
 
-export const CreateTestbook: React.FC = () => {
+export const CreateTestBookForm: React.FC = () => {
   const form = useForm({
     initialValues: testbookInitialValues,
     validate: testbookValidate,
