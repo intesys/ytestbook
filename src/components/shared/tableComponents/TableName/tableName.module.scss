@@ -1,0 +1,23 @@
+@import "../../../../styles/mixins.scss";
+
+.container {
+  @include defaultText;
+  flex-wrap: wrap;
+  color: #3c3c3c;
+}
+
+.titleTextWrap {
+  display: flex;
+}
+
+.titleText {
+  display: inline-block;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.noWrap {
+  white-space: nowrap;
+}

@@ -1,0 +1,26 @@
+@import '../../../../styles/mixins.scss';
+
+// TODO add color to theme
+.tag {
+  padding: 2px 10px;
+  border-radius: 20px;
+  color: #000000;
+  background-color: #ebeefb;
+  @include defaultText;
+}
+
+.button {
+  padding: 2px 10px;
+  border-radius: 20px;
+  color: #ffffff;
+  background-color: #000000;
+  @include defaultText;
+  font-weight: 400;
+  height: auto;
+  cursor: pointer;
+}
+
+.totalHidden {
+  font-weight: 700;
+  margin-right: 4px;
+}

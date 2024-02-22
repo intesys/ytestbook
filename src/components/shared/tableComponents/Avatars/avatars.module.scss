@@ -1,0 +1,27 @@
+@import '../../../../styles/mixins.scss';
+
+// TODO add colors to theme
+.avatar {
+  width: 30px;
+  border: 2px solid #ffffff;
+  background-color: #ebeefb;
+
+  & :global(.mantine-Avatar-placeholder) {
+    color: #212529;
+    @include defaultText;
+    font-weight: 600;
+  }
+}
+
+.button {
+  width: 30px;
+  border: 2px solid #ffffff;
+  background-color: #000000;
+  cursor: pointer;
+
+  & :global(.mantine-Avatar-placeholder) {
+    color: #ffffff;
+    @include defaultText;
+    font-weight: 700;
+  }
+}
