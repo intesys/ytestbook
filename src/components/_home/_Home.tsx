@@ -1,15 +1,22 @@
-import Logo from "../../assets/icons/logo.svg";
-import classes from "./home.module.scss";
+import { Table } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useNavigate } from "react-router";
 import AddCircle from "../../assets/icons/add_circle.svg";
 import FileTypeJson from "../../assets/icons/bi_filetype-json.svg";
-import { TActionProps } from "./types";
+import Logo from "../../assets/icons/logo.svg";
+import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { useProjects } from "../../lib/operators/useProjects";
-import { Table } from "@mantine/core";
+import { Action } from "./Action";
+import { CreateTestbookModal } from "./CreateTestbookModal";
+import classes from "./home.module.scss";
 
 export function _Home() {
   const projects = useProjects();
+  const navigate = useNavigate();
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <div className={classes.container}>
+      <CreateTestbookModal opened={opened} close={close} />
       <div className={classes.top}>
         <div className={classes.header}>
           <img src={Logo} height={78} width={78} />
@@ -19,48 +26,44 @@ export function _Home() {
             title="Create a new testbook"
             label="Create a new testbook"
             icon={AddCircle}
+            action={open}
           />
           <Action
             title="Upload an existing testbook"
             label="Drag and drop the testbook file here"
             icon={FileTypeJson}
+            /**TODO: implement JSON uploader */
+            action={() => console.log("placeholder")}
           />
         </div>
       </div>
 
       <div className={classes.bottom}>
-        <div>Last testbook</div>
-        <Table>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Title</Table.Th>
-              <Table.Th>Customer</Table.Th>
-              <Table.Th>Created at</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {projects.data?.map((item) => (
+        <div className={classes.table}>
+          <div className={classes.tableTitle}>Last testbooks</div>
+          <Table verticalSpacing={10} horizontalSpacing={20} highlightOnHover>
+            <Table.Thead>
               <Table.Tr>
-                <Table.Td>{item.name}</Table.Td>
-                <Table.Td>{item.id}</Table.Td>
-                <Table.Td>{item.createdAt}</Table.Td>
+                <Table.Th>Title</Table.Th>
+                <Table.Th>Customer</Table.Th>
+                <Table.Th>Created at</Table.Th>
+                <Table.Th>Last edit</Table.Th>
               </Table.Tr>
-            ))}
-          </Table.Tbody>
-        </Table>
-      </div>
-    </div>
-  );
-}
+            </Table.Thead>
+            <Table.Tbody>
+              {projects.data?.map((item) => (
+                <Table.Tr key={item.id} onClick={() => navigate(`/${item.id}`)}>
+                  <Table.Td>{item.title}</Table.Td>
+                  <Table.Td>{item.customer}</Table.Td>
+                  <Table.Td>{parseTimestamp(item.createdAt)}</Table.Td>
 
-function Action({ title, label, icon }: TActionProps) {
-  return (
-    <div className={classes.action}>
-      <div className={classes.actionTitle}>{title}</div>
-      <div className={classes.actionButton}>
-        <div className={classes.actionButtonLabel}>
-          <img src={icon} height={40} width={40} />
-          <span>{label}</span>
+                  <Table.Td>
+                    {item.lastEdit ? parseTimestamp(item.lastEdit) : "—"}
+                  </Table.Td>
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
         </div>
       </div>
     </div>

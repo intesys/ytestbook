@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import Layout from "./components/layout/Layout/Layout";
-import { Testbook } from "./components/sections/Testbook/Testbook";
-import { _Home } from "./components/_home/_Home";
+import { _Home } from "./components/_home";
+import { _Testbook } from "./components/_testbook/_Testbook";
 
 // Navigation from home screen to testbook
 export const MainNavigation = () => (
   <Routes>
     <Route path="/" element={<_Home />} />
-    <Route element={<Layout />}>
+    <Route path="/:testbookId" element={<_Testbook />} />
+    {/* <Route element={<Layout />}>
       <Route path=":testbook" element={<Testbook />}>
         <Route path=":testcase" element={<Testbook />}>
           <Route path=":test" element={<Testbook />}>
@@ -15,7 +15,7 @@ export const MainNavigation = () => (
           </Route>
         </Route>
       </Route>
-    </Route>
+    </Route> */}
   </Routes>
 );
 

@@ -4,7 +4,7 @@ import { RepoContext } from "@automerge/automerge-repo-react-hooks";
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { DocProvider } from "./components/docContext/DocContext";
 
@@ -20,11 +20,11 @@ const root = createRoot(
 root.render(
   <React.StrictMode>
     <RepoContext.Provider value={repo}>
-      <HashRouter>
+      <BrowserRouter>
         <DocProvider>
           <App />
         </DocProvider>
-      </HashRouter>
+      </BrowserRouter>
     </RepoContext.Provider>
   </React.StrictMode>,
 );
