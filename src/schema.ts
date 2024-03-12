@@ -1,4 +1,5 @@
 export enum StatusEnum {
+  IDLE = "IDLE",
   FAIL = "FAIL",
   SUCCESS = "SUCCESS",
   IN_PROGRESS = "IN_PROGRESS",
@@ -36,28 +37,32 @@ export type TComment = {
   content: string;
 };
 
+export type TCaseDynamicData = {
+  title: string;
+  jiraLink?: string;
+  description?: string;
+};
+
 export type TCase = {
   id: string;
   projectId: TProject["id"];
-  title: string;
   caseStatus: StatusEnum;
+  createdAt: number;
   completion: number;
-  jiraLink?: string;
-  description?: string;
-  tests?: TTest[];
-  comments?: TComment[];
-};
+  tests: TTest[];
+  comments: TComment[];
+} & TCaseDynamicData;
 
 export type TProjectDynamicData = {
   title: string;
   customer: string;
   lastEdit?: number;
-  testCases?: TCase[];
 };
 
 export type TProject = {
   id: string;
   createdAt: number;
+  testCases: TCase[];
 } & TProjectDynamicData;
 
 export type TDocType = {

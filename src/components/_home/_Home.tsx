@@ -40,7 +40,7 @@ export function _Home() {
 
       <div className={classes.bottom}>
         <div className={classes.table}>
-          {!projects.data ? (
+          {projects.loading ? (
             <Loader color="blue" m={62} />
           ) : projects.data.length === 0 ? (
             <Text c={"gray"} maw={400} ta={"center"} m={62}>

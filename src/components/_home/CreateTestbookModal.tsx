@@ -1,13 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { useProjects } from "../../lib/operators/useProjects";
 import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
-import { TCreateTestbookModalProps } from "./types";
+import { TModalProps } from "./types";
 import { TProjectDynamicData } from "../../schema";
 
-export function CreateTestbookModal({
-  opened,
-  close,
-}: TCreateTestbookModalProps) {
+export function CreateTestbookModal({ opened, close }: TModalProps) {
   const projects = useProjects();
   const [newTestbookData, setNewTestbookData] = useState<TProjectDynamicData>({
     customer: "",

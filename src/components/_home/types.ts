@@ -5,7 +5,7 @@ export type TActionProps = {
   action: () => void;
 };
 
-export type TCreateTestbookModalProps = {
+export type TModalProps = {
   opened: boolean;
   close: () => void;
 };
