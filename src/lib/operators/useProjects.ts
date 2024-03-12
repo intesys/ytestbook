@@ -1,7 +1,7 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
-import { TDocType, TProjectDynamicData } from "../../types";
+import { TDocType, TProjectDynamicData } from "../../schema";
 
 export function useProjects() {
   const { docUrl } = useDocContext();

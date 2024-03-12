@@ -2,7 +2,6 @@ import { AutomergeUrl } from "@automerge/automerge-repo";
 
 export type TDocContextValue = {
   docUrl: AutomergeUrl | undefined;
-  setDocUrl: (docUrl: AutomergeUrl) => void;
 };
 
 export enum DocContextStatusEnum {

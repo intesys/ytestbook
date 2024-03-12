@@ -1,7 +1,7 @@
 import { isValidAutomergeUrl } from "@automerge/automerge-repo";
 import { useRepo } from "@automerge/automerge-repo-react-hooks";
 import { createContext, useContext, useEffect, useState } from "react";
-import { TDocType } from "../../types";
+import { TDocType } from "../../schema";
 import { DocumentCreation } from "./DocumentCreation";
 import {
   DocContextStatusEnum,
@@ -12,7 +12,6 @@ import {
 
 const DocContext = createContext<TDocContextValue>({
   docUrl: undefined,
-  setDocUrl: () => console.log("void"),
 });
 
 export function useDocContext() {
