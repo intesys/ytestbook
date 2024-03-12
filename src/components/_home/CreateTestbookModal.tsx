@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { useProjects } from "../../lib/operators/useProjects";
 import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
 import { TCreateTestbookModalProps } from "./types";
-import { TProjectDynamicData } from "../../types";
+import { TProjectDynamicData } from "../../schema";
 
 export function CreateTestbookModal({
   opened,
@@ -24,12 +24,7 @@ export function CreateTestbookModal({
   };
 
   return (
-    <Modal
-      opened={opened}
-      onClose={close}
-      title="Create a new testbook"
-      centered
-    >
+    <Modal opened={opened} onClose={close} title="Create project" centered>
       <Container pb={16}>
         <Flex direction="column" gap={16}>
           <TextInput
