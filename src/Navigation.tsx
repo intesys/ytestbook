@@ -10,24 +10,5 @@ export const MainNavigation = () => (
     <Route path="/project/:projectId" element={<Project />}>
       <Route path="testCase/:caseId" element={<TestCase />} />
     </Route>
-    {/* <Route element={<Layout />}>
-      <Route path=":testbook" element={<Testbook />}>
-        <Route path=":testcase" element={<Testbook />}>
-          <Route path=":test" element={<Testbook />}>
-            <Route path=":step" element={<Testbook />} />
-          </Route>
-        </Route>
-      </Route>
-    </Route> */}
-  </Routes>
-);
-
-// Subroutes, internal to testbook
-export const TestbookNavigation = () => (
-  <Routes>
-    <Route>
-      {/* <Route path="/" element={<Home />} />
-      <Route path="/testbook" element={<Testbook />} /> */}
-    </Route>
   </Routes>
 );

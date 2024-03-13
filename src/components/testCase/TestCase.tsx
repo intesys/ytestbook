@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import JiraIcon from "../../assets/icons/cib_jira.svg";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
-import StatusPending from "../../assets/icons/status_pending.svg";
+import StatusDone from "../../assets/icons/status_done.svg";
 import { useProject } from "../../lib/operators/useProject";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { CommentsList } from "../commentsList/CommentsList";
@@ -26,7 +26,7 @@ export function TestCase() {
       <div className={classes.testcase}>
         <div className={classes.header}>
           <div className={classes.headerTop}>
-            <img src={StatusPending} height={24} width={24} />
+            <img src={StatusDone} height={24} width={24} />
             <Text size="24px" fw={"700"}>
               {testCase.data.title}
             </Text>

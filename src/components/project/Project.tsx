@@ -1,11 +1,12 @@
-import { Flex, Loader, Text } from "@mantine/core";
+import { Container, Flex, Loader, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router";
 import { useProject } from "../../lib/operators/useProject";
 import Header from "../layout/Header/Header";
 import { CreateTestCaseModal } from "./CreateTestCaseModal";
-import classes from "./testbook.module.scss";
+import classes from "./project.module.scss";
+import StatusDone from "../../assets/icons/status_done.svg";
 
 export function Project() {
   const params = useParams();
@@ -30,24 +31,35 @@ export function Project() {
           <Loader color="blue" size="lg" />
         </Flex>
       ) : (
-        <Flex direction={"column"} h="100dvh">
+        <Flex direction={"column"}>
           <Header
             name={project.data.title}
             client={project.data.customer}
             handleActionClick={open}
           />
 
-          {project.data.testCases.length === 0 ? (
-            <Flex align="center" justify="center" style={{ flex: 1 }}>
-              <Text c={"gray"} ta={"center"}>
-                You have no test cases yet.
-                <br />
-                Create a new one to get started.
-              </Text>
-            </Flex>
-          ) : (
-            <Outlet />
-          )}
+          <Flex h="100dvh">
+            <Stack bg="#EBEEFB" miw={300} px={20} py={30}>
+              {project.data.testCases.map((testCase) => (
+                <Flex gap={10}>
+                  <img src={StatusDone} height={24} width={24} />
+                  <Text>{testCase.title}</Text>
+                </Flex>
+              ))}
+            </Stack>
+
+            {project.data.testCases.length === 0 ? (
+              <Flex align="center" justify="center" style={{ flex: 1 }}>
+                <Text c={"gray"} ta={"center"}>
+                  You have no test cases yet.
+                  <br />
+                  Create a new one to get started.
+                </Text>
+              </Flex>
+            ) : (
+              <Outlet />
+            )}
+          </Flex>
         </Flex>
       )}
     </div>
