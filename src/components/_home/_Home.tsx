@@ -67,7 +67,7 @@ export function _Home() {
                   {projects.data.map((item) => (
                     <Table.Tr
                       key={item.id}
-                      onClick={() => navigate(`/${item.id}`)}
+                      onClick={() => navigate(`/project/${item.id}`)}
                     >
                       <Table.Td>{item.title}</Table.Td>
                       <Table.Td>{item.customer}</Table.Td>

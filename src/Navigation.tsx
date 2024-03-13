@@ -1,12 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import { _Home } from "./components/_home";
-import { _Testbook } from "./components/_testbook/_Testbook";
+import { Project } from "./components/project/Project";
+import { TestCase } from "./components/testCase/TestCase";
 
 // Navigation from home screen to testbook
 export const MainNavigation = () => (
   <Routes>
     <Route path="/" element={<_Home />} />
-    <Route path="/:testbookId" element={<_Testbook />} />
+    <Route path="/project/:projectId" element={<Project />}>
+      <Route path="testCase/:caseId" element={<TestCase />} />
+    </Route>
     {/* <Route element={<Layout />}>
       <Route path=":testbook" element={<Testbook />}>
         <Route path=":testcase" element={<Testbook />}>

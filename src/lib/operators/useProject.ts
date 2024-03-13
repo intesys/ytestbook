@@ -23,7 +23,7 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const project = useMemo(
     () => doc?.projects.find((item) => projectId && item.id === projectId),
-    [doc],
+    [doc, projectId],
   );
 
   const createTestCase = useCallback(

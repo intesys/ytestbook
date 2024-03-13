@@ -1,0 +1,42 @@
+.testcase {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 30px 40px;
+  row-gap: 34px;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  grid-column: 1 / span 12;
+  border-bottom: 1px solid #ebeefb;
+  padding-bottom: 10px;
+}
+.headerTop {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.headerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.description {
+  grid-column: 1 / span 12;
+}
+
+.tests {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  grid-column: 1 / span 12;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  grid-column: 1 / span 12;
+}

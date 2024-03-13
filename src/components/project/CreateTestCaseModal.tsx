@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom";
 
 export function CreateTestCaseModal({ opened, close }: TModalProps) {
   const params = useParams();
-  const project = useProject(params.testbookId);
+  const project = useProject(params.projectId);
   const form = useForm<TCaseDynamicData>({
     initialValues: {
       title: "",

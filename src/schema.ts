@@ -14,28 +14,36 @@ export type TSteps = {
   lastEdit: string;
 };
 
+export type TTestDynamicData = {
+  title: string;
+  description?: string;
+};
+
 export type TTest = {
   id: string;
   caseId: TCase["id"];
-  title: string;
   completion: number;
-  tags?: string[];
+  tags: string[];
+  createdAt: number;
   lastUpdate?: string;
-  assignees?: string[];
+  assignees: string[];
   testStatus: StatusEnum;
-  description?: string;
   steps: TSteps[];
+} & TTestDynamicData;
+
+export type TCommentDynamicData = {
+  username: string;
+  content: string;
 };
 
 export type TComment = {
   id: string;
-  testId: TTest["id"];
-  username: string;
-  createdAt: string;
-  testStatusWhenCreated: StatusEnum;
+  caseId: TCase["id"];
+  testId?: TTest["id"];
+  createdAt: number;
+  testStatusWhenCreated?: StatusEnum;
   resolved: boolean;
-  content: string;
-};
+} & TCommentDynamicData;
 
 export type TCaseDynamicData = {
   title: string;

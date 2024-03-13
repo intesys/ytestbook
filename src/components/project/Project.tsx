@@ -1,19 +1,26 @@
 import { Flex, Loader, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate, useParams } from "react-router";
 import { useProject } from "../../lib/operators/useProject";
-import { TCase } from "../../schema";
 import Header from "../layout/Header/Header";
 import { CreateTestCaseModal } from "./CreateTestCaseModal";
 import classes from "./testbook.module.scss";
 
-export function _Testbook() {
+export function Project() {
   const params = useParams();
-  const project = useProject(params.testbookId);
+  const project = useProject(params.projectId);
   const [opened, { open, close }] = useDisclosure(false);
-  const [active, setActive] = useState(0);
-  console.log(project);
+  const navigate = useNavigate();
+  const [activeTestCase, setActiveTestCase] = useState(0);
+
+  useEffect(() => {
+    if (!params.caseId && project.data && project.data?.testCases.length > 0) {
+      navigate(
+        `/project/${project.data.id}/testCase/${project.data.testCases[activeTestCase].id}`,
+      );
+    }
+  }, [params, project.data, activeTestCase]);
 
   return (
     <div className={classes.container}>
@@ -39,23 +46,10 @@ export function _Testbook() {
               </Text>
             </Flex>
           ) : (
-            <TestCase testCase={project.data.testCases[active]} />
+            <Outlet />
           )}
         </Flex>
       )}
-    </div>
-  );
-}
-
-function TestCase({ testCase }: { testCase: TCase }) {
-  const params = useParams();
-  const project = useProject(params.testbookId);
-  return (
-    <div>
-      <button onClick={() => project.removeTestCase(testCase.id)}>
-        delete test case
-      </button>
-      <Text>{testCase.title}</Text>
     </div>
   );
 }
