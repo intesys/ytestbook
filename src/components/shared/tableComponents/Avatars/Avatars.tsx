@@ -1,6 +1,6 @@
 import { Avatar, Tooltip } from "@mantine/core";
-import classes from "./avatars.module.scss";
 import { useState } from "react";
+import classes from "./avatars.module.scss";
 
 interface IProps {
   data: {
@@ -10,7 +10,7 @@ interface IProps {
   }[];
 }
 
-export const Avatars = ({ data }: IProps) => {
+export const Avatars: React.FC<IProps> = ({ data }) => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const renderedAvatars = isShow ? data : data.slice(0, 3);
   const hiddenCount = data.length - 3;
@@ -20,7 +20,7 @@ export const Avatars = ({ data }: IProps) => {
   };
 
   return (
-    <Avatar.Group spacing="xs" >
+    <Avatar.Group spacing="xs">
       {renderedAvatars.map(({ firstName, surname, path }) => (
         <Tooltip
           key={`${firstName} ${surname}`}

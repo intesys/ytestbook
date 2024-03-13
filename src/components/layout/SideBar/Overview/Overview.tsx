@@ -1,54 +1,33 @@
 import { Flex, Table } from "@mantine/core";
 import { useParams } from "react-router-dom";
 import { useAllUseCases } from "../../../../hooks/useAllUseCases";
-import { AddUseCase } from "./AddUseCase";
 import { StatusIcon } from "../../../shared/StatusIcon";
-import classes from "./overview.module.scss";
 import { CompetitionProgress } from "../../../shared/tableComponents/CompetitionProgress/CompetitionProgress";
-import { Tags } from "../../../shared/tableComponents/Tags/Tags";
-import { UseCase } from "../../../../types/useCase";
-import { STATUS } from "../../../../types/status";
-import { TableName } from "../../../shared/tableComponents/TableName/TableName";
 import { LastEdit } from "../../../shared/tableComponents/LastEdit/LastEdit";
-import { Avatars } from "../../../shared/tableComponents/Avatars/Avatars";
 import { TableCheckbox } from "../../../shared/tableComponents/TableCheckbox/TableCheckbox";
-import { SearchInput } from "../../../shared/SearchInput/SearchInput";
+import { TableName } from "../../../shared/tableComponents/TableName/TableName";
+import { Tags } from "../../../shared/tableComponents/Tags/Tags";
+import { AddUseCase } from "./AddUseCase";
+import classes from "./overview.module.scss";
 
-const mockUseCases: UseCase[] = [
-  {
-    accountantId: "",
-    created: "21/02/2024 08:00",
-    description: "",
-    endDate: "",
-    modified: "02/02/2024 08:00",
-    requirements: "",
-    responsibleId: "",
-    startDate: "",
-    status: STATUS.FAIL,
-    tags: ["Backend", "Frontend", "UI", "QA", "BA", "PM"],
-    title: "Test 1 Lorem Ipsum VERY LONG TEXT",
-    type: 1,
-    _id: "uc-0",
-  },
-];
-
-const mockAvatarData = [
-  { firstName: "Mike", surname: "Konan" },
-  { firstName: "Pite", surname: "Pite" },
-  {
-    firstName: "John",
-    surname: "Smitt",
-  },
-  { firstName: "Marie", surname: "Duglas" },
-  { firstName: "Bob", surname: "Barclay" },
-  { firstName: "Charlie", surname: "Limp" },
-  { firstName: "Jess", surname: "Marsia" },
-];
+// const mockAvatarData = [
+//   // { firstName: "Mike", surname: "Konan" },
+//   // { firstName: "Pite", surname: "Pite" },
+//   // {
+//   //   firstName: "John",
+//   //   surname: "Smitt",
+//   // },
+//   // { firstName: "Marie", surname: "Duglas" },
+//   // { firstName: "Bob", surname: "Barclay" },
+//   // { firstName: "Charlie", surname: "Limp" },
+//   // { firstName: "Jess", surname: "Marsia" },
+// ];
 
 export const Overview: React.FC = () => {
   const { testbook, testcase, test, step } = useParams();
-  // const useCases = useAllUseCases(testbook ?? "");
-  const useCases: UseCase[] = mockUseCases;
+  const useCases = useAllUseCases(testbook ?? "");
+
+  console.table({ testbook, testcase, test, step });
 
   return (
     <>
@@ -93,7 +72,7 @@ export const Overview: React.FC = () => {
                 <LastEdit date={useCase.modified || useCase.created} />
               </Table.Td>
               <Table.Td>
-                <Avatars data={mockAvatarData} />
+                {/* <Avatars data={useCase.accountantId} /> */}
               </Table.Td>
             </Table.Tr>
           ))}
