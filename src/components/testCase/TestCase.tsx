@@ -33,7 +33,11 @@ export function TestCase() {
           </div>
           <div className={classes.headerBottom}>
             <div>
-              <a href={testCase.data.jiraLink}>
+              <a
+                href={testCase.data.jiraLink}
+                className={classes.jiraLink}
+                target="_blank"
+              >
                 <img src={JiraIcon} height={20} width={20} /> Jira Link
               </a>
             </div>
