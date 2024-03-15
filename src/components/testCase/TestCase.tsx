@@ -1,4 +1,4 @@
-import { Button, Flex, Loader, Text } from "@mantine/core";
+import { Anchor, Button, Flex, Loader, Text } from "@mantine/core";
 import { useParams } from "react-router-dom";
 import JiraIcon from "../../assets/icons/cib_jira.svg";
 import Delete from "../../assets/icons/delete.svg";
@@ -33,9 +33,14 @@ export function TestCase() {
           </div>
           <div className={classes.headerBottom}>
             <div>
-              <a href={testCase.data.jiraLink}>
-                <img src={JiraIcon} height={20} width={20} /> Jira Link
-              </a>
+              <Anchor
+                href={testCase.data.jiraLink}
+                className={classes.jiraLink}
+                target="_blank"
+              >
+                <img src={JiraIcon} height={20} width={20} />
+                <Text ml={5}>Jira Link</Text>
+              </Anchor>
             </div>
             <div>
               <Button
