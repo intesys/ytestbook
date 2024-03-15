@@ -77,11 +77,16 @@
 }
 
 .tableTitle {
-  text-align: left;
+  display: flex;
+  justify-content: space-between;
   font-size: 20px;
   font-weight: 700;
   width: 100%;
   margin-bottom: 15px;
+  button {
+    all: unset;
+    cursor: pointer;
+  }
 }
 
 thead {
