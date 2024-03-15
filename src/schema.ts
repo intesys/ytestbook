@@ -6,13 +6,17 @@ export enum StatusEnum {
   CANCELED = "CANCELED",
 }
 
+export type TStepDynamicData = {
+  description: string;
+};
+
 export type TSteps = {
   id: string;
   testId: TTest["id"];
   stepStatus: StatusEnum;
-  description: string;
-  lastEdit: string;
-};
+  lastUpdate?: number;
+  createdAt: number;
+} & TStepDynamicData;
 
 export type TTestDynamicData = {
   title: string;
@@ -25,7 +29,7 @@ export type TTest = {
   completion: number;
   tags: string[];
   createdAt: number;
-  lastUpdate?: string;
+  lastUpdate?: number;
   assignees: string[];
   testStatus: StatusEnum;
   steps: TSteps[];
@@ -64,7 +68,7 @@ export type TCase = {
 export type TProjectDynamicData = {
   title: string;
   customer: string;
-  lastEdit?: number;
+  lastUpdate?: number;
 };
 
 export type TProject = {

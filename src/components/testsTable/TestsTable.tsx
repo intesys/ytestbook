@@ -1,9 +1,12 @@
-import { Table, Flex, Text, Button } from "@mantine/core";
-import { TTest } from "../../schema";
-import StatusPending from "../../assets/icons/status_pending.svg";
+import { Button, Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useNavigate } from "react-router";
+import StatusPending from "../../assets/icons/status_pending.svg";
+
+import { TUseTestCase } from "../../lib/operators/types";
+import { TTest } from "../../schema";
 import { CreateTestModal } from "../testCase/CreateTestModal";
-import { TUseTestCase } from "../../lib/operators/useTestCase";
+import { parseTimestamp } from "../../lib/date/parseTimestamp";
 
 export function TestsTable({
   tests,
@@ -12,6 +15,7 @@ export function TestsTable({
   tests: TTest[];
   createTest: TUseTestCase["createTest"];
 }) {
+  const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
@@ -34,16 +38,26 @@ export function TestsTable({
           </Table.Thead>
           <Table.Tbody>
             {tests.map((item) => (
-              <Table.Tr key={item.id}>
+              <Table.Tr
+                key={item.id}
+                onClick={() => navigate(`test/${item.id}`, {})}
+              >
                 <Table.Td>
                   <Flex gap={10}>
                     <img src={StatusPending} height={24} width={24} />
                     <Text>{item.title}</Text>
                   </Flex>
                 </Table.Td>
-                <Table.Td>{item.completion}</Table.Td>
+                <Table.Td>
+                  <Flex direction={"column"}>
+                    <Text>{item.completion}%</Text>
+                    <Progress value={item.completion} size="lg" radius="lg" />
+                  </Flex>
+                </Table.Td>
                 <Table.Td>{item.tags}</Table.Td>
-                <Table.Td>{item.lastUpdate}</Table.Td>
+                <Table.Td>
+                  {item.lastUpdate ? parseTimestamp(item.lastUpdate) : "—"}
+                </Table.Td>
                 <Table.Td>{item.assignees}</Table.Td>
               </Table.Tr>
             ))}

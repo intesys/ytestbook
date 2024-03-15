@@ -1,46 +1,34 @@
-import {
-  Button,
-  Container,
-  Flex,
-  Modal,
-  TextInput,
-  Textarea,
-} from "@mantine/core";
+import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
+import { TUseTest } from "../../lib/operators/types";
 import { TModalProps } from "../_home/types";
+import { TStepDynamicData } from "../../schema";
 import { useForm } from "@mantine/form";
-import { TTestDynamicData } from "../../schema";
-import { TUseTestCase } from "../../lib/operators/types";
 
-export function CreateTestModal({
+export function CreateStepModal({
   opened,
   close,
-  createTest,
-}: TModalProps & { createTest: TUseTestCase["createTest"] }) {
-  const form = useForm<TTestDynamicData>({
+  createStep,
+}: TModalProps & { createStep: TUseTest["createStep"] }) {
+  const form = useForm<TStepDynamicData>({
     initialValues: {
-      title: "",
       description: "",
     },
   });
   return (
-    <Modal opened={opened} onClose={close} title="Add Test" centered size="xl">
+    <Modal opened={opened} onClose={close} title="Add step" centered size="xl">
       <Container>
         <form
           onSubmit={form.onSubmit((values) => {
-            createTest(values);
+            createStep(values);
+            form.reset();
             close();
           })}
         >
           <Flex direction="column" gap={16}>
             <TextInput
               withAsterisk
-              label="Title"
-              placeholder="My new test"
-              {...form.getInputProps("title")}
-            />
-            <Textarea
-              label="Description"
-              rows={10}
+              label="Step description"
+              placeholder="My new step"
               {...form.getInputProps("description")}
             />
           </Flex>

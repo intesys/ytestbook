@@ -3,31 +3,11 @@ import { useCallback, useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
 import {
   StatusEnum,
-  TCase,
   TCommentDynamicData,
   TDocType,
   TTestDynamicData,
 } from "../../schema";
-
-type TOperatorLoader<T> =
-  | {
-      data: undefined;
-      loading: true;
-    }
-  | {
-      data: T;
-      loading: false;
-    };
-
-export type TUseTestCase = {
-  createTest: (values: TTestDynamicData) => void;
-  createComment: (values: TCommentDynamicData) => void;
-  removeComment: (
-    projectId: string | undefined,
-    caseId: string | undefined,
-    commentId: string,
-  ) => void;
-} & TOperatorLoader<TCase>;
+import { TUseTestCase } from "./types";
 
 export function useTestCase(
   projectId: string | undefined,
@@ -65,7 +45,7 @@ export function useTestCase(
   );
 
   const createComment = useCallback(
-    (values: TCommentDynamicData) => {
+    (values: TCommentDynamicData, testId?: string) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -74,6 +54,7 @@ export function useTestCase(
         tc?.comments.push({
           ...values,
           id: crypto.randomUUID(),
+          testId,
           caseId,
           createdAt: date.getTime(),
           resolved: false,
@@ -83,17 +64,26 @@ export function useTestCase(
     [projectId, caseId],
   );
 
-  const removeComment = useCallback(
-    (
-      projectId: string | undefined,
-      caseId: string | undefined,
-      commentId: string,
-    ) => {
+  const removeTest = useCallback(
+    (testId: string) => {
       changeDoc((d) => {
         const p = d.projects.find((item) => projectId && item.id === projectId);
         const tc = p?.testCases.find((item) => item.id === caseId);
         if (!tc) return;
-        const index = tc?.comments.findIndex(
+        const index = tc.tests.findIndex((test) => test.id === testId);
+        delete tc.tests[index];
+      });
+    },
+    [projectId, caseId],
+  );
+
+  const removeComment = useCallback(
+    (commentId: string) => {
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
+        if (!tc) return;
+        const index = tc.comments.findIndex(
           (comment) => comment.id === commentId,
         );
         delete tc.comments[index];
@@ -108,6 +98,7 @@ export function useTestCase(
       loading: true,
       createTest,
       createComment,
+      removeTest,
       removeComment,
     };
   } else {
@@ -116,6 +107,7 @@ export function useTestCase(
       loading: false,
       createTest,
       createComment,
+      removeTest,
       removeComment,
     };
   }

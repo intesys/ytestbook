@@ -74,7 +74,9 @@ export function _Home() {
                       <Table.Td>{parseTimestamp(item.createdAt)}</Table.Td>
 
                       <Table.Td>
-                        {item.lastEdit ? parseTimestamp(item.lastEdit) : "—"}
+                        {item.lastUpdate
+                          ? parseTimestamp(item.lastUpdate)
+                          : "—"}
                       </Table.Td>
                     </Table.Tr>
                   ))}

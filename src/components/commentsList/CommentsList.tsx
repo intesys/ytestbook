@@ -1,29 +1,28 @@
 import {
-  Stack,
-  Flex,
   Avatar,
   Button,
+  Flex,
+  Stack,
   Text,
   TextInput,
   Textarea,
 } from "@mantine/core";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
-import { TUseTestCase } from "../../lib/operators/useTestCase";
-import { TComment, TCommentDynamicData } from "../../schema";
-import StatusPending from "../../assets/icons/status_pending.svg";
+
+import { useForm } from "@mantine/form";
 import CheckCircle from "../../assets/icons/check_circle.svg";
 import Delete from "../../assets/icons/delete.svg";
-import { useForm } from "@mantine/form";
+import StatusPending from "../../assets/icons/status_pending.svg";
+import { TUseTestCase } from "../../lib/operators/types";
+import { TComment, TCommentDynamicData } from "../../schema";
 
 export function CommentsList({
-  projectId,
-  caseId,
+  testId,
   comments,
   createComment,
   removeComment,
 }: {
-  projectId: string | undefined;
-  caseId: string | undefined;
+  testId?: string;
   comments: TComment[];
   createComment: TUseTestCase["createComment"];
   removeComment: TUseTestCase["removeComment"];
@@ -41,7 +40,7 @@ export function CommentsList({
       </Text>
       <form
         onSubmit={form.onSubmit((values) => {
-          createComment(values);
+          createComment(values, testId);
           form.reset();
         })}
       >
@@ -69,7 +68,7 @@ export function CommentsList({
             <Flex key={comment.id} gap={10}>
               <Avatar
                 src={null}
-                alt="Vitaly Rtishchev"
+                alt={comment.username}
                 color="red"
                 h={40}
                 w={40}
@@ -92,11 +91,15 @@ export function CommentsList({
                   <Button
                     variant="transparent"
                     p={0}
-                    onClick={() => removeComment(projectId, caseId, comment.id)}
+                    onClick={() => removeComment(comment.id)}
                   >
                     <img src={Delete} height={24} width={24} />
                   </Button>
                 </Flex>
+                <Text>
+                  {comment.caseId}{" "}
+                  {comment.testId ? " > " + comment.testId : ""}
+                </Text>
                 <Text>{comment.content}</Text>
               </Flex>
             </Flex>

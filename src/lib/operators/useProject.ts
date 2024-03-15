@@ -1,21 +1,8 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { StatusEnum, TCaseDynamicData, TDocType, TProject } from "../../schema";
-import { useDocContext } from "../../components/docContext/DocContext";
 import { useCallback, useMemo } from "react";
-
-type TUseProject = {
-  removeTestCase: (testCaseId: string) => void;
-  createTestCase: (values: TCaseDynamicData) => void;
-} & (
-  | {
-      data: undefined;
-      loading: true;
-    }
-  | {
-      data: TProject;
-      loading: false;
-    }
-);
+import { useDocContext } from "../../components/docContext/DocContext";
+import { StatusEnum, TCaseDynamicData, TDocType } from "../../schema";
+import { TUseProject } from "./types";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();

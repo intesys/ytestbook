@@ -1,12 +1,12 @@
-import { Container, Flex, Loader, Stack, Text } from "@mantine/core";
+import { Flex, Loader, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router";
+import StatusDone from "../../assets/icons/status_done.svg";
 import { useProject } from "../../lib/operators/useProject";
 import Header from "../layout/Header/Header";
 import { CreateTestCaseModal } from "./CreateTestCaseModal";
 import classes from "./project.module.scss";
-import StatusDone from "../../assets/icons/status_done.svg";
 
 export function Project() {
   const params = useParams();
@@ -41,7 +41,7 @@ export function Project() {
           <Flex h="100dvh">
             <Stack bg="#EBEEFB" miw={300} px={20} py={30}>
               {project.data.testCases.map((testCase) => (
-                <Flex gap={10}>
+                <Flex gap={10} key={testCase.id}>
                   <img src={StatusDone} height={24} width={24} />
                   <Text>{testCase.title}</Text>
                 </Flex>

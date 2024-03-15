@@ -1,27 +1,14 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
-import { TDocType, TProject, TProjectDynamicData } from "../../schema";
-
-type TUseProjects = {
-  create: (values: TProjectDynamicData) => void;
-  remove: (id: string) => void;
-} & (
-  | {
-      data: undefined;
-      loading: true;
-    }
-  | {
-      data: TProject[];
-      loading: false;
-    }
-);
+import { TDocType, TProjectDynamicData } from "../../schema";
+import { TUseProjects } from "./types";
 
 export function useProjects(): TUseProjects {
   const { docUrl } = useDocContext();
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
 
-  const create = useCallback((values: TProjectDynamicData) => {
+  const createProject = useCallback((values: TProjectDynamicData) => {
     const date = new Date();
     changeDoc((d) => {
       d.projects.push({
@@ -33,7 +20,7 @@ export function useProjects(): TUseProjects {
     });
   }, []);
 
-  const remove = useCallback((id: string) => {
+  const removeProject = useCallback((id: string) => {
     changeDoc((d) => {
       const index = d.projects.findIndex((project) => project.id === id);
       delete d.projects[index];
@@ -41,8 +28,18 @@ export function useProjects(): TUseProjects {
   }, []);
 
   if (doc === undefined) {
-    return { data: undefined, loading: true, create, remove };
+    return {
+      data: undefined,
+      loading: true,
+      createProject,
+      removeProject,
+    };
   } else {
-    return { data: doc.projects, loading: false, create, remove };
+    return {
+      data: doc.projects,
+      loading: false,
+      createProject,
+      removeProject,
+    };
   }
 }

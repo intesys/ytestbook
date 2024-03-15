@@ -1,4 +1,4 @@
-.testcase {
+.testDetails {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto repeat(3, 1fr);
@@ -11,7 +11,7 @@
   grid-column: 1 / span 12;
 }
 
-.tests {
+.steps {
   display: flex;
   flex-direction: column;
   gap: 20px;

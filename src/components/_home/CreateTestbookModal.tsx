@@ -39,7 +39,7 @@ export function CreateTestbookModal({ opened, close }: TModalProps) {
         </Button>
         <Button
           onClick={() => {
-            projects.create(newTestbookData);
+            projects.createProject(newTestbookData);
             close();
           }}
         >
