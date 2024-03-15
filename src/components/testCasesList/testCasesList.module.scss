@@ -1,0 +1,22 @@
+.cases {
+  display: flex;
+  flex-direction: column;
+  max-height: min-content !important;
+}
+
+.tests {
+  display: flex;
+  flex-direction: column;
+  border-left: 0.5px solid gainsboro;
+  margin-left: 24px;
+}
+
+.item {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.divider {
+  border: 0.5px solid gainsboro;
+  width: 28px;
+}

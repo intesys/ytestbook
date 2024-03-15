@@ -28,7 +28,7 @@ export function DocProvider({ children }: TDocProviderProps) {
 
   useEffect(() => {
     // const rootDocUrl = `${document.location.hash.substring(1)}`;
-    const rootDocUrl = "automerge:4RpdwBc3FduatLdqyMYdCfj2qybs";
+    const rootDocUrl = "automerge:2vG28HU7EaGSfe1kbEAQ2di5k98j";
     if (isValidAutomergeUrl(rootDocUrl)) {
       const handle = repo.find<TDocType>(rootDocUrl);
       // const docUrl = (document.location.hash = handle.url);
@@ -36,7 +36,7 @@ export function DocProvider({ children }: TDocProviderProps) {
       setState({ status: DocContextStatusEnum.READY, docUrl });
       setDocUrl(docUrl);
     } else {
-      setState({ status: DocContextStatusEnum.CREATE_DOC });
+      const handle = repo.create<TDocType>({ projects: [] });
     }
   }, [repo]);
 
