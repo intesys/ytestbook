@@ -6,29 +6,34 @@ import {
   TextInput,
   Textarea,
 } from "@mantine/core";
-import { TModalProps } from "../_home/types";
 import { useForm } from "@mantine/form";
+import { useEffect } from "react";
 import { TTestDynamicData } from "../../schema";
-import { TUseTestCase } from "../../lib/operators/types";
+import { TModalProps } from "../_home/types";
 
-export function CreateTestModal({
+export function TestModal({
+  id: testId,
+  initialValues,
+  title,
   opened,
   close,
-  createTest,
-}: TModalProps & { createTest: TUseTestCase["createTest"] }) {
-  const form = useForm<TTestDynamicData>({
-    initialValues: {
-      title: "",
-      description: "",
-    },
-  });
+  handleSubmit,
+}: TModalProps<TTestDynamicData>) {
+  const form = useForm<TTestDynamicData>({ initialValues });
+
+  useEffect(() => {
+    if (initialValues) form.setValues(initialValues);
+  }, [initialValues]);
+
   return (
-    <Modal opened={opened} onClose={close} title="Add Test" centered size="xl">
+    <Modal opened={opened} onClose={close} title={title} centered size="xl">
       <Container>
         <form
           onSubmit={form.onSubmit((values) => {
-            createTest(values);
             form.reset();
+            testId !== undefined
+              ? handleSubmit(values, testId)
+              : handleSubmit(values);
             close();
           })}
         >

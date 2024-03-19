@@ -67,6 +67,24 @@ export function useTestCase(
     [projectId, caseId],
   );
 
+  const updateTest = useCallback(
+    (values: TTestDynamicData, testId: string) => {
+      if (!projectId || !caseId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
+        const t = tc?.tests.find((item) => item.id === testId);
+        if (!t) return;
+        /**TODO: needs to be enhanced */
+        if (values.title) t.title = values.title;
+        if (values.description) t.description = values.description;
+        t.lastUpdate = date.getTime();
+      });
+    },
+    [projectId, caseId],
+  );
+
   const updateTestStatus = useCallback(
     (testId: string, status: StatusEnum) => {
       if (!projectId || !caseId) return;
@@ -117,6 +135,7 @@ export function useTestCase(
       loading: true,
       createTest,
       createComment,
+      updateTest,
       updateTestStatus,
       removeTest,
       removeComment,
@@ -127,6 +146,7 @@ export function useTestCase(
       loading: false,
       createTest,
       createComment,
+      updateTest,
       updateTestStatus,
       removeTest,
       removeComment,

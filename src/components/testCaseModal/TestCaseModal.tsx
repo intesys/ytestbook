@@ -12,7 +12,7 @@ import { TModalProps } from "../_home/types";
 import { useEffect } from "react";
 
 export function TestCaseModal({
-  caseId,
+  id: caseId,
   initialValues,
   title,
   opened,

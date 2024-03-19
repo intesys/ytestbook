@@ -32,7 +32,7 @@ export function TestCase() {
     return (
       <div className={classes.testcase}>
         <TestCaseModal
-          caseId={testCase.data.id}
+          id={testCase.data.id}
           initialValues={{
             title: testCase.data.title,
             jiraLink: testCase.data.jiraLink || "",

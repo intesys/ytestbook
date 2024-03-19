@@ -11,12 +11,12 @@ export type TModalProps<T> = {
   close: () => void;
 } & (
   | {
-      caseId: string;
+      id: string;
       initialValues: Required<T>;
       handleSubmit: (values: T, id: string) => void;
     }
   | {
-      caseId?: undefined;
+      id?: undefined;
       initialValues?: undefined;
       handleSubmit: (values: T) => void;
     }

@@ -16,7 +16,7 @@ import { TUseTestCase } from "../../lib/operators/types";
 import { TTest } from "../../schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
-import { CreateTestModal } from "../testCase/CreateTestModal";
+import { TestModal } from "../testModal/TestModal";
 
 export function TestsTable({
   tests,
@@ -32,7 +32,12 @@ export function TestsTable({
 
   return (
     <>
-      <CreateTestModal opened={opened} close={close} createTest={createTest} />
+      <TestModal
+        title="Add Test"
+        opened={opened}
+        close={close}
+        handleSubmit={createTest}
+      />
       <Title order={4}>Tests</Title>
       {tests.length === 0 ? (
         <Text>The tests list is empty.</Text>

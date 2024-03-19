@@ -10,6 +10,8 @@ import { StepsTable } from "../stepsTable/StepsTable";
 import classes from "./testDetails.module.scss";
 import { useMemo } from "react";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
+import { TestModal } from "../testModal/TestModal";
+import { useDisclosure } from "@mantine/hooks";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ export function TestDetails() {
   const project = useProject(params.projectId);
   const testCase = useTestCase(params.projectId, params.caseId);
   const test = useTest(params.projectId, params.caseId, params.testId);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const completion = useMemo(
     () => computeCompletion(test.data?.steps || []),
@@ -32,6 +35,17 @@ export function TestDetails() {
   } else {
     return (
       <div className={classes.testDetails}>
+        <TestModal
+          id={test.data.id}
+          initialValues={{
+            title: test.data.title,
+            description: test.data.description || "",
+          }}
+          title="Edit Test"
+          opened={opened}
+          close={close}
+          handleSubmit={testCase.updateTest}
+        />
         <div className={classes.backButton}>
           <Button
             variant="transparent"
@@ -54,7 +68,7 @@ export function TestDetails() {
           title={test.data.title}
           completion={completion}
           handleUpdateStatus={testCase.updateTestStatus}
-          handleEditClick={() => console.log("EDIT")}
+          handleEditClick={open}
           handleDeleteClick={() => {
             if (project.data && testCase.data) {
               testCase.removeTest(test.data.id);

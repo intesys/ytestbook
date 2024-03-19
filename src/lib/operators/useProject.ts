@@ -40,7 +40,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       const date = new Date();
       changeDoc((d) => {
         const p = d.projects.find((item) => projectId && item.id === projectId);
-        let tc = p?.testCases.find((item) => item.id === caseId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
         if (!tc) return;
         /**TODO: needs to be enhanced */
         if (values.title) tc.title = values.title;

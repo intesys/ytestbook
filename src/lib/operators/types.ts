@@ -35,6 +35,7 @@ export type TUseProject = {
 export type TUseTestCase = {
   createTest: (values: TTestDynamicData) => void;
   createComment: (values: TCommentDynamicData, testId?: string) => void;
+  updateTest: (values: TTestDynamicData, testId: string) => void;
   updateTestStatus: (testId: string, status: StatusEnum) => void;
   removeTest: (testId: string) => void;
   removeComment: (commentId: string) => void;
