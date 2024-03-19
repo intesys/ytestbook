@@ -6,11 +6,18 @@ import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.scss";
+import { computeCompletion } from "../../lib/helpers/computeCompletion";
+import { useMemo } from "react";
 
 export function TestCase() {
   const params = useParams();
   const project = useProject(params.projectId);
   const testCase = useTestCase(params.projectId, params.caseId);
+
+  const completion = useMemo(
+    () => computeCompletion(testCase.data?.tests || []),
+    [testCase.data],
+  );
 
   if (testCase.loading) {
     return (
@@ -22,8 +29,12 @@ export function TestCase() {
     return (
       <div className={classes.testcase}>
         <ContentHeader
+          id={testCase.data.id}
+          status={testCase.data.status}
           title={testCase.data.title}
           jiraLink={testCase.data.jiraLink}
+          completion={completion}
+          handleUpdateStatus={project.updateTestCaseStatus}
           handleEditClick={() => console.log("EDIT")}
           handleDeleteClick={() => project.removeTestCase(testCase.data.id)}
         />
@@ -36,6 +47,7 @@ export function TestCase() {
           <TestsTable
             tests={testCase.data.tests}
             createTest={testCase.createTest}
+            updateTestStatus={testCase.updateTestStatus}
           />
         </div>
 

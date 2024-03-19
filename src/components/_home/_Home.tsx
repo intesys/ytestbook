@@ -60,7 +60,7 @@ export function _Home() {
                     <Table.Th>Title</Table.Th>
                     <Table.Th>Customer</Table.Th>
                     <Table.Th>Created at</Table.Th>
-                    <Table.Th>Last edit</Table.Th>
+                    <Table.Th>Last update</Table.Th>
                   </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>

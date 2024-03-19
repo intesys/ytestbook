@@ -1,7 +1,6 @@
 .testcase {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto repeat(3, 1fr);
   padding: 30px 40px;
   row-gap: 34px;
   width: 100%;

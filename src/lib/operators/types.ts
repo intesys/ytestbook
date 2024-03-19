@@ -1,4 +1,5 @@
 import {
+  StatusEnum,
   TCase,
   TCaseDynamicData,
   TCommentDynamicData,
@@ -26,17 +27,20 @@ export type TUseProjects = {
 
 export type TUseProject = {
   createTestCase: (values: TCaseDynamicData) => void;
+  updateTestCaseStatus: (caseId: string, status: StatusEnum) => void;
   removeTestCase: (testCaseId: string) => void;
 } & TOperatorLoader<TProject>;
 
 export type TUseTestCase = {
   createTest: (values: TTestDynamicData) => void;
   createComment: (values: TCommentDynamicData, testId?: string) => void;
+  updateTestStatus: (testId: string, status: StatusEnum) => void;
   removeTest: (testId: string) => void;
   removeComment: (commentId: string) => void;
 } & TOperatorLoader<TCase>;
 
 export type TUseTest = {
   createStep: (values: TStepDynamicData) => void;
+  updateStepStatus: (stepId: string, status: StatusEnum) => void;
   removeStep: (stepId: string) => void;
 } & TOperatorLoader<TTest>;

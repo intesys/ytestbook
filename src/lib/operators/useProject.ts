@@ -24,11 +24,26 @@ export function useProject(projectId: string | undefined): TUseProject {
           id: crypto.randomUUID(),
           projectId,
           createdAt: date.getTime(),
-          caseStatus: StatusEnum.IDLE,
+          status: StatusEnum.PENDING,
           completion: 0,
           tests: [],
           comments: [],
         });
+      });
+    },
+    [projectId],
+  );
+
+  const updateTestCaseStatus = useCallback(
+    (caseId: string, status: StatusEnum) => {
+      if (!projectId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
+        if (!p || !tc) return;
+        tc.status = status;
+        p.lastUpdate = date.getTime();
       });
     },
     [projectId],
@@ -53,6 +68,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       data: undefined,
       loading: true,
       createTestCase,
+      updateTestCaseStatus,
       removeTestCase,
     };
   } else {
@@ -60,6 +76,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       data: project,
       loading: false,
       createTestCase,
+      updateTestCaseStatus,
       removeTestCase,
     };
   }

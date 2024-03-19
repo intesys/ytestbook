@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, Title } from "@mantine/core";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import AddCircle from "../../../assets/icons/add_circle.svg";
@@ -17,8 +17,8 @@ const Header: React.FC<
       </div>
       <div className={classes.divider}></div>
       <div className={classes.header_title}>
-        <h4>{name}</h4>
-        <small>{client}</small>
+        <Title order={4}>{name}</Title>
+        <Title order={5}>{client}</Title>
       </div>
       <div className={classes.action}>
         <Button

@@ -1,12 +1,15 @@
+import { Button, Flex, Loader, Text } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
-import { ContentHeader } from "../contentHeader/ContentHeader";
-import classes from "./testDetails.module.scss";
-import { Flex, Loader, Text } from "@mantine/core";
-import { useTest } from "../../lib/operators/useTest";
-import { StepsTable } from "../stepsTable/StepsTable";
-import { useTestCase } from "../../lib/operators/useTestCase";
+import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
 import { useProject } from "../../lib/operators/useProject";
+import { useTest } from "../../lib/operators/useTest";
+import { useTestCase } from "../../lib/operators/useTestCase";
 import { CommentsList } from "../commentsList/CommentsList";
+import { ContentHeader } from "../contentHeader/ContentHeader";
+import { StepsTable } from "../stepsTable/StepsTable";
+import classes from "./testDetails.module.scss";
+import { useMemo } from "react";
+import { computeCompletion } from "../../lib/helpers/computeCompletion";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -14,6 +17,11 @@ export function TestDetails() {
   const project = useProject(params.projectId);
   const testCase = useTestCase(params.projectId, params.caseId);
   const test = useTest(params.projectId, params.caseId, params.testId);
+
+  const completion = useMemo(
+    () => computeCompletion(test.data?.steps || []),
+    [test.data],
+  );
 
   if (test.loading) {
     return (
@@ -24,8 +32,28 @@ export function TestDetails() {
   } else {
     return (
       <div className={classes.testDetails}>
+        <div className={classes.backButton}>
+          <Button
+            variant="transparent"
+            leftSection={<img src={ArrowCircle} />}
+            p={0}
+            onClick={() => {
+              if (project.data && testCase.data) {
+                navigate(
+                  `/project/${project.data.id}/testCase/${testCase.data.id}`,
+                );
+              }
+            }}
+          >
+            <Text c={"black"}>Go to test case — {test.data.caseId}</Text>
+          </Button>
+        </div>
         <ContentHeader
+          id={test.data.id}
+          status={test.data.status}
           title={test.data.title}
+          completion={completion}
+          handleUpdateStatus={testCase.updateTestStatus}
           handleEditClick={() => console.log("EDIT")}
           handleDeleteClick={() => {
             if (project.data && testCase.data) {
@@ -45,6 +73,7 @@ export function TestDetails() {
           <StepsTable
             steps={test.data.steps}
             createStep={test.createStep}
+            updateStepStatus={test.updateStepStatus}
             removeStep={test.removeStep}
           />
         </div>

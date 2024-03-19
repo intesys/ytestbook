@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
 import {
   StatusEnum,
+  TComment,
   TCommentDynamicData,
   TDocType,
   TTestDynamicData,
@@ -32,11 +33,10 @@ export function useTestCase(
           ...values,
           id: crypto.randomUUID(),
           caseId,
-          completion: 0,
           tags: [],
           createdAt: date.getTime(),
           assignees: [],
-          testStatus: StatusEnum.IDLE,
+          status: StatusEnum.PENDING,
           steps: [],
         });
       });
@@ -51,14 +51,33 @@ export function useTestCase(
       changeDoc((d) => {
         const p = d.projects.find((item) => projectId && item.id === projectId);
         const tc = p?.testCases.find((item) => item.id === caseId);
-        tc?.comments.push({
+        if (!tc) return;
+
+        const newComment: TComment = {
           ...values,
           id: crypto.randomUUID(),
-          testId,
           caseId,
           createdAt: date.getTime(),
           resolved: false,
-        });
+        };
+        if (testId) newComment.testId = testId;
+        tc.comments.push(newComment);
+      });
+    },
+    [projectId, caseId],
+  );
+
+  const updateTestStatus = useCallback(
+    (testId: string, status: StatusEnum) => {
+      if (!projectId || !caseId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
+        const t = tc?.tests.find((test) => test.id === testId);
+        if (!p || !tc || !t) return;
+        t.status = status;
+        t.lastUpdate = p.lastUpdate = date.getTime();
       });
     },
     [projectId, caseId],
@@ -98,6 +117,7 @@ export function useTestCase(
       loading: true,
       createTest,
       createComment,
+      updateTestStatus,
       removeTest,
       removeComment,
     };
@@ -107,6 +127,7 @@ export function useTestCase(
       loading: false,
       createTest,
       createComment,
+      updateTestStatus,
       removeTest,
       removeComment,
     };

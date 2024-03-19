@@ -28,6 +28,7 @@ export function CreateTestModal({
         <form
           onSubmit={form.onSubmit((values) => {
             createTest(values);
+            form.reset();
             close();
           })}
         >

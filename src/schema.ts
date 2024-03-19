@@ -1,19 +1,21 @@
 export enum StatusEnum {
-  IDLE = "IDLE",
+  BLOCKED = "BLOCKED",
+  CANCELLED = "CANCELLED",
+  DONE = "DONE",
   FAIL = "FAIL",
-  SUCCESS = "SUCCESS",
-  IN_PROGRESS = "IN_PROGRESS",
-  CANCELED = "CANCELED",
+  PAUSED = "PAUSED",
+  PENDING = "PENDING",
+  TODO = "TODO",
 }
 
 export type TStepDynamicData = {
   description: string;
 };
 
-export type TSteps = {
+export type TStep = {
   id: string;
   testId: TTest["id"];
-  stepStatus: StatusEnum;
+  status: StatusEnum;
   lastUpdate?: number;
   createdAt: number;
 } & TStepDynamicData;
@@ -26,13 +28,12 @@ export type TTestDynamicData = {
 export type TTest = {
   id: string;
   caseId: TCase["id"];
-  completion: number;
   tags: string[];
   createdAt: number;
   lastUpdate?: number;
   assignees: string[];
-  testStatus: StatusEnum;
-  steps: TSteps[];
+  status: StatusEnum;
+  steps: TStep[];
 } & TTestDynamicData;
 
 export type TCommentDynamicData = {
@@ -58,7 +59,7 @@ export type TCaseDynamicData = {
 export type TCase = {
   id: string;
   projectId: TProject["id"];
-  caseStatus: StatusEnum;
+  status: StatusEnum;
   createdAt: number;
   completion: number;
   tests: TTest[];

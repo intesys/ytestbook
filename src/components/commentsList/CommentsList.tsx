@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   Textarea,
+  Title,
 } from "@mantine/core";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 
@@ -35,9 +36,7 @@ export function CommentsList({
   });
   return (
     <>
-      <Text fw={700} size="20px">
-        Comments
-      </Text>
+      <Title order={4}>Comments</Title>
       <form
         onSubmit={form.onSubmit((values) => {
           createComment(values, testId);
@@ -61,7 +60,7 @@ export function CommentsList({
         </Flex>
       </form>
       {comments.length === 0 ? (
-        <Text>Empty</Text>
+        <Text ta={"center"}>There are still no comments here</Text>
       ) : (
         <Stack gap={10} mt={40}>
           {comments.map((comment) => (
@@ -78,10 +77,10 @@ export function CommentsList({
               <Flex direction={"column"} gap={12} px={10} py={5}>
                 <Flex gap={17} align="center">
                   <Text fw={700}>@{comment.username}</Text>
-                  <Text size="14px">{parseTimestamp(comment.createdAt)}</Text>
+                  <Text size="sm">{parseTimestamp(comment.createdAt)}</Text>
                   {comment.testStatusWhenCreated && (
                     <Flex gap={6}>
-                      <Text>Test status when added: </Text>
+                      <Text size="sm">Test status when added: </Text>
                       <img src={StatusPending} height={24} width={24} />
                     </Flex>
                   )}
@@ -96,7 +95,7 @@ export function CommentsList({
                     <img src={Delete} height={24} width={24} />
                   </Button>
                 </Flex>
-                <Text>
+                <Text size="sm">
                   {comment.caseId}{" "}
                   {comment.testId ? " > " + comment.testId : ""}
                 </Text>

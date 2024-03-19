@@ -26,13 +26,32 @@ export function useTest(
         const p = d.projects.find((item) => projectId && item.id === projectId);
         const tc = p?.testCases.find((item) => item.id === caseId);
         const t = tc?.tests.find((test) => test.id === testId);
-        t?.steps.push({
+        if (!t || !p) return;
+        t.steps.push({
           ...values,
           id: crypto.randomUUID(),
           testId,
-          stepStatus: StatusEnum.IDLE,
+          status: StatusEnum.PENDING,
           createdAt: date.getTime(),
         });
+        t.lastUpdate = p.lastUpdate = date.getTime();
+      });
+    },
+    [projectId, caseId, testId],
+  );
+
+  const updateStepStatus = useCallback(
+    (stepId: string, status: StatusEnum) => {
+      if (!projectId || !caseId || !testId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
+        const t = tc?.tests.find((test) => test.id === testId);
+        const s = t?.steps.find((step) => step.id === stepId);
+        if (!s || !t || !tc || !p) return;
+        s.status = status;
+        s.lastUpdate = t.lastUpdate = p.lastUpdate = date.getTime();
       });
     },
     [projectId, caseId, testId],
@@ -57,6 +76,7 @@ export function useTest(
       data: undefined,
       loading: true,
       createStep,
+      updateStepStatus,
       removeStep,
     };
   } else {
@@ -64,6 +84,7 @@ export function useTest(
       data: test,
       loading: false,
       createStep,
+      updateStepStatus,
       removeStep,
     };
   }

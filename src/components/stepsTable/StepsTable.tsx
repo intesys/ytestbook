@@ -1,38 +1,46 @@
-import { Button, Table, Text } from "@mantine/core";
+import { Button, Table, Text, ThemeIcon, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ArrowDropdown from "../../assets/icons/arrow_drop_down.svg";
 import Delete from "../../assets/icons/delete.svg";
-import StatusDone from "../../assets/icons/status_done.svg";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { TUseTest } from "../../lib/operators/types";
-import { TSteps } from "../../schema";
+import { TStep } from "../../schema";
+import { StatusIcon } from "../statusIcon/StatusIcon";
+import { StatusMenu } from "../statusMenu/StatusMenu";
 import { CreateStepModal } from "./CreateStepModal";
+import { IoMdAddCircle } from "react-icons/io";
 
 export function StepsTable({
   steps,
   createStep,
+  updateStepStatus,
   removeStep,
 }: {
-  steps: TSteps[];
+  steps: TStep[];
   createStep: TUseTest["createStep"];
+  updateStepStatus: TUseTest["updateStepStatus"];
   removeStep: TUseTest["removeStep"];
 }) {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
       <CreateStepModal opened={opened} close={close} createStep={createStep} />
-      <Text fw={700} size="20px">
-        Steps
-      </Text>
+      <Title order={4}>Steps</Title>
       {steps.length === 0 ? (
         <Text>The steps list is empty.</Text>
       ) : (
         <Table verticalSpacing={10} horizontalSpacing={20} withTableBorder>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Status</Table.Th>
-              <Table.Th>Description</Table.Th>
-              <Table.Th>Last edit</Table.Th>
+              <Table.Th>
+                <Text fw={"bold"}>Status</Text>
+              </Table.Th>
+              <Table.Th>
+                <Text fw={"bold"}>Description</Text>
+              </Table.Th>
+              <Table.Th>
+                <Text fw={"bold"}>Last update</Text>
+              </Table.Th>
               <Table.Th></Table.Th>
             </Table.Tr>
           </Table.Thead>
@@ -40,24 +48,28 @@ export function StepsTable({
             {steps.map((step) => (
               <Table.Tr key={step.id}>
                 <Table.Td>
-                  <Button
-                    variant="light"
-                    color="lime"
-                    h={45}
-                    leftSection={
-                      <img src={StatusDone} height={24} width={24} />
+                  <StatusMenu
+                    id={step.id}
+                    target={
+                      <Button
+                        variant="light"
+                        color="lime"
+                        h={45}
+                        leftSection={<StatusIcon status={step.status} />}
+                        rightSection={
+                          <img src={ArrowDropdown} height={24} width={24} />
+                        }
+                      >
+                        <Text c={"black"} size="sm" fw={500}>
+                          Change
+                        </Text>
+                      </Button>
                     }
-                    rightSection={
-                      <img src={ArrowDropdown} height={24} width={24} />
-                    }
-                  >
-                    <Text c={"#3C3C3C"} fw={500}>
-                      Change
-                    </Text>
-                  </Button>
+                    updateStatus={updateStepStatus}
+                  />
                 </Table.Td>
                 <Table.Td>
-                  <Text>{step.description}</Text>
+                  <Text size="sm">{step.description}</Text>
                 </Table.Td>
                 <Table.Td>
                   {step.lastUpdate ? parseTimestamp(step.lastUpdate) : "—"}
@@ -76,7 +88,17 @@ export function StepsTable({
           </Table.Tbody>
         </Table>
       )}
-      <Button w={290} variant="default" onClick={open}>
+      <Button
+        w={290}
+        justify="space-between"
+        rightSection={
+          <ThemeIcon color="black" variant="transparent">
+            <IoMdAddCircle size="18px" />
+          </ThemeIcon>
+        }
+        variant="default"
+        onClick={open}
+      >
         Add step
       </Button>
     </>
