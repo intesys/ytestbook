@@ -27,6 +27,7 @@ export type TUseProjects = {
 
 export type TUseProject = {
   createTestCase: (values: TCaseDynamicData) => void;
+  updateTestCase: (values: TCaseDynamicData, caseId: string) => void;
   updateTestCaseStatus: (caseId: string, status: StatusEnum) => void;
   removeTestCase: (testCaseId: string) => void;
 } & TOperatorLoader<TProject>;

@@ -6,35 +6,34 @@ import {
   TextInput,
   Textarea,
 } from "@mantine/core";
-import { TModalProps } from "../_home/types";
 import { useForm } from "@mantine/form";
 import { TCaseDynamicData } from "../../schema";
-import { useProject } from "../../lib/operators/useProject";
-import { useParams } from "react-router-dom";
+import { TModalProps } from "../_home/types";
+import { useEffect } from "react";
 
-export function CreateTestCaseModal({ opened, close }: TModalProps) {
-  const params = useParams();
-  const project = useProject(params.projectId);
-  const form = useForm<TCaseDynamicData>({
-    initialValues: {
-      title: "",
-      description: "",
-      jiraLink: "",
-    },
-  });
+export function TestCaseModal({
+  caseId,
+  initialValues,
+  title,
+  opened,
+  close,
+  handleSubmit,
+}: TModalProps<TCaseDynamicData>) {
+  const form = useForm<TCaseDynamicData>({ initialValues });
+
+  useEffect(() => {
+    if (initialValues) form.setValues(initialValues);
+  }, [initialValues]);
 
   return (
-    <Modal
-      opened={opened}
-      onClose={close}
-      title="Create Test Case"
-      centered
-      size="xl"
-    >
+    <Modal opened={opened} onClose={close} title={title} centered size="xl">
       <Container>
         <form
           onSubmit={form.onSubmit((values) => {
-            project.createTestCase(values);
+            form.reset();
+            caseId !== undefined
+              ? handleSubmit(values, caseId)
+              : handleSubmit(values);
             close();
           })}
         >

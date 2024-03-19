@@ -4,7 +4,7 @@ import { Outlet, useParams } from "react-router";
 import { useProject } from "../../lib/operators/useProject";
 import Header from "../layout/Header/Header";
 import { NavBar } from "../navBar/NavBar";
-import { CreateTestCaseModal } from "./CreateTestCaseModal";
+import { TestCaseModal } from "../testCaseModal/TestCaseModal";
 import classes from "./project.module.scss";
 
 export function Project() {
@@ -14,7 +14,12 @@ export function Project() {
 
   return (
     <div className={classes.container}>
-      <CreateTestCaseModal opened={opened} close={close} />
+      <TestCaseModal
+        title="Create test case"
+        opened={opened}
+        close={close}
+        handleSubmit={project.createTestCase}
+      />
       {project.loading ? (
         <Flex align="center" justify="center" h="100dvh">
           <Loader color="blue" size="lg" />

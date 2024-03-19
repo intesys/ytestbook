@@ -46,7 +46,7 @@ export function CommentsList({
         <Flex direction="column" gap={16}>
           <TextInput
             withAsterisk
-            label="Username"
+            label="Name"
             {...form.getInputProps("username")}
           />
           <Textarea

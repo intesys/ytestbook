@@ -62,6 +62,7 @@ export type TCase = {
   status: StatusEnum;
   createdAt: number;
   completion: number;
+  lastUpdate?: number;
   tests: TTest[];
   comments: TComment[];
 } & TCaseDynamicData;

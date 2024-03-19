@@ -34,6 +34,24 @@ export function useProject(projectId: string | undefined): TUseProject {
     [projectId],
   );
 
+  const updateTestCase = useCallback(
+    (values: TCaseDynamicData, caseId: string) => {
+      if (!projectId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        let tc = p?.testCases.find((item) => item.id === caseId);
+        if (!tc) return;
+        /**TODO: needs to be enhanced */
+        if (values.title) tc.title = values.title;
+        if (values.jiraLink) tc.jiraLink = values.jiraLink;
+        if (values.description) tc.description = values.description;
+        tc.lastUpdate = date.getTime();
+      });
+    },
+    [projectId],
+  );
+
   const updateTestCaseStatus = useCallback(
     (caseId: string, status: StatusEnum) => {
       if (!projectId) return;
@@ -68,6 +86,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       data: undefined,
       loading: true,
       createTestCase,
+      updateTestCase,
       updateTestCaseStatus,
       removeTestCase,
     };
@@ -76,6 +95,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       data: project,
       loading: false,
       createTestCase,
+      updateTestCase,
       updateTestCaseStatus,
       removeTestCase,
     };
