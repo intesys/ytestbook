@@ -16,7 +16,11 @@ import { theme } from "./theme";
 import "./theme.scss";
 
 const repo = new Repo({
-  network: [new BrowserWebSocketClientAdapter("ws://localhost:3030")],
+  network: [
+    new BrowserWebSocketClientAdapter(
+      "wss://automerge-sync-server.staging.intesys.it",
+    ),
+  ],
   storage: new IndexedDBStorageAdapter(),
 });
 
