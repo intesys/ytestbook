@@ -8,64 +8,64 @@ import {
   MdPending,
   MdReportProblem,
 } from "react-icons/md";
+import { StatusEnum } from "../../schema";
 import { theme } from "../../theme";
-import { STATUS } from "../../types/status";
 
 interface IProps {
-  status?: STATUS | string;
+  status?: StatusEnum;
   size?: number;
   variant?: ThemeIconVariant;
 }
 
 export const StatusIcon = ({
   status,
-  size = 30,
-  variant = "light",
+  size = 24,
+  variant = "transparent",
 }: IProps) => {
   switch (status) {
-    case STATUS.BLOCKED:
+    case StatusEnum.BLOCKED:
       return (
         <ThemeIcon color="yellow" variant={variant} size={size}>
           <MdDeleteForever size="1.5rem" />
         </ThemeIcon>
       );
 
-    case STATUS.CANCELLED:
+    case StatusEnum.CANCELLED:
       return (
         <ThemeIcon color="orange" variant={variant} size={size}>
           <MdDangerous size="1.5rem" />
         </ThemeIcon>
       );
 
-    case STATUS.DONE:
+    case StatusEnum.DONE:
       return (
         <ThemeIcon color="green" variant={variant} size={size}>
           <MdCheckCircle size="1.5rem" />
         </ThemeIcon>
       );
 
-    case STATUS.FAIL:
+    case StatusEnum.FAIL:
       return (
         <ThemeIcon color="red" variant={variant} size={size}>
           <MdReportProblem size="1.5rem" />
         </ThemeIcon>
       );
 
-    case STATUS.PAUSED:
+    case StatusEnum.PAUSED:
       return (
         <ThemeIcon color="gray" variant={variant} size={size}>
           <MdPauseCircle size="1.5rem" />
         </ThemeIcon>
       );
 
-    case STATUS.PENDING:
+    case StatusEnum.PENDING:
       return (
         <ThemeIcon color="blue" variant={variant} size={size}>
           <MdPending size="1.5rem" />
         </ThemeIcon>
       );
 
-    case STATUS.TODO:
+    case StatusEnum.TODO:
       return (
         <MdNotStarted size="1.5rem" color={theme.colors?.secondary?.[8]} />
       );

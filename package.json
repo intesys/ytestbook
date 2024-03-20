@@ -2,16 +2,22 @@
   "name": "ytestbook",
   "version": "0.2.1",
   "private": true,
-  "source": "public/index.html",
-  "main": "dist-electron/main.js",
+  "main": "src/index.tsx",
   "scripts": {
     "dev": "node scripts/dev",
     "build": "tsc && vite build && electron-builder",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "server": "node server/app",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "start": "vite --host"
   },
   "dependencies": {
+    "@automerge/automerge": "^2.1.10",
+    "@automerge/automerge-repo": "^1.1.2",
+    "@automerge/automerge-repo-network-broadcastchannel": "^1.1.2",
+    "@automerge/automerge-repo-network-websocket": "^1.1.2",
+    "@automerge/automerge-repo-react-hooks": "^1.1.2",
+    "@automerge/automerge-repo-storage-indexeddb": "^1.1.2",
     "@mantine/core": "^7.1.3",
     "@mantine/dates": "^7.1.3",
     "@mantine/dropzone": "^7.1.3",
@@ -42,7 +48,9 @@
     "react-router": "6.14.1",
     "react-router-dom": "6.14.1",
     "slugify": "^1.6.6",
-    "vite-plugin-svgr": "^3.2.0"
+    "vite-plugin-svgr": "^3.2.0",
+    "vite-plugin-top-level-await": "^1.4.1",
+    "vite-plugin-wasm": "^3.3.0"
   },
   "devDependencies": {
     "@eslint/create-config": "^0.4.6",
@@ -55,7 +63,7 @@
     "@types/react-router-dom": "5.1.3",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
-    "@vitejs/plugin-react": "^4.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "cors": "^2.8.5",
     "electron": "^24.4.0",
     "electron-builder": "^23.6.0",
@@ -71,8 +79,8 @@
     "postcss-preset-mantine": "^1.8.0",
     "postcss-simple-vars": "^7.0.1",
     "sass": "^1.69.3",
-    "typescript": "^5.1.6",
-    "vite": "^4.3.2",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.6",
     "vite-plugin-electron": "^0.11.2",
     "vite-plugin-electron-renderer": "^0.14.5"
   },

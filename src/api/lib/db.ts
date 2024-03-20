@@ -5,15 +5,15 @@
  * - getDB
  * - removeDB
  */
-import slugify from 'slugify';
-import { getFormattedDateDayJs } from '../../lib/date/date';
-import { TYPE } from '../../types/entityTypes';
+import slugify from "slugify";
+import { getFormattedDateDayJs } from "../../lib/date/date";
+import { TYPE } from "../../types/entityTypes";
 import { DBRegistryDoc } from "../../types/pouchDB";
-import { TestbookAdditionalInfo, TestbookInfo } from '../../types/testbook';
-import { DB_INDEX_NAME, DB_INFO_ID, dbLocation } from '../consts';
+import { TestbookAdditionalInfo, TestbookInfo } from "../../types/testbook";
+import { DB_INDEX_NAME, DB_INFO_ID, dbLocation } from "../consts";
 import { isValidUrl } from "./isValidUrl";
 
-export const DB_INDEX = new PouchDB<DBRegistryDoc>(`${dbLocation}${DB_INDEX_NAME}/`);
+// export const DB_INDEX = new PouchDB<DBRegistryDoc>(`${dbLocation}${DB_INDEX_NAME}/`);
 
 /**
  * Local registry of PouchDB instances
@@ -25,16 +25,21 @@ const getLocation = (id: string): string => `${dbLocation}${id}/`;
 /**
  * Register to remote DB index
  */
-const register = async (name: string, id: string, location: string, info: {}): Promise<DBRegistryDoc> => {
-  await DB_INDEX.put<DBRegistryDoc>({ _id: id, name, location, ...info });
-  return DB_INDEX.get<DBRegistryDoc>(id);
-}
+const register = async (
+  name: string,
+  id: string,
+  location: string,
+  info: {},
+): Promise<DBRegistryDoc> => {
+  // await DB_INDEX.put<DBRegistryDoc>({ _id: id, name, location, ...info });
+  // return DB_INDEX.get<DBRegistryDoc>(id);
+};
 
 const initializeIndexes = async (DB: PouchDB.Database) => {
   await DB.createIndex({ index: { fields: ["type"] } });
   await DB.createIndex({ index: { fields: ["tags"] } });
   await DB.createIndex({ index: { fields: ["status"] } });
-}
+};
 
 /**
  * Removes db by slug and updates DB_INDEX and localRegistry
@@ -42,8 +47,8 @@ const initializeIndexes = async (DB: PouchDB.Database) => {
 export const removeDB = async (id: string) => {
   try {
     // Remove local database
-    connectionRegistry[id] ?? await connectionRegistry[id].destroy();
-  } catch (err) { }
+    connectionRegistry[id] ?? (await connectionRegistry[id].destroy());
+  } catch (err) {}
 
   try {
     // Remove remote database using HTTP api
@@ -52,19 +57,19 @@ export const removeDB = async (id: string) => {
       // It's a remote database
       await fetch(dbLocation, { method: "DELETE" });
     }
-  } catch (err) { }
+  } catch (err) {}
 
   try {
     // Remove local registry key
     delete connectionRegistry[id];
-  } catch (err) { }
+  } catch (err) {}
 
   try {
     // Remove from global registry
-    const dbDoc = await DB_INDEX.get(id);
-    await DB_INDEX.remove(dbDoc);
-  } catch (err) { }
-}
+    // const dbDoc = await DB_INDEX.get(id);
+    // await DB_INDEX.remove(dbDoc);
+  } catch (err) {}
+};
 
 /**
  * Returns a PouchDB instance for requested slug
@@ -76,12 +81,15 @@ export const getDB = (id: string): PouchDB.Database<{}> => {
     connectionRegistry[id] = instance;
   }
   return connectionRegistry[id];
-}
+};
 
 /**
  * Creates a new database and registers it even in PouchDB internal index and in the local registry
  */
-export const createDB = async (name: string, info: Record<TestbookAdditionalInfo, string>): Promise<PouchDB.Database<{}>> => {
+export const createDB = async (
+  name: string,
+  info: Record<TestbookAdditionalInfo, string>,
+): Promise<PouchDB.Database<{}>> => {
   try {
     const id = slugify(name);
     const location = getLocation(id);
@@ -100,14 +108,13 @@ export const createDB = async (name: string, info: Record<TestbookAdditionalInfo
       name,
       id,
       ...info,
-      created
+      created,
     } as TestbookInfo);
 
     // Register to remote registry
     await register(name, id, location, info);
     return DB;
-  }
-  catch (err) {
+  } catch (err) {
     if ((err as { error: string }).error === "conflict") {
       throw err;
     }
@@ -116,13 +123,16 @@ export const createDB = async (name: string, info: Record<TestbookAdditionalInfo
     await removeDB(slug);
     throw err;
   }
-}
+};
 
-export const updateDB = async (name: string, info: TestbookInfo): Promise<DBRegistryDoc> => {
+export const updateDB = async (
+  name: string,
+  info: TestbookInfo,
+): Promise<DBRegistryDoc> => {
   const id = slugify(name);
   const location = getLocation(id);
   // @ts-ignore ensure _rev is not passed
   const { _id, _rev, ...rest } = info;
-  const revision = await DB_INDEX.get<DBRegistryDoc>(id);
+  // const revision = await DB_INDEX.get<DBRegistryDoc>(id);
   return register(name, id, location, { ...rest, _rev: revision._rev });
-}
+};

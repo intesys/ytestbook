@@ -3,6 +3,14 @@ import { createTheme } from "@mantine/core";
 export const theme = createTheme({
   scale: 1,
   fontFamily: "Work Sans, sans-serif",
+  fontSizes: {
+    xs: "10px",
+    sm: "12px",
+    md: "14px",
+    lg: "16px",
+    xl: "20px",
+  },
+  black: "#3C3C3C",
   colors: {
     primary: [
       "#eaefff",
@@ -56,19 +64,19 @@ export const theme = createTheme({
         fontWeight: "700",
       },
       h3: {
-        fontSize: "1.5rem",
-        lineHeight: "1.65rem",
+        fontSize: "24px",
+        lineHeight: "155%",
         fontWeight: "700",
       },
       h4: {
-        fontSize: "1.35rem",
-        lineHeight: "1.5rem",
+        fontSize: "20px",
+        lineHeight: "31px",
         fontWeight: "700",
       },
       h5: {
-        fontSize: "1.2rem",
-        lineHeight: "1.3rem",
-        fontWeight: "700",
+        fontSize: "14px",
+        lineHeight: "155%",
+        fontWeight: "500",
       },
       h6: {
         fontSize: "1rem",
