@@ -57,10 +57,18 @@ export function _Home() {
               >
                 <Table.Thead>
                   <Table.Tr>
-                    <Table.Th>Title</Table.Th>
-                    <Table.Th>Customer</Table.Th>
-                    <Table.Th>Created at</Table.Th>
-                    <Table.Th>Last update</Table.Th>
+                    <Table.Th>
+                      <Text fw={"bold"}>Title</Text>
+                    </Table.Th>
+                    <Table.Th>
+                      <Text fw={"bold"}>Customer</Text>
+                    </Table.Th>
+                    <Table.Th>
+                      <Text fw={"bold"}>Created at</Text>
+                    </Table.Th>
+                    <Table.Th>
+                      <Text fw={"bold"}>Last update</Text>
+                    </Table.Th>
                   </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -69,14 +77,22 @@ export function _Home() {
                       key={item.id}
                       onClick={() => navigate(`/project/${item.id}`)}
                     >
-                      <Table.Td>{item.title}</Table.Td>
-                      <Table.Td>{item.customer}</Table.Td>
-                      <Table.Td>{parseTimestamp(item.createdAt)}</Table.Td>
+                      <Table.Td>
+                        <Text size="sm">{item.title}</Text>
+                      </Table.Td>
+                      <Table.Td>
+                        <Text size="sm">{item.customer}</Text>
+                      </Table.Td>
+                      <Table.Td>
+                        <Text size="sm">{parseTimestamp(item.createdAt)}</Text>
+                      </Table.Td>
 
                       <Table.Td>
-                        {item.lastUpdate
-                          ? parseTimestamp(item.lastUpdate)
-                          : "—"}
+                        <Text size="sm">
+                          {item.lastUpdate
+                            ? parseTimestamp(item.lastUpdate)
+                            : "—"}
+                        </Text>
                       </Table.Td>
                     </Table.Tr>
                   ))}

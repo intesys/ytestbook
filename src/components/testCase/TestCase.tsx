@@ -1,7 +1,7 @@
 import { Flex, Loader, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { useProject } from "../../lib/operators/useProject";
 import { useTestCase } from "../../lib/operators/useTestCase";
@@ -12,6 +12,7 @@ import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.scss";
 
 export function TestCase() {
+  const navigate = useNavigate();
   const params = useParams();
   const project = useProject(params.projectId);
   const testCase = useTestCase(params.projectId, params.caseId);
@@ -24,7 +25,7 @@ export function TestCase() {
 
   if (testCase.loading) {
     return (
-      <Flex align="center" justify="center" h="100dvh">
+      <Flex align="center" justify="center" h="100dvh" w={"100%"}>
         <Loader color="blue" size="lg" />
       </Flex>
     );
@@ -52,7 +53,12 @@ export function TestCase() {
           completion={completion}
           handleUpdateStatus={project.updateTestCaseStatus}
           handleEditClick={open}
-          handleDeleteClick={() => project.removeTestCase(testCase.data.id)}
+          handleDeleteClick={() => {
+            if (project.data) {
+              project.removeTestCase(testCase.data.id);
+              navigate(`/project/${project.data.id}`);
+            }
+          }}
         />
 
         <div className={classes.description}>
