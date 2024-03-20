@@ -1,19 +1,29 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
+import { ChangeFn, ChangeOptions, Doc } from "@automerge/automerge/next";
+import { TDocType } from "../../schema";
 
 export type TDocContextValue = {
   docUrl: AutomergeUrl | undefined;
+  createDoc: () => void;
+  findAndSetDoc: (docUrl: AutomergeUrl) => void;
 };
 
 export enum DocContextStatusEnum {
   READY = "READY",
-  CREATE_DOC = "CREATE_DOC",
   LOADING = "LOADING",
 }
 
 export type TDocContextState =
   | {
       status: DocContextStatusEnum.READY;
-      docUrl: AutomergeUrl;
+      docUrl: AutomergeUrl | undefined;
+      doc: Doc<TDocType> | undefined;
+      changeDoc:
+        | ((
+            changeFn: ChangeFn<TDocType>,
+            options?: ChangeOptions<TDocType> | undefined,
+          ) => void)
+        | undefined;
     }
   | {
       status: Exclude<DocContextStatusEnum, "READY">;

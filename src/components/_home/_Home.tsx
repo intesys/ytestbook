@@ -9,8 +9,10 @@ import { useProjects } from "../../lib/operators/useProjects";
 import { Action } from "./Action";
 import { CreateTestbookModal } from "./CreateTestbookModal";
 import classes from "./home.module.scss";
+import { useDocContext } from "../docContext/DocContext";
 
 export function _Home() {
+  const { docUrl } = useDocContext();
   const projects = useProjects();
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
@@ -18,6 +20,9 @@ export function _Home() {
     <div className={classes.container}>
       <CreateTestbookModal opened={opened} close={close} />
       <div className={classes.top}>
+        <Text ta={"end"} c={"white"}>
+          {docUrl}
+        </Text>
         <div className={classes.header}>
           <img src={Logo} height={78} width={78} />
         </div>

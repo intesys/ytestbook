@@ -21,7 +21,7 @@ export function Project() {
         handleSubmit={project.createTestCase}
       />
       {project.loading ? (
-        <Flex align="center" justify="center" h="100dvh">
+        <Flex align="center" justify="center" h="100dvh" w={"100%"}>
           <Loader color="blue" size="lg" />
         </Flex>
       ) : (
