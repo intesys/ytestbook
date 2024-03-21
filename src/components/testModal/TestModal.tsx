@@ -19,7 +19,12 @@ export function TestModal({
   close,
   handleSubmit,
 }: TModalProps<TTestDynamicData>) {
-  const form = useForm<TTestDynamicData>({ initialValues });
+  const form = useForm<TTestDynamicData>({
+    initialValues: initialValues || {
+      title: "",
+      description: "",
+    },
+  });
 
   useEffect(() => {
     if (initialValues) form.setValues(initialValues);

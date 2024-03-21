@@ -19,7 +19,13 @@ export function TestCaseModal({
   close,
   handleSubmit,
 }: TModalProps<TCaseDynamicData>) {
-  const form = useForm<TCaseDynamicData>({ initialValues });
+  const form = useForm<TCaseDynamicData>({
+    initialValues: initialValues || {
+      title: "",
+      jiraLink: "",
+      description: "",
+    },
+  });
 
   useEffect(() => {
     if (initialValues) form.setValues(initialValues);
