@@ -1,10 +1,16 @@
+import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
 import { ChangeEvent, useState } from "react";
 import { useProjects } from "../../lib/operators/useProjects";
-import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
-import { TModalProps } from "./types";
 import { TProjectDynamicData } from "../../schema";
 
-export function CreateTestbookModal({ opened, close }: TModalProps) {
+//TODO: align this modal with the others
+export function CreateTestbookModal({
+  opened,
+  close,
+}: {
+  opened: boolean;
+  close: () => void;
+}) {
   const projects = useProjects();
   const [newTestbookData, setNewTestbookData] = useState<TProjectDynamicData>({
     customer: "",

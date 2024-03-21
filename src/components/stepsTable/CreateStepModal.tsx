@@ -1,14 +1,18 @@
 import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
-import { TUseTest } from "../../lib/operators/types";
-import { TModalProps } from "../_home/types";
-import { TStepDynamicData } from "../../schema";
 import { useForm } from "@mantine/form";
+import { TUseTest } from "../../lib/operators/types";
+import { TStepDynamicData } from "../../schema";
 
+//TODO align this modal with the others
 export function CreateStepModal({
   opened,
   close,
   createStep,
-}: TModalProps & { createStep: TUseTest["createStep"] }) {
+}: {
+  opened: boolean;
+  close: () => void;
+  createStep: TUseTest["createStep"];
+}) {
   const form = useForm<TStepDynamicData>({
     initialValues: {
       description: "",
