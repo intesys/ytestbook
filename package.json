@@ -5,11 +5,13 @@
   "main": "src/index.tsx",
   "scripts": {
     "dev": "node scripts/dev",
-    "build": "tsc && vite build && electron-builder",
+    "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "server": "node server/app",
-    "postinstall": "electron-builder install-app-deps",
-    "start": "vite --host"
+    "start": "vite --host",
+    "docker:build": "docker build -t registry.intesys.it/dolomiti-sharedtracking/ytestbook:latest .",
+    "docker:run": "docker run -d -p 80:80 registry.intesys.it/dolomiti-sharedtracking/ytestbook:latest",
+    "docker:submit": "docker push registry.intesys.it/dolomiti-sharedtracking/ytestbook:latest",
+    "k8s:restart": "kubectl rollout restart deployment ytestbook-deployment -n dolomiti-sharedtracking"
   },
   "dependencies": {
     "@automerge/automerge": "^2.1.10",
@@ -48,7 +50,6 @@
     "react-router": "6.14.1",
     "react-router-dom": "6.14.1",
     "slugify": "^1.6.6",
-    "vite-plugin-svgr": "^3.2.0",
     "vite-plugin-top-level-await": "^1.4.1",
     "vite-plugin-wasm": "^3.3.0"
   },

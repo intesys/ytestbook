@@ -28,7 +28,6 @@ export type TTestDynamicData = {
 export type TTest = {
   id: string;
   caseId: TCase["id"];
-  tags: string[];
   createdAt: number;
   lastUpdate?: number;
   assignees: string[];
@@ -77,6 +76,8 @@ export type TProject = {
   id: string;
   createdAt: number;
   testCases: TCase[];
+  allTags: string[];
+  tagToTest: [string, string][];
 } & TProjectDynamicData;
 
 export type TDocType = {

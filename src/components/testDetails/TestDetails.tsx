@@ -26,6 +26,11 @@ export function TestDetails() {
     [test.data],
   );
 
+  const tags = useMemo(
+    () => (test.data ? project.getTagsByTestId(test.data.id) : []),
+    [test.data, project],
+  );
+
   if (test.loading) {
     return (
       <Flex align="center" justify="center" h="100dvh" w={"100%"}>
@@ -40,6 +45,7 @@ export function TestDetails() {
           initialValues={{
             title: test.data.title,
             description: test.data.description || "",
+            tags,
           }}
           title="Edit Test"
           opened={opened}

@@ -15,7 +15,9 @@ export function useProjects(): TUseProjects {
         ...values,
         id: crypto.randomUUID(),
         createdAt: date.getTime(),
+        tagToTest: [],
         testCases: [],
+        allTags: [],
       });
     });
   }, []);

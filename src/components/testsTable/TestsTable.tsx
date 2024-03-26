@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IoMdAddCircle } from "react-icons/io";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { TUseTestCase } from "../../lib/operators/types";
@@ -17,6 +17,7 @@ import { TTest } from "../../schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
 import { TestModal } from "../testModal/TestModal";
+import { useProject } from "../../lib/operators/useProject";
 
 export function TestsTable({
   tests,
@@ -27,6 +28,8 @@ export function TestsTable({
   createTest: TUseTestCase["createTest"];
   updateTestStatus: TUseTestCase["updateTestStatus"];
 }) {
+  const params = useParams();
+  const project = useProject(params.projectId);
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -65,6 +68,7 @@ export function TestsTable({
           <Table.Tbody>
             {tests.map((test) => {
               const completion = computeCompletion(test.steps);
+              const tags = project.getTagsByTestId(test.id);
               return (
                 <Table.Tr
                   key={test.id}
@@ -101,7 +105,7 @@ export function TestsTable({
                       />
                     </Flex>
                   </Table.Td>
-                  <Table.Td>{test.tags}</Table.Td>
+                  <Table.Td>{tags}</Table.Td>
                   <Table.Td>
                     <Text size="sm">
                       {test.lastUpdate ? parseTimestamp(test.lastUpdate) : "—"}

@@ -3,7 +3,7 @@ import classnames from "classnames";
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { LuPanelLeftOpen } from "react-icons/lu";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
 import { Trail } from "../trail/Trail";
@@ -13,6 +13,7 @@ import { useProject } from "../../lib/operators/useProject";
 export function NavBar() {
   const params = useParams();
   const project = useProject(params.projectId);
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const [activeCaseId, setActiveCaseId] = useState("");
   const [activeTestId, setActiveTestId] = useState("");
@@ -20,12 +21,13 @@ export function NavBar() {
 
   useEffect(() => {
     /**If there's no caseId defined in the URL, it sets the first testCase as the active one  */
+    if (pathname.includes("/settings")) return;
     if (!params.caseId && project.data && project.data?.testCases.length > 0) {
       const caseId = project.data.testCases[0].id;
       setActiveCaseId(caseId);
       navigate(`/project/${project.data.id}/testCase/${caseId}`);
     }
-  }, [params, project.data, activeCaseId]);
+  }, [params, project.data, activeCaseId, pathname]);
 
   useEffect(() => {
     if (params.caseId) {

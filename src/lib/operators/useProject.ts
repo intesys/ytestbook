@@ -1,7 +1,13 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
-import { StatusEnum, TCaseDynamicData, TDocType } from "../../schema";
+import {
+  StatusEnum,
+  TCaseDynamicData,
+  TDocType,
+  TProject,
+  TTest,
+} from "../../schema";
 import { TUseProject } from "./types";
 
 export function useProject(projectId: string | undefined): TUseProject {
@@ -10,6 +16,20 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const project = useMemo(
     () => doc?.projects.find((item) => projectId && item.id === projectId),
+    [doc, projectId],
+  );
+
+  const getTagsByTestId = useCallback(
+    (testId: TTest["id"]) => {
+      const project = doc?.projects.find(
+        (item) => projectId && item.id === projectId,
+      );
+      return (
+        project?.tagToTest
+          ?.filter((tuple) => tuple[1] === testId)
+          .map((tuple) => tuple[0]) || []
+      );
+    },
     [doc, projectId],
   );
 
@@ -67,6 +87,43 @@ export function useProject(projectId: string | undefined): TUseProject {
     [projectId],
   );
 
+  const updateAllTags = useCallback(
+    (newTags: TProject["allTags"]) => {
+      if (!projectId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        if (!p) return;
+
+        /**Remove from state all tags that don't exist in the new state */
+        p.allTags
+          .filter((tag) => !newTags.includes(tag))
+          .forEach((tagToRemove) => {
+            const index = p.allTags.findIndex((tag) => tag === tagToRemove);
+            p.allTags.splice(index, 1);
+          });
+
+        /**Add new tags to state  */
+        newTags.forEach((tag) => {
+          if (!p.allTags.includes(tag)) p.allTags.push(tag);
+        });
+
+        /**Remove all relationships carrying the key of a removed tag */
+        p.tagToTest
+          .filter((tuple) => !newTags.includes(tuple[0]))
+          .forEach((tupleToRemove) => {
+            const index = p.tagToTest.findIndex((tuple) =>
+              tuple.every((value, index) => value === tupleToRemove[index]),
+            );
+            p.tagToTest.splice(index, 1);
+          });
+
+        p.lastUpdate = date.getTime();
+      });
+    },
+    [projectId],
+  );
+
   const removeTestCase = useCallback(
     (testCaseId: string) => {
       changeDoc((d) => {
@@ -85,18 +142,22 @@ export function useProject(projectId: string | undefined): TUseProject {
     return {
       data: undefined,
       loading: true,
+      getTagsByTestId,
       createTestCase,
       updateTestCase,
       updateTestCaseStatus,
+      updateAllTags,
       removeTestCase,
     };
   } else {
     return {
       data: project,
       loading: false,
+      getTagsByTestId,
       createTestCase,
       updateTestCase,
       updateTestCaseStatus,
+      updateAllTags,
       removeTestCase,
     };
   }

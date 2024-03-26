@@ -7,6 +7,7 @@ import "@mantine/core/styles.css";
 import { DatesProvider } from "@mantine/dates";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
+import "@mantine/notifications/styles.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -30,10 +31,10 @@ const root = createRoot(
 
 root.render(
   <React.StrictMode>
-    <RepoContext.Provider value={repo}>
-      <BrowserRouter>
-        <MantineProvider theme={{ ...theme }}>
-          <Notifications />
+    <MantineProvider theme={{ ...theme }}>
+      <Notifications position="top-right" zIndex={1000} />
+      <RepoContext.Provider value={repo}>
+        <BrowserRouter>
           <ModalsProvider>
             <DatesProvider settings={{ locale: "it" }}>
               <DocProvider>
@@ -41,8 +42,8 @@ root.render(
               </DocProvider>
             </DatesProvider>
           </ModalsProvider>
-        </MantineProvider>
-      </BrowserRouter>
-    </RepoContext.Provider>
+        </BrowserRouter>
+      </RepoContext.Provider>
+    </MantineProvider>
   </React.StrictMode>,
 );

@@ -3,11 +3,14 @@ import {
   Container,
   Flex,
   Modal,
+  MultiSelect,
   TextInput,
   Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useProject } from "../../lib/operators/useProject";
 import { TTestDynamicData } from "../../schema";
 import { TModalProps } from "../_home/types";
 
@@ -18,11 +21,14 @@ export function TestModal({
   opened,
   close,
   handleSubmit,
-}: TModalProps<TTestDynamicData>) {
-  const form = useForm<TTestDynamicData>({
-    initialValues: initialValues || {
-      title: "",
-      description: "",
+}: TModalProps<TTestDynamicData & { tags: string[] }>) {
+  const params = useParams();
+  const project = useProject(params.projectId);
+  const [tags, setTags] = useState<string[]>(initialValues?.tags || []);
+  const form = useForm<Pick<TTestDynamicData, "title" | "description">>({
+    initialValues: {
+      title: initialValues?.title || "",
+      description: initialValues?.description || "",
     },
   });
 
@@ -37,8 +43,8 @@ export function TestModal({
           onSubmit={form.onSubmit((values) => {
             form.reset();
             testId !== undefined
-              ? handleSubmit(values, testId)
-              : handleSubmit(values);
+              ? handleSubmit({ ...values, tags }, testId)
+              : handleSubmit({ ...values, tags });
             close();
           })}
         >
@@ -53,6 +59,12 @@ export function TestModal({
               label="Description"
               rows={10}
               {...form.getInputProps("description")}
+            />
+            <MultiSelect
+              label="Tags"
+              data={project.data?.allTags || []}
+              value={tags}
+              onChange={setTags}
             />
           </Flex>
 

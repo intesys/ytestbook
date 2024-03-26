@@ -23,17 +23,19 @@ export function useTestCase(
   }, [doc, projectId, caseId]);
 
   const createTest = useCallback(
-    (values: TTestDynamicData) => {
+    (values: TTestDynamicData & { tags: string[] }) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
+        const testId = crypto.randomUUID();
         const p = d.projects.find((item) => projectId && item.id === projectId);
         const tc = p?.testCases.find((item) => item.id === caseId);
+        values.tags.forEach((tag) => p?.tagToTest.push([tag, testId]));
         tc?.tests.push({
-          ...values,
-          id: crypto.randomUUID(),
+          title: values.title,
+          description: values.description,
+          id: testId,
           caseId,
-          tags: [],
           createdAt: date.getTime(),
           assignees: [],
           status: StatusEnum.PENDING,
@@ -68,14 +70,35 @@ export function useTestCase(
   );
 
   const updateTest = useCallback(
-    (values: TTestDynamicData, testId: string) => {
+    (values: TTestDynamicData & { tags: string[] }, testId: string) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
         const p = d.projects.find((item) => projectId && item.id === projectId);
         const tc = p?.testCases.find((item) => item.id === caseId);
         const t = tc?.tests.find((item) => item.id === testId);
-        if (!t) return;
+        if (!t || !p) return;
+
+        /**Remove all old testId relationships from tagTotest  */
+        p.tagToTest
+          .filter(
+            (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0]),
+          )
+          .forEach((tupleToRemove) => {
+            const index = p.tagToTest.findIndex((tuple) =>
+              tuple.every((value, index) => value === tupleToRemove[index]),
+            );
+            p.tagToTest.splice(index, 1);
+          });
+
+        /**Add new testId releationships */
+        const currentTags = p.tagToTest
+          .filter((tuple) => tuple[1] === testId)
+          .map((tuple) => tuple[0]);
+        values.tags
+          .filter((tag) => !currentTags.includes(tag))
+          .forEach((tag) => p.tagToTest.push([tag, testId]));
+
         /**TODO: needs to be enhanced */
         if (values.title) t.title = values.title;
         if (values.description) t.description = values.description;
