@@ -66,7 +66,7 @@ export function ContentHeader({
           {tags && (
             <Flex gap={5}>
               {tags.map((tag) => (
-                <Badge color="#EBEEFB" size="sm">
+                <Badge key={tag} color="#EBEEFB" size="sm">
                   <Text size="sm" c={"black"} fw={"bold"} truncate="end">
                     {tag}
                   </Text>
