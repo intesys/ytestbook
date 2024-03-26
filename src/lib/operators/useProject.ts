@@ -4,11 +4,14 @@ import { useDocContext } from "../../components/docContext/DocContext";
 import {
   StatusEnum,
   TCaseDynamicData,
+  TCollaborator,
+  TCollaboratorDynamicData,
   TDocType,
   TProject,
   TTest,
 } from "../../schema";
 import { TUseProject } from "./types";
+import { removeTuples } from "../helpers/removeTuples";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -52,6 +55,26 @@ export function useProject(projectId: string | undefined): TUseProject {
       });
     },
     [projectId],
+  );
+
+  const createCollaborator = useCallback(
+    (newCollaborator: TCollaboratorDynamicData) => {
+      if (!projectId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        if (!p) return;
+        /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
+        if (!p.collaborators) p.collaborators = [];
+        p.collaborators.push({
+          ...newCollaborator,
+          id: crypto.randomUUID(),
+          createdAt: date.getTime(),
+        });
+        p.lastUpdate = date.getTime();
+      });
+    },
+    [],
   );
 
   const updateTestCase = useCallback(
@@ -124,6 +147,45 @@ export function useProject(projectId: string | undefined): TUseProject {
     [projectId],
   );
 
+  const updateCollaborator = useCallback(
+    (values: TCollaboratorDynamicData, id: TCollaborator["id"]) => {
+      if (!projectId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        /**@hribeiro TODO: The collaborators check was introduced to keep compatibility with older projects. To be removed*/
+        if (!p || !p.collaborators) return;
+        const collaborator = p.collaborators.find(
+          (collaborator) => collaborator.id === id,
+        );
+        if (!collaborator) return;
+        collaborator.name = values.name;
+        collaborator.email = collaborator.email;
+        p.lastUpdate = date.getTime();
+      });
+    },
+    [],
+  );
+
+  const removeCollaborator = useCallback((id: TCollaborator["id"]) => {
+    if (!projectId) return;
+    const date = new Date();
+    changeDoc((d) => {
+      const p = d.projects.find((item) => projectId && item.id === projectId);
+      if (!p) return;
+      /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
+      if (!p.collaborators) p.collaborators = [];
+      const index = p.collaborators.findIndex(
+        (collaborator) => collaborator.id === id,
+      );
+      p.collaborators.splice(index, 1);
+
+      /**@hribeiro TODO: The empty array was introduced to keep compatibility with older projects. To be removed*/
+      removeTuples(p.collaboratorToTest || [], (tuple) => tuple[0] === id);
+      p.lastUpdate = date.getTime();
+    });
+  }, []);
+
   const removeTestCase = useCallback(
     (testCaseId: string) => {
       changeDoc((d) => {
@@ -144,9 +206,12 @@ export function useProject(projectId: string | undefined): TUseProject {
       loading: true,
       getTagsByTestId,
       createTestCase,
+      createCollaborator,
       updateTestCase,
       updateTestCaseStatus,
       updateAllTags,
+      updateCollaborator,
+      removeCollaborator,
       removeTestCase,
     };
   } else {
@@ -155,9 +220,12 @@ export function useProject(projectId: string | undefined): TUseProject {
       loading: false,
       getTagsByTestId,
       createTestCase,
+      createCollaborator,
       updateTestCase,
       updateTestCaseStatus,
       updateAllTags,
+      updateCollaborator,
+      removeCollaborator,
       removeTestCase,
     };
   }

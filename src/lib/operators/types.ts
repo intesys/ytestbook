@@ -2,6 +2,8 @@ import {
   StatusEnum,
   TCase,
   TCaseDynamicData,
+  TCollaborator,
+  TCollaboratorDynamicData,
   TCommentDynamicData,
   TProject,
   TProjectDynamicData,
@@ -28,9 +30,15 @@ export type TUseProjects = {
 export type TUseProject = {
   getTagsByTestId: (testId: TTest["id"]) => string[];
   createTestCase: (values: TCaseDynamicData) => void;
+  createCollaborator: (newCollaborator: TCollaboratorDynamicData) => void;
   updateTestCase: (values: TCaseDynamicData, caseId: string) => void;
   updateTestCaseStatus: (caseId: string, status: StatusEnum) => void;
   updateAllTags: (allTags: TProject["allTags"]) => void;
+  updateCollaborator: (
+    values: TCollaboratorDynamicData,
+    id: TCollaborator["id"],
+  ) => void;
+  removeCollaborator: (id: TCollaborator["id"]) => void;
   removeTestCase: (testCaseId: string) => void;
 } & TOperatorLoader<TProject>;
 

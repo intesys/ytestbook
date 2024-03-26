@@ -66,6 +66,16 @@ export type TCase = {
   comments: TComment[];
 } & TCaseDynamicData;
 
+export type TCollaboratorDynamicData = {
+  name: string;
+  email: string;
+};
+
+export type TCollaborator = {
+  id: string;
+  createdAt: number;
+} & TCollaboratorDynamicData;
+
 export type TProjectDynamicData = {
   title: string;
   customer: string;
@@ -77,7 +87,11 @@ export type TProject = {
   createdAt: number;
   testCases: TCase[];
   allTags: string[];
+  collaborators:
+    | TCollaborator[]
+    | undefined /**@hribeiro TODO: undefined for compatibility. To be removed */;
   tagToTest: [string, string][];
+  collaboratorToTest: [string, string][] | undefined;
 } & TProjectDynamicData;
 
 export type TDocType = {

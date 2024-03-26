@@ -9,6 +9,7 @@ import {
   TTestDynamicData,
 } from "../../schema";
 import { TUseTestCase } from "./types";
+import { removeTuples } from "../helpers/removeTuples";
 
 export function useTestCase(
   projectId: string | undefined,
@@ -129,9 +130,10 @@ export function useTestCase(
       changeDoc((d) => {
         const p = d.projects.find((item) => projectId && item.id === projectId);
         const tc = p?.testCases.find((item) => item.id === caseId);
-        if (!tc) return;
+        if (!tc || !p) return;
         const index = tc.tests.findIndex((test) => test.id === testId);
-        delete tc.tests[index];
+        tc.tests.splice(index, 1);
+        removeTuples(p.tagToTest, (tuple) => tuple[1] === testId);
       });
     },
     [projectId, caseId],
