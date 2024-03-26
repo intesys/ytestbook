@@ -74,7 +74,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         p.lastUpdate = date.getTime();
       });
     },
-    [],
+    [projectId],
   );
 
   const updateTestCase = useCallback(
@@ -164,27 +164,30 @@ export function useProject(projectId: string | undefined): TUseProject {
         p.lastUpdate = date.getTime();
       });
     },
-    [],
+    [projectId],
   );
 
-  const removeCollaborator = useCallback((id: TCollaborator["id"]) => {
-    if (!projectId) return;
-    const date = new Date();
-    changeDoc((d) => {
-      const p = d.projects.find((item) => projectId && item.id === projectId);
-      if (!p) return;
-      /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
-      if (!p.collaborators) p.collaborators = [];
-      const index = p.collaborators.findIndex(
-        (collaborator) => collaborator.id === id,
-      );
-      p.collaborators.splice(index, 1);
+  const removeCollaborator = useCallback(
+    (id: TCollaborator["id"]) => {
+      if (!projectId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        if (!p) return;
+        /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
+        if (!p.collaborators) p.collaborators = [];
+        const index = p.collaborators.findIndex(
+          (collaborator) => collaborator.id === id,
+        );
+        p.collaborators.splice(index, 1);
 
-      /**@hribeiro TODO: The empty array was introduced to keep compatibility with older projects. To be removed*/
-      removeTuples(p.collaboratorToTest || [], (tuple) => tuple[0] === id);
-      p.lastUpdate = date.getTime();
-    });
-  }, []);
+        /**@hribeiro TODO: The empty array was introduced to keep compatibility with older projects. To be removed*/
+        removeTuples(p.collaboratorToTest || [], (tuple) => tuple[0] === id);
+        p.lastUpdate = date.getTime();
+      });
+    },
+    [projectId],
+  );
 
   const removeTestCase = useCallback(
     (testCaseId: string) => {
