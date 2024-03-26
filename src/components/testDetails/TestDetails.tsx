@@ -72,6 +72,7 @@ export function TestDetails() {
           id={test.data.id}
           status={test.data.status}
           title={test.data.title}
+          tags={tags}
           completion={completion}
           handleUpdateStatus={testCase.updateTestStatus}
           handleEditClick={open}

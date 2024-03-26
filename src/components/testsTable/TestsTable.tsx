@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Flex,
   Progress,
@@ -105,7 +106,9 @@ export function TestsTable({
                       />
                     </Flex>
                   </Table.Td>
-                  <Table.Td>{tags}</Table.Td>
+                  <Table.Td>
+                    <TruncatedTags tags={tags} />
+                  </Table.Td>
                   <Table.Td>
                     <Text size="sm">
                       {test.lastUpdate ? parseTimestamp(test.lastUpdate) : "—"}
@@ -132,5 +135,27 @@ export function TestsTable({
         Add test
       </Button>
     </>
+  );
+}
+
+function TruncatedTags({ tags }: { tags: string[] }) {
+  if (tags.length === 0) return <Text>—</Text>;
+  const firstTags = tags.slice(0, 2);
+  return (
+    <Flex gap={5}>
+      {firstTags.map((tag) => (
+        <Badge color="#EBEEFB" size="sm">
+          <Text size="sm" c={"black"} fw={"bold"} truncate="end">
+            {tag}
+          </Text>
+        </Badge>
+      ))}
+
+      {tags.length > firstTags.length && (
+        <Badge color="black" size="sm">
+          +{tags.length - firstTags.length}
+        </Badge>
+      )}
+    </Flex>
   );
 }

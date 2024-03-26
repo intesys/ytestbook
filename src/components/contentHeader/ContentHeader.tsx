@@ -1,4 +1,13 @@
-import { Anchor, Button, Progress, Text, Title, Tooltip } from "@mantine/core";
+import {
+  Anchor,
+  Badge,
+  Button,
+  Flex,
+  Progress,
+  Text,
+  Title,
+  Tooltip,
+} from "@mantine/core";
 import JiraIcon from "../../assets/icons/cib_jira.svg";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
@@ -12,6 +21,7 @@ export function ContentHeader({
   status,
   title,
   jiraLink,
+  tags,
   completion,
   handleUpdateStatus,
   handleEditClick,
@@ -52,6 +62,17 @@ export function ContentHeader({
               <img src={JiraIcon} height={20} width={20} />
               <Text ml={5}>Jira Link</Text>
             </Anchor>
+          )}
+          {tags && (
+            <Flex gap={5}>
+              {tags.map((tag) => (
+                <Badge color="#EBEEFB" size="sm">
+                  <Text size="sm" c={"black"} fw={"bold"} truncate="end">
+                    {tag}
+                  </Text>
+                </Badge>
+              ))}
+            </Flex>
           )}
         </div>
         <div>

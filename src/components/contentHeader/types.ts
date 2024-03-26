@@ -5,6 +5,7 @@ export type TContentHeader = {
   status: StatusEnum;
   title: string;
   jiraLink?: string;
+  tags?: string[];
   completion: number;
   handleUpdateStatus: (id: string, status: StatusEnum) => void;
   handleEditClick: () => void;
