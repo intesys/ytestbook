@@ -80,7 +80,10 @@ export function _Home() {
                   {projects.data.map((item) => (
                     <Table.Tr
                       key={item.id}
-                      onClick={() => navigate(`/project/${item.id}`)}
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        navigate(`/project/${item.id}`);
+                      }}
                     >
                       <Table.Td>
                         <Text size="sm">{item.title}</Text>
