@@ -18,6 +18,7 @@ import StatusPending from "../../assets/icons/status_pending.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData } from "../../schema";
+import { useMemo } from "react";
 
 export function CommentsList({
   testId,
@@ -39,6 +40,16 @@ export function CommentsList({
     },
   });
 
+  const nameOptions = useMemo(() => {
+    if (project.data?.collaborators) {
+      const options = project.data.collaborators.map(
+        (collaborator) => collaborator.name,
+      );
+      options.push("Anonymous");
+      return options;
+    }
+  }, [project.data]);
+
   return (
     <>
       <Title order={4}>Comments</Title>
@@ -52,11 +63,7 @@ export function CommentsList({
           <Select
             withAsterisk
             label="Member"
-            data={
-              project.data?.collaborators?.map(
-                (collaborator) => collaborator.name,
-              ) || []
-            }
+            data={nameOptions}
             {...form.getInputProps("username")}
           />
           <Textarea
