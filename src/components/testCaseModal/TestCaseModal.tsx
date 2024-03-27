@@ -1,15 +1,9 @@
-import {
-  Button,
-  Container,
-  Flex,
-  Modal,
-  TextInput,
-  Textarea,
-} from "@mantine/core";
+import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useEffect } from "react";
 import { TCaseDynamicData } from "../../schema";
 import { TModalProps } from "../_home/types";
-import { useEffect } from "react";
+import { RichTextarea } from "../shared/RichTextarea";
 
 export function TestCaseModal({
   id: caseId,
@@ -50,9 +44,8 @@ export function TestCaseModal({
               placeholder="My new test case"
               {...form.getInputProps("title")}
             />
-            <Textarea
-              label="Description"
-              rows={10}
+            <RichTextarea
+              label={"Description"}
               {...form.getInputProps("description")}
             />
             <TextInput

@@ -1,4 +1,4 @@
-import { Flex, Loader, Text } from "@mantine/core";
+import { Flex, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useProject } from "../../lib/operators/useProject";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
+import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { TestCaseModal } from "../testCaseModal/TestCaseModal";
 import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.scss";
@@ -62,7 +63,20 @@ export function TestCase() {
         />
 
         <div className={classes.description}>
-          <Text>{testCase.data.description}</Text>
+          <EditableHtmlText
+            name="description"
+            onChange={(value) => {
+              project.updateTestCase(
+                {
+                  title: testCase.data.title,
+                  jiraLink: testCase.data.jiraLink,
+                  description: value,
+                },
+                testCase.data.id,
+              );
+            }}
+            value={testCase.data.description}
+          />
         </div>
 
         <div className={classes.tests}>

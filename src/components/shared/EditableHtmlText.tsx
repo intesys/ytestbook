@@ -1,4 +1,4 @@
-import { Box, Input, Text } from "@mantine/core";
+import { Box, Text } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { RichTextarea } from "./RichTextarea";
