@@ -34,7 +34,7 @@ export type TUseProject = {
   createCollaborator: (newCollaborator: TCollaboratorDynamicData) => void;
   updateTestCase: (values: TCaseDynamicData, caseId: string) => void;
   updateTestCaseStatus: (caseId: string, status: StatusEnum) => void;
-  updateAllTags: (allTags: TProject["allTags"]) => void;
+  updateAllTags: (allTags: string[]) => void;
   updateCollaborator: (
     values: TCollaboratorDynamicData,
     id: TCollaborator["id"],

@@ -7,11 +7,10 @@ import {
   TCollaborator,
   TCollaboratorDynamicData,
   TDocType,
-  TProject,
   TTest,
 } from "../../schema";
-import { TUseProject } from "./types";
 import { removeTuples } from "../helpers/removeTuples";
+import { TUseProject } from "./types";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -127,34 +126,36 @@ export function useProject(projectId: string | undefined): TUseProject {
   );
 
   const updateAllTags = useCallback(
-    (newTags: TProject["allTags"]) => {
+    (newTags: string[]) => {
       if (!projectId) return;
       const date = new Date();
       changeDoc((d) => {
         const p = d.projects.find((item) => projectId && item.id === projectId);
         if (!p) return;
+        if (!p.allTags) p.allTags = [];
+        if (!p.tagToTest) p.tagToTest = [];
 
         /**Remove from state all tags that don't exist in the new state */
         p.allTags
           .filter((tag) => !newTags.includes(tag))
           .forEach((tagToRemove) => {
-            const index = p.allTags.findIndex((tag) => tag === tagToRemove);
-            p.allTags.splice(index, 1);
+            const index = p.allTags?.findIndex((tag) => tag === tagToRemove);
+            if (index !== undefined) p.allTags?.splice(index, 1);
           });
 
         /**Add new tags to state  */
         newTags.forEach((tag) => {
-          if (!p.allTags.includes(tag)) p.allTags.push(tag);
+          if (!p.allTags?.includes(tag)) p.allTags?.push(tag);
         });
 
         /**Remove all relationships carrying the key of a removed tag */
         p.tagToTest
           .filter((tuple) => !newTags.includes(tuple[0]))
           .forEach((tupleToRemove) => {
-            const index = p.tagToTest.findIndex((tuple) =>
+            const index = p.tagToTest?.findIndex((tuple) =>
               tuple.every((value, index) => value === tupleToRemove[index]),
             );
-            p.tagToTest.splice(index, 1);
+            if (index !== undefined) p.tagToTest?.splice(index, 1);
           });
 
         p.lastUpdate = date.getTime();

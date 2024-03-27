@@ -16,18 +16,14 @@ import { useParams } from "react-router-dom";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 import { useProject } from "../../lib/operators/useProject";
-import {
-  TCollaborator,
-  TCollaboratorDynamicData,
-  TProject,
-} from "../../schema";
+import { TCollaborator, TCollaboratorDynamicData } from "../../schema";
 import { CollaboratorModal } from "../collaboratorModal/CollaboratorModal";
 import classes from "./settings.module.scss";
 
 export function Settings() {
   const params = useParams();
   const project = useProject(params.projectId);
-  const [tags, setTags] = useState<TProject["allTags"]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [collaborators, setCollaborators] = useState<TCollaborator[]>([]);
   const [createModalOpened, createModalActions] = useDisclosure(false);
   const [editModalOpened, editModalActions] = useDisclosure(false);
@@ -40,7 +36,7 @@ export function Settings() {
   });
 
   useEffect(() => {
-    if (project.data) {
+    if (project.data?.allTags) {
       setTags(project.data.allTags);
       if (project.data.collaborators)
         setCollaborators(project.data.collaborators);

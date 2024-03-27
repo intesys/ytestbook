@@ -85,11 +85,11 @@ export type TProject = {
   id: string;
   createdAt: number;
   testCases: TCase[];
-  allTags: string[];
+  allTags: string[] | undefined;
   collaborators:
     | TCollaborator[]
     | undefined /**@hribeiro TODO: undefined for compatibility. To be removed */;
-  tagToTest: [string, string][];
+  tagToTest: [string, string][] | undefined;
   collaboratorToTest: [string, string][] | undefined;
 } & TProjectDynamicData;
 

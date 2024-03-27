@@ -35,7 +35,7 @@ export function useTestCase(
         if (!p) return;
         /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
         if (!p.collaboratorToTest) p.collaboratorToTest = [];
-        values.tags.forEach((tag) => p.tagToTest.push([tag, testId]));
+        values.tags.forEach((tag) => p.tagToTest?.push([tag, testId]));
         values.assignees.forEach(
           (assigneeId) => p.collaboratorToTest?.push([assigneeId, testId]),
         );
@@ -90,11 +90,11 @@ export function useTestCase(
         if (!t || !p) return;
         /**Remove all old testId relationships from tagTotest that are not in 'values'  */
         removeTuples(
-          p.tagToTest,
+          p.tagToTest || [],
           (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0]),
         );
         /**Add new testId tags releationships */
-        addTuples(p.tagToTest, testId, values.tags);
+        addTuples(p.tagToTest || [], testId, values.tags);
         /**Remove all old testId relationships from collaboratorToTest that are not in 'values'  */
         removeTuples(
           p.collaboratorToTest || [],
@@ -136,7 +136,7 @@ export function useTestCase(
         if (!tc || !p) return;
         const index = tc.tests.findIndex((test) => test.id === testId);
         tc.tests.splice(index, 1);
-        removeTuples(p.tagToTest, (tuple) => tuple[1] === testId);
+        removeTuples(p.tagToTest || [], (tuple) => tuple[1] === testId);
       });
     },
     [projectId, caseId],
