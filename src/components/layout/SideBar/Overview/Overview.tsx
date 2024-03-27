@@ -1,13 +1,13 @@
 import { Group, Progress, Table } from "@mantine/core";
 import { useParams } from "react-router-dom";
-import { useAllUseCases } from "../../../../hooks/useAllUseCases";
-import { AddUseCase } from "./AddUseCase";
-import { StatusIcon } from "../../../shared/StatusIcon";
+import { parseTimestamp } from "../../../../lib/date/parseTimestamp";
+import { useProject } from "../../../../lib/operators/useProject";
+import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import classes from "./overview.module.scss";
 
 export const Overview: React.FC = () => {
-  const { testbook, testcase, test, step } = useParams();
-  const useCases = useAllUseCases(testbook ?? "");
+  const params = useParams();
+  const project = useProject(params.projectId);
 
   return (
     <>
@@ -22,26 +22,28 @@ export const Overview: React.FC = () => {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody className={classes.tbody}>
-          {useCases.map((useCase) => (
-            <Table.Tr key={useCase._id}>
+          {project.data?.testCases.map((testCase) => (
+            <Table.Tr key={testCase.id}>
               <Table.Td>
                 <Group>
-                  <StatusIcon status={useCase.status} />
-                  {useCase.title}
+                  <StatusIcon status={testCase.status} />
+                  {testCase.title}
                 </Group>
               </Table.Td>
               <Table.Td>
                 <Progress radius="md" size="xl" value={50} color="green" />
               </Table.Td>
-              <Table.Td>{useCase.tags.join(" ")}</Table.Td>
-              <Table.Td>{useCase.modified}</Table.Td>
-              <Table.Td>{useCase.accountantId}</Table.Td>
+              <Table.Td>{"tags"}</Table.Td>
+              <Table.Td>
+                {testCase.lastUpdate ? parseTimestamp(testCase.lastUpdate) : ""}
+              </Table.Td>
+              <Table.Td>{"assignees"}</Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>
       </Table>
 
-      <AddUseCase {...{ testbook, useCases }} />
+      {/* <AddUseCase {...{ testbook, useCases }} /> */}
     </>
   );
 };

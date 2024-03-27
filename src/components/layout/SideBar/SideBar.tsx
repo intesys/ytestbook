@@ -1,5 +1,7 @@
 import { Box, Group } from "@mantine/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { useProject } from "../../../lib/operators/useProject";
 import { Menu } from "./Menu/Menu";
 import { Overview } from "./Overview/Overview";
 import { OverviewHeader } from "./OverviewHeader";
@@ -12,23 +14,36 @@ export type WithNavbarStatus = {
   toggle: (value?: React.SetStateAction<SIDEBAR_STATUS> | undefined) => void;
 };
 
-/**
- * Render different component based on sidebar status
- */
-const getContent = (status: SIDEBAR_STATUS) => {
-  switch (status) {
-    case SIDEBAR_STATUS.FULLSCREEN:
-      return <Overview />;
-    case SIDEBAR_STATUS.OPEN:
-      return <Menu />;
-    case SIDEBAR_STATUS.COLLAPSED:
-    default:
-      return null;
-  }
-};
-
 export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
-  const content = getContent(status);
+  const params = useParams();
+  const project = useProject(params.projectId);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const [activeCaseId, setActiveCaseId] = useState("");
+  const [activeTestId, setActiveTestId] = useState("");
+
+  useEffect(() => {
+    /**If there's no caseId defined in the URL, it sets the first testCase as the active one  */
+    if (pathname.includes("/settings")) return;
+    if (!params.caseId && project.data && project.data?.testCases.length > 0) {
+      const caseId = project.data.testCases[0].id;
+      setActiveCaseId(caseId);
+      navigate(`/project/${project.data.id}/testCase/${caseId}`);
+    }
+  }, [params, project.data, activeCaseId, pathname]);
+
+  useEffect(() => {
+    if (params.caseId) {
+      setActiveCaseId(params.caseId);
+    }
+
+    if (params.testId) {
+      setActiveTestId(params.testId);
+    } else {
+      setActiveTestId("");
+    }
+  }, [params]);
 
   return (
     <Box
@@ -45,7 +60,13 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
           <QuickClose toggle={toggle} status={status} />
         </Group>
       </Box>
-      <Box mt={40}>{content}</Box>
+      <Box mt={25}>
+        {status === SIDEBAR_STATUS.FULLSCREEN ? (
+          <Overview />
+        ) : status === SIDEBAR_STATUS.OPEN ? (
+          <Menu activeCaseId={activeCaseId} activeTestId={activeTestId} />
+        ) : null}
+      </Box>
     </Box>
   );
 };
