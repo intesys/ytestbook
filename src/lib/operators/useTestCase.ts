@@ -88,21 +88,23 @@ export function useTestCase(
         const tc = p?.testCases.find((item) => item.id === caseId);
         const t = tc?.tests.find((item) => item.id === testId);
         if (!t || !p) return;
+        if (!p.tagToTest) p.tagToTest = [];
+        if (!p.collaboratorToTest) p.collaboratorToTest = [];
         /**Remove all old testId relationships from tagTotest that are not in 'values'  */
         removeTuples(
-          p.tagToTest || [],
+          p.tagToTest,
           (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0]),
         );
         /**Add new testId tags releationships */
         addTuples(p.tagToTest || [], testId, values.tags);
         /**Remove all old testId relationships from collaboratorToTest that are not in 'values'  */
         removeTuples(
-          p.collaboratorToTest || [],
+          p.collaboratorToTest,
           (tuple) =>
             tuple[1] === testId && !values.assignees.includes(tuple[0]),
         );
         /**Add new testId collaborators releationships */
-        addTuples(p.collaboratorToTest || [], testId, values.assignees);
+        addTuples(p.collaboratorToTest, testId, values.assignees);
         /**TODO: needs to be enhanced */
         if (values.title) t.title = values.title;
         if (values.description) t.description = values.description;

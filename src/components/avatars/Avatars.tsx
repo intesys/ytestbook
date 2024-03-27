@@ -9,7 +9,7 @@ export function Avatars({ assignees }: { assignees: TCollaborator[] }) {
     <Tooltip.Group openDelay={300} closeDelay={100}>
       <Avatar.Group>
         {firstAssignees.map((assignee) => (
-          <Tooltip label={assignee.name} withArrow>
+          <Tooltip key={assignee.id} label={assignee.name} withArrow>
             <Avatar>
               {assignee.name.split(" ")[0]?.[0]}
               {assignee.name.split(" ")[1]?.[0]}
@@ -22,7 +22,7 @@ export function Avatars({ assignees }: { assignees: TCollaborator[] }) {
             label={
               <>
                 {lastAssignees.map((assignee) => (
-                  <div>{assignee.name}</div>
+                  <div key={assignee.id}>{assignee.name}</div>
                 ))}
               </>
             }
