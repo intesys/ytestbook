@@ -11,8 +11,8 @@ export function Avatars({ assignees }: { assignees: TCollaborator[] }) {
         {firstAssignees.map((assignee) => (
           <Tooltip label={assignee.name} withArrow>
             <Avatar>
-              {assignee.name.split(" ")[0][0]}
-              {assignee.name.split(" ")[1][0]}
+              {assignee.name.split(" ")[0]?.[0]}
+              {assignee.name.split(" ")[1]?.[0]}
             </Avatar>
           </Tooltip>
         ))}

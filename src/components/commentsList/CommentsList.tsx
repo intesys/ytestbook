@@ -2,19 +2,21 @@ import {
   Avatar,
   Button,
   Flex,
+  Select,
   Stack,
   Text,
-  TextInput,
   Textarea,
   Title,
 } from "@mantine/core";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 
 import { useForm } from "@mantine/form";
+import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
 import Delete from "../../assets/icons/delete.svg";
 import StatusPending from "../../assets/icons/status_pending.svg";
 import { TUseTestCase } from "../../lib/operators/types";
+import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData } from "../../schema";
 
 export function CommentsList({
@@ -28,12 +30,15 @@ export function CommentsList({
   createComment: TUseTestCase["createComment"];
   removeComment: TUseTestCase["removeComment"];
 }) {
+  const params = useParams();
+  const project = useProject(params.projectId);
   const form = useForm<TCommentDynamicData>({
     initialValues: {
       username: "",
       content: "",
     },
   });
+
   return (
     <>
       <Title order={4}>Comments</Title>
@@ -44,9 +49,14 @@ export function CommentsList({
         })}
       >
         <Flex direction="column" gap={16}>
-          <TextInput
+          <Select
             withAsterisk
-            label="Name"
+            label="Member"
+            data={
+              project.data?.collaborators?.map(
+                (collaborator) => collaborator.name,
+              ) || []
+            }
             {...form.getInputProps("username")}
           />
           <Textarea
@@ -65,18 +75,13 @@ export function CommentsList({
         <Stack gap={10} mt={40}>
           {comments.map((comment) => (
             <Flex key={comment.id} gap={10}>
-              <Avatar
-                src={null}
-                alt={comment.username}
-                color="red"
-                h={40}
-                w={40}
-              >
-                {comment.username[0]}
+              <Avatar alt={comment.username}>
+                {comment.username.split(" ")[0]?.[0]}
+                {comment.username.split(" ")[1]?.[0]}
               </Avatar>
               <Flex direction={"column"} gap={12} px={10} py={5}>
                 <Flex gap={17} align="center">
-                  <Text fw={700}>@{comment.username}</Text>
+                  <Text fw={700}>{comment.username}</Text>
                   <Text size="sm">{parseTimestamp(comment.createdAt)}</Text>
                   {comment.testStatusWhenCreated && (
                     <Flex gap={6}>
