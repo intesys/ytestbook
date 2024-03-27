@@ -36,6 +36,22 @@ export function useProject(projectId: string | undefined): TUseProject {
     [doc, projectId],
   );
 
+  const getAssigneesByTestId = useCallback(
+    (testId: TTest["id"]) => {
+      const project = doc?.projects.find(
+        (item) => projectId && item.id === projectId,
+      );
+      if (!project?.collaboratorToTest || !project.collaborators) return [];
+      const collaboratorsIdArr = project.collaboratorToTest
+        .filter((tuple) => tuple[1] === testId)
+        .map((tuple) => tuple[0]);
+      return project.collaborators.filter((collaborator) =>
+        collaboratorsIdArr.includes(collaborator.id),
+      );
+    },
+    [doc, projectId],
+  );
+
   const createTestCase = useCallback(
     (values: TCaseDynamicData) => {
       if (!projectId) return;
@@ -208,6 +224,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       data: undefined,
       loading: true,
       getTagsByTestId,
+      getAssigneesByTestId,
       createTestCase,
       createCollaborator,
       updateTestCase,
@@ -222,6 +239,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       data: project,
       loading: false,
       getTagsByTestId,
+      getAssigneesByTestId,
       createTestCase,
       createCollaborator,
       updateTestCase,

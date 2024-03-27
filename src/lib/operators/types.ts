@@ -29,6 +29,7 @@ export type TUseProjects = {
 
 export type TUseProject = {
   getTagsByTestId: (testId: TTest["id"]) => string[];
+  getAssigneesByTestId: (testId: TTest["id"]) => TCollaborator[];
   createTestCase: (values: TCaseDynamicData) => void;
   createCollaborator: (newCollaborator: TCollaboratorDynamicData) => void;
   updateTestCase: (values: TCaseDynamicData, caseId: string) => void;
@@ -43,10 +44,12 @@ export type TUseProject = {
 } & TOperatorLoader<TProject>;
 
 export type TUseTestCase = {
-  createTest: (values: TTestDynamicData & { tags: string[] }) => void;
+  createTest: (
+    values: TTestDynamicData & { tags: string[]; assignees: string[] },
+  ) => void;
   createComment: (values: TCommentDynamicData, testId?: string) => void;
   updateTest: (
-    values: TTestDynamicData & { tags: string[] },
+    values: TTestDynamicData & { tags: string[]; assignees: string[] },
     testId: string,
   ) => void;
   updateTestStatus: (testId: string, status: StatusEnum) => void;

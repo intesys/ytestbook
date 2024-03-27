@@ -30,7 +30,6 @@ export type TTest = {
   caseId: TCase["id"];
   createdAt: number;
   lastUpdate?: number;
-  assignees: string[];
   status: StatusEnum;
   steps: TStep[];
 } & TTestDynamicData;

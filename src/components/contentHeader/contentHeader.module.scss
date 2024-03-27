@@ -8,6 +8,11 @@
 }
 .headerTop {
   display: flex;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
   gap: 10px;
   align-items: center;
 }

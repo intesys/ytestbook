@@ -1,4 +1,4 @@
-import { StatusEnum } from "../../schema";
+import { StatusEnum, TCollaborator } from "../../schema";
 
 export type TContentHeader = {
   id: string;
@@ -6,6 +6,7 @@ export type TContentHeader = {
   title: string;
   jiraLink?: string;
   tags?: string[];
+  assignees?: TCollaborator[];
   completion: number;
   handleUpdateStatus: (id: string, status: StatusEnum) => void;
   handleEditClick: () => void;

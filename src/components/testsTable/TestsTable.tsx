@@ -14,11 +14,12 @@ import { useNavigate, useParams } from "react-router";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { TUseTestCase } from "../../lib/operators/types";
+import { useProject } from "../../lib/operators/useProject";
 import { TTest } from "../../schema";
+import { Avatars } from "../avatars/Avatars";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
 import { TestModal } from "../testModal/TestModal";
-import { useProject } from "../../lib/operators/useProject";
 
 export function TestsTable({
   tests,
@@ -70,6 +71,7 @@ export function TestsTable({
             {tests.map((test) => {
               const completion = computeCompletion(test.steps);
               const tags = project.getTagsByTestId(test.id);
+              const assignees = project.getAssigneesByTestId(test.id);
               return (
                 <Table.Tr
                   key={test.id}
@@ -114,7 +116,9 @@ export function TestsTable({
                       {test.lastUpdate ? parseTimestamp(test.lastUpdate) : "—"}
                     </Text>
                   </Table.Td>
-                  <Table.Td>{test.assignees}</Table.Td>
+                  <Table.Td>
+                    <Avatars assignees={assignees} />
+                  </Table.Td>
                 </Table.Tr>
               );
             })}

@@ -26,10 +26,13 @@ export function TestDetails() {
     [test.data],
   );
 
-  const tags = useMemo(
-    () => (test.data ? project.getTagsByTestId(test.data.id) : []),
-    [test.data, project],
-  );
+  const queriedData = useMemo(() => {
+    if (test.data) {
+      const tags = project.getTagsByTestId(test.data.id);
+      const assignees = project.getAssigneesByTestId(test.data.id);
+      return { tags, assignees };
+    }
+  }, [test.data, project]);
 
   if (test.loading) {
     return (
@@ -45,7 +48,9 @@ export function TestDetails() {
           initialValues={{
             title: test.data.title,
             description: test.data.description || "",
-            tags,
+            tags: queriedData?.tags || [],
+            assignees:
+              queriedData?.assignees.map((assignee) => assignee.id) || [],
           }}
           title="Edit Test"
           opened={opened}
@@ -72,7 +77,8 @@ export function TestDetails() {
           id={test.data.id}
           status={test.data.status}
           title={test.data.title}
-          tags={tags}
+          tags={queriedData?.tags || []}
+          assignees={queriedData?.assignees || []}
           completion={completion}
           handleUpdateStatus={testCase.updateTestStatus}
           handleEditClick={open}

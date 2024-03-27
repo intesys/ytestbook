@@ -21,10 +21,13 @@ export function TestModal({
   opened,
   close,
   handleSubmit,
-}: TModalProps<TTestDynamicData & { tags: string[] }>) {
+}: TModalProps<TTestDynamicData & { tags: string[]; assignees: string[] }>) {
   const params = useParams();
   const project = useProject(params.projectId);
   const [tags, setTags] = useState<string[]>(initialValues?.tags || []);
+  const [assignees, setAssignees] = useState<string[]>(
+    initialValues?.assignees || [],
+  );
   const form = useForm<Pick<TTestDynamicData, "title" | "description">>({
     initialValues: {
       title: initialValues?.title || "",
@@ -43,8 +46,8 @@ export function TestModal({
           onSubmit={form.onSubmit((values) => {
             form.reset();
             testId !== undefined
-              ? handleSubmit({ ...values, tags }, testId)
-              : handleSubmit({ ...values, tags });
+              ? handleSubmit({ ...values, tags, assignees }, testId)
+              : handleSubmit({ ...values, tags, assignees });
             close();
           })}
         >
@@ -59,6 +62,17 @@ export function TestModal({
               label="Description"
               rows={10}
               {...form.getInputProps("description")}
+            />
+            <MultiSelect
+              label="Assignees"
+              data={
+                project.data?.collaborators?.map((collaborator) => ({
+                  value: collaborator.id,
+                  label: collaborator.name,
+                })) || []
+              }
+              value={assignees}
+              onChange={setAssignees}
             />
             <MultiSelect
               label="Tags"

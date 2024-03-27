@@ -10,6 +10,7 @@ import {
 } from "../../schema";
 import { TUseTestCase } from "./types";
 import { removeTuples } from "../helpers/removeTuples";
+import { addTuples } from "../helpers/addTuples";
 
 export function useTestCase(
   projectId: string | undefined,
@@ -24,21 +25,26 @@ export function useTestCase(
   }, [doc, projectId, caseId]);
 
   const createTest = useCallback(
-    (values: TTestDynamicData & { tags: string[] }) => {
+    (values: TTestDynamicData & { tags: string[]; assignees: string[] }) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
         const testId = crypto.randomUUID();
         const p = d.projects.find((item) => projectId && item.id === projectId);
         const tc = p?.testCases.find((item) => item.id === caseId);
-        values.tags.forEach((tag) => p?.tagToTest.push([tag, testId]));
+        if (!p) return;
+        /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
+        if (!p.collaboratorToTest) p.collaboratorToTest = [];
+        values.tags.forEach((tag) => p.tagToTest.push([tag, testId]));
+        values.assignees.forEach(
+          (assigneeId) => p.collaboratorToTest?.push([assigneeId, testId]),
+        );
         tc?.tests.push({
           title: values.title,
           description: values.description,
           id: testId,
           caseId,
           createdAt: date.getTime(),
-          assignees: [],
           status: StatusEnum.PENDING,
           steps: [],
         });
@@ -71,7 +77,10 @@ export function useTestCase(
   );
 
   const updateTest = useCallback(
-    (values: TTestDynamicData & { tags: string[] }, testId: string) => {
+    (
+      values: TTestDynamicData & { tags: string[]; assignees: string[] },
+      testId: string,
+    ) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -79,27 +88,21 @@ export function useTestCase(
         const tc = p?.testCases.find((item) => item.id === caseId);
         const t = tc?.tests.find((item) => item.id === testId);
         if (!t || !p) return;
-
-        /**Remove all old testId relationships from tagTotest  */
-        p.tagToTest
-          .filter(
-            (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0]),
-          )
-          .forEach((tupleToRemove) => {
-            const index = p.tagToTest.findIndex((tuple) =>
-              tuple.every((value, index) => value === tupleToRemove[index]),
-            );
-            p.tagToTest.splice(index, 1);
-          });
-
-        /**Add new testId releationships */
-        const currentTags = p.tagToTest
-          .filter((tuple) => tuple[1] === testId)
-          .map((tuple) => tuple[0]);
-        values.tags
-          .filter((tag) => !currentTags.includes(tag))
-          .forEach((tag) => p.tagToTest.push([tag, testId]));
-
+        /**Remove all old testId relationships from tagTotest that are not in 'values'  */
+        removeTuples(
+          p.tagToTest,
+          (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0]),
+        );
+        /**Add new testId tags releationships */
+        addTuples(p.tagToTest, testId, values.tags);
+        /**Remove all old testId relationships from collaboratorToTest that are not in 'values'  */
+        removeTuples(
+          p.collaboratorToTest || [],
+          (tuple) =>
+            tuple[1] === testId && !values.assignees.includes(tuple[0]),
+        );
+        /**Add new testId collaborators releationships */
+        addTuples(p.collaboratorToTest || [], testId, values.assignees);
         /**TODO: needs to be enhanced */
         if (values.title) t.title = values.title;
         if (values.description) t.description = values.description;

@@ -15,6 +15,7 @@ import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
 import classes from "./contentHeader.module.scss";
 import { TContentHeader } from "./types";
+import { Avatars } from "../avatars/Avatars";
 
 export function ContentHeader({
   id,
@@ -22,6 +23,7 @@ export function ContentHeader({
   title,
   jiraLink,
   tags,
+  assignees,
   completion,
   handleUpdateStatus,
   handleEditClick,
@@ -30,26 +32,29 @@ export function ContentHeader({
   return (
     <div className={classes.header}>
       <div className={classes.headerTop}>
-        <StatusMenu
-          id={id}
-          target={
-            <Button p={0} variant="transparent">
-              <StatusIcon status={status} />
-            </Button>
-          }
-          updateStatus={handleUpdateStatus}
-        />
-        <Title order={3}>{title}</Title>
-        <Tooltip label={`${completion}%`}>
-          <Progress
-            w={200}
-            ml={22}
-            value={completion}
-            size="lg"
-            radius="lg"
-            color={"#0DE1A5"}
+        <div className={classes.headerLeft}>
+          <StatusMenu
+            id={id}
+            target={
+              <Button p={0} variant="transparent">
+                <StatusIcon status={status} />
+              </Button>
+            }
+            updateStatus={handleUpdateStatus}
           />
-        </Tooltip>
+          <Title order={3}>{title}</Title>
+          <Tooltip label={`${completion}%`}>
+            <Progress
+              w={200}
+              ml={22}
+              value={completion}
+              size="lg"
+              radius="lg"
+              color={"#0DE1A5"}
+            />
+          </Tooltip>
+        </div>
+        {assignees && <Avatars assignees={assignees} />}
       </div>
       <div className={classes.headerBottom}>
         <div>
