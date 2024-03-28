@@ -14,7 +14,9 @@ export type WithNavbarStatus = {
   toggle: (value?: React.SetStateAction<SIDEBAR_STATUS> | undefined) => void;
 };
 
-export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
+export const SideBar: React.FC<
+  WithNavbarStatus & { openTestCaseModal: () => void }
+> = ({ status, toggle, openTestCaseModal }) => {
   const params = useParams();
   const project = useProject(params.projectId);
   const { pathname } = useLocation();
@@ -67,7 +69,7 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
       </Box>
       <Box mt={25}>
         {status === SIDEBAR_STATUS.FULLSCREEN ? (
-          <Overview toggle={toggle} />
+          <Overview toggle={toggle} openTestCaseModal={openTestCaseModal} />
         ) : status === SIDEBAR_STATUS.OPEN ? (
           <Menu activeCaseId={activeCaseId} activeTestId={activeTestId} />
         ) : null}

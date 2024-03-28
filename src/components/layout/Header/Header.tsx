@@ -2,17 +2,15 @@ import { Button, ThemeIcon, Title } from "@mantine/core";
 import React from "react";
 import { IoSettingsSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import AddCircle from "../../../assets/icons/add_circle.svg";
 import Logo from "../../../assets/icons/logo.svg";
 import { TestbookInfo } from "../../../types/testbook";
 import classes from "./header.module.scss";
 
 const Header: React.FC<
   Pick<TestbookInfo, "name" | "client"> & {
-    handleActionClick?: () => void;
     handleSettingsClick?: () => void;
   }
-> = ({ name, client, handleActionClick, handleSettingsClick }) => {
+> = ({ name, client, handleSettingsClick }) => {
   const navigate = useNavigate();
   return (
     <header className={classes.header}>
@@ -24,14 +22,7 @@ const Header: React.FC<
         <Title order={4}>{name}</Title>
         <Title order={5}>{client}</Title>
       </div>
-      <div className={classes.action}>
-        <Button
-          onClick={handleActionClick}
-          leftSection={<img src={AddCircle} width={24} height={24} />}
-        >
-          Create test case
-        </Button>
-      </div>
+
       <div className={classes.action}>
         <Button
           p={0}

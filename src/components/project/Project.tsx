@@ -42,12 +42,15 @@ export function Project() {
           <Header
             name={project.data.title}
             client={project.data.customer}
-            handleActionClick={open}
             handleSettingsClick={goToSettings}
           />
 
           <Flex mih={"100dvh"}>
-            <SideBar toggle={toggle} status={sidebarStatus} />
+            <SideBar
+              toggle={toggle}
+              status={sidebarStatus}
+              openTestCaseModal={open}
+            />
             <div
               className={
                 sidebarStatus === SIDEBAR_STATUS.FULLSCREEN

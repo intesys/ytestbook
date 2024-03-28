@@ -1,5 +1,4 @@
 import { Button, Flex, Progress, Table, Text, ThemeIcon } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import { parseTimestamp } from "../../../../lib/date/parseTimestamp";
@@ -9,26 +8,19 @@ import { Avatars } from "../../../avatars/Avatars";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { StatusMenu } from "../../../statusMenu/StatusMenu";
 import { Tags } from "../../../tags/Tags";
-import { TestCaseModal } from "../../../testCaseModal/TestCaseModal";
 import { SIDEBAR_STATUS } from "../const";
 import classes from "./overview.module.scss";
 
 export const Overview: React.FC<{
   toggle: (value?: React.SetStateAction<SIDEBAR_STATUS> | undefined) => void;
-}> = ({ toggle }) => {
+  openTestCaseModal: () => void;
+}> = ({ toggle, openTestCaseModal }) => {
   const params = useParams();
   const project = useProject(params.projectId);
   const navigate = useNavigate();
-  const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <>
-      <TestCaseModal
-        title="Create test case"
-        opened={opened}
-        close={close}
-        handleSubmit={project.createTestCase}
-      />
       <Table verticalSpacing={10} horizontalSpacing={20}>
         <Table.Thead bg={"#eaefff"}>
           <Table.Tr>
@@ -114,7 +106,7 @@ export const Overview: React.FC<{
         variant="light"
         c={"#9CA8D6"}
         bg={"white"}
-        onClick={open}
+        onClick={openTestCaseModal}
       >
         Add
       </Button>
