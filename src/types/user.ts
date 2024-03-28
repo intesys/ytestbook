@@ -1,10 +1,10 @@
 import { TYPE } from "./entityTypes";
 
-export type User {
-  type: TYPE.USER,
+export type User = {
+  type: TYPE.USER;
   name: string;
-  image?: string,
-  role?: string,
-  created?: string,
-  modified?: string
+  image?: string;
+  role?: string;
+  created?: string;
+  modified?: string;
 } & PouchDB.Core.IdMeta;
