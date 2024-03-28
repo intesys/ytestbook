@@ -1,6 +1,6 @@
-import { Flex, Loader, Text } from "@mantine/core";
+import { Flex, Loader } from "@mantine/core";
 import { useDisclosure, useToggle } from "@mantine/hooks";
-import { Outlet, useParams } from "react-router";
+import { Outlet, useNavigate, useParams } from "react-router";
 import { useProject } from "../../lib/operators/useProject";
 import Header from "../layout/Header/Header";
 import { SideBar } from "../layout/SideBar/SideBar";
@@ -11,6 +11,7 @@ import classes from "./project.module.scss";
 export function Project() {
   const params = useParams();
   const project = useProject(params.projectId);
+  const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
 
   const [sidebarStatus, toggle] = useToggle<SIDEBAR_STATUS>([
@@ -18,6 +19,11 @@ export function Project() {
     SIDEBAR_STATUS.COLLAPSED,
     SIDEBAR_STATUS.OPEN,
   ]);
+
+  const goToSettings = () => {
+    toggle(SIDEBAR_STATUS.OPEN);
+    navigate(`/project/${params.projectId}/settings`);
+  };
 
   return (
     <div className={classes.container}>
@@ -37,29 +43,20 @@ export function Project() {
             name={project.data.title}
             client={project.data.customer}
             handleActionClick={open}
+            handleSettingsClick={goToSettings}
           />
 
           <Flex mih={"100dvh"}>
             <SideBar toggle={toggle} status={sidebarStatus} />
-            {project.data.testCases.length === 0 ? (
-              <Flex align="center" justify="center" style={{ flex: 1 }}>
-                <Text c={"gray"} ta={"center"}>
-                  You have no test cases yet.
-                  <br />
-                  Create a new one to get started.
-                </Text>
-              </Flex>
-            ) : (
-              <div
-                className={
-                  sidebarStatus === SIDEBAR_STATUS.FULLSCREEN
-                    ? classes.hidden
-                    : classes.visible
-                }
-              >
-                <Outlet />
-              </div>
-            )}
+            <div
+              className={
+                sidebarStatus === SIDEBAR_STATUS.FULLSCREEN
+                  ? classes.hidden
+                  : classes.visible
+              }
+            >
+              <Outlet />
+            </div>
           </Flex>
         </Flex>
       )}

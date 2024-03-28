@@ -1,17 +1,19 @@
 import { Button, ThemeIcon, Title } from "@mantine/core";
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { IoSettingsSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import AddCircle from "../../../assets/icons/add_circle.svg";
 import Logo from "../../../assets/icons/logo.svg";
 import { TestbookInfo } from "../../../types/testbook";
 import classes from "./header.module.scss";
-import { IoSettingsSharp } from "react-icons/io5";
 
 const Header: React.FC<
-  Pick<TestbookInfo, "name" | "client"> & { handleActionClick?: () => void }
-> = ({ name, client, handleActionClick }) => {
+  Pick<TestbookInfo, "name" | "client"> & {
+    handleActionClick?: () => void;
+    handleSettingsClick?: () => void;
+  }
+> = ({ name, client, handleActionClick, handleSettingsClick }) => {
   const navigate = useNavigate();
-  const params = useParams();
   return (
     <header className={classes.header}>
       <div onClick={() => navigate("/")} className={classes.header_logo}>
@@ -35,7 +37,7 @@ const Header: React.FC<
           p={0}
           variant="transparent"
           size="24px"
-          onClick={() => navigate(`/project/${params.projectId}/settings`)}
+          onClick={handleSettingsClick}
         >
           <ThemeIcon color="black" variant="transparent" size={24}>
             <IoSettingsSharp />
