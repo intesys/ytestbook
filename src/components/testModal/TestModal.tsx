@@ -36,7 +36,14 @@ export function TestModal({
   });
 
   useEffect(() => {
-    if (initialValues) form.setValues(initialValues);
+    if (initialValues) {
+      form.setValues({
+        title: initialValues?.title || "",
+        description: initialValues?.description || "",
+      });
+      setTags(initialValues.tags);
+      setAssignees(initialValues.assignees);
+    }
   }, [initialValues]);
 
   return (
