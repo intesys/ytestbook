@@ -12,17 +12,20 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 import { useProject } from "../../lib/operators/useProject";
 import { TCollaborator, TCollaboratorDynamicData } from "../../schema";
 import { CollaboratorModal } from "../collaboratorModal/CollaboratorModal";
 import classes from "./settings.module.scss";
+import { useProjects } from "../../lib/operators/useProjects";
 
 export function Settings() {
   const params = useParams();
+  const projects = useProjects();
   const project = useProject(params.projectId);
+  const navigate = useNavigate();
   const [tags, setTags] = useState<string[]>([]);
   const [collaborators, setCollaborators] = useState<TCollaborator[]>([]);
   const [createModalOpened, createModalActions] = useDisclosure(false);
@@ -181,6 +184,10 @@ export function Settings() {
                 <RiDeleteBin6Line size={24} />
               </ThemeIcon>
             }
+            onClick={() => {
+              projects.removeProject(project.data.id);
+              navigate("/");
+            }}
           >
             Delete
           </Button>

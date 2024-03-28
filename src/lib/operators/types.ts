@@ -29,7 +29,9 @@ export type TUseProjects = {
 
 export type TUseProject = {
   getTagsByTestId: (testId: TTest["id"]) => string[];
+  getTagsByCaseId: (caseId: TCase["id"]) => string[];
   getAssigneesByTestId: (testId: TTest["id"]) => TCollaborator[];
+  getAssigneesByCaseId: (caseId: TCase["id"]) => TCollaborator[];
   createTestCase: (values: TCaseDynamicData) => void;
   createCollaborator: (newCollaborator: TCollaboratorDynamicData) => void;
   updateTestCase: (values: TCaseDynamicData, caseId: string) => void;

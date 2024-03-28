@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
 import {
   StatusEnum,
+  TCase,
   TCaseDynamicData,
   TCollaborator,
   TCollaboratorDynamicData,
@@ -35,6 +36,23 @@ export function useProject(projectId: string | undefined): TUseProject {
     [doc, projectId],
   );
 
+  const getTagsByCaseId = useCallback(
+    (caseId: TCase["id"]) => {
+      const p = doc?.projects.find(
+        (item) => projectId && item.id === projectId,
+      );
+      const tc = p?.testCases.find((item) => item.id === caseId);
+      if (!tc || !p?.tagToTest || !p.allTags) return [];
+
+      const testIdArr = tc.tests.map((test) => test.id);
+      const tags = p.tagToTest
+        .filter((tuple) => testIdArr.includes(tuple[1]))
+        .map((tuple) => tuple[0]);
+      return p.allTags.filter((tag) => tags.includes(tag));
+    },
+    [doc, projectId],
+  );
+
   const getAssigneesByTestId = useCallback(
     (testId: TTest["id"]) => {
       const project = doc?.projects.find(
@@ -45,6 +63,24 @@ export function useProject(projectId: string | undefined): TUseProject {
         .filter((tuple) => tuple[1] === testId)
         .map((tuple) => tuple[0]);
       return project.collaborators.filter((collaborator) =>
+        collaboratorsIdArr.includes(collaborator.id),
+      );
+    },
+    [doc, projectId],
+  );
+
+  const getAssigneesByCaseId = useCallback(
+    (caseId: TCase["id"]) => {
+      const p = doc?.projects.find(
+        (item) => projectId && item.id === projectId,
+      );
+      const tc = p?.testCases.find((item) => item.id === caseId);
+      if (!tc || !p?.collaboratorToTest || !p.collaborators) return [];
+      const testIdArr = tc.tests.map((test) => test.id);
+      const collaboratorsIdArr = p.collaboratorToTest
+        .filter((tuple) => testIdArr.includes(tuple[1]))
+        .map((tuple) => tuple[0]);
+      return p.collaborators.filter((collaborator) =>
         collaboratorsIdArr.includes(collaborator.id),
       );
     },
@@ -225,7 +261,9 @@ export function useProject(projectId: string | undefined): TUseProject {
       data: undefined,
       loading: true,
       getTagsByTestId,
+      getTagsByCaseId,
       getAssigneesByTestId,
+      getAssigneesByCaseId,
       createTestCase,
       createCollaborator,
       updateTestCase,
@@ -240,7 +278,9 @@ export function useProject(projectId: string | undefined): TUseProject {
       data: project,
       loading: false,
       getTagsByTestId,
+      getTagsByCaseId,
       getAssigneesByTestId,
+      getAssigneesByCaseId,
       createTestCase,
       createCollaborator,
       updateTestCase,

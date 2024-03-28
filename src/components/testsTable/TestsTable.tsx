@@ -1,5 +1,4 @@
 import {
-  Badge,
   Button,
   Flex,
   Progress,
@@ -19,6 +18,7 @@ import { TTest } from "../../schema";
 import { Avatars } from "../avatars/Avatars";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
+import { Tags } from "../tags/Tags";
 import { TestModal } from "../testModal/TestModal";
 
 export function TestsTable({
@@ -109,7 +109,7 @@ export function TestsTable({
                     </Flex>
                   </Table.Td>
                   <Table.Td>
-                    <TruncatedTags tags={tags} />
+                    <Tags tags={tags} />
                   </Table.Td>
                   <Table.Td>
                     <Text size="sm">
@@ -139,27 +139,5 @@ export function TestsTable({
         Add test
       </Button>
     </>
-  );
-}
-
-function TruncatedTags({ tags }: { tags: string[] }) {
-  if (tags.length === 0) return <Text>—</Text>;
-  const firstTags = tags.slice(0, 2);
-  return (
-    <Flex gap={5}>
-      {firstTags.map((tag) => (
-        <Badge key={tag} color="#EBEEFB" size="sm">
-          <Text size="sm" c={"black"} fw={"bold"} truncate="end">
-            {tag}
-          </Text>
-        </Badge>
-      ))}
-
-      {tags.length > firstTags.length && (
-        <Badge color="black" size="sm">
-          +{tags.length - firstTags.length}
-        </Badge>
-      )}
-    </Flex>
   );
 }

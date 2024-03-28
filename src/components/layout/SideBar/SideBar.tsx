@@ -67,7 +67,7 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
       </Box>
       <Box mt={25}>
         {status === SIDEBAR_STATUS.FULLSCREEN ? (
-          <Overview />
+          <Overview toggle={toggle} />
         ) : status === SIDEBAR_STATUS.OPEN ? (
           <Menu activeCaseId={activeCaseId} activeTestId={activeTestId} />
         ) : null}

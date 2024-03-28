@@ -27,7 +27,7 @@ export function useProjects(): TUseProjects {
   const removeProject = useCallback((id: string) => {
     changeDoc((d) => {
       const index = d.projects.findIndex((project) => project.id === id);
-      delete d.projects[index];
+      d.projects.splice(index, 1);
     });
   }, []);
 
