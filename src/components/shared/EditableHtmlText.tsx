@@ -26,7 +26,7 @@ export const EditableHtmlText: React.FC<EditableHtmlText> = ({
   const onBlur = onExit;
 
   useEffect(() => {
-    value && setInternalValue(value);
+    value !== undefined && setInternalValue(value);
   }, [value]);
 
   if (editing) {
