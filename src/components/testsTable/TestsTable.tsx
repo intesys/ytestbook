@@ -17,18 +17,15 @@ import { useProject } from "../../lib/operators/useProject";
 import { TTest } from "../../schema";
 import { Avatars } from "../avatars/Avatars";
 import { StatusIcon } from "../statusIcon/StatusIcon";
-import { StatusMenu } from "../statusMenu/StatusMenu";
 import { Tags } from "../tags/Tags";
 import { TestModal } from "../testModal/TestModal";
 
 export function TestsTable({
   tests,
   createTest,
-  updateTestStatus,
 }: {
   tests: TTest[];
   createTest: TUseTestCase["createTest"];
-  updateTestStatus: TUseTestCase["updateTestStatus"];
 }) {
   const params = useParams();
   const project = useProject(params.projectId);
@@ -79,34 +76,26 @@ export function TestsTable({
                 >
                   <Table.Td>
                     <Flex gap={10} align={"center"}>
-                      <StatusMenu
-                        id={test.id}
-                        target={
-                          <Button
-                            p={0}
-                            variant="transparent"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <StatusIcon status={test.status} />
-                          </Button>
-                        }
-                        updateStatus={updateTestStatus}
-                      />
+                      <StatusIcon status={test.status} />
                       <Text size="sm">{test.title}</Text>
                     </Flex>
                   </Table.Td>
                   <Table.Td>
-                    <Flex direction={"column"}>
-                      <Text size="sm" fw={"bold"}>
-                        {completion}%
-                      </Text>
-                      <Progress
-                        value={completion}
-                        size="lg"
-                        radius="lg"
-                        color="#0DE1A5"
-                      />
-                    </Flex>
+                    {test.steps.length > 0 ? (
+                      <Flex direction={"column"}>
+                        <Text size="sm" fw={"bold"}>
+                          {completion}%
+                        </Text>
+                        <Progress
+                          value={completion}
+                          size="lg"
+                          radius="lg"
+                          color="#0DE1A5"
+                        />
+                      </Flex>
+                    ) : (
+                      <Text>—</Text>
+                    )}
                   </Table.Td>
                   <Table.Td>
                     <Tags tags={tags} />

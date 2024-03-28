@@ -5,13 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { useProject } from "../../lib/operators/useProject";
 import { useTestCase } from "../../lib/operators/useTestCase";
+import { TStep } from "../../schema";
 import { CommentsList } from "../commentsList/CommentsList";
+import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { TestCaseModal } from "../testCaseModal/TestCaseModal";
 import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.scss";
-import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 
 export function TestCase() {
   const navigate = useNavigate();
@@ -24,7 +25,11 @@ export function TestCase() {
 
   const queriedData = useMemo(() => {
     if (testCase.data) {
-      const completion = computeCompletion(testCase.data.tests);
+      const allSteps = testCase.data.tests.reduce((acc, test) => {
+        test.steps.forEach((step) => acc.push(step));
+        return acc;
+      }, [] as TStep[]);
+      const completion = computeCompletion(allSteps);
       const assignees = project.getAssigneesByCaseId(testCase.data.id);
       return { completion, assignees };
     }
@@ -64,13 +69,11 @@ export function TestCase() {
         />
 
         <ContentHeader
-          id={testCase.data.id}
           status={testCase.data.status}
           title={testCase.data.title}
           jiraLink={testCase.data.jiraLink}
           completion={queriedData?.completion || 0}
           assignees={queriedData?.assignees || []}
-          handleUpdateStatus={project.updateTestCaseStatus}
           handleEditClick={open}
           handleDeleteClick={deleteModalHandlers.open}
         />
@@ -96,7 +99,6 @@ export function TestCase() {
           <TestsTable
             tests={testCase.data.tests}
             createTest={testCase.createTest}
-            updateTestStatus={testCase.updateTestStatus}
           />
         </div>
 

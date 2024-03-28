@@ -1,9 +1,8 @@
-import { Anchor, Button, Flex, List, Text } from "@mantine/core";
+import { Anchor, Flex, List, Text } from "@mantine/core";
 import classnames from "classnames";
 import { Link, useParams } from "react-router-dom";
 import { useProject } from "../../../../lib/operators/useProject";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
-import { StatusMenu } from "../../../statusMenu/StatusMenu";
 import { Trail } from "../../../trail/Trail";
 import classes from "./styles.module.scss";
 
@@ -28,15 +27,7 @@ export const Menu: React.FC<{ activeCaseId: string; activeTestId: string }> = ({
             to={`/project/${project.data?.id}/testCase/${testCase.id}`}
           >
             <Flex gap={10} key={testCase.id} align={"center"}>
-              <StatusMenu
-                id={testCase.id}
-                target={
-                  <Button p={0} variant="transparent">
-                    <StatusIcon status={testCase.status} />
-                  </Button>
-                }
-                updateStatus={project.updateTestCaseStatus}
-              />
+              <StatusIcon status={testCase.status} />
               <Text
                 size="12px"
                 c={activeCaseId === testCase.id ? "primary" : "black"}
@@ -48,7 +39,7 @@ export const Menu: React.FC<{ activeCaseId: string; activeTestId: string }> = ({
           </Anchor>
           <List listStyleType="none">
             {testCase.tests.map((test, index, arr) => (
-              <List.Item key={test.id} style={{ marginBottom: -8 }}>
+              <List.Item key={test.id} style={{ marginBottom: -7 }}>
                 <Anchor
                   component={Link}
                   underline="never"
@@ -56,15 +47,7 @@ export const Menu: React.FC<{ activeCaseId: string; activeTestId: string }> = ({
                 >
                   <Flex gap={3} key={test.id} align={"center"}>
                     <Trail isLast={arr.length === index + 1} />
-                    <StatusMenu
-                      id={test.id}
-                      target={
-                        <Button p={0} variant="transparent">
-                          <StatusIcon status={test.status} />
-                        </Button>
-                      }
-                      updateStatus={() => console.log("TODO")}
-                    />
+                    <StatusIcon status={test.status} />
                     <Text
                       ml={7}
                       size="12px"

@@ -6,10 +6,10 @@ import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { useProject } from "../../../../lib/operators/useProject";
 import { Avatars } from "../../../avatars/Avatars";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
-import { StatusMenu } from "../../../statusMenu/StatusMenu";
 import { Tags } from "../../../tags/Tags";
 import { SIDEBAR_STATUS } from "../const";
 import classes from "./overview.module.scss";
+import { TStep } from "../../../../schema";
 
 export const Overview: React.FC<{
   toggle: (value?: React.SetStateAction<SIDEBAR_STATUS> | undefined) => void;
@@ -33,7 +33,11 @@ export const Overview: React.FC<{
         </Table.Thead>
         <Table.Tbody className={classes.tbody}>
           {project.data?.testCases.map((testCase) => {
-            const completion = computeCompletion(testCase.tests);
+            const allSteps = testCase.tests.reduce((acc, test) => {
+              test.steps.forEach((step) => acc.push(step));
+              return acc;
+            }, [] as TStep[]);
+            const completion = computeCompletion(allSteps);
             const tags = project.getTagsByCaseId(testCase.id);
             const assignees = project.getAssigneesByCaseId(testCase.id);
             return (
@@ -48,19 +52,7 @@ export const Overview: React.FC<{
               >
                 <Table.Td>
                   <Flex gap={10} align={"center"}>
-                    <StatusMenu
-                      id={testCase.id}
-                      target={
-                        <Button
-                          p={0}
-                          variant="transparent"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <StatusIcon status={testCase.status} />
-                        </Button>
-                      }
-                      updateStatus={() => null}
-                    />
+                    <StatusIcon status={testCase.status} />
                     <Text size="sm">{testCase.title}</Text>
                   </Flex>
                 </Table.Td>

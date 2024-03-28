@@ -91,13 +91,11 @@ export function TestDetails() {
           </Button>
         </div>
         <ContentHeader
-          id={test.data.id}
           status={test.data.status}
           title={test.data.title}
           tags={queriedData?.tags || []}
           assignees={queriedData?.assignees || []}
           completion={completion}
-          handleUpdateStatus={testCase.updateTestStatus}
           handleEditClick={open}
           handleDeleteClick={deleteModalHandlers.open}
         />

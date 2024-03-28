@@ -2,6 +2,7 @@ import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { StatusEnum, TDocType, TStepDynamicData } from "../../schema";
+import { computeStatus } from "../helpers/computeStatus";
 import { TUseTest } from "./types";
 
 export function useTest(
@@ -51,6 +52,8 @@ export function useTest(
         const s = t?.steps.find((step) => step.id === stepId);
         if (!s || !t || !tc || !p) return;
         s.status = status;
+        computeStatus(t, t.steps);
+        computeStatus(tc, tc.tests);
         s.lastUpdate = t.lastUpdate = p.lastUpdate = date.getTime();
       });
     },

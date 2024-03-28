@@ -11,21 +11,18 @@ import {
 import JiraIcon from "../../assets/icons/cib_jira.svg";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
+import { Avatars } from "../avatars/Avatars";
 import { StatusIcon } from "../statusIcon/StatusIcon";
-import { StatusMenu } from "../statusMenu/StatusMenu";
 import classes from "./contentHeader.module.scss";
 import { TContentHeader } from "./types";
-import { Avatars } from "../avatars/Avatars";
 
 export function ContentHeader({
-  id,
   status,
   title,
   jiraLink,
   tags,
   assignees,
   completion,
-  handleUpdateStatus,
   handleEditClick,
   handleDeleteClick,
 }: TContentHeader) {
@@ -33,15 +30,7 @@ export function ContentHeader({
     <div className={classes.header}>
       <div className={classes.headerTop}>
         <div className={classes.headerLeft}>
-          <StatusMenu
-            id={id}
-            target={
-              <Button p={0} variant="transparent">
-                <StatusIcon status={status} />
-              </Button>
-            }
-            updateStatus={handleUpdateStatus}
-          />
+          <StatusIcon status={status} />
           <Title order={3}>{title}</Title>
           <Tooltip label={`${completion}%`}>
             <Progress
