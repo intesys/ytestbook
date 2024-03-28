@@ -19,10 +19,13 @@ export function TestCase() {
   const testCase = useTestCase(params.projectId, params.caseId);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const completion = useMemo(
-    () => computeCompletion(testCase.data?.tests || []),
-    [testCase.data],
-  );
+  const queriedData = useMemo(() => {
+    if (testCase.data) {
+      const completion = computeCompletion(testCase.data.tests);
+      const assignees = project.getAssigneesByCaseId(testCase.data.id);
+      return { completion, assignees };
+    }
+  }, [testCase.data]);
 
   if (testCase.loading) {
     return (
@@ -51,7 +54,8 @@ export function TestCase() {
           status={testCase.data.status}
           title={testCase.data.title}
           jiraLink={testCase.data.jiraLink}
-          completion={completion}
+          completion={queriedData?.completion || 0}
+          assignees={queriedData?.assignees || []}
           handleUpdateStatus={project.updateTestCaseStatus}
           handleEditClick={open}
           handleDeleteClick={() => {
