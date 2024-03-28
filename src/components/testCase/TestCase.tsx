@@ -11,6 +11,7 @@ import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { TestCaseModal } from "../testCaseModal/TestCaseModal";
 import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.scss";
+import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 
 export function TestCase() {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ export function TestCase() {
   const project = useProject(params.projectId);
   const testCase = useTestCase(params.projectId, params.caseId);
   const [opened, { open, close }] = useDisclosure(false);
+
+  const [deleteModalOpened, deleteModalHandlers] = useDisclosure(false);
 
   const queriedData = useMemo(() => {
     if (testCase.data) {
@@ -49,6 +52,17 @@ export function TestCase() {
           handleSubmit={project.updateTestCase}
         />
 
+        <ConfirmDeleteModal
+          opened={deleteModalOpened}
+          close={deleteModalHandlers.close}
+          handleConfirm={() => {
+            if (project.data) {
+              project.removeTestCase(testCase.data.id);
+              navigate(`/project/${project.data.id}`);
+            }
+          }}
+        />
+
         <ContentHeader
           id={testCase.data.id}
           status={testCase.data.status}
@@ -58,12 +72,7 @@ export function TestCase() {
           assignees={queriedData?.assignees || []}
           handleUpdateStatus={project.updateTestCaseStatus}
           handleEditClick={open}
-          handleDeleteClick={() => {
-            if (project.data) {
-              project.removeTestCase(testCase.data.id);
-              navigate(`/project/${project.data.id}`);
-            }
-          }}
+          handleDeleteClick={deleteModalHandlers.open}
         />
 
         <div className={classes.description}>

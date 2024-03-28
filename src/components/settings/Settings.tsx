@@ -16,10 +16,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 import { useProject } from "../../lib/operators/useProject";
+import { useProjects } from "../../lib/operators/useProjects";
 import { TCollaborator, TCollaboratorDynamicData } from "../../schema";
 import { CollaboratorModal } from "../collaboratorModal/CollaboratorModal";
+import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import classes from "./settings.module.scss";
-import { useProjects } from "../../lib/operators/useProjects";
 
 export function Settings() {
   const params = useParams();
@@ -30,6 +31,7 @@ export function Settings() {
   const [collaborators, setCollaborators] = useState<TCollaborator[]>([]);
   const [createModalOpened, createModalActions] = useDisclosure(false);
   const [editModalOpened, editModalActions] = useDisclosure(false);
+  const [deleteModalOpened, deleteModalHandlers] = useDisclosure(false);
   const [editModalValues, setEditModalValues] = useState<
     TCollaboratorDynamicData & Pick<TCollaborator, "id">
   >({
@@ -55,6 +57,15 @@ export function Settings() {
   } else {
     return (
       <div className={classes.settings}>
+        <ConfirmDeleteModal
+          opened={deleteModalOpened}
+          close={deleteModalHandlers.close}
+          handleConfirm={() => {
+            projects.removeProject(project.data.id);
+            navigate("/");
+          }}
+        />
+
         <CollaboratorModal
           title="Add collaborator"
           opened={createModalOpened}
@@ -184,10 +195,7 @@ export function Settings() {
                 <RiDeleteBin6Line size={24} />
               </ThemeIcon>
             }
-            onClick={() => {
-              projects.removeProject(project.data.id);
-              navigate("/");
-            }}
+            onClick={deleteModalHandlers.open}
           >
             Delete
           </Button>

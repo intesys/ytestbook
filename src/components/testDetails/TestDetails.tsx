@@ -13,6 +13,7 @@ import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { TestModal } from "../testModal/TestModal";
 import { useDisclosure } from "@mantine/hooks";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
+import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export function TestDetails() {
   const testCase = useTestCase(params.projectId, params.caseId);
   const test = useTest(params.projectId, params.caseId, params.testId);
   const [opened, { open, close }] = useDisclosure(false);
+  const [deleteModalOpened, deleteModalHandlers] = useDisclosure(false);
 
   const completion = useMemo(
     () => computeCompletion(test.data?.steps || []),
@@ -58,6 +60,20 @@ export function TestDetails() {
           close={close}
           handleSubmit={testCase.updateTest}
         />
+
+        <ConfirmDeleteModal
+          opened={deleteModalOpened}
+          close={deleteModalHandlers.close}
+          handleConfirm={() => {
+            if (project.data && testCase.data) {
+              testCase.removeTest(test.data.id);
+              navigate(
+                `/project/${project.data.id}/testCase/${testCase.data.id}`,
+              );
+            }
+          }}
+        />
+
         <div className={classes.backButton}>
           <Button
             variant="transparent"
@@ -83,14 +99,7 @@ export function TestDetails() {
           completion={completion}
           handleUpdateStatus={testCase.updateTestStatus}
           handleEditClick={open}
-          handleDeleteClick={() => {
-            if (project.data && testCase.data) {
-              testCase.removeTest(test.data.id);
-              navigate(
-                `/project/${project.data.id}/testCase/${testCase.data.id}`,
-              );
-            }
-          }}
+          handleDeleteClick={deleteModalHandlers.open}
         />
 
         <div className={classes.description}>
