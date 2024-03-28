@@ -1,16 +1,20 @@
 import { Button, ThemeIcon, Title } from "@mantine/core";
 import React from "react";
 import { IoSettingsSharp } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../../../assets/icons/logo.svg";
 import { TestbookInfo } from "../../../types/testbook";
 import classes from "./header.module.scss";
+import { useProject } from "../../../lib/operators/useProject";
+import { Avatars } from "../../avatars/Avatars";
 
 const Header: React.FC<
   Pick<TestbookInfo, "name" | "client"> & {
     handleSettingsClick?: () => void;
   }
 > = ({ name, client, handleSettingsClick }) => {
+  const params = useParams();
+  const project = useProject(params.projectId);
   const navigate = useNavigate();
   return (
     <header className={classes.header}>
@@ -22,7 +26,7 @@ const Header: React.FC<
         <Title order={4}>{name}</Title>
         <Title order={5}>{client}</Title>
       </div>
-
+      <Avatars assignees={project.data?.collaborators || []} />
       <div className={classes.action}>
         <Button
           p={0}
