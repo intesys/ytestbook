@@ -114,6 +114,22 @@ export function useTestCase(
     [projectId, caseId],
   );
 
+  const updateTestDescription = useCallback(
+    (testId: string, description: string) => {
+      if (!projectId || !caseId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
+        const t = tc?.tests.find((test) => test.id === testId);
+        if (!p || !tc || !t) return;
+        t.description = description;
+        t.lastUpdate = p.lastUpdate = date.getTime();
+      });
+    },
+    [projectId, caseId],
+  );
+
   const updateTestStatus = useCallback(
     (testId: string, status: StatusEnum) => {
       if (!projectId || !caseId) return;
@@ -166,6 +182,7 @@ export function useTestCase(
       createTest,
       createComment,
       updateTest,
+      updateTestDescription,
       updateTestStatus,
       removeTest,
       removeComment,
@@ -177,6 +194,7 @@ export function useTestCase(
       createTest,
       createComment,
       updateTest,
+      updateTestDescription,
       updateTestStatus,
       removeTest,
       removeComment,

@@ -5,7 +5,6 @@ import {
   Modal,
   MultiSelect,
   TextInput,
-  Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
@@ -13,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useProject } from "../../lib/operators/useProject";
 import { TTestDynamicData } from "../../schema";
 import { TModalProps } from "../_home/types";
+import { RichTextarea } from "../shared/RichTextarea";
 
 export function TestModal({
   id: testId,
@@ -48,6 +48,8 @@ export function TestModal({
             testId !== undefined
               ? handleSubmit({ ...values, tags, assignees }, testId)
               : handleSubmit({ ...values, tags, assignees });
+            setTags([]);
+            setAssignees([]);
             close();
           })}
         >
@@ -58,9 +60,8 @@ export function TestModal({
               placeholder="My new test"
               {...form.getInputProps("title")}
             />
-            <Textarea
-              label="Description"
-              rows={10}
+            <RichTextarea
+              label={"Description"}
               {...form.getInputProps("description")}
             />
             <MultiSelect

@@ -213,7 +213,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         );
         if (!collaborator) return;
         collaborator.name = values.name;
-        collaborator.email = collaborator.email;
+        collaborator.email = values.email;
         p.lastUpdate = date.getTime();
       });
     },

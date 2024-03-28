@@ -12,6 +12,7 @@ import { useMemo } from "react";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { TestModal } from "../testModal/TestModal";
 import { useDisclosure } from "@mantine/hooks";
+import { EditableHtmlText } from "../shared/EditableHtmlText";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -93,7 +94,13 @@ export function TestDetails() {
         />
 
         <div className={classes.description}>
-          <Text>{test.data.description}</Text>
+          <EditableHtmlText
+            name="description"
+            onChange={(value) => {
+              testCase.updateTestDescription(test.data.id, value);
+            }}
+            value={test.data.description}
+          />
         </div>
 
         <div className={classes.steps}>

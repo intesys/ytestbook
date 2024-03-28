@@ -54,6 +54,7 @@ export type TUseTestCase = {
     values: TTestDynamicData & { tags: string[]; assignees: string[] },
     testId: string,
   ) => void;
+  updateTestDescription: (testId: string, description: string) => void;
   updateTestStatus: (testId: string, status: StatusEnum) => void;
   removeTest: (testId: string) => void;
   removeComment: (commentId: string) => void;
