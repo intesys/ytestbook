@@ -1,4 +1,4 @@
-import { Box, Input, Text } from "@mantine/core";
+import { Box, Text } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { RichTextarea } from "./RichTextarea";
@@ -26,7 +26,7 @@ export const EditableHtmlText: React.FC<EditableHtmlText> = ({
   const onBlur = onExit;
 
   useEffect(() => {
-    value && setInternalValue(value);
+    value !== undefined && setInternalValue(value);
   }, [value]);
 
   if (editing) {

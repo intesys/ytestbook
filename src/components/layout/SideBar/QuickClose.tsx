@@ -1,7 +1,7 @@
 import { ThemeIcon, UnstyledButton } from "@mantine/core";
 import { MdClose } from "react-icons/md";
-import { SIDEBAR_STATUS } from "./const";
 import { WithNavbarStatus } from "./SideBar";
+import { SIDEBAR_STATUS } from "./const";
 import classes from "./quickClose.module.scss";
 
 export const QuickClose: React.FC<WithNavbarStatus> = ({ status, toggle }) => {

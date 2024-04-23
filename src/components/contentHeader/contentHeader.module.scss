@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  grid-column: 1 / span 12;
+  border-bottom: 1px solid #ebeefb;
+  padding-bottom: 10px;
+}
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.headerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.jiraLink {
+  display: flex;
+  align-items: center;
+}
