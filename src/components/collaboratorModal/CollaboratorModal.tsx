@@ -2,7 +2,7 @@ import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect } from "react";
 import { TCollaboratorDynamicData } from "../../schema";
-import { TModalProps } from "../_home/types";
+import { TModalProps } from "../home/types";
 
 export function CollaboratorModal({
   id: collaboratorId,

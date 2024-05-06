@@ -1,12 +1,11 @@
-import { Box, Divider, Text, Title } from "@mantine/core";
+import { Box, Divider, Text } from "@mantine/core";
 import React from "react";
 import { useParams } from "react-router";
 import { useTestbook } from "../../../hooks/useTestbook";
 import { TestbookInfo } from "../../../types/testbook";
-import { EditableText } from "../../shared/EditableText";
-import classes from "./testbook.module.scss";
-import { EditableTitle } from "../../shared/EditableTitle";
 import { EditableHtmlText } from "../../shared/EditableHtmlText";
+import { EditableText } from "../../shared/EditableText";
+import { EditableTitle } from "../../shared/EditableTitle";
 
 export const Testbook: React.FC = () => {
   const { testbook, testcase, test, step } = useParams();

@@ -2,7 +2,7 @@ import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect } from "react";
 import { TCaseDynamicData } from "../../schema";
-import { TModalProps } from "../_home/types";
+import { TModalProps } from "../home/types";
 import { RichTextarea } from "../shared/RichTextarea";
 
 export function TestCaseModal({

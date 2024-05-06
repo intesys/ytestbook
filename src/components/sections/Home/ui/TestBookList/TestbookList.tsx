@@ -8,13 +8,13 @@ import {
 } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
+import { notifications } from "@mantine/notifications";
 import { MdDelete, MdDownload, MdOutlineRemoveRedEye } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { DBRegistryDoc } from "../../../../../types/pouchDB";
 import { useAllTestbooks } from "../../../../../hooks/useAllTestbooks";
-import { notifications } from "@mantine/notifications";
+import { DBRegistryDoc } from "../../../../../types/pouchDB";
+import { removeTestbook } from "../../../api/lib/testbook";
 import classes from "./testbookList.module.scss";
-import { removeTestbook } from "../../../../../api";
 
 export const TestbookList: React.FC = () => {
   const navigate = useNavigate();

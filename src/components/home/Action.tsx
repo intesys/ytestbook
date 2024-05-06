@@ -1,8 +1,14 @@
 import { Text } from "@mantine/core";
+import React from "react";
 import classes from "./home.module.scss";
 import { TActionProps } from "./types";
 
-export function Action({ title, label, icon, action }: TActionProps) {
+export const Action: React.FC<TActionProps> = ({
+  title,
+  label,
+  icon,
+  action,
+}) => {
   return (
     <div className={classes.action} onClick={action}>
       <Text fz={24} c="white" fw={700}>
@@ -18,4 +24,4 @@ export function Action({ title, label, icon, action }: TActionProps) {
       </div>
     </div>
   );
-}
+};

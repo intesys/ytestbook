@@ -1,21 +1,23 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { _Home } from "./components/_home";
+import { CreateRepo } from "./components/createRepo/CreateRepo";
+import { Empty } from "./components/empty/Empty";
+import { Home } from "./components/home";
 import { Project } from "./components/project/Project";
+import { Settings } from "./components/settings/Settings";
 import { TestCase } from "./components/testCase/TestCase";
 import { TestDetails } from "./components/testDetails/TestDetails";
-import { CreateRepo } from "./components/createRepo/CreateRepo";
-import { Settings } from "./components/settings/Settings";
-import { Empty } from "./components/empty/Empty";
 
-export const MainNavigation = () => (
+export const MainNavigation: React.FC = () => (
   <Routes>
-    <Route path="/" element={<_Home />} />
+    <Route path="/" element={<Home />} />
     <Route path="/create" element={<CreateRepo />} />
     <Route path="/project/:projectId" element={<Project />}>
       <Route path="settings" element={<Settings />} />
       <Route path="empty" element={<Empty />} />
-      <Route path="testCase/:caseId" element={<TestCase />} />
-      <Route path="testCase/:caseId/test/:testId" element={<TestDetails />} />
+      <Route path="testCase/:caseId" element={<TestCase />}>
+        <Route path="test/:testId" element={<TestDetails />} />
+      </Route>
     </Route>
   </Routes>
 );

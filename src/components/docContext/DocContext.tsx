@@ -1,7 +1,7 @@
 import { AutomergeUrl, isValidAutomergeUrl } from "@automerge/automerge-repo";
 import { useRepo } from "@automerge/automerge-repo-react-hooks";
 import { Flex, Loader } from "@mantine/core";
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { TDocType } from "../../schema";
 import {
@@ -21,7 +21,7 @@ export function useDocContext() {
   return useContext(DocContext);
 }
 
-export function DocProvider({ children }: TDocProviderProps) {
+export const DocProvider: React.FC<TDocProviderProps> = ({ children }) => {
   const repo = useRepo();
   const [state, setState] = useState<TDocContextState>({
     status: DocContextStatusEnum.LOADING,
@@ -31,7 +31,7 @@ export function DocProvider({ children }: TDocProviderProps) {
   const createDoc = () => {
     const handle = repo.create<TDocType>({ projects: [] });
     localStorage.setItem("docUrl", handle.url);
-    setState((prevState) => ({
+    setState((prevState: TDocContextState) => ({
       ...prevState,
       docUrl: handle.url,
       doc: handle.docSync(),
@@ -82,4 +82,4 @@ export function DocProvider({ children }: TDocProviderProps) {
         </DocContext.Provider>
       );
   }
-}
+};

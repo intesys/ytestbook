@@ -1,17 +1,18 @@
 import { Loader, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import React from "react";
 import { useNavigate } from "react-router";
 import AddCircle from "../../assets/icons/add_circle.svg";
 import FileTypeJson from "../../assets/icons/bi_filetype-json.svg";
-import Logo from "../../assets/icons/logo.svg";
+import Logo from "../../assets/logo.svg";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { useProjects } from "../../lib/operators/useProjects";
+import { useDocContext } from "../docContext/DocContext";
 import { Action } from "./Action";
 import { CreateTestbookModal } from "./CreateTestbookModal";
 import classes from "./home.module.scss";
-import { useDocContext } from "../docContext/DocContext";
 
-export function _Home() {
+export const Home: React.FC = () => {
   const { docUrl } = useDocContext();
   const projects = useProjects();
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export function _Home() {
           {docUrl}
         </Text>
         <div className={classes.header}>
-          <img src={Logo} height={78} width={78} />
+          <img src={Logo} height={78} width={78} alt="yTestbook" />
         </div>
         <div className={classes.actions}>
           <Action
@@ -112,4 +113,4 @@ export function _Home() {
       </div>
     </div>
   );
-}
+};

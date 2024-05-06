@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProject } from "../../lib/operators/useProject";
 import { TTestDynamicData } from "../../schema";
-import { TModalProps } from "../_home/types";
+import { TModalProps } from "../home/types";
 import { RichTextarea } from "../shared/RichTextarea";
 
 export function TestModal({

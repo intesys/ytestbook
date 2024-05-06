@@ -1,6 +1,7 @@
 .header {
   display: flex;
   align-items: center;
+  column-gap: 16px;
   height: 68px;
   padding: 0 20px;
   position: relative;
@@ -31,6 +32,8 @@
 
 .header_title {
   flex: 1;
+  // border-left: 1px solid #d3d9f6;
+  // padding-left: 40px;
   h4 {
     margin: 0;
   }

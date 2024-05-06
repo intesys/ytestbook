@@ -1,3 +1,4 @@
+import React from "react";
 import { useDynamicSvgImport } from "../../../lib/image/useDynamicSvgImport";
 
 interface IProps {

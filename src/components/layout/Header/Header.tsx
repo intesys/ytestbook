@@ -1,32 +1,28 @@
-import { Button, ThemeIcon, Title } from "@mantine/core";
+import { Button, ThemeIcon } from "@mantine/core";
 import React from "react";
 import { IoSettingsSharp } from "react-icons/io5";
-import { useNavigate, useParams } from "react-router-dom";
-import Logo from "../../../assets/icons/logo.svg";
+import { Link } from "react-router-dom";
+import Logo from "../../../assets/logo.svg";
 import { TestbookInfo } from "../../../types/testbook";
 import classes from "./header.module.scss";
-import { useProject } from "../../../lib/operators/useProject";
-import { Avatars } from "../../avatars/Avatars";
 
-const Header: React.FC<
+export const Header: React.FC<
   Pick<TestbookInfo, "name" | "client"> & {
     handleSettingsClick?: () => void;
   }
 > = ({ name, client, handleSettingsClick }) => {
-  const params = useParams();
-  const project = useProject(params.projectId);
-  const navigate = useNavigate();
   return (
     <header className={classes.header}>
-      <div onClick={() => navigate("/")} className={classes.header_logo}>
-        <img src={Logo} height={55} width={55} />
+      <div className={classes.header_logo}>
+        <Link to="/">
+          <img src={Logo} height={55} width={55} alt="yTestbook" />
+        </Link>
       </div>
-      <div className={classes.divider}></div>
       <div className={classes.header_title}>
-        <Title order={4}>{name}</Title>
-        <Title order={5}>{client}</Title>
+        <h4>{name}</h4>
+        <small>Client: {client}</small>
       </div>
-      <Avatars assignees={project.data?.collaborators || []} />
+      {/* <Avatars assignees={project.data?.collaborators || []} /> */}
       <div className={classes.action}>
         <Button
           p={0}
@@ -42,5 +38,3 @@ const Header: React.FC<
     </header>
   );
 };
-
-export default Header;

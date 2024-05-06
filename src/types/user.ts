@@ -7,4 +7,4 @@ export type User = {
   role?: string;
   created?: string;
   modified?: string;
-} & PouchDB.Core.IdMeta;
+};

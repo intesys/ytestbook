@@ -1,8 +1,9 @@
-import { Flex, Loader } from "@mantine/core";
+import { Box, Flex, Loader, Stack } from "@mantine/core";
 import { useDisclosure, useToggle } from "@mantine/hooks";
+import React from "react";
 import { Outlet, useNavigate, useParams } from "react-router";
 import { useProject } from "../../lib/operators/useProject";
-import Header from "../layout/Header/Header";
+import { Header } from "../layout/Header/Header";
 import { SideBar } from "../layout/SideBar/SideBar";
 import { SIDEBAR_STATUS } from "../layout/SideBar/const";
 import { TestCaseModal } from "../testCaseModal/TestCaseModal";
@@ -25,6 +26,14 @@ export function Project() {
     navigate(`/project/${params.projectId}/settings`);
   };
 
+  if (!project || project.loading) {
+    return (
+      <Flex align="center" justify="center" h="100dvh" w={"100%"}>
+        <Loader color="blue" size="lg" />
+      </Flex>
+    );
+  }
+
   return (
     <div className={classes.container}>
       <TestCaseModal
@@ -33,36 +42,27 @@ export function Project() {
         close={close}
         handleSubmit={project.createTestCase}
       />
-      {project.loading ? (
-        <Flex align="center" justify="center" h="100dvh" w={"100%"}>
-          <Loader color="blue" size="lg" />
-        </Flex>
-      ) : (
-        <Flex direction={"column"}>
+      <Stack gap={0} style={{ height: "100vh", alignContent: "stretch" }}>
+        <Box>
           <Header
             name={project.data.title}
             client={project.data.customer}
             handleSettingsClick={goToSettings}
           />
-
-          <Flex mih={"100dvh"}>
+        </Box>
+        <Flex style={{ flex: 1 }}>
+          <Box>
             <SideBar
               toggle={toggle}
               status={sidebarStatus}
               openTestCaseModal={open}
             />
-            <div
-              className={
-                sidebarStatus === SIDEBAR_STATUS.FULLSCREEN
-                  ? classes.hidden
-                  : classes.visible
-              }
-            >
-              <Outlet />
-            </div>
-          </Flex>
+          </Box>
+          <Box style={{ flexGrow: 2 }}>
+            {sidebarStatus !== SIDEBAR_STATUS.FULLSCREEN && <Outlet />}
+          </Box>
         </Flex>
-      )}
+      </Stack>
     </div>
   );
 }
