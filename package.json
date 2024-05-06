@@ -4,8 +4,9 @@
   "private": true,
   "main": "src/index.tsx",
   "scripts": {
-    "dev": "node scripts/dev",
+    "dev": "npm run start",
     "build": "tsc && vite build",
+    "type-check": "tsc --noEmit",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "start": "vite --host",
     "docker:build": "docker build -t registry.intesys.it/dolomiti-sharedtracking/ytestbook:latest .",

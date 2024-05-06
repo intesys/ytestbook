@@ -1,6 +1,5 @@
 import { Box, Flex, Loader, Stack } from "@mantine/core";
 import { useDisclosure, useToggle } from "@mantine/hooks";
-import React from "react";
 import { Outlet, useNavigate, useParams } from "react-router";
 import { useProject } from "../../lib/operators/useProject";
 import { Header } from "../layout/Header/Header";

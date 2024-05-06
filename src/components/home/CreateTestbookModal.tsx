@@ -1,5 +1,5 @@
 import { Button, Container, Flex, Modal, TextInput } from "@mantine/core";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useProjects } from "../../lib/operators/useProjects";
 import { TProjectDynamicData } from "../../schema";
 

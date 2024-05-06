@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import { CreateRepo } from "./components/createRepo/CreateRepo";
 import { Empty } from "./components/empty/Empty";
 import { Home } from "./components/home";
@@ -15,7 +15,8 @@ export const MainNavigation: React.FC = () => (
     <Route path="/project/:projectId" element={<Project />}>
       <Route path="settings" element={<Settings />} />
       <Route path="empty" element={<Empty />} />
-      <Route path="testCase/:caseId" element={<TestCase />}>
+      <Route path="testCase/:caseId" element={<Outlet />}>
+        <Route index element={<TestCase />} />
         <Route path="test/:testId" element={<TestDetails />} />
       </Route>
     </Route>

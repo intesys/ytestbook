@@ -60,7 +60,6 @@ export function TestDetails() {
           close={close}
           handleSubmit={testCase.updateTest}
         />
-
         <ConfirmDeleteModal
           opened={deleteModalOpened}
           close={deleteModalHandlers.close}
@@ -73,7 +72,6 @@ export function TestDetails() {
             }
           }}
         />
-
         <div className={classes.backButton}>
           <Button
             variant="transparent"
@@ -99,7 +97,6 @@ export function TestDetails() {
           handleEditClick={open}
           handleDeleteClick={deleteModalHandlers.open}
         />
-
         <div className={classes.description}>
           <EditableHtmlText
             name="description"
@@ -109,7 +106,6 @@ export function TestDetails() {
             value={test.data.description}
           />
         </div>
-
         <div className={classes.steps}>
           <StepsTable
             steps={test.data.steps}
@@ -118,7 +114,6 @@ export function TestDetails() {
             removeStep={test.removeStep}
           />
         </div>
-
         <div className={classes.comments}>
           {testCase.data && (
             <CommentsList
