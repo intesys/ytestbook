@@ -1,4 +1,5 @@
 import { Button, Flex, Progress, Table, Text, ThemeIcon } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import { parseTimestamp } from "../../../../lib/date/parseTimestamp";
@@ -6,6 +7,7 @@ import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { useProject } from "../../../../lib/operators/useProject";
 import { TStep } from "../../../../schema";
 import { Avatars } from "../../../avatars/Avatars";
+import { SimpleNewElementForm } from "../../../shared/SimpleNewElementForm";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { Tags } from "../../../tags/Tags";
 import { SIDEBAR_STATUS } from "../const";
@@ -13,11 +15,19 @@ import classes from "./overview.module.scss";
 
 export const Overview: React.FC<{
   toggle: (value?: React.SetStateAction<SIDEBAR_STATUS> | undefined) => void;
-  openTestCaseModal: () => void;
-}> = ({ toggle, openTestCaseModal }) => {
+}> = ({ toggle }) => {
   const params = useParams();
   const project = useProject(params.projectId);
   const navigate = useNavigate();
+
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const createNewTestCase = (title: string) => {
+    project.createTestCase({
+      title,
+    });
+    close();
+  };
 
   return (
     <>
@@ -83,6 +93,16 @@ export const Overview: React.FC<{
               </Table.Tr>
             );
           })}
+          {opened && (
+            <Table.Tr>
+              <Table.Td colSpan={5}>
+                <SimpleNewElementForm
+                  onSubmit={createNewTestCase}
+                  close={close}
+                />
+              </Table.Td>
+            </Table.Tr>
+          )}
         </Table.Tbody>
       </Table>
 
@@ -98,7 +118,7 @@ export const Overview: React.FC<{
         variant="light"
         c={"#9CA8D6"}
         bg={"white"}
-        onClick={openTestCaseModal}
+        onClick={open}
       >
         Add
       </Button>
