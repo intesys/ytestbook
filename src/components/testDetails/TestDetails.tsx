@@ -61,7 +61,6 @@ export function TestDetails() {
   } else {
     return (
       <div className={classes.testDetails}>
-        TEST DETAILS
         <TestModal
           id={test.data.id}
           initialValues={{
