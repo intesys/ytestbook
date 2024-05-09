@@ -35,6 +35,18 @@ export function TestCase() {
     }
   }, [testCase.data]);
 
+  const handleQuickEdit = (value: string) => {
+    if (!testCase?.data?.id) {
+      return;
+    }
+    project.updateTestCase(
+      {
+        title: value,
+      },
+      testCase.data.id,
+    );
+  };
+
   if (testCase.loading) {
     return (
       <Flex align="center" justify="center" h="100dvh" w={"100%"}>
@@ -56,7 +68,6 @@ export function TestCase() {
           close={close}
           handleSubmit={project.updateTestCase}
         />
-
         <ConfirmDeleteModal
           opened={deleteModalOpened}
           close={deleteModalHandlers.close}
@@ -67,7 +78,6 @@ export function TestCase() {
             }
           }}
         />
-
         <ContentHeader
           status={testCase.data.status}
           title={testCase.data.title}
@@ -76,8 +86,8 @@ export function TestCase() {
           assignees={queriedData?.assignees || []}
           handleEditClick={open}
           handleDeleteClick={deleteModalHandlers.open}
+          handleQuickEdit={handleQuickEdit}
         />
-
         <div className={classes.description}>
           <EditableHtmlText
             name="description"
@@ -94,14 +104,12 @@ export function TestCase() {
             value={testCase.data.description}
           />
         </div>
-
         <div className={classes.tests}>
           <TestsTable
             tests={testCase.data.tests}
             createTest={testCase.createTest}
           />
         </div>
-
         <div className={classes.comments}>
           <CommentsList
             comments={testCase.data.comments}
