@@ -1,14 +1,14 @@
 import { Button, Table, Text, ThemeIcon, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { IoMdAddCircle } from "react-icons/io";
 import ArrowDropdown from "../../assets/icons/arrow_drop_down.svg";
 import Delete from "../../assets/icons/delete.svg";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../schema";
+import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
-import { CreateStepModal } from "./CreateStepModal";
-import { IoMdAddCircle } from "react-icons/io";
 
 export function StepsTable({
   steps,
@@ -22,11 +22,18 @@ export function StepsTable({
   removeStep: TUseTest["removeStep"];
 }) {
   const [opened, { open, close }] = useDisclosure(false);
+
+  const createNewTest = (description: string) => {
+    createStep({
+      description,
+    });
+    close();
+  };
+
   return (
     <>
-      <CreateStepModal opened={opened} close={close} createStep={createStep} />
       <Title order={4}>Steps</Title>
-      {steps.length === 0 ? (
+      {steps.length === 0 && !opened ? (
         <Text>The steps list is empty.</Text>
       ) : (
         <Table verticalSpacing={10} horizontalSpacing={20} withTableBorder>
@@ -85,6 +92,16 @@ export function StepsTable({
                 </Table.Td>
               </Table.Tr>
             ))}
+            {opened && (
+              <Table.Tr>
+                <Table.Td colSpan={5}>
+                  <SimpleNewElementForm
+                    onSubmit={createNewTest}
+                    close={close}
+                  />
+                </Table.Td>
+              </Table.Tr>
+            )}
           </Table.Tbody>
         </Table>
       )}

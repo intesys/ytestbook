@@ -16,9 +16,9 @@ import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TTest } from "../../schema";
 import { Avatars } from "../avatars/Avatars";
+import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { Tags } from "../tags/Tags";
-import { TestModal } from "../testModal/TestModal";
 
 export function TestsTable({
   tests,
@@ -32,16 +32,20 @@ export function TestsTable({
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
 
+  const createNewTest = (title: string) => {
+    createTest({
+      title,
+      assignees: [],
+      tags: [],
+      description: "",
+    });
+    close();
+  };
+
   return (
     <>
-      <TestModal
-        title="Add Test"
-        opened={opened}
-        close={close}
-        handleSubmit={createTest}
-      />
       <Title order={4}>Tests</Title>
-      {tests.length === 0 ? (
+      {tests.length === 0 && !opened ? (
         <Text>The tests list is empty.</Text>
       ) : (
         <Table verticalSpacing={10} horizontalSpacing={20} withTableBorder>
@@ -111,6 +115,16 @@ export function TestsTable({
                 </Table.Tr>
               );
             })}
+            {opened && (
+              <Table.Tr>
+                <Table.Td colSpan={5}>
+                  <SimpleNewElementForm
+                    onSubmit={createNewTest}
+                    close={close}
+                  />
+                </Table.Td>
+              </Table.Tr>
+            )}
           </Table.Tbody>
         </Table>
       )}
