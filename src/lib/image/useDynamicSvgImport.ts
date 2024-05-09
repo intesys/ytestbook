@@ -14,7 +14,7 @@ export function useDynamicSvgImport(iconName: string) {
       try {
         console.log(`../../assets/${iconName}.svg`);
         importedIconRef.current = (
-          await import(`../../assets/icons/${iconName}.svg`)
+          await import(`../../assets/${iconName}.svg`)
         ).ReactComponent; // svgr provides ReactComponent for given svg path
       } catch (err) {
         setError(err);

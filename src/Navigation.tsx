@@ -1,30 +1,24 @@
-import { Routes, Route } from "react-router-dom";
-import { Home } from "./components/sections/Home/Home";
-import { Testbook } from "./components/sections/Testbook/Testbook";
-import Layout from "./components/layout/Layout/Layout";
+import React from "react";
+import { Outlet, Route, Routes } from "react-router-dom";
+import { CreateRepo } from "./components/createRepo/CreateRepo";
+import { Empty } from "./components/empty/Empty";
+import { Home } from "./components/home";
+import { Project } from "./components/project/Project";
+import { Settings } from "./components/settings/Settings";
+import { TestCase } from "./components/testCase/TestCase";
+import { TestDetails } from "./components/testDetails/TestDetails";
 
-// Navigation from home screen to testbook
-export const MainNavigation = () => (
+export const MainNavigation: React.FC = () => (
   <Routes>
     <Route path="/" element={<Home />} />
-    <Route element={<Layout />}>
-      <Route path=":testbook" element={<Testbook />}>
-        <Route path=":testcase" element={<Testbook />}>
-          <Route path=":test" element={<Testbook />}>
-            <Route path=":step" element={<Testbook />} />
-          </Route>
-        </Route>
+    <Route path="/create" element={<CreateRepo />} />
+    <Route path="/project/:projectId" element={<Project />}>
+      <Route path="settings" element={<Settings />} />
+      <Route path="empty" element={<Empty />} />
+      <Route path="testCase/:caseId" element={<Outlet />}>
+        <Route index element={<TestCase />} />
+        <Route path="test/:testId" element={<TestDetails />} />
       </Route>
-    </Route>
-  </Routes>
-);
-
-// Subroutes, internal to testbook
-export const TestbookNavigation = () => (
-  <Routes>
-    <Route>
-      {/* <Route path="/" element={<Home />} />
-      <Route path="/testbook" element={<Testbook />} /> */}
     </Route>
   </Routes>
 );

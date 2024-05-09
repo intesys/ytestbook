@@ -1,23 +1,40 @@
+import { Button, ThemeIcon } from "@mantine/core";
 import React from "react";
+import { IoSettingsSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { TestbookInfo } from "../../../types/testbook";
-import SvgIcon from "../../shared/SvgIcon/SvgIcon";
-import classes from "./styles.module.scss";
+import Logo from "../../../assets/logo.svg";
+import { TProjectDynamicData } from "../../../schema";
+import classes from "./header.module.scss";
 
-const Header: React.FC<TestbookInfo> = ({ name, client }) => {
+export const Header: React.FC<
+  Pick<TProjectDynamicData, "title" | "customer"> & {
+    handleSettingsClick?: () => void;
+  }
+> = ({ customer, title, handleSettingsClick }) => {
   return (
     <header className={classes.header}>
       <div className={classes.header_logo}>
         <Link to="/">
-          <SvgIcon iconName="logo" wrapperStyle={classes.logo_wrapper} />
+          <img src={Logo} height={55} width={55} alt="yTestbook" />
         </Link>
       </div>
       <div className={classes.header_title}>
-        <h4>{name}</h4>
-        <small>Client: {client}</small>
+        <h4>{title}</h4>
+        <small>Client: {customer}</small>
+      </div>
+      {/* <Avatars assignees={project.data?.collaborators || []} /> */}
+      <div className={classes.action}>
+        <Button
+          p={0}
+          variant="transparent"
+          size="24px"
+          onClick={handleSettingsClick}
+        >
+          <ThemeIcon color="black" variant="transparent" size={24}>
+            <IoSettingsSharp />
+          </ThemeIcon>
+        </Button>
       </div>
     </header>
   );
 };
-
-export default Header;

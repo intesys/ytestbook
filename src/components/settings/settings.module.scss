@@ -1,0 +1,30 @@
+.settings {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 30px 40px;
+  row-gap: 34px;
+  width: 100%;
+}
+
+.header {
+  grid-column: 1 / span 12;
+}
+
+.projectData {
+  grid-column: 1 / span 12;
+}
+
+.members {
+  grid-column: 1 / span 12;
+}
+
+.tags {
+  grid-column: 1 / span 12;
+}
+
+.delete {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  grid-column: 1 / span 12;
+}
