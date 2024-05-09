@@ -3,14 +3,14 @@ import React from "react";
 import { IoSettingsSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import Logo from "../../../assets/logo.svg";
-import { TestbookInfo } from "../../../types/testbook";
+import { TProjectDynamicData } from "../../../schema";
 import classes from "./header.module.scss";
 
 export const Header: React.FC<
-  Pick<TestbookInfo, "name" | "client"> & {
+  Pick<TProjectDynamicData, "title" | "customer"> & {
     handleSettingsClick?: () => void;
   }
-> = ({ name, client, handleSettingsClick }) => {
+> = ({ customer, title, handleSettingsClick }) => {
   return (
     <header className={classes.header}>
       <div className={classes.header_logo}>
@@ -19,8 +19,8 @@ export const Header: React.FC<
         </Link>
       </div>
       <div className={classes.header_title}>
-        <h4>{name}</h4>
-        <small>Client: {client}</small>
+        <h4>{title}</h4>
+        <small>Client: {customer}</small>
       </div>
       {/* <Avatars assignees={project.data?.collaborators || []} /> */}
       <div className={classes.action}>

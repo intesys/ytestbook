@@ -44,8 +44,8 @@ export function Project() {
       <Stack gap={0} style={{ height: "100vh", alignContent: "stretch" }}>
         <Box>
           <Header
-            name={project.data.title}
-            client={project.data.customer}
+            title={project.data.title}
+            customer={project.data.customer}
             handleSettingsClick={goToSettings}
           />
         </Box>
