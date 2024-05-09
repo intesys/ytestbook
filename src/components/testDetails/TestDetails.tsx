@@ -37,6 +37,21 @@ export function TestDetails() {
     }
   }, [test.data, project]);
 
+  const handleQuickEdit = (value: string) => {
+    if (!test.data?.id) {
+      return;
+    }
+    testCase.updateTest(
+      {
+        title: value,
+        assignees: queriedData?.assignees.map((assignee) => assignee.id) || [],
+        tags: queriedData?.tags || [],
+        description: test?.data?.description || "",
+      },
+      test.data.id,
+    );
+  };
+
   if (test.loading) {
     return (
       <Flex align="center" justify="center" h="100dvh" w={"100%"}>
@@ -46,6 +61,7 @@ export function TestDetails() {
   } else {
     return (
       <div className={classes.testDetails}>
+        TEST DETAILS
         <TestModal
           id={test.data.id}
           initialValues={{
@@ -96,6 +112,7 @@ export function TestDetails() {
           completion={completion}
           handleEditClick={open}
           handleDeleteClick={deleteModalHandlers.open}
+          handleQuickEdit={handleQuickEdit}
         />
         <div className={classes.description}>
           <EditableHtmlText

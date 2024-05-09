@@ -15,6 +15,7 @@ import { Avatars } from "../avatars/Avatars";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import classes from "./contentHeader.module.scss";
 import { TContentHeader } from "./types";
+import { EditableText } from "../shared/EditableText";
 
 export function ContentHeader({
   status,
@@ -23,6 +24,7 @@ export function ContentHeader({
   tags,
   assignees,
   completion,
+  handleQuickEdit,
   handleEditClick,
   handleDeleteClick,
 }: TContentHeader) {
@@ -31,7 +33,9 @@ export function ContentHeader({
       <div className={classes.headerTop}>
         <div className={classes.headerLeft}>
           <StatusIcon status={status} />
-          <Title order={3}>{title}</Title>
+          <Title order={3}>
+            <EditableText value={title} onChange={handleQuickEdit} />
+          </Title>
           <Tooltip label={`${completion}%`}>
             <Progress
               w={200}

@@ -7,6 +7,7 @@ export type TContentHeader = {
   tags?: string[];
   assignees?: TCollaborator[];
   completion: number;
+  handleQuickEdit: (value: string) => void;
   handleEditClick: () => void;
   handleDeleteClick: () => void;
 };
