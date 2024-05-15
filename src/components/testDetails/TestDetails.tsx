@@ -1,19 +1,19 @@
 import { Button, Flex, Loader, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
+import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { useProject } from "../../lib/operators/useProject";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { CommentsList } from "../commentsList/CommentsList";
-import { ContentHeader } from "../contentHeader/ContentHeader";
-import { StepsTable } from "../stepsTable/StepsTable";
-import classes from "./testDetails.module.scss";
-import { useMemo } from "react";
-import { computeCompletion } from "../../lib/helpers/computeCompletion";
-import { TestModal } from "../testModal/TestModal";
-import { useDisclosure } from "@mantine/hooks";
-import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
+import { ContentHeader } from "../contentHeader/ContentHeader";
+import { EditableHtmlText } from "../shared/EditableHtmlText";
+import { StepsTable } from "../stepsTable/StepsTable";
+import { TestModal } from "../testModal/TestModal";
+import classes from "./testDetails.module.scss";
 
 export function TestDetails() {
   const navigate = useNavigate();

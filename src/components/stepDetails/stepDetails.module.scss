@@ -1,9 +1,10 @@
-.testDetails {
+.stepDetails {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   padding: 30px 40px;
   row-gap: 34px;
   width: 100%;
+  background-color: var(--mantine-color-gray-0);
 }
 
 .backButton {
@@ -14,12 +15,19 @@
   grid-column: 1 / span 12;
 }
 
+.stepSwitch {
+  grid-column: 1 / span 12;
+}
+
+.closestSteps {
+  grid-column: 1 / span 12;
+}
+
 .steps {
   display: flex;
   flex-direction: column;
   gap: 20px;
   grid-column: 1 / span 12;
-  flex-grow: 1;
 }
 
 .comments {

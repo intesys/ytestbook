@@ -9,7 +9,8 @@ export enum StatusEnum {
 }
 
 export type TStepDynamicData = {
-  description: string;
+  title: string;
+  description?: string;
 };
 
 export type TStep = {
@@ -43,6 +44,7 @@ export type TComment = {
   id: string;
   caseId: TCase["id"];
   testId?: TTest["id"];
+  stepId?: TStep["id"];
   createdAt: number;
   testStatusWhenCreated?: StatusEnum;
   resolved: boolean;

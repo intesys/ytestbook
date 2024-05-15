@@ -6,8 +6,8 @@ export type TContentHeader = {
   jiraLink?: string;
   tags?: string[];
   assignees?: TCollaborator[];
-  completion: number;
+  completion?: number;
   handleQuickEdit: (value: string) => void;
-  handleEditClick: () => void;
+  handleEditClick?: () => void;
   handleDeleteClick: () => void;
 };

@@ -14,9 +14,7 @@ export type WithNavbarStatus = {
   toggle: (value?: React.SetStateAction<SIDEBAR_STATUS> | undefined) => void;
 };
 
-export const SideBar: React.FC<
-  WithNavbarStatus & { openTestCaseModal: () => void }
-> = ({ status, toggle, openTestCaseModal }) => {
+export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
   const params = useParams();
   const project = useProject(params.projectId);
   const { pathname } = useLocation();
