@@ -176,6 +176,22 @@ export function useTestCase(
     [projectId, caseId],
   );
 
+  const updateCommentResolved = useCallback(
+    (isResolved: boolean, commentId: string) => {
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
+        if (!tc) return;
+        const comment = tc.comments.find((comment) => comment.id === commentId);
+        if (!comment) {
+          return;
+        }
+        comment.resolved = isResolved;
+      });
+    },
+    [projectId, caseId],
+  );
+
   if (testCase === undefined) {
     return {
       data: undefined,
@@ -187,6 +203,7 @@ export function useTestCase(
       updateTestStatus,
       removeTest,
       removeComment,
+      updateCommentResolved,
     };
   } else {
     return {
@@ -199,6 +216,7 @@ export function useTestCase(
       updateTestStatus,
       removeTest,
       removeComment,
+      updateCommentResolved,
     };
   }
 }

@@ -115,6 +115,11 @@ export function TestCase() {
             comments={testCase.data.comments}
             createComment={testCase.createComment}
             removeComment={testCase.removeComment}
+            updateCommentResolved={testCase.updateCommentResolved}
+            filter={{
+              elements: testCase.data.tests,
+              type: "test",
+            }}
           />
         </div>
       </div>

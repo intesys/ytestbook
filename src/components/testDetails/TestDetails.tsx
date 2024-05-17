@@ -7,13 +7,13 @@ import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { useProject } from "../../lib/operators/useProject";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
-import { CommentsList } from "../commentsList/CommentsList";
 import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepsTable } from "../stepsTable/StepsTable";
 import { TestModal } from "../testModal/TestModal";
 import classes from "./testDetails.module.scss";
+import { CommentsList } from "../commentsList/CommentsList";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -139,6 +139,11 @@ export function TestDetails() {
               )}
               createComment={testCase.createComment}
               removeComment={testCase.removeComment}
+              updateCommentResolved={testCase.updateCommentResolved}
+              filter={{
+                elements: test.data.steps,
+                type: "step",
+              }}
             />
           )}
         </div>
