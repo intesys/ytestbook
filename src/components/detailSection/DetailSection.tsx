@@ -1,6 +1,6 @@
 import { Group } from "@mantine/core";
 import { useParams } from "react-router-dom";
-import { StepDetails } from "../stepDetails/stepDetails";
+import { StepDetails } from "../stepDetails/StepDetails";
 import { TestDetails } from "../testDetails/TestDetails";
 
 export const DetailSection = () => {

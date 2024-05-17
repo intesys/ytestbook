@@ -1,22 +1,12 @@
-import {
-  Anchor,
-  Badge,
-  Button,
-  Flex,
-  Progress,
-  Text,
-  Title,
-  Tooltip,
-} from "@mantine/core";
-import JiraIcon from "../../assets/icons/cib_jira.svg";
+import { Button, Progress, Title, Tooltip } from "@mantine/core";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 import { Avatars } from "../avatars/Avatars";
+import { EditableText } from "../shared/EditableText";
 import { StatusIcon } from "../statusIcon/StatusIcon";
+import { JiraTagsColumns } from "./JiraTagsColumns";
 import classes from "./contentHeader.module.scss";
 import { TContentHeader } from "./types";
-import { EditableText } from "../shared/EditableText";
-import { useMemo } from "react";
 
 export function ContentHeader({
   status,
@@ -29,34 +19,6 @@ export function ContentHeader({
   handleEditClick,
   handleDeleteClick,
 }: TContentHeader) {
-  const jiraTagsColumn = useMemo(() => {
-    if (!jiraLink && !tags) {
-      return null;
-    }
-
-    return (
-      <div>
-        {jiraLink && (
-          <Anchor href={jiraLink} className={classes.jiraLink} target="_blank">
-            <img src={JiraIcon} height={20} width={20} />
-            <Text ml={5}>Jira Link</Text>
-          </Anchor>
-        )}
-        {tags && (
-          <Flex gap={5}>
-            {tags.map((tag) => (
-              <Badge key={tag} color="#EBEEFB" size="sm">
-                <Text size="sm" c={"black"} fw={"bold"} truncate="end">
-                  {tag}
-                </Text>
-              </Badge>
-            ))}
-          </Flex>
-        )}
-      </div>
-    );
-  }, []);
-
   return (
     <div className={classes.header}>
       <div className={classes.headerTop}>
@@ -81,7 +43,7 @@ export function ContentHeader({
         {assignees && <Avatars assignees={assignees} />}
       </div>
       <div className={classes.headerBottom}>
-        {jiraTagsColumn}
+        <JiraTagsColumns jiraLink={jiraLink} tags={tags} />
         <div>
           {handleEditClick ? (
             <Button

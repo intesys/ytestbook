@@ -20,17 +20,15 @@ export function useStep(
     return t?.steps.find((step) => step.id === stepId);
   }, [doc, projectId, caseId, testId, stepId]);
 
-  return useMemo(() => {
-    if (step === undefined) {
-      return {
-        data: undefined,
-        loading: true,
-      };
-    }
-
+  if (step === undefined) {
     return {
-      data: step,
-      loading: false,
+      data: undefined,
+      loading: true,
     };
-  }, []);
+  }
+
+  return {
+    data: step,
+    loading: false,
+  };
 }

@@ -11,3 +11,8 @@ export type TContentHeader = {
   handleEditClick?: () => void;
   handleDeleteClick: () => void;
 };
+
+export type TJiraTagsColumns = {
+  jiraLink?: string;
+  tags?: string[];
+};

@@ -20,7 +20,10 @@ export const StepSwitch = ({ currentStatus, onChange }: StepSwitchProps) => {
   const data: SegmentedControlItem[] = Object.values(StatusEnum).map((s) => ({
     label: (
       <Tooltip label={s} title={s}>
-        <StatusIcon status={s} grayColor={s !== currentStatus} />
+        <StatusIcon
+          status={s}
+          color={s !== currentStatus ? "gray" : undefined}
+        />
       </Tooltip>
     ),
     value: s,
