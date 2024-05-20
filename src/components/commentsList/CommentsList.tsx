@@ -50,7 +50,7 @@ export function CommentsList({
       options.push("Anonymous");
       return options;
     }
-  }, [project.data]);
+  }, [project.data?.collaborators]);
 
   return (
     <>
