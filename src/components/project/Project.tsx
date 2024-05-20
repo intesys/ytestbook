@@ -1,18 +1,16 @@
 import { Box, Flex, Loader, Stack } from "@mantine/core";
-import { useDisclosure, useToggle } from "@mantine/hooks";
+import { useToggle } from "@mantine/hooks";
 import { Outlet, useNavigate, useParams } from "react-router";
 import { useProject } from "../../lib/operators/useProject";
 import { Header } from "../layout/Header/Header";
 import { SideBar } from "../layout/SideBar/SideBar";
 import { SIDEBAR_STATUS } from "../layout/SideBar/const";
-import { TestCaseModal } from "../testCaseModal/TestCaseModal";
 import classes from "./project.module.scss";
 
 export function Project() {
   const params = useParams();
   const project = useProject(params.projectId);
   const navigate = useNavigate();
-  const [opened, { open, close }] = useDisclosure(false);
 
   const [sidebarStatus, toggle] = useToggle<SIDEBAR_STATUS>([
     SIDEBAR_STATUS.FULLSCREEN,
@@ -35,12 +33,6 @@ export function Project() {
 
   return (
     <div className={classes.container}>
-      <TestCaseModal
-        title="Create test case"
-        opened={opened}
-        close={close}
-        handleSubmit={project.createTestCase}
-      />
       <Stack gap={0} style={{ height: "100vh", alignContent: "stretch" }}>
         <Box>
           <Header
@@ -51,11 +43,7 @@ export function Project() {
         </Box>
         <Flex style={{ flex: 1 }}>
           <Box>
-            <SideBar
-              toggle={toggle}
-              status={sidebarStatus}
-              openTestCaseModal={open}
-            />
+            <SideBar toggle={toggle} status={sidebarStatus} />
           </Box>
           <Box style={{ flexGrow: 2 }}>
             {sidebarStatus !== SIDEBAR_STATUS.FULLSCREEN && <Outlet />}

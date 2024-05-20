@@ -9,6 +9,7 @@ import { TStep } from "../../schema";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
+import { useNavigate } from "react-router";
 
 export function StepsTable({
   steps,
@@ -22,10 +23,11 @@ export function StepsTable({
   removeStep: TUseTest["removeStep"];
 }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const navigate = useNavigate();
 
-  const createNewTest = (description: string) => {
+  const createNewTest = (title: string) => {
     createStep({
-      description,
+      title,
     });
     close();
   };
@@ -43,7 +45,7 @@ export function StepsTable({
                 <Text fw={"bold"}>Status</Text>
               </Table.Th>
               <Table.Th>
-                <Text fw={"bold"}>Description</Text>
+                <Text fw={"bold"}>Title</Text>
               </Table.Th>
               <Table.Th>
                 <Text fw={"bold"}>Last update</Text>
@@ -53,7 +55,10 @@ export function StepsTable({
           </Table.Thead>
           <Table.Tbody>
             {steps.map((step) => (
-              <Table.Tr key={step.id}>
+              <Table.Tr
+                key={step.id}
+                onClick={() => navigate(`step/${step.id}`, {})}
+              >
                 <Table.Td>
                   <StatusMenu
                     id={step.id}
@@ -76,7 +81,7 @@ export function StepsTable({
                   />
                 </Table.Td>
                 <Table.Td>
-                  <Text size="sm">{step.description}</Text>
+                  <Text size="sm">{step.title}</Text>
                 </Table.Td>
                 <Table.Td>
                   {step.lastUpdate ? parseTimestamp(step.lastUpdate) : "—"}

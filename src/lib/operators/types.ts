@@ -7,6 +7,7 @@ import {
   TCommentDynamicData,
   TProject,
   TProjectDynamicData,
+  TStep,
   TStepDynamicData,
   TTest,
   TTestDynamicData,
@@ -49,7 +50,11 @@ export type TUseTestCase = {
   createTest: (
     values: TTestDynamicData & { tags: string[]; assignees: string[] },
   ) => void;
-  createComment: (values: TCommentDynamicData, testId?: string) => void;
+  createComment: (
+    values: TCommentDynamicData,
+    testId?: string,
+    stepId?: string,
+  ) => void;
   updateTest: (
     values: TTestDynamicData & { tags: string[]; assignees: string[] },
     testId: string,
@@ -64,4 +69,7 @@ export type TUseTest = {
   createStep: (values: TStepDynamicData) => void;
   updateStepStatus: (stepId: string, status: StatusEnum) => void;
   removeStep: (stepId: string) => void;
+  updateStep: (values: TStepDynamicData, stepId: string) => void;
 } & TOperatorLoader<TTest>;
+
+export type TUseStep = TOperatorLoader<TStep>;

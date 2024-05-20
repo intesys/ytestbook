@@ -22,11 +22,13 @@ import { useMemo } from "react";
 
 export function CommentsList({
   testId,
+  stepId,
   comments,
   createComment,
   removeComment,
 }: {
   testId?: string;
+  stepId?: string;
   comments: TComment[];
   createComment: TUseTestCase["createComment"];
   removeComment: TUseTestCase["removeComment"];
@@ -55,7 +57,7 @@ export function CommentsList({
       <Title order={4}>Comments</Title>
       <form
         onSubmit={form.onSubmit((values) => {
-          createComment(values, testId);
+          createComment(values, testId, stepId);
           form.reset();
         })}
       >

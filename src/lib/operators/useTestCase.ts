@@ -54,7 +54,7 @@ export function useTestCase(
   );
 
   const createComment = useCallback(
-    (values: TCommentDynamicData, testId?: string) => {
+    (values: TCommentDynamicData, testId?: string, stepId?: string) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -70,6 +70,7 @@ export function useTestCase(
           resolved: false,
         };
         if (testId) newComment.testId = testId;
+        if (stepId) newComment.stepId = stepId;
         tc.comments.push(newComment);
       });
     },

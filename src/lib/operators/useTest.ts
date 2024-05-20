@@ -60,6 +60,26 @@ export function useTest(
     [projectId, caseId, testId],
   );
 
+  const updateStep = useCallback(
+    (values: TStepDynamicData, stepId: string) => {
+      if (!projectId || !caseId || !testId) return;
+      const date = new Date();
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const tc = p?.testCases.find((item) => item.id === caseId);
+        const t = tc?.tests.find((test) => test.id === testId);
+        const s = t?.steps.find((step) => step.id === stepId);
+        if (!s || !t || !tc || !p) return;
+        s.title = values.title;
+        if (values.description) {
+          s.description = values.description;
+        }
+        s.lastUpdate = t.lastUpdate = p.lastUpdate = date.getTime();
+      });
+    },
+    [projectId, caseId],
+  );
+
   const removeStep = useCallback(
     (stepId: string) => {
       changeDoc((d) => {
@@ -81,6 +101,7 @@ export function useTest(
       createStep,
       updateStepStatus,
       removeStep,
+      updateStep,
     };
   } else {
     return {
@@ -89,6 +110,7 @@ export function useTest(
       createStep,
       updateStepStatus,
       removeStep,
+      updateStep,
     };
   }
 }
