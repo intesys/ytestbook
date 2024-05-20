@@ -3,8 +3,9 @@ import { getNextStep, getPreviousStep } from "../../lib/helpers/stepsHelpers";
 import { TStep } from "../../schema";
 
 import { useNavigate } from "react-router";
-import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
 import { routesHelper } from "../../lib/helpers/routesHelper";
+import ArrowCircleDown from "../../assets/icons/arrow_circle_down.svg";
+import ArrowCircleUp from "../../assets/icons/arrow_circle_up.svg";
 
 type ClosestStepsButtonsProps = {
   stepId: string;
@@ -50,7 +51,7 @@ export const ClosestStepsButtons = ({
         {previousStep ? (
           <Button
             variant="transparent"
-            leftSection={<img src={ArrowCircle} />}
+            leftSection={<img src={ArrowCircleUp} />}
             p={0}
             onClick={goToPreviousStep}
           >
@@ -62,7 +63,7 @@ export const ClosestStepsButtons = ({
         {nextStep ? (
           <Button
             variant="transparent"
-            leftSection={<img src={ArrowCircle} />}
+            leftSection={<img src={ArrowCircleDown} />}
             p={0}
             onClick={goToNextStep}
           >

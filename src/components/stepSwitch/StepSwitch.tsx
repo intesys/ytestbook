@@ -7,7 +7,7 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
-import eye from "../../assets/icons/eye.svg";
+import ArrowsUpdate from "../../assets/icons/arrows_update.svg";
 import { StatusEnum } from "../../schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 
@@ -46,7 +46,7 @@ export const StepSwitch = ({ currentStatus, onChange }: StepSwitchProps) => {
       <Button
         variant="outline"
         onClick={resetStep}
-        leftSection={<img src={eye} width={10} />}
+        leftSection={<img src={ArrowsUpdate} />}
       >
         Reset step
       </Button>

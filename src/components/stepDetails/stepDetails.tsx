@@ -1,6 +1,6 @@
 import { Button, Flex, Loader, Text } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
-import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
+import CircleX from "../../assets/icons/circle_x.svg";
 import { routesHelper } from "../../lib/helpers/routesHelper";
 import { useProject } from "../../lib/operators/useProject";
 import { useStep } from "../../lib/operators/useStep";
@@ -67,7 +67,7 @@ export const StepDetails = () => {
       <div className={classes.backButton}>
         <Button
           variant="transparent"
-          leftSection={<img src={ArrowCircle} />}
+          leftSection={<img src={CircleX} />}
           p={0}
           onClick={closeStep}
         >
