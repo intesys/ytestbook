@@ -27,7 +27,8 @@ import {
   TStep,
   TTest,
 } from "../../schema";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { TFilterForm } from "./types";
 
 export function CommentsList({
   testId,
@@ -49,13 +50,18 @@ export function CommentsList({
     elements: (TTest | TStep)[];
   };
 }) {
-  console.log("🚀 ~ comments:", comments);
   const params = useParams();
   const project = useProject(params.projectId);
   const form = useForm<TCommentDynamicData>({
     initialValues: {
       username: "",
       content: "",
+    },
+  });
+
+  const filterForm = useForm<TFilterForm>({
+    initialValues: {
+      onlySolved: false,
     },
   });
 
@@ -92,7 +98,27 @@ export function CommentsList({
     }));
   }, []);
 
-  // const filteredComments = use
+  const filteredComments = useMemo(() => {
+    if (!filterForm.values.test && !filterForm.values.onlySolved) {
+      return comments;
+    }
+
+    return comments.filter((c) => {
+      const filterProperty: keyof TComment = "testId";
+      if (
+        filterForm.values.test &&
+        c[filterProperty] !== filterForm.values.test
+      ) {
+        return false;
+      }
+
+      if (filterForm.values.onlySolved && !c.resolved) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [filterForm.values]);
 
   return (
     <>
@@ -102,16 +128,21 @@ export function CommentsList({
         <Text ta={"center"}>There are still no comments here</Text>
       ) : (
         <Stack>
+          <form></form>
           <Flex justify="space-between" align="center">
             <Box>
-              <Select label="Show:" data={filterOptions} />
+              <Select
+                label="Show:"
+                data={filterOptions}
+                {...filterForm.getInputProps("test")}
+              />
             </Box>
             <Box>
               <Switch labelPosition="left" label="Show solved:" />
             </Box>
           </Flex>
           <Stack gap={10} mt={40}>
-            {comments.map((comment) => (
+            {filteredComments.map((comment) => (
               <Flex key={comment.id} gap={10}>
                 <Avatar alt={comment.username}>
                   {comment.username.split(" ")[0]?.[0]}
