@@ -123,6 +123,7 @@ export const StepDetails = () => {
             )}
             createComment={testCase.createComment}
             removeComment={testCase.removeComment}
+            updateCommentResolved={testCase.updateCommentResolved}
           />
         )}
       </div>

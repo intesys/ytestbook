@@ -1,4 +1,4 @@
 export type TFilterForm = {
-  test?: string;
-  onlySolved: boolean;
+  test: string;
+  showSolved: boolean;
 };

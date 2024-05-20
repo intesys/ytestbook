@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Flex,
-  Group,
   Select,
   Stack,
   Switch,
@@ -14,20 +13,15 @@ import {
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 
 import { useForm } from "@mantine/form";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
+import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
 import Delete from "../../assets/icons/delete.svg";
 import StatusPending from "../../assets/icons/status_pending.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
-import {
-  TCase,
-  TComment,
-  TCommentDynamicData,
-  TStep,
-  TTest,
-} from "../../schema";
-import { useMemo, useState } from "react";
+import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
 import { TFilterForm } from "./types";
 
 export function CommentsList({
@@ -45,13 +39,14 @@ export function CommentsList({
   createComment: TUseTestCase["createComment"];
   removeComment: TUseTestCase["removeComment"];
   updateCommentResolved: TUseTestCase["updateCommentResolved"];
-  filter: {
+  filter?: {
     type: "test" | "step";
     elements: (TTest | TStep)[];
   };
 }) {
   const params = useParams();
   const project = useProject(params.projectId);
+
   const form = useForm<TCommentDynamicData>({
     initialValues: {
       username: "",
@@ -61,7 +56,8 @@ export function CommentsList({
 
   const filterForm = useForm<TFilterForm>({
     initialValues: {
-      onlySolved: false,
+      test: "all",
+      showSolved: true,
     },
   });
 
@@ -80,9 +76,11 @@ export function CommentsList({
   };
 
   const filterOptions = useMemo(() => {
-    const options: Record<string, string> = {};
+    const options: Record<string, string> = {
+      all: "All texts",
+    };
 
-    filter.elements.forEach((e) => {
+    filter?.elements.forEach((e) => {
       if (!options[e.id]) {
         if ((e as TTest).title) {
           options[e.id] = (e as TTest).title;
@@ -99,12 +97,13 @@ export function CommentsList({
   }, []);
 
   const filteredComments = useMemo(() => {
-    if (!filterForm.values.test && !filterForm.values.onlySolved) {
+    if (filterForm.values.test === "all" && filterForm.values.showSolved) {
       return comments;
     }
 
     return comments.filter((c) => {
-      const filterProperty: keyof TComment = "testId";
+      const filterProperty: keyof TComment =
+        filter?.type === "test" ? "testId" : "stepId";
       if (
         filterForm.values.test &&
         c[filterProperty] !== filterForm.values.test
@@ -112,13 +111,13 @@ export function CommentsList({
         return false;
       }
 
-      if (filterForm.values.onlySolved && !c.resolved) {
+      if (!filterForm.values.showSolved && c.resolved) {
         return false;
       }
 
       return true;
     });
-  }, [filterForm.values]);
+  }, [filterForm.values, comments]);
 
   return (
     <>
@@ -128,19 +127,30 @@ export function CommentsList({
         <Text ta={"center"}>There are still no comments here</Text>
       ) : (
         <Stack>
-          <form></form>
-          <Flex justify="space-between" align="center">
-            <Box>
-              <Select
-                label="Show:"
-                data={filterOptions}
-                {...filterForm.getInputProps("test")}
-              />
-            </Box>
-            <Box>
-              <Switch labelPosition="left" label="Show solved:" />
-            </Box>
-          </Flex>
+          <form>
+            <Flex justify="space-between" align="center">
+              <Box>
+                {filter ? (
+                  <Select
+                    label="Show:"
+                    data={filterOptions}
+                    name="test"
+                    allowDeselect={false}
+                    {...filterForm.getInputProps("test")}
+                  />
+                ) : null}
+              </Box>
+              <Box>
+                <Switch
+                  labelPosition="left"
+                  label="Show solved:"
+                  name="showSolved"
+                  defaultChecked={true}
+                  {...filterForm.getInputProps("showSolved")}
+                />
+              </Box>
+            </Flex>
+          </form>
           <Stack gap={10} mt={40}>
             {filteredComments.map((comment) => (
               <Flex key={comment.id} gap={10}>
@@ -163,8 +173,11 @@ export function CommentsList({
                       p={0}
                       onClick={() => toggleIsResolved(comment)}
                     >
-                      {comment.resolved ? "RESOLVED" : null}
-                      <img src={CheckCircle} height={24} width={24} />
+                      <img
+                        src={comment.resolved ? CheckCircleFull : CheckCircle}
+                        height={24}
+                        width={24}
+                      />
                     </Button>
                     <Button
                       variant="transparent"
@@ -177,6 +190,7 @@ export function CommentsList({
                   <Text size="sm">
                     {comment.caseId}{" "}
                     {comment.testId ? " > " + comment.testId : ""}
+                    {comment.stepId ? " > " + comment.stepId : ""}
                   </Text>
                   <Text>{comment.content}</Text>
                 </Flex>
