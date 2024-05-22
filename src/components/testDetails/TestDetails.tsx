@@ -100,7 +100,7 @@ export function TestDetails() {
               }
             }}
           >
-            <Text c={"black"}>Go to test case — {test.data.caseId}</Text>
+            <Text c={"black"}>Go to test case — {test.data.title}</Text>
           </Button>
         </div>
         <ContentHeader
