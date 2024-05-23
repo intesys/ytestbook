@@ -23,16 +23,9 @@ import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
 import { TFilterForm } from "./types";
+import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 
-export function CommentsList({
-  testId,
-  stepId,
-  comments,
-  createComment,
-  removeComment,
-  updateCommentResolved,
-  filter,
-}: {
+type CommentsListProps = Readonly<{
   testId?: string;
   stepId?: string;
   comments: TComment[];
@@ -43,7 +36,17 @@ export function CommentsList({
     type: "test" | "step";
     elements: (TTest | TStep)[];
   };
-}) {
+}>;
+
+export function CommentsList({
+  testId,
+  stepId,
+  comments,
+  createComment,
+  removeComment,
+  updateCommentResolved,
+  filter,
+}: CommentsListProps) {
   const params = useParams();
   const project = useProject(params.projectId);
 
@@ -75,6 +78,7 @@ export function CommentsList({
     updateCommentResolved(!comment.resolved, comment.id);
   };
 
+  // Compute select type filter options
   const filterOptions = useMemo(() => {
     const options: Record<string, string> = {
       all: "All texts",
@@ -94,8 +98,9 @@ export function CommentsList({
       label: o[1],
       value: o[0],
     }));
-  }, []);
+  }, [filter?.elements]);
 
+  // Filter comments by selected filters
   const filteredComments = useMemo(() => {
     if (filterForm.values.test === "all" && filterForm.values.showSolved) {
       return comments;
@@ -106,6 +111,7 @@ export function CommentsList({
         filter?.type === "test" ? "testId" : "stepId";
       if (
         filterForm.values.test &&
+        filterForm.values.test !== "all" &&
         c[filterProperty] !== filterForm.values.test
       ) {
         return false;
@@ -117,7 +123,16 @@ export function CommentsList({
 
       return true;
     });
-  }, [filterForm.values, comments]);
+  }, [
+    filterForm.values.test,
+    filterForm.values.showSolved,
+    comments,
+    filter?.type,
+  ]);
+
+  if (!project.data?.id) {
+    return null;
+  }
 
   return (
     <>
@@ -187,11 +202,10 @@ export function CommentsList({
                       <img src={Delete} height={24} width={24} />
                     </Button>
                   </Flex>
-                  <Text size="sm">
-                    {comment.caseId}{" "}
-                    {comment.testId ? " > " + comment.testId : ""}
-                    {comment.stepId ? " > " + comment.stepId : ""}
-                  </Text>
+                  <CommentBreadcrumbs
+                    projectId={project.data?.id}
+                    comment={comment}
+                  />
                   <Text>{comment.content}</Text>
                 </Flex>
               </Flex>
