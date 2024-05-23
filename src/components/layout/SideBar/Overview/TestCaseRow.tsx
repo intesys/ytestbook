@@ -54,7 +54,7 @@ export function TestCaseRow({
           openSidebar();
         }}
       >
-        <Table.Td onClick={onExpandToggle}>
+        <Table.Td onClick={onExpandToggle} w={60}>
           {testCase.tests.length > 0 ? <ExpandButton opened={opened} /> : null}
         </Table.Td>
         <Table.Td>

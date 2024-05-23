@@ -48,7 +48,7 @@ export const TestRow = ({ openSidebar, project, test }: TestRowProps) => {
         }}
         bg="#E4E9FFCC"
       >
-        <Table.Td onClick={onExpandToggle}>
+        <Table.Td onClick={onExpandToggle} w={60}>
           {test.steps.length > 0 ? <ExpandButton opened={opened} /> : null}
         </Table.Td>
         <Table.Td>

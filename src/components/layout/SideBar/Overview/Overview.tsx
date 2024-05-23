@@ -1,7 +1,7 @@
 import { Button, Table, ThemeIcon } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IoMdAddCircle } from "react-icons/io";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useProject } from "../../../../lib/operators/useProject";
 import { SimpleNewElementForm } from "../../../shared/SimpleNewElementForm";
 import { SIDEBAR_STATUS } from "../const";
@@ -13,7 +13,6 @@ export const Overview: React.FC<{
 }> = ({ toggle }) => {
   const params = useParams();
   const project = useProject(params.projectId);
-  const navigate = useNavigate();
 
   const [opened, { open, close }] = useDisclosure(false);
 
