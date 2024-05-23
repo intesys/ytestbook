@@ -12,8 +12,8 @@ import {
   MdPending,
   MdReportProblem,
 } from "react-icons/md";
+import { getStatusColor } from "../../lib/helpers/getStatusColor";
 import { StatusEnum } from "../../schema";
-import { theme } from "../../theme";
 
 interface IProps {
   status?: StatusEnum;
@@ -28,60 +28,55 @@ export const StatusIcon = ({
   variant = "transparent",
   color,
 }: IProps) => {
+  const statusColor = color ?? getStatusColor(status);
+
   switch (status) {
     case StatusEnum.BLOCKED:
       return (
-        <ThemeIcon color={color ?? "yellow"} variant={variant} size={size}>
+        <ThemeIcon color={statusColor} variant={variant} size={size}>
           <MdDeleteForever size="1.5rem" />
         </ThemeIcon>
       );
 
     case StatusEnum.CANCELLED:
       return (
-        <ThemeIcon color={color ?? "orange"} variant={variant} size={size}>
+        <ThemeIcon color={statusColor} variant={variant} size={size}>
           <MdDangerous size="1.5rem" />
         </ThemeIcon>
       );
 
     case StatusEnum.DONE:
       return (
-        <ThemeIcon color={color ?? "green"} variant={variant} size={size}>
+        <ThemeIcon color={statusColor} variant={variant} size={size}>
           <MdCheckCircle size="1.5rem" />
         </ThemeIcon>
       );
 
     case StatusEnum.FAIL:
       return (
-        <ThemeIcon color={color ?? "red"} variant={variant} size={size}>
+        <ThemeIcon color={statusColor} variant={variant} size={size}>
           <MdReportProblem size="1.5rem" />
         </ThemeIcon>
       );
 
     case StatusEnum.PAUSED:
       return (
-        <ThemeIcon color={color ?? "gray"} variant={variant} size={size}>
+        <ThemeIcon color={statusColor} variant={variant} size={size}>
           <MdPauseCircle size="1.5rem" />
         </ThemeIcon>
       );
 
     case StatusEnum.PENDING:
       return (
-        <ThemeIcon color={color ?? "blue"} variant={variant} size={size}>
+        <ThemeIcon color={statusColor} variant={variant} size={size}>
           <MdPending size="1.5rem" />
         </ThemeIcon>
       );
 
     case StatusEnum.TODO:
-      return (
-        <MdNotStarted
-          size="1.5rem"
-          color={color ?? theme.colors?.secondary?.[8]}
-        />
-      );
+      return <MdNotStarted size="1.5rem" color={statusColor} />;
 
     default:
-      return (
-        <MdPending size="1.5rem" color={color ?? theme.colors?.primary?.[5]} />
-      );
+      return <MdPending size="1.5rem" color={statusColor} />;
   }
 };

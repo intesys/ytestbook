@@ -1,14 +1,15 @@
 import { Menu, Text } from "@mantine/core";
 import { StatusEnum } from "../../schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
+import { TUseTest } from "../../lib/operators/types";
 
 type TProps = {
   id: string;
   target: React.ReactNode;
-  updateStatus: (id: string, status: StatusEnum) => void;
+  updateStepStatus: TUseTest["updateStepStatus"];
 };
 
-export function StatusMenu({ id, target, updateStatus }: TProps) {
+export function StatusMenu({ id, target, updateStepStatus }: TProps) {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>{target}</Menu.Target>
@@ -21,7 +22,7 @@ export function StatusMenu({ id, target, updateStatus }: TProps) {
             }
             onClick={(e) => {
               e.stopPropagation();
-              updateStatus(id, StatusEnum[status as StatusEnum]);
+              updateStepStatus(id, StatusEnum[status as StatusEnum]);
             }}
           >
             <Text>{status}</Text>

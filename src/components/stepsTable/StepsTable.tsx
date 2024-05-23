@@ -1,15 +1,13 @@
 import { Button, Table, Text, ThemeIcon, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IoMdAddCircle } from "react-icons/io";
-import ArrowDropdown from "../../assets/icons/arrow_drop_down.svg";
+import { useNavigate } from "react-router";
 import Delete from "../../assets/icons/delete.svg";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../schema";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
-import { StatusIcon } from "../statusIcon/StatusIcon";
-import { StatusMenu } from "../statusMenu/StatusMenu";
-import { useNavigate } from "react-router";
+import { StatusButton } from "../statusButton/StatusButton";
 
 export function StepsTable({
   steps,
@@ -60,24 +58,9 @@ export function StepsTable({
                 onClick={() => navigate(`step/${step.id}`, {})}
               >
                 <Table.Td>
-                  <StatusMenu
-                    id={step.id}
-                    target={
-                      <Button
-                        variant="light"
-                        color="lime"
-                        h={45}
-                        leftSection={<StatusIcon status={step.status} />}
-                        rightSection={
-                          <img src={ArrowDropdown} height={24} width={24} />
-                        }
-                      >
-                        <Text c={"black"} size="sm" fw={500}>
-                          Change
-                        </Text>
-                      </Button>
-                    }
-                    updateStatus={updateStepStatus}
+                  <StatusButton
+                    step={step}
+                    updateStepStatus={updateStepStatus}
                   />
                 </Table.Td>
                 <Table.Td>
