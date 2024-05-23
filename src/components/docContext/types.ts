@@ -30,7 +30,3 @@ export type TDocContextState =
     };
 
 export type TDocProviderProps = { children: React.ReactNode };
-
-export type TDocumentCreationProps = {
-  create: () => void;
-};

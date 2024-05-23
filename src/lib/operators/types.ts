@@ -13,7 +13,7 @@ import {
   TTestDynamicData,
 } from "../../schema";
 
-export type TOperatorLoader<T> =
+type TOperatorLoader<T> =
   | {
       data: undefined;
       loading: true;
