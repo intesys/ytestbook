@@ -1,12 +1,12 @@
 import { Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router";
-import { parseTimestamp } from "../../../../lib/date/parseTimestamp";
 import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
 import { TCase, TStep } from "../../../../schema";
 import { Avatars } from "../../../avatars/Avatars";
+import { RelativeDate } from "../../../relativeDate/RelativeDate";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { Tags } from "../../../tags/Tags";
 import { ExpandButton } from "./ExpandButton";
@@ -80,7 +80,11 @@ export function TestCaseRow({
           <Tags tags={tags} />
         </Table.Td>
         <Table.Td>
-          {testCase.lastUpdate ? parseTimestamp(testCase.lastUpdate) : ""}
+          {testCase.lastUpdate ? (
+            <RelativeDate timeStamp={testCase.lastUpdate} />
+          ) : (
+            ""
+          )}
         </Table.Td>
         <Table.Td>
           <Avatars assignees={assignees} />

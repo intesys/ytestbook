@@ -3,9 +3,9 @@ import { useDisclosure } from "@mantine/hooks";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import Delete from "../../assets/icons/delete.svg";
-import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../schema";
+import { RelativeDate } from "../relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
 
@@ -67,7 +67,11 @@ export function StepsTable({
                   <Text size="sm">{step.title}</Text>
                 </Table.Td>
                 <Table.Td>
-                  {step.lastUpdate ? parseTimestamp(step.lastUpdate) : "—"}
+                  {step.lastUpdate ? (
+                    <RelativeDate timeStamp={step.lastUpdate} />
+                  ) : (
+                    "—"
+                  )}
                 </Table.Td>
                 <Table.Td>
                   <Button

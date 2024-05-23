@@ -1,10 +1,10 @@
 import { Flex, Table, Text } from "@mantine/core";
 import { useNavigate } from "react-router";
-import { parseTimestamp } from "../../../../lib/date/parseTimestamp";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
 import { useTest } from "../../../../lib/operators/useTest";
 import { TStep } from "../../../../schema";
+import { RelativeDate } from "../../../relativeDate/RelativeDate";
 import { StatusButton } from "../../../statusButton/StatusButton";
 
 type StepRowProps = {
@@ -62,7 +62,7 @@ export const StepRow = ({
       </Table.Td>
 
       <Table.Td>
-        {step.lastUpdate ? parseTimestamp(step.lastUpdate) : ""}
+        {step.lastUpdate ? <RelativeDate timeStamp={step.lastUpdate} /> : ""}
       </Table.Td>
 
       <Table.Td />

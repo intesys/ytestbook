@@ -10,7 +10,6 @@ import {
   Textarea,
   Title,
 } from "@mantine/core";
-import { parseTimestamp } from "../../lib/date/parseTimestamp";
 
 import { useForm } from "@mantine/form";
 import { useMemo } from "react";
@@ -22,8 +21,9 @@ import StatusPending from "../../assets/icons/status_pending.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
-import { TFilterForm } from "./types";
+import { RelativeDate } from "../relativeDate/RelativeDate";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
+import { TFilterForm } from "./types";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -176,11 +176,18 @@ export function CommentsList({
                 <Flex direction={"column"} gap={12} px={10} py={5}>
                   <Flex gap={17} align="center">
                     <Text fw={700}>{comment.username}</Text>
-                    <Text size="sm">{parseTimestamp(comment.createdAt)}</Text>
+                    <Text size="sm">
+                      <RelativeDate timeStamp={comment.createdAt} />
+                    </Text>
                     {comment.testStatusWhenCreated && (
                       <Flex gap={6}>
                         <Text size="sm">Test status when added: </Text>
-                        <img src={StatusPending} height={24} width={24} />
+                        <img
+                          alt={comment.testStatusWhenCreated}
+                          src={StatusPending}
+                          height={24}
+                          width={24}
+                        />
                       </Flex>
                     )}
                     <Button
@@ -189,6 +196,7 @@ export function CommentsList({
                       onClick={() => toggleIsResolved(comment)}
                     >
                       <img
+                        alt={comment.resolved ? "Resolved" : "To resolve"}
                         src={comment.resolved ? CheckCircleFull : CheckCircle}
                         height={24}
                         width={24}
@@ -199,7 +207,7 @@ export function CommentsList({
                       p={0}
                       onClick={() => removeComment(comment.id)}
                     >
-                      <img src={Delete} height={24} width={24} />
+                      <img alt="Delete" src={Delete} height={24} width={24} />
                     </Button>
                   </Flex>
                   <CommentBreadcrumbs
