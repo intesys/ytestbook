@@ -25,15 +25,7 @@ import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
 import { TFilterForm } from "./types";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 
-export function CommentsList({
-  testId,
-  stepId,
-  comments,
-  createComment,
-  removeComment,
-  updateCommentResolved,
-  filter,
-}: {
+type CommentsListProps = Readonly<{
   testId?: string;
   stepId?: string;
   comments: TComment[];
@@ -44,7 +36,17 @@ export function CommentsList({
     type: "test" | "step";
     elements: (TTest | TStep)[];
   };
-}) {
+}>;
+
+export function CommentsList({
+  testId,
+  stepId,
+  comments,
+  createComment,
+  removeComment,
+  updateCommentResolved,
+  filter,
+}: CommentsListProps) {
   const params = useParams();
   const project = useProject(params.projectId);
 
@@ -71,6 +73,62 @@ export function CommentsList({
       return options;
     }
   }, [project.data?.collaborators]);
+
+  const toggleIsResolved = (comment: TComment) => {
+    updateCommentResolved(!comment.resolved, comment.id);
+  };
+
+  // Compute select type filter options
+  const filterOptions = useMemo(() => {
+    const options: Record<string, string> = {
+      all: "All texts",
+    };
+
+    filter?.elements.forEach((e) => {
+      if (!options[e.id]) {
+        if ((e as TTest).title) {
+          options[e.id] = (e as TTest).title;
+        } else {
+          options[e.id] = e.description ?? "";
+        }
+      }
+    });
+
+    return Object.entries(options).map((o) => ({
+      label: o[1],
+      value: o[0],
+    }));
+  }, [filter?.elements]);
+
+  // Filter comments by selected filters
+  const filteredComments = useMemo(() => {
+    if (filterForm.values.test === "all" && filterForm.values.showSolved) {
+      return comments;
+    }
+
+    return comments.filter((c) => {
+      const filterProperty: keyof TComment =
+        filter?.type === "test" ? "testId" : "stepId";
+      if (
+        filterForm.values.test &&
+        filterForm.values.test !== "all" &&
+        c[filterProperty] !== filterForm.values.test
+      ) {
+        return false;
+      }
+
+      if (!filterForm.values.showSolved && c.resolved) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [
+    filterForm.values.test,
+    filterForm.values.showSolved,
+    comments,
+    filter?.type,
+  ]);
 
   if (!project.data?.id) {
     return null;
@@ -144,11 +202,10 @@ export function CommentsList({
                       <img src={Delete} height={24} width={24} />
                     </Button>
                   </Flex>
-                  <Text size="sm">
-                    {comment.caseId}{" "}
-                    {comment.testId ? " > " + comment.testId : ""}
-                    {comment.stepId ? " > " + comment.stepId : ""}
-                  </Text>
+                  <CommentBreadcrumbs
+                    projectId={project.data?.id}
+                    comment={comment}
+                  />
                   <Text>{comment.content}</Text>
                 </Flex>
               </Flex>
@@ -180,47 +237,6 @@ export function CommentsList({
           <Button type="submit">Submit</Button>
         </Flex>
       </form>
-      {comments.length === 0 ? (
-        <Text ta={"center"}>There are still no comments here</Text>
-      ) : (
-        <Stack gap={10} mt={40}>
-          {comments.map((comment) => (
-            <Flex key={comment.id} gap={10}>
-              <Avatar alt={comment.username}>
-                {comment.username.split(" ")[0]?.[0]}
-                {comment.username.split(" ")[1]?.[0]}
-              </Avatar>
-              <Flex direction={"column"} gap={12} px={10} py={5}>
-                <Flex gap={17} align="center">
-                  <Text fw={700}>{comment.username}</Text>
-                  <Text size="sm">{parseTimestamp(comment.createdAt)}</Text>
-                  {comment.testStatusWhenCreated && (
-                    <Flex gap={6}>
-                      <Text size="sm">Test status when added: </Text>
-                      <img src={StatusPending} height={24} width={24} />
-                    </Flex>
-                  )}
-                  <Button variant="transparent" p={0}>
-                    <img src={CheckCircle} height={24} width={24} />
-                  </Button>
-                  <Button
-                    variant="transparent"
-                    p={0}
-                    onClick={() => removeComment(comment.id)}
-                  >
-                    <img src={Delete} height={24} width={24} />
-                  </Button>
-                </Flex>
-                <CommentBreadcrumbs
-                  projectId={project.data?.id}
-                  comment={comment}
-                />
-                <Text>{comment.content}</Text>
-              </Flex>
-            </Flex>
-          ))}
-        </Stack>
-      )}
     </>
   );
 }
