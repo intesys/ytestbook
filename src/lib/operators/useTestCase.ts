@@ -62,19 +62,30 @@ export function useTestCase(
         const tc = p?.testCases.find((item) => item.id === caseId);
         if (!tc) return;
 
+        const t = tc?.tests.find((item) => item.id === testId);
+        const s = t?.steps.find((item) => item.id === stepId);
+
         const newComment: TComment = {
           ...values,
           id: crypto.randomUUID(),
           caseId,
           createdAt: date.getTime(),
           resolved: false,
+          testStatusWhenCreated: tc.status,
         };
-        if (testId) newComment.testId = testId;
-        if (stepId) newComment.stepId = stepId;
+        if (testId) {
+          newComment.testId = testId;
+          newComment.testStatusWhenCreated = t?.status;
+        }
+        if (stepId) {
+          newComment.stepId = stepId;
+          newComment.testStatusWhenCreated = s?.status;
+        }
+
         tc.comments.push(newComment);
       });
     },
-    [projectId, caseId],
+    [projectId, caseId, changeDoc],
   );
 
   const updateTest = useCallback(
