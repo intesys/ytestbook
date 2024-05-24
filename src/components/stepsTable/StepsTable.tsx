@@ -1,10 +1,12 @@
 import { Button, Table, Text, ThemeIcon, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import Delete from "../../assets/icons/delete.svg";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../schema";
+import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
@@ -20,6 +22,7 @@ export function StepsTable({
   updateStepStatus: TUseTest["updateStepStatus"];
   removeStep: TUseTest["removeStep"];
 }) {
+  const [stepToRemove, setStepToRemove] = useState<TStep>();
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
 
@@ -30,9 +33,26 @@ export function StepsTable({
     close();
   };
 
+  const closeDeleteModal = () => setStepToRemove(undefined);
+  const applyRemoveStep = () => {
+    if (!stepToRemove) {
+      return;
+    }
+
+    removeStep(stepToRemove.id);
+    closeDeleteModal();
+  };
+
   return (
     <>
       <Title order={4}>Steps</Title>
+
+      <ConfirmDeleteModal
+        close={closeDeleteModal}
+        handleConfirm={applyRemoveStep}
+        opened={!!stepToRemove}
+      />
+
       {steps.length === 0 && !opened ? (
         <Text>The steps list is empty.</Text>
       ) : (
@@ -77,9 +97,13 @@ export function StepsTable({
                   <Button
                     variant="transparent"
                     p={0}
-                    onClick={() => removeStep(step.id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setStepToRemove(step);
+                    }}
                   >
-                    <img src={Delete} />
+                    <img alt="Delete step" src={Delete} />
                   </Button>
                 </Table.Td>
               </Table.Tr>

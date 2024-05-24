@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
 import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
@@ -21,6 +21,7 @@ import StatusPending from "../../assets/icons/status_pending.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
+import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
@@ -49,6 +50,7 @@ export function CommentsList({
 }: CommentsListProps) {
   const params = useParams();
   const project = useProject(params.projectId);
+  const [commentToDelete, setCommentToDelete] = useState<TComment>();
 
   const form = useForm<TCommentDynamicData>({
     initialValues: {
@@ -130,6 +132,15 @@ export function CommentsList({
     filter?.type,
   ]);
 
+  const closeDeleteModal = () => setCommentToDelete(undefined);
+  const applyRemoveComment = () => {
+    if (!commentToDelete?.id) {
+      return;
+    }
+    removeComment(commentToDelete.id);
+    closeDeleteModal();
+  };
+
   if (!project.data?.id) {
     return null;
   }
@@ -137,6 +148,12 @@ export function CommentsList({
   return (
     <>
       <Title order={4}>Notes</Title>
+
+      <ConfirmDeleteModal
+        opened={!!commentToDelete}
+        close={closeDeleteModal}
+        handleConfirm={applyRemoveComment}
+      />
 
       {comments.length === 0 ? (
         <Text ta={"center"}>There are still no notes here</Text>
@@ -205,7 +222,7 @@ export function CommentsList({
                     <Button
                       variant="transparent"
                       p={0}
-                      onClick={() => removeComment(comment.id)}
+                      onClick={() => setCommentToDelete(comment)}
                     >
                       <img alt="Delete" src={Delete} height={24} width={24} />
                     </Button>
