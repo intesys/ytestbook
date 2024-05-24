@@ -132,6 +132,12 @@ export function CommentsList({
     filter?.type,
   ]);
 
+  // Sort comments
+  const computedComments = useMemo(
+    () => filteredComments.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1)),
+    [filteredComments],
+  );
+
   const closeDeleteModal = () => setCommentToDelete(undefined);
   const applyRemoveComment = () => {
     if (!commentToDelete?.id) {
@@ -184,7 +190,7 @@ export function CommentsList({
             </Flex>
           </form>
           <Stack gap={10} mt={40}>
-            {filteredComments.map((comment) => (
+            {computedComments.map((comment) => (
               <Flex key={comment.id} gap={10}>
                 <Avatar alt={comment.username}>
                   {comment.username.split(" ")[0]?.[0]}
