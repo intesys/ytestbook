@@ -136,10 +136,10 @@ export function CommentsList({
 
   return (
     <>
-      <Title order={4}>Comments</Title>
+      <Title order={4}>Notes</Title>
 
       {comments.length === 0 ? (
-        <Text ta={"center"}>There are still no comments here</Text>
+        <Text ta={"center"}>There are still no notes here</Text>
       ) : (
         <Stack>
           <form>
