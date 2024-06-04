@@ -5,9 +5,9 @@ import { useNavigate } from "react-router";
 import AddCircle from "../../assets/icons/add_circle.svg";
 import FileTypeJson from "../../assets/icons/bi_filetype-json.svg";
 import Logo from "../../assets/logo.svg";
-import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { useProjects } from "../../lib/operators/useProjects";
 import { useDocContext } from "../docContext/DocContext";
+import { RelativeDate } from "../relativeDate/RelativeDate";
 import { Action } from "./Action";
 import { CreateTestbookModal } from "./CreateTestbookModal";
 import classes from "./home.module.scss";
@@ -93,14 +93,14 @@ export const Home: React.FC = () => {
                         <Text size="sm">{item.customer}</Text>
                       </Table.Td>
                       <Table.Td>
-                        <Text size="sm">{parseTimestamp(item.createdAt)}</Text>
+                        <Text size="sm">
+                          <RelativeDate timeStamp={item.createdAt} />
+                        </Text>
                       </Table.Td>
 
                       <Table.Td>
                         <Text size="sm">
-                          {item.lastUpdate
-                            ? parseTimestamp(item.lastUpdate)
-                            : "—"}
+                          <RelativeDate timeStamp={item.lastUpdate} />
                         </Text>
                       </Table.Td>
                     </Table.Tr>
