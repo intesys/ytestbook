@@ -10,12 +10,12 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate, useParams } from "react-router";
-import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TTest } from "../../schema";
 import { Avatars } from "../avatars/Avatars";
+import { RelativeDate } from "../relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { Tags } from "../tags/Tags";
@@ -106,7 +106,11 @@ export function TestsTable({
                   </Table.Td>
                   <Table.Td>
                     <Text size="sm">
-                      {test.lastUpdate ? parseTimestamp(test.lastUpdate) : "—"}
+                      {test.lastUpdate ? (
+                        <RelativeDate timeStamp={test.lastUpdate} />
+                      ) : (
+                        "—"
+                      )}
                     </Text>
                   </Table.Td>
                   <Table.Td>

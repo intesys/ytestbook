@@ -1,12 +1,12 @@
 import { Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router";
-import { parseTimestamp } from "../../../../lib/date/parseTimestamp";
 import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
 import { TTest } from "../../../../schema";
 import { Avatars } from "../../../avatars/Avatars";
+import { RelativeDate } from "../../../relativeDate/RelativeDate";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { Tags } from "../../../tags/Tags";
 import { ExpandButton } from "./ExpandButton";
@@ -74,7 +74,7 @@ export const TestRow = ({ openSidebar, project, test }: TestRowProps) => {
           <Tags tags={tags} />
         </Table.Td>
         <Table.Td>
-          {test.lastUpdate ? parseTimestamp(test.lastUpdate) : ""}
+          {test.lastUpdate ? <RelativeDate timeStamp={test.lastUpdate} /> : ""}
         </Table.Td>
         <Table.Td>
           <Avatars assignees={assignees} />
