@@ -1,4 +1,6 @@
 import {
+  Alert,
+  Box,
   Button,
   Flex,
   Loader,
@@ -186,20 +188,30 @@ export function Settings() {
           </Flex>
         </div>
 
-        <div className={classes.delete}>
-          <Title order={4}>Delete project</Title>
-          <Button
-            bg={"red"}
-            leftSection={
-              <ThemeIcon color="white" variant={"transparent"} size={24}>
-                <RiDeleteBin6Line size={24} />
-              </ThemeIcon>
-            }
-            onClick={deleteModalHandlers.open}
-          >
-            Delete
-          </Button>
-        </div>
+        <Alert className={classes.delete} color="red">
+          <Title order={4} mb="sm">
+            Delete Testbook
+          </Title>
+
+          <Text>
+            The Testbook will be permanently deleted. This action is
+            irreversible and can not be undone.
+          </Text>
+
+          <Flex justify="end">
+            <Button
+              bg={"red"}
+              leftSection={
+                <ThemeIcon color="white" variant={"transparent"} size={24}>
+                  <RiDeleteBin6Line size={24} />
+                </ThemeIcon>
+              }
+              onClick={deleteModalHandlers.open}
+            >
+              Delete
+            </Button>
+          </Flex>
+        </Alert>
       </div>
     );
   }
