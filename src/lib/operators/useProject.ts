@@ -9,6 +9,7 @@ import {
   TCollaboratorDynamicData,
   TDocType,
   TStep,
+  TProject,
   TTest,
 } from "../../schema";
 import { removeTuples } from "../helpers/removeTuples";
@@ -101,6 +102,28 @@ export function useProject(projectId: string | undefined): TUseProject {
       return project.statusChanges.filter((s) => s.stepId === stepId);
     },
     [doc?.projects, projectId],
+  );
+
+  const updateProject = useCallback(
+    (data: Partial<Pick<TProject, "title" | "customer" | "description">>) => {
+      if (!projectId) return;
+      changeDoc((d) => {
+        const p = d.projects.find((item) => projectId && item.id === projectId);
+        if (!p) {
+          return;
+        }
+        if (data.title) {
+          p.title = data.title;
+        }
+        if (data.customer) {
+          p.customer = data.customer;
+        }
+        if (data.description) {
+          p.description = data.description;
+        }
+      });
+    },
+    [changeDoc, projectId],
   );
 
   const createTestCase = useCallback(
@@ -289,6 +312,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       updateCollaborator,
       removeCollaborator,
       removeTestCase,
+      updateProject,
     };
   } else {
     return {
@@ -307,6 +331,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       updateCollaborator,
       removeCollaborator,
       removeTestCase,
+      updateProject,
     };
   }
 }

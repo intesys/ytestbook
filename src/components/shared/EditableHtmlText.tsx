@@ -9,11 +9,11 @@ type EditableHtmlText = {
   value?: string;
 };
 
-export const EditableHtmlText: React.FC<EditableHtmlText> = ({
+export const EditableHtmlText = ({
   name,
   onChange,
   value,
-}) => {
+}: EditableHtmlText) => {
   const [editing, handlers] = useDisclosure(false);
   const [internalValue, setInternalValue] = useState<string>(value || "");
 

@@ -46,6 +46,9 @@ export type TUseProject = {
   ) => void;
   removeCollaborator: (id: TCollaborator["id"]) => void;
   removeTestCase: (testCaseId: string) => void;
+  updateProject: (
+    data: Partial<Pick<TProject, "title" | "customer" | "description">>,
+  ) => void;
 } & TOperatorLoader<TProject>;
 
 export type TUseTestCase = {

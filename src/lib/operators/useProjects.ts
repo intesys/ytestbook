@@ -22,18 +22,22 @@ export function useProjects(): TUseProjects {
           testCases: [],
           allTags: [],
           statusChanges: [],
+          description: "",
         });
       });
     },
     [changeDoc],
   );
 
-  const removeProject = useCallback((id: string) => {
-    changeDoc((d) => {
-      const index = d.projects.findIndex((project) => project.id === id);
-      d.projects.splice(index, 1);
-    });
-  }, []);
+  const removeProject = useCallback(
+    (id: string) => {
+      changeDoc((d) => {
+        const index = d.projects.findIndex((project) => project.id === id);
+        d.projects.splice(index, 1);
+      });
+    },
+    [changeDoc],
+  );
 
   if (doc === undefined) {
     return {

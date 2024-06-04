@@ -94,6 +94,7 @@ export type TProject = {
   tagToTest: [string, string][] | undefined;
   collaboratorToTest: [string, string][] | undefined;
   statusChanges: TStatusChange[];
+  description: string;
 } & TProjectDynamicData;
 
 export type TDocType = {
