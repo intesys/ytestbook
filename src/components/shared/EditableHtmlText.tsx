@@ -2,8 +2,9 @@ import { Box, Text } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { RichTextarea } from "./RichTextarea";
+import { isEditableHtmlTextPopupVisible } from "../../lib/helpers/isEditableHtmlTextPopupVisible";
 
-type EditableHtmlText = {
+type EditableHtmlTextProps = {
   name?: string;
   onChange?: (value: string) => void;
   value?: string;
@@ -13,11 +14,15 @@ export const EditableHtmlText = ({
   name,
   onChange,
   value,
-}: EditableHtmlText) => {
+}: EditableHtmlTextProps) => {
   const [editing, handlers] = useDisclosure(false);
-  const [internalValue, setInternalValue] = useState<string>(value || "");
+  const [internalValue, setInternalValue] = useState<string>(value ?? "");
 
   const onExit = () => {
+    if (isEditableHtmlTextPopupVisible()) {
+      return;
+    }
+
     handlers.toggle();
     onChange && onChange(internalValue);
   };

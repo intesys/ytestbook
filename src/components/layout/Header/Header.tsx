@@ -8,6 +8,7 @@ import classes from "./header.module.scss";
 import { EditableHtmlText } from "../../shared/EditableHtmlText";
 import { useProject } from "../../../lib/operators/useProject";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
+import { isEditableHtmlTextPopupVisible } from "../../../lib/helpers/isEditableHtmlTextPopupVisible";
 
 export const Header: React.FC<
   Pick<TProjectDynamicData, "title" | "customer"> & {
@@ -18,7 +19,12 @@ export const Header: React.FC<
   const project = useProject(params.projectId);
   const [isDetailsOpened, detailsActions] = useDisclosure();
 
-  const onExit = () => detailsActions.close();
+  const onExit = () => {
+    if (isEditableHtmlTextPopupVisible()) {
+      return;
+    }
+    detailsActions.close();
+  };
 
   const ref = useClickOutside(onExit);
 
