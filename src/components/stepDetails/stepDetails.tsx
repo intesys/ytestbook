@@ -1,4 +1,4 @@
-import { Button, Flex, Loader, Text } from "@mantine/core";
+import { Button, Flex, Loader, Tabs, Text, Title } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
 import CircleX from "../../assets/icons/circle_x.svg";
 import { routesHelper } from "../../lib/helpers/routesHelper";
@@ -13,6 +13,7 @@ import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepSwitch } from "../stepSwitch/StepSwitch";
 import { ClosestStepsButtons } from "./ClosestStepsButtons";
 import classes from "./stepDetails.module.scss";
+import { StepLog } from "./StepLog";
 
 export const StepDetails = () => {
   const navigate = useNavigate();
@@ -115,16 +116,33 @@ export const StepDetails = () => {
 
       <div className={classes.comments}>
         {testCase.data && test.data && (
-          <CommentsList
-            testId={test.data.id}
-            stepId={step.data.id}
-            comments={testCase.data.comments.filter(
-              (comment) => comment.stepId === step.data.id,
-            )}
-            createComment={testCase.createComment}
-            removeComment={testCase.removeComment}
-            updateCommentResolved={testCase.updateCommentResolved}
-          />
+          <Tabs defaultValue="notes">
+            <Tabs.List mb="md">
+              <Tabs.Tab value="notes" className={classes.tab}>
+                <Title order={4}>Notes</Title>
+              </Tabs.Tab>
+              <Tabs.Tab value="log" className={classes.tab}>
+                <Title order={4}>Log</Title>
+              </Tabs.Tab>
+            </Tabs.List>
+
+            <Tabs.Panel value="notes" pt="xs">
+              <CommentsList
+                testId={test.data.id}
+                stepId={step.data.id}
+                comments={testCase.data.comments.filter(
+                  (comment) => comment.stepId === step.data.id,
+                )}
+                createComment={testCase.createComment}
+                removeComment={testCase.removeComment}
+                updateCommentResolved={testCase.updateCommentResolved}
+                showTitle={false}
+              />
+            </Tabs.Panel>
+            <Tabs.Panel value="log" pt="xs">
+              <StepLog project={project} stepId={step.data.id} />
+            </Tabs.Panel>
+          </Tabs>
         )}
       </div>
     </div>

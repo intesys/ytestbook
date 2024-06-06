@@ -93,8 +93,19 @@ export type TProject = {
     | undefined /**@hribeiro TODO: undefined for compatibility. To be removed */;
   tagToTest: [string, string][] | undefined;
   collaboratorToTest: [string, string][] | undefined;
+  statusChanges: TStatusChange[];
 } & TProjectDynamicData;
 
 export type TDocType = {
   projects: TProject[];
+};
+
+export type TStatusChange = {
+  id: string;
+  caseId: TCase["id"];
+  testId?: TTest["id"];
+  stepId?: TStep["id"];
+  createdAt: number;
+  targetStatus?: StatusEnum;
+  previousStatus?: StatusEnum;
 };

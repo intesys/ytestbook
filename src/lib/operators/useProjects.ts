@@ -8,21 +8,25 @@ export function useProjects(): TUseProjects {
   const { docUrl } = useDocContext();
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
 
-  const createProject = useCallback((values: TProjectDynamicData) => {
-    const date = new Date();
-    changeDoc((d) => {
-      d.projects.push({
-        ...values,
-        id: crypto.randomUUID(),
-        createdAt: date.getTime(),
-        collaborators: [],
-        collaboratorToTest: [],
-        tagToTest: [],
-        testCases: [],
-        allTags: [],
+  const createProject = useCallback(
+    (values: TProjectDynamicData) => {
+      const date = new Date();
+      changeDoc((d) => {
+        d.projects.push({
+          ...values,
+          id: crypto.randomUUID(),
+          createdAt: date.getTime(),
+          collaborators: [],
+          collaboratorToTest: [],
+          tagToTest: [],
+          testCases: [],
+          allTags: [],
+          statusChanges: [],
+        });
       });
-    });
-  }, []);
+    },
+    [changeDoc],
+  );
 
   const removeProject = useCallback((id: string) => {
     changeDoc((d) => {

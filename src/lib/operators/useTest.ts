@@ -46,18 +46,33 @@ export function useTest(
       if (!projectId || !caseId || !testId) return;
       const date = new Date();
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        const t = tc?.tests.find((test) => test.id === testId);
-        const s = t?.steps.find((step) => step.id === stepId);
-        if (!s || !t || !tc || !p) return;
-        s.status = status;
-        computeStatus(t, t.steps);
-        computeStatus(tc, tc.tests);
-        s.lastUpdate = t.lastUpdate = p.lastUpdate = date.getTime();
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        const testCase = project?.testCases.find((item) => item.id === caseId);
+        const test = testCase?.tests.find((test) => test.id === testId);
+        const step = test?.steps.find((step) => step.id === stepId);
+        if (!step || !test || !testCase || !project) return;
+
+        const previousStatus = step.status;
+
+        step.status = status;
+        computeStatus(test, test.steps);
+        computeStatus(testCase, testCase.tests);
+        step.lastUpdate = test.lastUpdate = project.lastUpdate = date.getTime();
+
+        project?.statusChanges.push({
+          id: crypto.randomUUID(),
+          createdAt: date.getTime(),
+          caseId,
+          previousStatus,
+          stepId,
+          targetStatus: status,
+          testId,
+        });
       });
     },
-    [projectId, caseId, testId],
+    [projectId, caseId, testId, changeDoc],
   );
 
   const updateStep = useCallback(

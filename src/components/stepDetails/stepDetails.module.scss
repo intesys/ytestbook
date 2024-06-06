@@ -37,3 +37,14 @@
   gap: 20px;
   grid-column: 1 / span 12;
 }
+
+.tab {
+  color: #3c3c3c;
+  opacity: 0.3;
+
+  &[data-active] {
+    color: #3c3c3c;
+    border-color: #3c3c3c;
+    opacity: 1;
+  }
+}
