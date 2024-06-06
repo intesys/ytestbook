@@ -199,7 +199,9 @@ export function CommentsList({
                   style={{ flexGrow: 1 }}
                 >
                   <Flex gap={17} align="center" justify="space-between">
-                    <Text fw={700}>{comment.username}</Text>
+                    <Text fw={700} miw={130}>
+                      {comment.username}
+                    </Text>
 
                     {comment.testStatusWhenCreated && (
                       <Flex gap={6} align="center">
