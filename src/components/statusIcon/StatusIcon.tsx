@@ -2,6 +2,7 @@ import {
   DefaultMantineColor,
   ThemeIcon,
   ThemeIconVariant,
+  Tooltip,
 } from "@mantine/core";
 import {
   MdCheckCircle,
@@ -14,12 +15,15 @@ import {
 } from "react-icons/md";
 import { getStatusColor } from "../../lib/helpers/getStatusColor";
 import { StatusEnum } from "../../schema";
+import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
+import { useMemo } from "react";
 
 interface IProps {
   status?: StatusEnum;
   size?: number;
   variant?: ThemeIconVariant;
   color?: DefaultMantineColor;
+  showTooltip?: boolean;
 }
 
 export const StatusIcon = ({
@@ -27,56 +31,48 @@ export const StatusIcon = ({
   size = 24,
   variant = "transparent",
   color,
+  showTooltip = true,
 }: IProps) => {
   const statusColor = color ?? getStatusColor(status);
+  const tooltip = getStatusLabel(status);
 
-  switch (status) {
-    case StatusEnum.BLOCKED:
-      return (
-        <ThemeIcon color={statusColor} variant={variant} size={size}>
-          <MdDeleteForever size="1.5rem" />
-        </ThemeIcon>
-      );
+  const statusIcon = useMemo(() => {
+    switch (status) {
+      case StatusEnum.BLOCKED:
+        return <MdDeleteForever size="1.5rem" />;
 
-    case StatusEnum.CANCELLED:
-      return (
-        <ThemeIcon color={statusColor} variant={variant} size={size}>
-          <MdDangerous size="1.5rem" />
-        </ThemeIcon>
-      );
+      case StatusEnum.CANCELLED:
+        return <MdDangerous size="1.5rem" />;
 
-    case StatusEnum.DONE:
-      return (
-        <ThemeIcon color={statusColor} variant={variant} size={size}>
-          <MdCheckCircle size="1.5rem" />
-        </ThemeIcon>
-      );
+      case StatusEnum.DONE:
+        return <MdCheckCircle size="1.5rem" />;
 
-    case StatusEnum.FAIL:
-      return (
-        <ThemeIcon color={statusColor} variant={variant} size={size}>
-          <MdReportProblem size="1.5rem" />
-        </ThemeIcon>
-      );
+      case StatusEnum.FAIL:
+        return <MdReportProblem size="1.5rem" />;
 
-    case StatusEnum.PAUSED:
-      return (
-        <ThemeIcon color={statusColor} variant={variant} size={size}>
-          <MdPauseCircle size="1.5rem" />
-        </ThemeIcon>
-      );
+      case StatusEnum.PAUSED:
+        return <MdPauseCircle size="1.5rem" />;
 
-    case StatusEnum.PENDING:
-      return (
-        <ThemeIcon color={statusColor} variant={variant} size={size}>
-          <MdPending size="1.5rem" />
-        </ThemeIcon>
-      );
+      case StatusEnum.PENDING:
+        return <MdPending size="1.5rem" />;
 
-    case StatusEnum.TODO:
-      return <MdNotStarted size="1.5rem" color={statusColor} />;
+      case StatusEnum.TODO:
+        return <MdNotStarted size="1.5rem" />;
 
-    default:
-      return <MdPending size="1.5rem" color={statusColor} />;
+      default:
+        return <MdPending size="1.5rem" color={statusColor} />;
+    }
+  }, [status, statusColor]);
+
+  const themeIcon = (
+    <ThemeIcon color={statusColor} variant={variant} size={size}>
+      {statusIcon}
+    </ThemeIcon>
+  );
+
+  if (showTooltip) {
+    return <Tooltip label={tooltip}>{themeIcon}</Tooltip>;
   }
+
+  return themeIcon;
 };
