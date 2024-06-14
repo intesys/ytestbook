@@ -58,9 +58,14 @@ export function useTestCase(
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        if (!tc) return;
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        const testCase = project?.testCases.find((item) => item.id === caseId);
+        if (!testCase) return;
+
+        const test = testCase?.tests.find((item) => item.id === testId);
+        const step = test?.steps.find((item) => item.id === stepId);
 
         const newComment: TComment = {
           ...values,
@@ -68,13 +73,21 @@ export function useTestCase(
           caseId,
           createdAt: date.getTime(),
           resolved: false,
+          testStatusWhenCreated: testCase.status,
         };
-        if (testId) newComment.testId = testId;
-        if (stepId) newComment.stepId = stepId;
-        tc.comments.push(newComment);
+        if (testId) {
+          newComment.testId = testId;
+          newComment.testStatusWhenCreated = test?.status;
+        }
+        if (stepId) {
+          newComment.stepId = stepId;
+          newComment.testStatusWhenCreated = step?.status;
+        }
+
+        testCase.comments.push(newComment);
       });
     },
-    [projectId, caseId],
+    [projectId, caseId, changeDoc],
   );
 
   const updateTest = useCallback(

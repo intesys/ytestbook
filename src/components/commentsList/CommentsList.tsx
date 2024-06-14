@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Flex,
+  Group,
   Select,
   Stack,
   Switch,
@@ -17,10 +18,10 @@ import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
 import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
 import Delete from "../../assets/icons/delete.svg";
-import StatusPending from "../../assets/icons/status_pending.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
+import { StatusIcon } from "../statusIcon/StatusIcon";
 import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
@@ -196,43 +197,54 @@ export function CommentsList({
                   {comment.username.split(" ")[0]?.[0]}
                   {comment.username.split(" ")[1]?.[0]}
                 </Avatar>
-                <Flex direction={"column"} gap={12} px={10} py={5}>
-                  <Flex gap={17} align="center">
-                    <Text fw={700}>{comment.username}</Text>
-                    <Text size="sm">
-                      <RelativeDate timeStamp={comment.createdAt} />
+                <Flex
+                  direction={"column"}
+                  gap={12}
+                  px={10}
+                  py={5}
+                  style={{ flexGrow: 1 }}
+                >
+                  <Flex gap={17} align="center" justify="space-between">
+                    <Text fw={700} miw={130}>
+                      {comment.username}
                     </Text>
+
                     {comment.testStatusWhenCreated && (
-                      <Flex gap={6}>
-                        <Text size="sm">Test status when added: </Text>
+                      <Flex gap={6} align="center">
+                        <Text size="sm" fw={500}>
+                          Test status when added:{" "}
+                        </Text>
+
+                        <StatusIcon status={comment.testStatusWhenCreated} />
+                      </Flex>
+                    )}
+                    <Group gap={10}>
+                      <Button
+                        variant="transparent"
+                        p={0}
+                        onClick={() => toggleIsResolved(comment)}
+                      >
                         <img
-                          alt={comment.testStatusWhenCreated}
-                          src={StatusPending}
+                          alt={comment.resolved ? "Resolved" : "To resolve"}
+                          src={comment.resolved ? CheckCircleFull : CheckCircle}
                           height={24}
                           width={24}
                         />
-                      </Flex>
-                    )}
-                    <Button
-                      variant="transparent"
-                      p={0}
-                      onClick={() => toggleIsResolved(comment)}
-                    >
-                      <img
-                        alt={comment.resolved ? "Resolved" : "To resolve"}
-                        src={comment.resolved ? CheckCircleFull : CheckCircle}
-                        height={24}
-                        width={24}
-                      />
-                    </Button>
-                    <Button
-                      variant="transparent"
-                      p={0}
-                      onClick={() => setCommentToDelete(comment)}
-                    >
-                      <img alt="Delete" src={Delete} height={24} width={24} />
-                    </Button>
+                      </Button>
+                      <Button
+                        variant="transparent"
+                        p={0}
+                        onClick={() => setCommentToDelete(comment)}
+                      >
+                        <img alt="Delete" src={Delete} height={24} width={24} />
+                      </Button>
+                    </Group>
                   </Flex>
+
+                  <Text size="sm">
+                    <RelativeDate timeStamp={comment.createdAt} />
+                  </Text>
+
                   <CommentBreadcrumbs
                     projectId={project.data?.id}
                     comment={comment}
