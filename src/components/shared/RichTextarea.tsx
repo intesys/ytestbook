@@ -1,3 +1,4 @@
+import { Text } from "@mantine/core";
 import { Link, RichTextEditor } from "@mantine/tiptap";
 import "@mantine/tiptap/styles.css";
 import Highlight from "@tiptap/extension-highlight";
@@ -7,7 +8,8 @@ import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Text } from "@mantine/core";
+
+export const RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS = "rta-link-dropdown";
 
 export const RichTextarea: React.FC<{
   label?: string;
@@ -38,7 +40,12 @@ export const RichTextarea: React.FC<{
           {label}
         </Text>
       )}
-      <RichTextEditor editor={editor}>
+      <RichTextEditor
+        editor={editor}
+        classNames={{
+          linkEditorDropdown: RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS,
+        }}
+      >
         <RichTextEditor.Toolbar sticky>
           <RichTextEditor.ControlsGroup>
             <RichTextEditor.Bold />
