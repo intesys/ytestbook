@@ -1,5 +1,6 @@
 import { Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { MouseEvent, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
@@ -16,12 +17,14 @@ type TestCaseRowProps = {
   readonly testCase: TCase;
   readonly project: TUseProject;
   openSidebar: () => void;
+  forceExpanded?: boolean;
 };
 
 export function TestCaseRow({
   testCase,
   project,
   openSidebar,
+  forceExpanded = false,
 }: TestCaseRowProps) {
   const allSteps = testCase.tests.reduce((acc, test) => {
     test.steps.forEach((step) => acc.push(step));
@@ -34,12 +37,20 @@ export function TestCaseRow({
 
   const navigate = useNavigate();
 
-  const onExpandToggle = (e: React.MouseEvent) => {
+  const onExpandToggle = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     handlers.toggle();
   };
+
+  useEffect(() => {
+    if (forceExpanded) {
+      handlers.open();
+    } else {
+      handlers.close();
+    }
+  }, [forceExpanded]);
 
   if (!project.data?.id) {
     return null;
@@ -98,6 +109,7 @@ export function TestCaseRow({
               openSidebar={openSidebar}
               project={project}
               test={test}
+              forceExpanded={forceExpanded}
             />
           ))
         : null}
