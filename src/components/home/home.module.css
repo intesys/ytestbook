@@ -25,6 +25,9 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  @media (max-width: $mantine-breakpoint-sm) {
+    text-align: center;
+  }
 }
 
 .jsonImporter {
@@ -112,6 +115,13 @@
 
 .table {
   max-width: 900px;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    td,
+    th {
+      padding: 10px;
+    }
+  }
 }
 
 .tableTitle {

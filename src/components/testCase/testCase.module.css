@@ -4,6 +4,10 @@
   padding: 30px 40px;
   row-gap: 34px;
   width: 100%;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 30px 15px;
+  }
 }
 
 .description {

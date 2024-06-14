@@ -70,13 +70,13 @@ export const TestRow = ({ openSidebar, project, test }: TestRowProps) => {
             />
           </Flex>
         </Table.Td>
-        <Table.Td>
+        <Table.Td className="mantine-visible-from-md">
           <Tags tags={tags} />
         </Table.Td>
-        <Table.Td>
+        <Table.Td className="mantine-visible-from-md">
           {test.lastUpdate ? <RelativeDate timeStamp={test.lastUpdate} /> : ""}
         </Table.Td>
-        <Table.Td>
+        <Table.Td className="mantine-visible-from-md">
           <Avatars assignees={assignees} />
         </Table.Td>
       </Table.Tr>

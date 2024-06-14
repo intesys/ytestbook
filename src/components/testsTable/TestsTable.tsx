@@ -57,13 +57,13 @@ export function TestsTable({
               <Table.Th>
                 <Text fw={"bold"}>Completion</Text>
               </Table.Th>
-              <Table.Th>
+              <Table.Th className="mantine-visible-from-sm">
                 <Text fw={"bold"}>Tags</Text>
               </Table.Th>
-              <Table.Th>
+              <Table.Th className="mantine-visible-from-sm">
                 <Text fw={"bold"}>Last update</Text>
               </Table.Th>
-              <Table.Th>
+              <Table.Th className="mantine-visible-from-sm">
                 <Text fw={"bold"}>Assignees</Text>
               </Table.Th>
             </Table.Tr>
@@ -101,10 +101,10 @@ export function TestsTable({
                       <Text>—</Text>
                     )}
                   </Table.Td>
-                  <Table.Td>
+                  <Table.Td className="mantine-visible-from-sm">
                     <Tags tags={tags} />
                   </Table.Td>
-                  <Table.Td>
+                  <Table.Td className="mantine-visible-from-sm">
                     <Text size="sm">
                       {test.lastUpdate ? (
                         <RelativeDate timeStamp={test.lastUpdate} />
@@ -113,7 +113,7 @@ export function TestsTable({
                       )}
                     </Text>
                   </Table.Td>
-                  <Table.Td>
+                  <Table.Td className="mantine-visible-from-sm">
                     <Avatars assignees={assignees} />
                   </Table.Td>
                 </Table.Tr>

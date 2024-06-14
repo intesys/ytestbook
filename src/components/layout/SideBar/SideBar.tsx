@@ -7,7 +7,7 @@ import { Overview } from "./Overview/Overview";
 import { OverviewHeader } from "./OverviewHeader";
 import { QuickClose } from "./QuickClose";
 import { SIDEBAR_STATUS, navbarConfig } from "./const";
-import classes from "./sideBar.module.scss";
+import classes from "./sideBar.module.css";
 
 export type WithNavbarStatus = {
   status: SIDEBAR_STATUS;

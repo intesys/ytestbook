@@ -16,3 +16,9 @@
   opacity: 0;
   width: 0px;
 }
+
+.content {
+  @media (max-width: $mantine-breakpoint-sm) {
+    flex-direction: column;
+  }
+}

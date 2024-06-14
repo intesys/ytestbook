@@ -12,7 +12,7 @@ import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { TestCaseModal } from "../testCaseModal/TestCaseModal";
 import { TestsTable } from "../testsTable/TestsTable";
-import classes from "./testCase.module.scss";
+import classes from "./testCase.module.css";
 
 export function TestCase() {
   const navigate = useNavigate();

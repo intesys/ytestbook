@@ -1,0 +1,29 @@
+.navbar {
+  background-color: var(--mantine-color-primary-0);
+  height: auto;
+  min-height: 100%;
+  padding: var(--mantine-spacing-lg); /*theme.spacing.lg, */
+  transition: all 0.3s ease-in-out;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    width: 100% !important;
+  }
+}
+
+.navbarHeader {
+  position: relative;
+  color: var(--mantine-color-white);
+  background: var(--background-gradient);
+  border-radius: var(--mantine-radius-md);
+  font-weight: bold;
+}
+/* 
+navbar_links {
+  marginLeft: `calc(${theme.spacing.md} * -1)`,
+  marginRight: `calc(${theme.spacing.md} * -1)`,
+}
+
+navbar_links_inner {
+  paddingTop: theme.spacing.xl,
+  paddingBottom: theme.spacing.xl,
+} */

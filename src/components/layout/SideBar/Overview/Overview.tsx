@@ -33,9 +33,9 @@ export const Overview: React.FC<{
             <Table.Th></Table.Th>
             <Table.Th>Name</Table.Th>
             <Table.Th>Completion</Table.Th>
-            <Table.Th>Tags</Table.Th>
-            <Table.Th>Last update</Table.Th>
-            <Table.Th>Assignees</Table.Th>
+            <Table.Th className="mantine-visible-from-md">Tags</Table.Th>
+            <Table.Th className="mantine-visible-from-md">Last update</Table.Th>
+            <Table.Th className="mantine-visible-from-md">Assignees</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody className={classes.tbody}>

@@ -5,7 +5,7 @@ import { useProject } from "../../lib/operators/useProject";
 import { Header } from "../layout/Header/Header";
 import { SideBar } from "../layout/SideBar/SideBar";
 import { SIDEBAR_STATUS } from "../layout/SideBar/const";
-import classes from "./project.module.scss";
+import classes from "./project.module.css";
 
 export function Project() {
   const params = useParams();
@@ -41,7 +41,7 @@ export function Project() {
             handleSettingsClick={goToSettings}
           />
         </Box>
-        <Flex style={{ flex: 1 }}>
+        <Flex className={classes.content} style={{ flex: 1 }}>
           <Box>
             <SideBar toggle={toggle} status={sidebarStatus} />
           </Box>

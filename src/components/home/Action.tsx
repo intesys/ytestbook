@@ -1,6 +1,6 @@
 import { Text } from "@mantine/core";
 import React from "react";
-import classes from "./home.module.scss";
+import classes from "./home.module.css";
 import { TActionProps } from "./types";
 
 export const Action: React.FC<TActionProps> = ({

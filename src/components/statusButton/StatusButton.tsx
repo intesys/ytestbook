@@ -1,4 +1,4 @@
-import { Button, Text } from "@mantine/core";
+import { Box, Button, Text } from "@mantine/core";
 import ArrowDropdown from "../../assets/icons/arrow_drop_down.svg";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../schema";
@@ -22,10 +22,30 @@ export const StatusButton = ({ step, updateStepStatus }: StatusButtonProps) => {
           variant="light"
           color={statusColor}
           h={45}
-          leftSection={<StatusIcon status={step.status} />}
-          rightSection={<img src={ArrowDropdown} height={24} width={24} />}
+          leftSection={
+            <Box className="mantine-visible-from-md">
+              <StatusIcon status={step.status} />
+            </Box>
+          }
+          rightSection={
+            <img
+              className="mantine-visible-from-md"
+              src={ArrowDropdown}
+              height={24}
+              width={24}
+            />
+          }
         >
-          <Text c={"black"} size="sm" fw={500}>
+          <Box className="mantine-hidden-from-md">
+            <StatusIcon status={step.status} />
+          </Box>
+
+          <Text
+            c={"black"}
+            size="sm"
+            fw={500}
+            className="mantine-visible-from-md"
+          >
             Change
           </Text>
         </Button>

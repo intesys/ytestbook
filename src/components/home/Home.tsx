@@ -9,7 +9,7 @@ import { RelativeDate } from "../relativeDate/RelativeDate";
 import { Action } from "./Action";
 import { CreateTestbookModal } from "./CreateTestbookModal";
 import { JsonImporter } from "./JsonImporter";
-import classes from "./home.module.scss";
+import classes from "./home.module.css";
 
 export const Home: React.FC = () => {
   const projects = useProjects();
