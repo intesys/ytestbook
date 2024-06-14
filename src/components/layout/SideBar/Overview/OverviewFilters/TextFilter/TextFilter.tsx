@@ -1,7 +1,7 @@
 import { TextInput } from "@mantine/core";
-import { useDebounceCallback } from "@mantine/hooks";
+import { useDebouncedCallback } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { TOverviewFilters } from "../../OverviewFilters.tsx";
 
 type TTextFilterProps = {
@@ -10,23 +10,26 @@ type TTextFilterProps = {
 };
 
 export const TextFilter = ({ value, onChange }: TTextFilterProps) => {
-  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(event.target.value);
-    }
-  };
+  const [localValue, setLocalValue] = useState(value);
 
-  const debouncedChangeHandler = useDebounceCallback(
-    changeHandler as unknown as () => void, // Mantine types for onChange are wrpng :(
-    500,
-  );
+  const searchHandle = useDebouncedCallback((value: string) => {
+    if (onChange) {
+      onChange(value);
+    }
+  }, 500);
+
+  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.value;
+    setLocalValue(value);
+    searchHandle(value);
+  };
 
   return (
     <TextInput
-      value={value}
+      value={localValue}
       radius="md"
       placeholder="Search"
-      onChange={debouncedChangeHandler}
+      onChange={changeHandler}
       rightSection={<IconSearch size={20} color="black" />}
       style={{ boxShadow: "0 2px 9px -4px rgba(0,0,0,0.08)" }}
     />
