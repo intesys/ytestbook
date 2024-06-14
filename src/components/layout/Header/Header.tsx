@@ -1,14 +1,15 @@
-import { Box, Button, Collapse, Flex, ThemeIcon } from "@mantine/core";
-import React from "react";
-import { IoSettingsSharp, IoCaretDown, IoCaretUp } from "react-icons/io5";
+import { Box, Button, Collapse, Flex, ThemeIcon, Title } from "@mantine/core";
+import { useClickOutside, useDisclosure } from "@mantine/hooks";
+import clsx from "clsx";
+import React, { useState } from "react";
+import { IoCaretUp, IoSettingsSharp } from "react-icons/io5";
 import { Link, useParams } from "react-router-dom";
 import Logo from "../../../assets/logo.svg";
-import { TProjectDynamicData } from "../../../schema";
-import classes from "./header.module.scss";
-import { EditableHtmlText } from "../../shared/EditableHtmlText";
-import { useProject } from "../../../lib/operators/useProject";
-import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { isEditableHtmlTextPopupVisible } from "../../../lib/helpers/isEditableHtmlTextPopupVisible";
+import { useProject } from "../../../lib/operators/useProject";
+import { TProjectDynamicData } from "../../../schema";
+import { EditableHtmlText } from "../../shared/EditableHtmlText";
+import classes from "./header.module.scss";
 
 export const Header: React.FC<
   Pick<TProjectDynamicData, "title" | "customer"> & {
@@ -19,21 +20,33 @@ export const Header: React.FC<
   const project = useProject(params.projectId);
   const [isDetailsOpened, detailsActions] = useDisclosure();
 
+  const [descriptionTogglerRef, setDescriptionTogglerRef] =
+    useState<HTMLDivElement | null>(null);
+  const [descriptionCollapseRef, setDescriptionCollapseRef] =
+    useState<HTMLDivElement | null>(null);
+
   const onExit = () => {
     if (isEditableHtmlTextPopupVisible()) {
       return;
     }
+
     detailsActions.close();
   };
 
-  const ref = useClickOutside(onExit);
+  // Disable outside also on collapseToggler
+  useClickOutside(onExit, null, [
+    descriptionTogglerRef,
+    descriptionCollapseRef,
+  ]);
 
   const updateDescription = (description: string) =>
     project.updateProject({
       description,
     });
 
-  const toggleDetails = () => detailsActions.toggle();
+  const toggleDetails = () => {
+    detailsActions.toggle();
+  };
 
   return (
     <header className={`${classes.header} ${classes.headerBoxShadow}`}>
@@ -44,9 +57,16 @@ export const Header: React.FC<
       </div>
       <div className={classes.header_title}>
         <Flex align="center" gap={10}>
-          <h4>{title}</h4>
-          <Box display="inline" onClick={toggleDetails}>
-            {isDetailsOpened ? <IoCaretDown /> : <IoCaretUp />}
+          <Title order={4}>{title}</Title>
+          <Box
+            ref={setDescriptionTogglerRef}
+            display="inline"
+            onClick={toggleDetails}
+            className={clsx(classes.descriptionToggler, {
+              [classes.active]: isDetailsOpened,
+            })}
+          >
+            <IoCaretUp />
           </Box>
         </Flex>
         <small>Client: {customer}</small>
@@ -71,7 +91,7 @@ export const Header: React.FC<
         w={"100%"}
         left={0}
         className={classes.headerBoxShadow}
-        ref={ref}
+        ref={setDescriptionCollapseRef}
       >
         <Collapse in={isDetailsOpened}>
           <Box p={20} ml={71}>

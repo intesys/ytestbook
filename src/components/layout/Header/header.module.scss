@@ -46,3 +46,18 @@
     0 10px 15px -5px rgba(0, 0, 0, 0.05),
     0 7px 7px -5px rgba(0, 0, 0, 0.04);
 }
+
+.descriptionToggler {
+  margin-top: 5px;
+  cursor: pointer;
+
+  svg {
+    transform: rotateX(180deg);
+    transform-origin: center;
+    transition: transform 0.4s;
+  }
+}
+
+.descriptionToggler.active svg {
+  transform: rotateX(0deg);
+}

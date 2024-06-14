@@ -107,19 +107,21 @@ export function useProject(projectId: string | undefined): TUseProject {
   const updateProject = useCallback(
     (data: Partial<Pick<TProject, "title" | "customer" | "description">>) => {
       if (!projectId) return;
-      changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        if (!p) {
+      changeDoc((doc) => {
+        const project = doc.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        if (!project) {
           return;
         }
         if (data.title) {
-          p.title = data.title;
+          project.title = data.title;
         }
         if (data.customer) {
-          p.customer = data.customer;
+          project.customer = data.customer;
         }
         if (data.description) {
-          p.description = data.description;
+          project.description = data.description;
         }
       });
     },
