@@ -1,0 +1,78 @@
+.root{
+}
+.button{
+    padding-left: rem(10px);
+    padding-right: rem(10px);
+    border: 0;
+
+
+    &:first-child{
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    &:last-child{
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+    }
+
+    &:not(:first-child){
+        border-left: 1px solid #D3D9F6;
+    }
+
+    &:not(:first-child, :last-child) {
+        border-radius: 0;
+    }
+}
+
+.buttonActive{
+    background-color: var(--mantine-primary-color-6);
+    color: var(--mantine-color-white);
+
+    border-top: 1px solid var(--mantine-primary-color-7);
+    border-bottom: 1px solid var(--mantine-primary-color-7);
+    &:first-child{
+        border-left: 1px solid var(--mantine-primary-color-7);
+        border-right: 0;
+    }
+
+    &:last-child{
+        border-right: 1px solid var(--mantine-primary-color-7);
+        border-left: 0;
+    }
+
+    &:not(:first-child){
+        border-left: 1px solid var(--mantine-primary-color-7);
+    }
+
+    @mixin hover {
+        background-color: var(--mantine-primary-color-7) ;
+        color: var(--mantine-color-white);
+    }
+}
+.buttonInactive{
+    background-color: var(--mantine-color-white);
+    color: var(--mantine-color-indigo-6);
+
+    @mixin hover {
+        background-color: var(--mantine-color-gray-1) ;
+        color: var(--mantine-color-indigo-6);
+    }
+
+    border-top: 1px solid var(--mantine-color-default-border);
+    border-bottom: 1px solid var(--mantine-color-default-border);
+    &:first-child{
+        border-left: 1px solid var(--mantine-color-default-border);
+        border-right: 0;
+    }
+
+    &:last-child{
+        border-right: 1px solid var(--mantine-color-default-border);
+        border-left: 0;
+    }
+
+    &:not(:first-child){
+        border-left: 1px solid var(--mantine-color-default-border);
+    }
+
+}
