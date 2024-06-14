@@ -8,6 +8,7 @@ import { OverviewHeader } from "./OverviewHeader";
 import { QuickClose } from "./QuickClose";
 import { SIDEBAR_STATUS, navbarConfig } from "./const";
 import classes from "./sideBar.module.css";
+import clsx from "clsx";
 
 export type WithNavbarStatus = {
   status: SIDEBAR_STATUS;
@@ -57,19 +58,27 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
           ? navbarConfig[status as SIDEBAR_STATUS]
           : navbarConfig[SIDEBAR_STATUS.OPEN],
       }}
-      className={classes.navbar}
+      className={clsx(classes.navbar)}
     >
-      <Box className={classes.navbarHeader}>
+      <Box
+        className={clsx(classes.navbarHeader, {
+          fullscreen: status === SIDEBAR_STATUS.FULLSCREEN,
+          open: status === SIDEBAR_STATUS.OPEN,
+          [classes.collapsed]: status === SIDEBAR_STATUS.COLLAPSED,
+        })}
+      >
         <Group>
           <OverviewHeader toggle={toggle} status={status} />
           <QuickClose toggle={toggle} status={status} />
         </Group>
       </Box>
-      <Box mt={25}>
+      <Box>
         {status === SIDEBAR_STATUS.FULLSCREEN ? (
           <Overview toggle={toggle} />
         ) : status === SIDEBAR_STATUS.OPEN ? (
-          <Menu activeCaseId={activeCaseId} activeTestId={activeTestId} />
+          <Box mt={25}>
+            <Menu activeCaseId={activeCaseId} activeTestId={activeTestId} />
+          </Box>
         ) : null}
       </Box>
     </Box>

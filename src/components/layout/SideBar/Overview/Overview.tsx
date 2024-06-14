@@ -27,7 +27,12 @@ export const Overview: React.FC<{
 
   return (
     <>
-      <Table verticalSpacing={10} horizontalSpacing={20} borderColor="#eaefff">
+      <Table
+        verticalSpacing={10}
+        horizontalSpacing={20}
+        borderColor="#eaefff"
+        mt={25}
+      >
         <Table.Thead bg={"#eaefff"}>
           <Table.Tr>
             <Table.Th></Table.Th>

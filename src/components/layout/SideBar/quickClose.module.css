@@ -1,6 +1,10 @@
 .navbarToogle {
   right: -34px;
   position: absolute;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    right: -40px;
+  }
 }
 
 .navbarToogleInner {

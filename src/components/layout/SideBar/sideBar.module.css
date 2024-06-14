@@ -16,7 +16,18 @@
   background: var(--background-gradient);
   border-radius: var(--mantine-radius-md);
   font-weight: bold;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    width: calc(100% - 35px);
+  }
 }
+
+.navbarHeader.collapsed {
+  @media (max-width: $mantine-breakpoint-sm) {
+    width: fit-content;
+  }
+}
+
 /* 
 navbar_links {
   marginLeft: `calc(${theme.spacing.md} * -1)`,

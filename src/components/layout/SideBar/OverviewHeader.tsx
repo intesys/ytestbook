@@ -1,4 +1,4 @@
-import { Group, ThemeIcon } from "@mantine/core";
+import { Group, ThemeIcon, Text } from "@mantine/core";
 import React from "react";
 import {
   MdOutlineRemoveRedEye,
@@ -7,7 +7,7 @@ import {
 } from "react-icons/md";
 import { WithNavbarStatus } from "./SideBar";
 import { SIDEBAR_STATUS } from "./const";
-import classes from "./overviewHeader.module.scss";
+import classes from "./overviewHeader.module.css";
 
 export const OverviewHeader: React.FC<WithNavbarStatus> = ({
   status,
@@ -32,6 +32,10 @@ export const OverviewHeader: React.FC<WithNavbarStatus> = ({
         <ThemeIcon size="xl" color="transparent" className={classes.icon}>
           <MdOutlineRemoveRedEye />
         </ThemeIcon>
+        <Text hiddenFrom="sm" fw="bold">
+          OVERVIEW
+        </Text>
+        <ThemeIcon size="xl" color="transparent" />
       </Group>
     );
   }
