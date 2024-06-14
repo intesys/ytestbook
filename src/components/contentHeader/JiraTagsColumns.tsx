@@ -1,5 +1,5 @@
 import { TJiraTagsColumns } from "./types";
-import classes from "./contentHeader.module.scss";
+import classes from "./contentHeader.module.css";
 import JiraIcon from "../../assets/icons/cib_jira.svg";
 import { Anchor, Badge, Flex, Text } from "@mantine/core";
 

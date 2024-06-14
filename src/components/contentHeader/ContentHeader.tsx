@@ -5,7 +5,7 @@ import { Avatars } from "../avatars/Avatars";
 import { EditableText } from "../shared/EditableText";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { JiraTagsColumns } from "./JiraTagsColumns";
-import classes from "./contentHeader.module.scss";
+import classes from "./contentHeader.module.css";
 import { TContentHeader } from "./types";
 
 export function ContentHeader({

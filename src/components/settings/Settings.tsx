@@ -21,7 +21,7 @@ import { useProjects } from "../../lib/operators/useProjects";
 import { TCollaborator, TCollaboratorDynamicData } from "../../schema";
 import { CollaboratorModal } from "../collaboratorModal/CollaboratorModal";
 import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
-import classes from "./settings.module.scss";
+import classes from "./settings.module.css";
 
 export function Settings() {
   const params = useParams();
@@ -98,17 +98,20 @@ export function Settings() {
             <Text mt={16}>The list is empty</Text>
           ) : (
             <Table
-              verticalSpacing={10}
-              horizontalSpacing={20}
+              verticalSpacing={"sm"}
+              horizontalSpacing={"sm"}
               withTableBorder
               mt={16}
             >
               <Table.Thead>
                 <Table.Tr>
-                  <Table.Th>
+                  <Table.Th visibleFrom="sm">
                     <Text fw={"bold"}>Name</Text>
                   </Table.Th>
                   <Table.Th>
+                    <Text fw={"bold"} hiddenFrom="sm">
+                      Name
+                    </Text>
                     <Text fw={"bold"}>Email</Text>
                   </Table.Th>
                   <Table.Th>
@@ -122,10 +125,15 @@ export function Settings() {
               <Table.Tbody>
                 {collaborators.map((collaborator) => (
                   <Table.Tr key={collaborator.id}>
-                    <Table.Td>
-                      <Text size="sm">{collaborator.name}</Text>
+                    <Table.Td visibleFrom="sm">
+                      <Text size="sm" visibleFrom="sm">
+                        {collaborator.name}
+                      </Text>
                     </Table.Td>
                     <Table.Td>
+                      <Text size="sm" hiddenFrom="sm" mb="xs">
+                        {collaborator.name}
+                      </Text>
                       <Text size="sm">{collaborator.email}</Text>
                     </Table.Td>
                     <Table.Td>

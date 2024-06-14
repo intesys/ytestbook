@@ -1,11 +1,14 @@
-.stepDetails {
+.testDetails {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   padding: 30px 40px;
   row-gap: 34px;
   width: 100%;
-  background-color: var(--mantine-color-gray-0);
   align-content: start;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 30px 15px;
+  }
 }
 
 .backButton {
@@ -16,19 +19,12 @@
   grid-column: 1 / span 12;
 }
 
-.stepSwitch {
-  grid-column: 1 / span 12;
-}
-
-.closestSteps {
-  grid-column: 1 / span 12;
-}
-
 .steps {
   display: flex;
   flex-direction: column;
   gap: 20px;
   grid-column: 1 / span 12;
+  flex-grow: 1;
 }
 
 .comments {
@@ -36,15 +32,4 @@
   flex-direction: column;
   gap: 20px;
   grid-column: 1 / span 12;
-}
-
-.tab {
-  color: #3c3c3c;
-  opacity: 0.3;
-
-  &[data-active] {
-    color: #3c3c3c;
-    border-color: #3c3c3c;
-    opacity: 1;
-  }
 }

@@ -12,7 +12,7 @@ import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepsTable } from "../stepsTable/StepsTable";
 import { TestModal } from "../testModal/TestModal";
-import classes from "./testDetails.module.scss";
+import classes from "./testDetails.module.css";
 import { CommentsList } from "../commentsList/CommentsList";
 
 export function TestDetails() {

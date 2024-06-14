@@ -9,6 +9,7 @@
 .headerTop {
   display: flex;
   justify-content: space-between;
+  gap: var(--mantine-spacing-sm);
 }
 
 .headerLeft {
@@ -21,6 +22,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  @media (max-width: $mantine-breakpoint-sm) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--mantine-spacing-sm);
+  }
 }
 .jiraLink {
   display: flex;

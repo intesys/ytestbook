@@ -14,6 +14,7 @@ export const QuickClose: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
       onClick={() => toggle(SIDEBAR_STATUS.COLLAPSED)}
       className={classes.navbarToogle}
       title="Collapse sidebar"
+      visibleFrom="sm"
     >
       <ThemeIcon
         radius="xl"

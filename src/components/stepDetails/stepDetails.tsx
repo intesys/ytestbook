@@ -12,7 +12,7 @@ import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepSwitch } from "../stepSwitch/StepSwitch";
 import { ClosestStepsButtons } from "./ClosestStepsButtons";
-import classes from "./stepDetails.module.scss";
+import classes from "./stepDetails.module.css";
 import { StepLog } from "./StepLog";
 
 export const StepDetails = () => {

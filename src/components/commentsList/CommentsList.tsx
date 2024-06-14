@@ -10,6 +10,7 @@ import {
   Text,
   Textarea,
   Title,
+  VisuallyHidden,
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
@@ -206,11 +207,18 @@ export function CommentsList({
                   py={5}
                   style={{ flexGrow: 1 }}
                 >
-                  <Flex gap={17} align="center" justify="space-between">
+                  <Flex
+                    gap={{ base: 5, md: 17 }}
+                    align={{ base: "flex-start", md: "center" }}
+                    justify="space-between"
+                    direction={{
+                      base: "column",
+                      md: "row",
+                    }}
+                  >
                     <Text fw={700} miw={130}>
                       {comment.username}
                     </Text>
-
                     {comment.testStatusWhenCreated && (
                       <Flex gap={6} align="center">
                         <Text size="sm" fw={500}>
@@ -220,6 +228,7 @@ export function CommentsList({
                         <StatusIcon status={comment.testStatusWhenCreated} />
                       </Flex>
                     )}
+
                     <Group gap={10}>
                       <Button
                         variant="transparent"
