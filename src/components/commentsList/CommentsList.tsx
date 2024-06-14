@@ -38,6 +38,7 @@ type CommentsListProps = Readonly<{
     type: "test" | "step";
     elements: (TTest | TStep)[];
   };
+  showTitle?: boolean;
 }>;
 
 export function CommentsList({
@@ -48,6 +49,7 @@ export function CommentsList({
   removeComment,
   updateCommentResolved,
   filter,
+  showTitle = true,
 }: CommentsListProps) {
   const params = useParams();
   const project = useProject(params.projectId);
@@ -154,7 +156,7 @@ export function CommentsList({
 
   return (
     <>
-      <Title order={4}>Notes</Title>
+      {showTitle ? <Title order={4}>Notes</Title> : null}
 
       <ConfirmDeleteModal
         opened={!!commentToDelete}

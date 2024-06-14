@@ -7,6 +7,7 @@ import {
   TCommentDynamicData,
   TProject,
   TProjectDynamicData,
+  TStatusChange,
   TStep,
   TStepDynamicData,
   TTest,
@@ -33,6 +34,7 @@ export type TUseProject = {
   getTagsByCaseId: (caseId: TCase["id"]) => string[];
   getAssigneesByTestId: (testId: TTest["id"]) => TCollaborator[];
   getAssigneesByCaseId: (caseId: TCase["id"]) => TCollaborator[];
+  getStatusChangesByStepId: (stepId: TStep["id"]) => TStatusChange[];
   createTestCase: (values: TCaseDynamicData) => void;
   createCollaborator: (newCollaborator: TCollaboratorDynamicData) => void;
   updateTestCase: (values: TCaseDynamicData, caseId: string) => void;
