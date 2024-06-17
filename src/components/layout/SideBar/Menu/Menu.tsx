@@ -1,11 +1,9 @@
-import { Anchor, Flex, List, Text } from "@mantine/core";
+import { List } from "@mantine/core";
 import classnames from "classnames";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useProject } from "../../../../lib/operators/useProject";
-import { StatusIcon } from "../../../statusIcon/StatusIcon";
-import { Trail } from "../../../trail/Trail";
-import classes from "./styles.module.scss";
 import { TestCasesList } from "../../../testCasesList";
+import classes from "./styles.module.scss";
 
 export const Menu: React.FC<{ activeCaseId: string; activeTestId: string }> = ({
   activeCaseId,

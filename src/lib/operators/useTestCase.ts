@@ -36,8 +36,8 @@ export function useTestCase(
         /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
         if (!p.collaboratorToTest) p.collaboratorToTest = [];
         values.tags.forEach((tag) => p.tagToTest?.push([tag, testId]));
-        values.assignees.forEach(
-          (assigneeId) => p.collaboratorToTest?.push([assigneeId, testId]),
+        values.assignees.forEach((assigneeId) =>
+          p.collaboratorToTest?.push([assigneeId, testId]),
         );
         tc?.tests.push({
           title: values.title,
@@ -50,7 +50,7 @@ export function useTestCase(
         });
       });
     },
-    [projectId, caseId],
+    [projectId, caseId, changeDoc],
   );
 
   const createComment = useCallback(
@@ -125,7 +125,7 @@ export function useTestCase(
         t.lastUpdate = date.getTime();
       });
     },
-    [projectId, caseId],
+    [projectId, caseId, changeDoc],
   );
 
   const updateTestDescription = useCallback(
@@ -141,7 +141,7 @@ export function useTestCase(
         t.lastUpdate = p.lastUpdate = date.getTime();
       });
     },
-    [projectId, caseId],
+    [projectId, caseId, changeDoc],
   );
 
   const updateTestStatus = useCallback(
@@ -157,7 +157,7 @@ export function useTestCase(
         t.lastUpdate = p.lastUpdate = date.getTime();
       });
     },
-    [projectId, caseId],
+    [projectId, caseId, changeDoc],
   );
 
   const removeTest = useCallback(
@@ -171,7 +171,7 @@ export function useTestCase(
         removeTuples(p.tagToTest || [], (tuple) => tuple[1] === testId);
       });
     },
-    [projectId, caseId],
+    [changeDoc, projectId, caseId],
   );
 
   const removeComment = useCallback(
@@ -186,7 +186,7 @@ export function useTestCase(
         delete tc.comments[index];
       });
     },
-    [projectId, caseId],
+    [changeDoc, projectId, caseId],
   );
 
   const updateCommentResolved = useCallback(
@@ -202,7 +202,7 @@ export function useTestCase(
         comment.resolved = isResolved;
       });
     },
-    [projectId, caseId],
+    [changeDoc, projectId, caseId],
   );
 
   if (testCase === undefined) {

@@ -38,7 +38,7 @@ export function useTest(
         t.lastUpdate = p.lastUpdate = date.getTime();
       });
     },
-    [projectId, caseId, testId],
+    [projectId, caseId, testId, changeDoc],
   );
 
   const updateStepStatus = useCallback(
@@ -92,7 +92,7 @@ export function useTest(
         s.lastUpdate = t.lastUpdate = p.lastUpdate = date.getTime();
       });
     },
-    [projectId, caseId],
+    [projectId, caseId, testId, changeDoc],
   );
 
   const removeStep = useCallback(
@@ -106,7 +106,7 @@ export function useTest(
         delete t.steps[index];
       });
     },
-    [projectId, caseId, testId],
+    [changeDoc, projectId, caseId, testId],
   );
 
   if (test === undefined) {

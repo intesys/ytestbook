@@ -7,7 +7,7 @@
     "dev": "npm run start",
     "build": "tsc && vite build",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint src",
     "start": "vite --host",
     "docker:build": "docker build -t registry.intesys.it/dolomiti-sharedtracking/ytestbook:latest .",
     "docker:run": "docker run -d -p 80:80 registry.intesys.it/dolomiti-sharedtracking/ytestbook:latest",

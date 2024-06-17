@@ -146,7 +146,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         });
       });
     },
-    [projectId],
+    [changeDoc, projectId],
   );
 
   const createCollaborator = useCallback(
@@ -166,7 +166,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         p.lastUpdate = date.getTime();
       });
     },
-    [projectId],
+    [changeDoc, projectId],
   );
 
   const updateTestCase = useCallback(
@@ -184,7 +184,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         tc.lastUpdate = date.getTime();
       });
     },
-    [projectId],
+    [changeDoc, projectId],
   );
 
   const updateTestCaseStatus = useCallback(
@@ -199,7 +199,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         p.lastUpdate = date.getTime();
       });
     },
-    [projectId],
+    [changeDoc, projectId],
   );
 
   const updateAllTags = useCallback(
@@ -238,7 +238,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         p.lastUpdate = date.getTime();
       });
     },
-    [projectId],
+    [changeDoc, projectId],
   );
 
   const updateCollaborator = useCallback(
@@ -258,7 +258,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         p.lastUpdate = date.getTime();
       });
     },
-    [projectId],
+    [changeDoc, projectId],
   );
 
   const removeCollaborator = useCallback(
@@ -280,7 +280,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         p.lastUpdate = date.getTime();
       });
     },
-    [projectId],
+    [changeDoc, projectId],
   );
 
   const removeTestCase = useCallback(
@@ -294,7 +294,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         delete p.testCases[index];
       });
     },
-    [projectId],
+    [changeDoc, projectId],
   );
 
   if (project === undefined) {

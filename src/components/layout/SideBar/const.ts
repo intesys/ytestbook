@@ -1,4 +1,3 @@
-
 export enum SIDEBAR_STATUS {
   COLLAPSED = "collapsed",
   OPEN = "open",
