@@ -11,9 +11,10 @@ import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepsTable } from "../stepsTable/StepsTable";
-import { TestModal } from "../testModal/TestModal";
+import { TestModal } from "../modals/testModal/TestModal";
 import classes from "./testDetails.module.css";
 import { CommentsList } from "../commentsList/CommentsList";
+import { openContextModal } from "@mantine/modals";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ export function TestDetails() {
   } else {
     return (
       <div className={classes.testDetails}>
-        <TestModal
+        {/* <TestModal
           id={test.data.id}
           initialValues={{
             title: test.data.title,
@@ -74,7 +75,7 @@ export function TestDetails() {
           opened={opened}
           close={close}
           handleSubmit={testCase.updateTest}
-        />
+        /> */}
         <ConfirmDeleteModal
           opened={deleteModalOpened}
           close={deleteModalHandlers.close}
@@ -109,7 +110,25 @@ export function TestDetails() {
           tags={queriedData?.tags || []}
           assignees={queriedData?.assignees || []}
           completion={completion}
-          handleEditClick={open}
+          handleEditClick={() =>
+            openContextModal({
+              modal: "testModal",
+              title: "Edit Test",
+              size: "xl",
+              innerProps: {
+                projectId: project.data?.id ?? "",
+                id: test.data.id,
+                initialValues: {
+                  title: test.data.title,
+                  description: test.data.description || "",
+                  tags: queriedData?.tags || [],
+                  assignees:
+                    queriedData?.assignees.map((assignee) => assignee.id) || [],
+                },
+                handleSubmit: testCase.updateTest,
+              },
+            })
+          }
           handleDeleteClick={deleteModalHandlers.open}
           handleQuickEdit={handleQuickEdit}
         />

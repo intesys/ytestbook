@@ -6,18 +6,8 @@ export type TActionProps = {
 };
 
 export type TModalProps<T> = {
-  title: string;
-  opened: boolean;
-  close: () => void;
-} & (
-  | {
-      id: string;
-      initialValues: Required<T>;
-      handleSubmit: (values: T, id: string) => void;
-    }
-  | {
-      id?: undefined;
-      initialValues?: undefined;
-      handleSubmit: (values: T) => void;
-    }
-);
+  projectId: string;
+  id?: string;
+  initialValues?: Required<T>;
+  handleSubmit: (values: T, id?: string) => void;
+};

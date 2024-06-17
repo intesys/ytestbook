@@ -16,6 +16,7 @@ import { MainNavigation } from "./Navigation";
 import { DocProvider } from "./components/docContext/DocContext";
 import { theme } from "./theme";
 import "./theme.scss";
+import { modals } from "./components/modals/modals";
 
 const repo = new Repo({
   network: [
@@ -36,13 +37,13 @@ root.render(
       <Notifications position="top-right" zIndex={1000} />
       <RepoContext.Provider value={repo}>
         <BrowserRouter>
-          <ModalsProvider>
-            <DatesProvider settings={{ locale: "it" }}>
-              <DocProvider>
+          <DocProvider>
+            <ModalsProvider modals={modals}>
+              <DatesProvider settings={{ locale: "it" }}>
                 <MainNavigation />
-              </DocProvider>
-            </DatesProvider>
-          </ModalsProvider>
+              </DatesProvider>
+            </ModalsProvider>
+          </DocProvider>
         </BrowserRouter>
       </RepoContext.Provider>
     </MantineProvider>
