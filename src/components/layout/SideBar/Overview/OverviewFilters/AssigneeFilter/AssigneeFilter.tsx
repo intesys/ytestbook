@@ -1,34 +1,89 @@
-import { Button, Popover } from "@mantine/core";
+import { ActionIcon, Button, Group, Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { IconX } from "@tabler/icons-react";
+import { MouseEvent, useCallback } from "react";
 import { TCollaborator } from "../../../../../../schema.ts";
+import { AssigneeSelectList } from "../../../../../shared/AssigneeSelectList/AssigneeSelectList.tsx";
+import { CollaboratorAvatar } from "../../../../../shared/CollaboratorAvatar.tsx";
 import { SpinningCaret } from "../../../../../shared/SpinningCaret/SpinningCaret.tsx";
 
 export type TAssigneeFilterProps = {
   value: TCollaborator | null;
   onChange?: (value: TCollaborator | null) => void;
+  options?: TCollaborator[];
 };
 
-export const AssigneeFilter = ({ value, onChange }: TAssigneeFilterProps) => {
+export const AssigneeFilter = ({
+  value,
+  onChange,
+  options = [],
+}: TAssigneeFilterProps) => {
   const [opened, { toggle }] = useDisclosure(false);
+
+  const changeHandler = useCallback(
+    (value: TCollaborator | null) => {
+      toggle();
+
+      if (onChange) {
+        onChange(value);
+      }
+    },
+    [toggle, onChange],
+  );
+
+  const clearFilterHandler = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+
+      if (onChange) {
+        onChange(null);
+      }
+    },
+    [onChange],
+  );
+
+  const deleteButton = (
+    <ActionIcon
+      color="red"
+      variant="subtle"
+      size="sm"
+      onClick={clearFilterHandler}
+    >
+      <IconX size={14} />
+    </ActionIcon>
+  );
 
   return (
     <Popover radius="lg" opened={opened} onChange={toggle}>
       <Popover.Target>
         <Button
-          w={150}
+          miw={180}
           justify="space-between"
           radius="md"
           color="indigo"
           variant="white"
-          rightSection={<SpinningCaret opened={opened} />}
+          rightSection={
+            value === null ? <SpinningCaret opened={opened} /> : deleteButton
+          }
           onClick={toggle}
           style={{ boxShadow: "0 2px 9px -4px rgba(0,0,0,0.08)" }}
         >
-          Assignee
+          {value === null ? (
+            "Assignee"
+          ) : (
+            <Group wrap="nowrap" gap="xs">
+              <CollaboratorAvatar collaborator={value} size="sm" />
+              <span>{value.name}</span>
+            </Group>
+          )}
         </Button>
       </Popover.Target>
       <Popover.Dropdown p="sm">
-        ASSIGNEE {value ? value : null}
+        <AssigneeSelectList
+          options={options}
+          value={value}
+          onChange={changeHandler}
+        />
       </Popover.Dropdown>
     </Popover>
   );

@@ -21,7 +21,7 @@ export const Overview: FC<{
   const initialFilters: TOverviewFilters = {
     textFilter: "",
     statusFilter: [],
-    tagsFilter: ["UI"],
+    tagsFilter: [],
     assigneeFilter: null,
   };
 

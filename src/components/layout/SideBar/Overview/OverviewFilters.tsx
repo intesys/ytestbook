@@ -1,5 +1,7 @@
 import { Group } from "@mantine/core";
 import { Dispatch, SetStateAction, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import { useProject } from "../../../../lib/operators/useProject.ts";
 import { StatusEnum, TCollaborator } from "../../../../schema.ts";
 import { AssigneeFilter } from "./OverviewFilters/AssigneeFilter/AssigneeFilter.tsx";
 import { StatusFilter } from "./OverviewFilters/StatusFilter/StatusFilter.tsx";
@@ -19,6 +21,9 @@ type Props = {
 };
 
 export const OverviewFilters = ({ filters, setFilters }: Props) => {
+  const params = useParams();
+  const project = useProject(params.projectId);
+
   const changeTextFilterHandler = useCallback(
     (value: TOverviewFilters["textFilter"]) => {
       setFilters((filters) => ({
@@ -72,37 +77,12 @@ export const OverviewFilters = ({ filters, setFilters }: Props) => {
       <TagsFilter
         values={filters.tagsFilter}
         onChange={changeTagsFilterHandler}
-        options={[
-          "Backend",
-          "Frontend",
-          "UI",
-          "UX",
-          "Devops",
-          "Category1",
-          "Category2",
-          "Category3",
-          "Category4",
-          "Category5",
-          "Category6",
-          "Category7",
-          "Category8",
-          "Category9",
-          "Category10",
-          "Category11",
-          "Category12",
-          "Category13",
-          "Category14",
-          "Category15",
-          "Category16",
-          "Category17",
-          "Category18",
-          "Category19",
-          "Category20",
-        ]}
+        options={project.data?.allTags ?? []}
       />
       <AssigneeFilter
         value={filters.assigneeFilter}
         onChange={changeAssigneeFilterHandler}
+        options={project.data?.collaborators ?? []}
       />
     </Group>
   );

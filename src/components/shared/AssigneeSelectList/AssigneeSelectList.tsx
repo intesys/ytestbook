@@ -1,5 +1,4 @@
 import {
-  Checkbox,
   Combobox,
   Group,
   ScrollArea,
@@ -10,47 +9,51 @@ import {
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
+import { TCollaborator } from "../../../schema.ts";
+import { CollaboratorAvatar } from "../CollaboratorAvatar.tsx";
 
-export type TSelectList = {
-  values: string[];
-  options: string[];
-  onChange?: (values: string[]) => void;
-};
-export function SelectList({ options = [], values, onChange }: TSelectList) {
+interface TAssigneeSelectList {
+  value: TCollaborator | null;
+  options: TCollaborator[];
+  onChange?: (value: TCollaborator) => void;
+}
+
+export const AssigneeSelectList = ({
+  value,
+  onChange,
+  options = [],
+}: TAssigneeSelectList) => {
   const combobox = useCombobox();
 
   const [search, setSearch] = useState("");
 
   const handleValueSelect = (selectedValue: string) => {
-    const newState = values.includes(selectedValue)
-      ? values.filter((v) => v !== selectedValue)
-      : [...values, selectedValue];
+    const foundCollaborator = options.find(
+      (collaborator: TCollaborator) => collaborator.id === selectedValue,
+    );
 
-    if (onChange) {
-      onChange(newState);
+    if (onChange && foundCollaborator) {
+      onChange(foundCollaborator);
     }
   };
 
   const optionsList = options
-    .filter((item) => item.toLowerCase().includes(search.toLowerCase().trim()))
-    .map((item, index) => (
+    .filter((item) =>
+      item.name.toLowerCase().includes(search.toLowerCase().trim()),
+    )
+    .map((item) => (
       <Combobox.Option
-        value={item}
-        key={`${index}-${item}`}
-        active={values.includes(item)}
+        value={item.id}
+        key={item.id}
+        active={value === item}
         onMouseOver={() => combobox.resetSelectedOption()}
+        bg={value === item ? "indigo.1" : undefined}
         maw={250}
       >
-        <Group gap="sm" wrap="nowrap">
-          <Checkbox
-            checked={values.includes(item)}
-            onChange={() => {}}
-            aria-hidden
-            tabIndex={-1}
-            style={{ pointerEvents: "none" }}
-          />
+        <Group gap="xs" wrap="nowrap">
+          <CollaboratorAvatar collaborator={item} />
           <Text span lineClamp={1} size="sm" fw="bold">
-            {item}
+            {item.name} {item.name} {item.name} {item.name} {item.name}
           </Text>
         </Group>
       </Combobox.Option>
@@ -63,7 +66,7 @@ export function SelectList({ options = [], values, onChange }: TSelectList) {
           <TextInput
             variant="filled"
             radius="md"
-            placeholder="Search Tag"
+            placeholder="Search Assignee"
             value={search}
             rightSection={<IconSearch color="black" />}
             onChange={(event) => {
@@ -85,4 +88,4 @@ export function SelectList({ options = [], values, onChange }: TSelectList) {
       </Stack>
     </Combobox>
   );
-}
+};
