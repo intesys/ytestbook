@@ -1,6 +1,12 @@
-import { Button, Group, MantineColor, MantineRadius } from "@mantine/core";
+import {
+  Button,
+  Group,
+  MantineColor,
+  MantineRadius,
+  Text,
+} from "@mantine/core";
 import clsx from "clsx";
-import { MouseEvent, ReactNode, useCallback, useState } from "react";
+import { MouseEvent, ReactNode, useCallback } from "react";
 import classes from "./ButtonGroupMultiselect.module.css";
 
 export type TButtonGroupOption<Value = string | number> = {
@@ -32,65 +38,64 @@ export const ButtonGroupMultiselect = <T extends any>({
   noneLabel,
   radius = "md",
 }: TButtonGroupMultiselect<T>) => {
-  const [selectedValues, setSelectedValues] = useState<Array<T>>(values);
-
   const toggleSelectionHandler = useCallback(
     (option: TButtonGroupOption<T> | "ALL" | "NONE") =>
       (event: MouseEvent<HTMLButtonElement>) => {
         if (option === "ALL") {
           const allValues = options.map((option) => option.value);
-          setSelectedValues(allValues);
+
           if (onChange) {
             onChange(allValues, event);
           }
+
           return;
         }
 
         if (option === "NONE") {
-          setSelectedValues([]);
           if (onChange) {
             onChange([], event);
           }
+
           return;
         }
 
-        setSelectedValues((prevState) => {
-          const previousIndex = prevState.indexOf(option.value);
-          const wasSelected = previousIndex >= 0;
-          const newState = wasSelected
-            ? prevState.filter((item) => item !== option.value)
-            : prevState.concat(option.value);
+        const previousIndex = values.indexOf(option.value);
+        const wasSelected = previousIndex >= 0;
+        const newState = wasSelected
+          ? values.filter((item) => item !== option.value)
+          : values.concat(option.value);
 
-          if (onChange) {
-            onChange(newState, event);
-          }
-
-          return newState;
-        });
+        if (onChange) {
+          onChange(newState, event);
+        }
       },
-    [],
+    [onChange, options, values],
   );
 
   const isSelected = (value: T) => values.indexOf(value) >= 0;
 
   return (
     <Group className={classes.root} gap={0} wrap="nowrap">
-      {showAllNone && values.length === options.length ? (
+      {showAllNone ? (
         <Button
           className={clsx(classes.button, classes.buttonInactive)}
-          onClick={toggleSelectionHandler("NONE")}
+          onClick={toggleSelectionHandler(
+            values.length === options.length ? "NONE" : "ALL",
+          )}
           radius={radius}
+          miw={50}
         >
-          {noneLabel ? noneLabel : "None"}
-        </Button>
-      ) : null}
-      {showAllNone && values.length < options.length ? (
-        <Button
-          className={clsx(classes.button, classes.buttonInactive)}
-          onClick={toggleSelectionHandler("ALL")}
-          radius={radius}
-        >
-          {allLabel ? allLabel : "All"}
+          {values.length === options.length ? (
+            <Text span size="sm" fw="bold">
+              {noneLabel ? noneLabel : "None"}
+            </Text>
+          ) : null}
+
+          {values.length < options.length ? (
+            <Text span size="sm" fw="bold">
+              {allLabel ? allLabel : "All"}
+            </Text>
+          ) : null}
         </Button>
       ) : null}
       {options.map((option, index) => (

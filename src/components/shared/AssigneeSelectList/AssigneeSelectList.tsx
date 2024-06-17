@@ -53,7 +53,7 @@ export const AssigneeSelectList = ({
         <Group gap="xs" wrap="nowrap">
           <CollaboratorAvatar collaborator={item} />
           <Text span lineClamp={1} size="sm" fw="bold">
-            {item.name} {item.name} {item.name} {item.name} {item.name}
+            {item.name}
           </Text>
         </Group>
       </Combobox.Option>
