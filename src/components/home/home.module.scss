@@ -27,6 +27,36 @@
   gap: 12px;
 }
 
+.jsonImporter {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  padding: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  grid-column: 7 / span 3;
+  @media (max-width: 2100px) {
+    grid-column: 7 / span 4;
+  }
+  @media (max-width: 1200px) {
+    grid-column: 7 / span 5;
+  }
+
+  .action {
+    width: 100%;
+  }
+
+  > div {
+    width: 100%;
+  }
+}
+
 .action:nth-of-type(odd) {
   grid-column: 4 / span 3;
   @media (max-width: 2100px) {
@@ -46,6 +76,7 @@
     grid-column: 7 / span 5;
   }
 }
+
 .action:nth-child(2) {
   .actionButton {
     border-radius: 0%;

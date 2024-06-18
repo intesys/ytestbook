@@ -3,6 +3,8 @@ import { useCallback } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { TDocType, TProject, TProjectDynamicData } from "../../schema";
 import { TUseProjects } from "./types";
+import z from "zod";
+import { notifications } from "@mantine/notifications";
 
 export function useProjects(): TUseProjects {
   const { docUrl } = useDocContext();
@@ -40,11 +42,70 @@ export function useProjects(): TUseProjects {
   );
 
   const importJSON = (jsonContent: string) => {
-    const parsedData: TProject = JSON.parse(jsonContent);
+    try {
+      const parsedData: TProject = JSON.parse(jsonContent);
 
-    changeDoc((d) => {
-      d.projects.push(parsedData);
-    });
+      // Checking parsedData validity
+
+      const schema = z.object({
+        id: z.string(),
+        testCases: z.array(
+          z.object({
+            id: z.string(),
+            title: z.string(),
+            description: z.string().optional(),
+            projectId: z.string(),
+            status: z.string(),
+            tests: z.array(
+              z.object({
+                id: z.string(),
+                title: z.string(),
+                description: z.string().optional(),
+                caseId: z.string(),
+                status: z.string(),
+                steps: z.array(
+                  z.object({
+                    id: z.string(),
+                    title: z.string(),
+                    description: z.string().optional(),
+                    testId: z.string(),
+                    status: z.string(),
+                  }),
+                ),
+              }),
+            ),
+            comments: z.array(
+              z.object({
+                id: z.string(),
+                resolved: z.boolean(),
+                username: z.string(),
+                content: z.string(),
+              }),
+            ),
+          }),
+        ),
+      });
+
+      const isValid = schema.safeParse(parsedData);
+      if (!isValid.success) {
+        throw new Error();
+      }
+
+      const projectNewId = crypto.randomUUID();
+      parsedData.id = projectNewId;
+
+      changeDoc((d) => {
+        d.projects.push(parsedData);
+      });
+
+      return projectNewId;
+    } catch (error) {
+      notifications.show({
+        message: "Invalid yTestbook JSON",
+        color: "red",
+      });
+      return false;
+    }
   };
 
   if (doc === undefined) {

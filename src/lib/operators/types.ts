@@ -27,7 +27,7 @@ type TOperatorLoader<T> =
 export type TUseProjects = {
   createProject: (values: TProjectDynamicData) => void;
   removeProject: (projectId: string) => void;
-  importJSON: (jsonContent: string) => void;
+  importJSON: (jsonContent: string) => string | false;
 } & TOperatorLoader<TProject[]>;
 
 export type TUseProject = {

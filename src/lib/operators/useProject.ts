@@ -15,6 +15,7 @@ import {
 import { removeTuples } from "../helpers/removeTuples";
 import { TUseProject } from "./types";
 import { downloadFile } from "../helpers/downloadFile";
+import slugify from "slugify";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -109,7 +110,12 @@ export function useProject(projectId: string | undefined): TUseProject {
     const project = doc?.projects.find((p) => p.id === projectId);
     if (project) {
       const parsedData = JSON.stringify(project);
-      downloadFile(parsedData, "ytestbook-export.json");
+
+      const slugifiedTitle = slugify(project.title, {
+        lower: true,
+      });
+
+      downloadFile(parsedData, `ytestbook-export-${slugifiedTitle}.json`);
     }
   };
 
