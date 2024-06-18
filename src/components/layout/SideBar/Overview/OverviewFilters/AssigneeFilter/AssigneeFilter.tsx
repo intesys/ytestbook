@@ -3,8 +3,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { MouseEvent, useCallback } from "react";
 import { TCollaborator } from "../../../../../../schema.ts";
+import { Avatars } from "../../../../../avatars/Avatars.tsx";
 import { AssigneeSelectList } from "../../../../../shared/AssigneeSelectList/AssigneeSelectList.tsx";
-import { CollaboratorAvatar } from "../../../../../shared/CollaboratorAvatar.tsx";
 import { SpinningCaret } from "../../../../../shared/SpinningCaret/SpinningCaret.tsx";
 
 export type TAssigneeFilterProps = {
@@ -71,8 +71,12 @@ export const AssigneeFilter = ({
           {value === null ? (
             "Assignee"
           ) : (
-            <Group wrap="nowrap" gap="xs">
-              <CollaboratorAvatar collaborator={value} size="sm" />
+            <Group wrap="nowrap" gap={6}>
+              <Avatars
+                collaborators={[value]}
+                avatarProps={{ size: "sm" }}
+                withTooltip={false}
+              />
               <span>{value.name}</span>
             </Group>
           )}

@@ -98,7 +98,7 @@ export function TestCaseRow({
           )}
         </Table.Td>
         <Table.Td visibleFrom="md">
-          <Avatars assignees={assignees} />
+          <Avatars collaborators={assignees} />
         </Table.Td>
       </Table.Tr>
 

@@ -10,7 +10,7 @@ import {
 import { IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 import { TCollaborator } from "../../../schema.ts";
-import { CollaboratorAvatar } from "../CollaboratorAvatar.tsx";
+import { Avatars } from "../../avatars/Avatars.tsx";
 
 interface TAssigneeSelectList {
   value: TCollaborator | null;
@@ -51,7 +51,7 @@ export const AssigneeSelectList = ({
         maw={250}
       >
         <Group gap="xs" wrap="nowrap">
-          <CollaboratorAvatar collaborator={item} />
+          <Avatars collaborators={[item]} withTooltip={false} />
           <Text span lineClamp={1} size="sm" fw="bold">
             {item.name}
           </Text>

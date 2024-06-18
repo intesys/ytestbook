@@ -114,7 +114,7 @@ export function TestsTable({
                     </Text>
                   </Table.Td>
                   <Table.Td className="mantine-visible-from-sm">
-                    <Avatars assignees={assignees} />
+                    <Avatars collaborators={assignees} />
                   </Table.Td>
                 </Table.Tr>
               );

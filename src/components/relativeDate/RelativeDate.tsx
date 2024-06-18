@@ -12,7 +12,7 @@ export const RelativeDate = ({ timeStamp }: RelativeDateProps) => {
   }
 
   return (
-    <Text title={parseTimestamp(timeStamp)}>
+    <Text span title={parseTimestamp(timeStamp)}>
       {dayjsConfigured(new Date(timeStamp)).fromNow()}{" "}
     </Text>
   );

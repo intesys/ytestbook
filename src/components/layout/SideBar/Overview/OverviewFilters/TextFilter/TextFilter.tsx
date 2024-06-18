@@ -18,15 +18,21 @@ export const TextFilter = ({ value, onChange }: TTextFilterProps) => {
     }
   }, 500);
 
-  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
-    changeValue(value);
-  };
+  const changeValue = useCallback(
+    (newValue: string) => {
+      setLocalValue(newValue);
+      searchHandle(newValue);
+    },
+    [setLocalValue, searchHandle],
+  );
 
-  const changeValue = (newValue: string) => {
-    setLocalValue(newValue);
-    searchHandle(newValue);
-  };
+  const changeHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.currentTarget.value;
+      changeValue(value);
+    },
+    [changeValue],
+  );
 
   const clearFilterHandler = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -34,10 +40,11 @@ export const TextFilter = ({ value, onChange }: TTextFilterProps) => {
       changeValue("");
 
       if (onChange) {
+        // This will trigger immediately, without waiting for the debounce.
         onChange("");
       }
     },
-    [onChange],
+    [changeValue, onChange],
   );
 
   const deleteButton = (

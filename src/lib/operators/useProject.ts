@@ -8,8 +8,8 @@ import {
   TCollaborator,
   TCollaboratorDynamicData,
   TDocType,
-  TStep,
   TProject,
+  TStep,
   TTest,
 } from "../../schema";
 import { removeTuples } from "../helpers/removeTuples";
@@ -42,17 +42,17 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const getTagsByCaseId = useCallback(
     (caseId: TCase["id"]) => {
-      const p = doc?.projects.find(
+      const project = doc?.projects.find(
         (item) => projectId && item.id === projectId,
       );
-      const tc = p?.testCases.find((item) => item.id === caseId);
-      if (!tc || !p?.tagToTest || !p.allTags) return [];
+      const testCase = project?.testCases.find((item) => item.id === caseId);
+      if (!testCase || !project?.tagToTest || !project.allTags) return [];
 
-      const testIdArr = tc.tests.map((test) => test.id);
-      const tags = p.tagToTest
+      const testIdArr = testCase.tests.map((test) => test.id);
+      const tags = project.tagToTest
         .filter((tuple) => testIdArr.includes(tuple[1]))
         .map((tuple) => tuple[0]);
-      return p.allTags.filter((tag) => tags.includes(tag));
+      return project.allTags.filter((tag) => tags.includes(tag));
     },
     [doc, projectId],
   );
@@ -75,16 +75,17 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const getAssigneesByCaseId = useCallback(
     (caseId: TCase["id"]) => {
-      const p = doc?.projects.find(
+      const project = doc?.projects.find(
         (item) => projectId && item.id === projectId,
       );
-      const tc = p?.testCases.find((item) => item.id === caseId);
-      if (!tc || !p?.collaboratorToTest || !p.collaborators) return [];
-      const testIdArr = tc.tests.map((test) => test.id);
-      const collaboratorsIdArr = p.collaboratorToTest
+      const testCase = project?.testCases.find((item) => item.id === caseId);
+      if (!testCase || !project?.collaboratorToTest || !project.collaborators)
+        return [];
+      const testIdArr = testCase.tests.map((test) => test.id);
+      const collaboratorsIdArr = project.collaboratorToTest
         .filter((tuple) => testIdArr.includes(tuple[1]))
         .map((tuple) => tuple[0]);
-      return p.collaborators.filter((collaborator) =>
+      return project.collaborators.filter((collaborator) =>
         collaboratorsIdArr.includes(collaborator.id),
       );
     },
@@ -101,7 +102,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         return [];
       }
 
-      return project.statusChanges.filter((s) => s.stepId === stepId);
+      return project.statusChanges.filter((status) => status.stepId === stepId);
     },
     [doc?.projects, projectId],
   );
@@ -147,9 +148,11 @@ export function useProject(projectId: string | undefined): TUseProject {
     (values: TCaseDynamicData) => {
       if (!projectId) return;
       const date = new Date();
-      changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        p?.testCases.push({
+      changeDoc((doc) => {
+        const project = doc.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        project?.testCases.push({
           ...values,
           id: crypto.randomUUID(),
           projectId,
