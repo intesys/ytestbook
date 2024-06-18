@@ -76,7 +76,11 @@ export const DocProvider: React.FC<TDocProviderProps> = ({ children }) => {
     case DocContextStatusEnum.READY:
       return (
         <DocContext.Provider
-          value={{ docUrl: state.docUrl, createDoc, findAndSetDoc }}
+          value={{
+            docUrl: state.docUrl,
+            createDoc,
+            findAndSetDoc,
+          }}
         >
           {children}
         </DocContext.Provider>

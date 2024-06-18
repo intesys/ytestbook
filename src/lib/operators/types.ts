@@ -27,6 +27,7 @@ type TOperatorLoader<T> =
 export type TUseProjects = {
   createProject: (values: TProjectDynamicData) => void;
   removeProject: (projectId: string) => void;
+  importJSON: (jsonContent: string) => void;
 } & TOperatorLoader<TProject[]>;
 
 export type TUseProject = {
@@ -35,6 +36,7 @@ export type TUseProject = {
   getAssigneesByTestId: (testId: TTest["id"]) => TCollaborator[];
   getAssigneesByCaseId: (caseId: TCase["id"]) => TCollaborator[];
   getStatusChangesByStepId: (stepId: TStep["id"]) => TStatusChange[];
+  exportJSON: () => void;
   createTestCase: (values: TCaseDynamicData) => void;
   createCollaborator: (newCollaborator: TCollaboratorDynamicData) => void;
   updateTestCase: (values: TCaseDynamicData, caseId: string) => void;

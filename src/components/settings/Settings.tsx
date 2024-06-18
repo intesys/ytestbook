@@ -188,7 +188,17 @@ export function Settings() {
           </Flex>
         </div>
 
-        <Alert className={classes.delete} color="red">
+        <Alert className={classes.alert} color="green">
+          <Title order={4}>Export project</Title>
+
+          <Text>Export and download this project as a JSON file</Text>
+
+          <Flex justify="end">
+            <Button onClick={() => project.exportJSON()}>Export Project</Button>
+          </Flex>
+        </Alert>
+
+        <Alert className={classes.alert} color="red">
           <Title order={4} mb="sm">
             Delete Testbook
           </Title>

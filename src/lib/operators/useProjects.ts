@@ -1,7 +1,7 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
-import { TDocType, TProjectDynamicData } from "../../schema";
+import { TDocType, TProject, TProjectDynamicData } from "../../schema";
 import { TUseProjects } from "./types";
 
 export function useProjects(): TUseProjects {
@@ -39,12 +39,21 @@ export function useProjects(): TUseProjects {
     [changeDoc],
   );
 
+  const importJSON = (jsonContent: string) => {
+    const parsedData: TProject = JSON.parse(jsonContent);
+
+    changeDoc((d) => {
+      d.projects.push(parsedData);
+    });
+  };
+
   if (doc === undefined) {
     return {
       data: undefined,
       loading: true,
       createProject,
       removeProject,
+      importJSON,
     };
   } else {
     return {
@@ -52,6 +61,7 @@ export function useProjects(): TUseProjects {
       loading: false,
       createProject,
       removeProject,
+      importJSON,
     };
   }
 }

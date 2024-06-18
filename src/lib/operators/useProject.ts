@@ -14,6 +14,7 @@ import {
 } from "../../schema";
 import { removeTuples } from "../helpers/removeTuples";
 import { TUseProject } from "./types";
+import { downloadFile } from "../helpers/downloadFile";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -103,6 +104,14 @@ export function useProject(projectId: string | undefined): TUseProject {
     },
     [doc?.projects, projectId],
   );
+
+  const exportJSON = () => {
+    const project = doc?.projects.find((p) => p.id === projectId);
+    if (project) {
+      const parsedData = JSON.stringify(project);
+      downloadFile(parsedData, "ytestbook-export.json");
+    }
+  };
 
   const updateProject = useCallback(
     (data: Partial<Pick<TProject, "title" | "customer" | "description">>) => {
@@ -306,6 +315,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       getAssigneesByTestId,
       getAssigneesByCaseId,
       getStatusChangesByStepId,
+      exportJSON,
       createTestCase,
       createCollaborator,
       updateTestCase,
@@ -325,6 +335,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       getAssigneesByTestId,
       getAssigneesByCaseId,
       getStatusChangesByStepId,
+      exportJSON,
       createTestCase,
       createCollaborator,
       updateTestCase,
