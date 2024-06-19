@@ -19,9 +19,9 @@ import "./theme.scss";
 
 const repo = new Repo({
   network: [
-    // new BrowserWebSocketClientAdapter(
-    //   "wss://automerge-sync-server.staging.intesys.it",
-    // ),
+    new BrowserWebSocketClientAdapter(
+      "wss://automerge-sync-server.staging.intesys.it",
+    ),
   ],
   storage: new IndexedDBStorageAdapter(),
 });

@@ -21,15 +21,10 @@ export const JsonImporter = () => {
         const reader = new FileReader();
 
         reader.onload = function (event) {
-          if (
-            event.target?.result &&
-            typeof event.target?.result === "string"
-          ) {
-            const projectId = projects.importJSON(event.target.result);
+          const projectId = projects.importJSON(event.target?.result);
 
-            if (projectId) {
-              navigate(routesHelper.projectDetail(projectId));
-            }
+          if (projectId) {
+            navigate(routesHelper.projectDetail(projectId));
           }
         };
 

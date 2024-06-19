@@ -41,9 +41,13 @@ export function useProjects(): TUseProjects {
     [changeDoc],
   );
 
-  const importJSON = (jsonContent: string) => {
+  const importJSON = (fileReaderResult?: FileReader["result"]) => {
     try {
-      const parsedData: TProject = JSON.parse(jsonContent);
+      if (!fileReaderResult || typeof fileReaderResult !== "string") {
+        throw Error();
+      }
+
+      const parsedData: TProject = JSON.parse(fileReaderResult);
 
       // Checking parsedData validity
 
@@ -101,7 +105,7 @@ export function useProjects(): TUseProjects {
       return projectNewId;
     } catch (error) {
       notifications.show({
-        message: "Invalid yTestbook JSON",
+        message: "yTestbook JSON is not valid",
         color: "red",
       });
       return false;
