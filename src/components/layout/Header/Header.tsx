@@ -71,6 +71,7 @@ export const Header: React.FC<
         </Flex>
         <small>Client: {customer}</small>
       </div>
+
       {/* <Avatars assignees={project.data?.collaborators || []} /> */}
       <div className={classes.action}>
         <Button

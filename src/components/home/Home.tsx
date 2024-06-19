@@ -3,17 +3,15 @@ import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { useNavigate } from "react-router";
 import AddCircle from "../../assets/icons/add_circle.svg";
-import FileTypeJson from "../../assets/icons/bi_filetype-json.svg";
 import Logo from "../../assets/logo.svg";
 import { useProjects } from "../../lib/operators/useProjects";
-import { useDocContext } from "../docContext/DocContext";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { Action } from "./Action";
 import { CreateTestbookModal } from "./CreateTestbookModal";
+import { JsonImporter } from "./JsonImporter";
 import classes from "./home.module.scss";
 
 export const Home: React.FC = () => {
-  const { docUrl } = useDocContext();
   const projects = useProjects();
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
@@ -21,9 +19,6 @@ export const Home: React.FC = () => {
     <div className={classes.container}>
       <CreateTestbookModal opened={opened} close={close} />
       <div className={classes.top}>
-        <Text ta={"end"} c={"white"}>
-          {docUrl}
-        </Text>
         <div className={classes.header}>
           <img src={Logo} height={78} width={78} alt="yTestbook" />
         </div>
@@ -34,13 +29,7 @@ export const Home: React.FC = () => {
             icon={AddCircle}
             action={open}
           />
-          <Action
-            title="Upload project"
-            label="Drag and drop the testbook file here"
-            icon={FileTypeJson}
-            /**TODO: implement JSON uploader */
-            action={() => console.log("placeholder")}
-          />
+          <JsonImporter />
         </div>
       </div>
 
