@@ -1,7 +1,7 @@
-import { ActionIcon, Badge, Button, Group, Popover } from "@mantine/core";
+import { Badge, Button, Group, Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconX } from "@tabler/icons-react";
 import { MouseEvent, useCallback } from "react";
+import { DeleteActionIcon } from "../../../../../shared/DeleteActionIcon.tsx";
 import { SelectList } from "../../../../../shared/SelectList/SelectList.tsx";
 import { SpinningCaret } from "../../../../../shared/SpinningCaret/SpinningCaret.tsx";
 
@@ -29,17 +29,6 @@ export const TagsFilter = ({
     [onChange],
   );
 
-  const deleteButton = (
-    <ActionIcon
-      color="red"
-      variant="subtle"
-      onClick={clearFilterHandler}
-      size="sm"
-    >
-      <IconX size={14} />
-    </ActionIcon>
-  );
-
   return (
     <Popover radius="lg" opened={opened} onChange={toggle}>
       <Popover.Target>
@@ -53,7 +42,7 @@ export const TagsFilter = ({
             values.length === 0 ? (
               <SpinningCaret opened={opened} />
             ) : (
-              deleteButton
+              <DeleteActionIcon onClick={clearFilterHandler} />
             )
           }
           onClick={toggle}

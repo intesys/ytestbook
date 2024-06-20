@@ -1,7 +1,8 @@
-import { ActionIcon, TextInput } from "@mantine/core";
+import { TextInput } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
-import { IconSearch, IconX } from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
+import { DeleteActionIcon } from "../../../../../shared/DeleteActionIcon.tsx";
 import { TOverviewFilters } from "../../OverviewFilters.tsx";
 
 type TTextFilterProps = {
@@ -47,17 +48,6 @@ export const TextFilter = ({ value, onChange }: TTextFilterProps) => {
     [changeValue, onChange],
   );
 
-  const deleteButton = (
-    <ActionIcon
-      color="red"
-      variant="subtle"
-      size="sm"
-      onClick={clearFilterHandler}
-    >
-      <IconX size={14} />
-    </ActionIcon>
-  );
-
   return (
     <TextInput
       value={localValue}
@@ -65,7 +55,11 @@ export const TextFilter = ({ value, onChange }: TTextFilterProps) => {
       placeholder="Search"
       onChange={changeHandler}
       rightSection={
-        value === "" ? <IconSearch size={20} color="black" /> : deleteButton
+        value === "" ? (
+          <IconSearch size={20} color="black" />
+        ) : (
+          <DeleteActionIcon onClick={clearFilterHandler} />
+        )
       }
       style={{ boxShadow: "0 2px 9px -4px rgba(0,0,0,0.08)" }}
     />

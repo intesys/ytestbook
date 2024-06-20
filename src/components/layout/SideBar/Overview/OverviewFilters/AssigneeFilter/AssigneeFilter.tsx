@@ -1,10 +1,10 @@
-import { ActionIcon, Button, Group, Popover } from "@mantine/core";
+import { Button, Group, Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconX } from "@tabler/icons-react";
 import { MouseEvent, useCallback } from "react";
 import { TCollaborator } from "../../../../../../schema.ts";
 import { Avatars } from "../../../../../avatars/Avatars.tsx";
 import { AssigneeSelectList } from "../../../../../shared/AssigneeSelectList/AssigneeSelectList.tsx";
+import { DeleteActionIcon } from "../../../../../shared/DeleteActionIcon.tsx";
 import { SpinningCaret } from "../../../../../shared/SpinningCaret/SpinningCaret.tsx";
 
 export type TAssigneeFilterProps = {
@@ -42,17 +42,6 @@ export const AssigneeFilter = ({
     [onChange],
   );
 
-  const deleteButton = (
-    <ActionIcon
-      color="red"
-      variant="subtle"
-      size="sm"
-      onClick={clearFilterHandler}
-    >
-      <IconX size={14} />
-    </ActionIcon>
-  );
-
   return (
     <Popover radius="lg" opened={opened} onChange={toggle}>
       <Popover.Target>
@@ -63,7 +52,11 @@ export const AssigneeFilter = ({
           color="indigo"
           variant="white"
           rightSection={
-            value === null ? <SpinningCaret opened={opened} /> : deleteButton
+            value === null ? (
+              <SpinningCaret opened={opened} />
+            ) : (
+              <DeleteActionIcon onClick={clearFilterHandler} />
+            )
           }
           onClick={toggle}
           style={{ boxShadow: "0 2px 9px -4px rgba(0,0,0,0.08)" }}
