@@ -9,22 +9,16 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCactus } from "@tabler/icons-react";
-import { FC, SetStateAction, useCallback, useEffect, useState } from "react";
+import { FC, SetStateAction, useCallback, useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdUnfoldLessDouble, MdUnfoldMoreDouble } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import {
-  checkAssigneeFilter,
-  checkStatusFilter,
-  checkTagsFilter,
-  checkTextFilter,
-} from "../../../../lib/filters/overviewFilters.ts";
+import { useOverviewFilters } from "../../../../lib/filters/useOverviewFilters.ts";
 import { useProject } from "../../../../lib/operators/useProject";
-import { TCase, TStep, TTest } from "../../../../schema.ts";
 import { SimpleNewElementForm } from "../../../shared/SimpleNewElementForm";
 import { SIDEBAR_STATUS } from "../const";
 import classes from "./overview.module.scss";
-import { OverviewFilters, TOverviewFilters } from "./OverviewFilters.tsx";
+import { OverviewFilters } from "./OverviewFilters.tsx";
 import { TestCaseRow } from "./TestCaseRow";
 
 export const Overview: FC<{
@@ -32,18 +26,12 @@ export const Overview: FC<{
 }> = ({ toggle }) => {
   const params = useParams();
   const project = useProject(params.projectId);
-
-  const initialFilters: TOverviewFilters = {
-    textFilter: "",
-    statusFilter: [],
-    tagsFilter: [],
-    assigneeFilter: null,
-  };
+  const { filters, setFilters, filteredTestCases } = useOverviewFilters(
+    project.data?.testCases ?? [],
+  );
 
   const [opened, { open, close }] = useDisclosure(false);
   const [expanded, setExpanded] = useState(false);
-  const [filters, setFilters] = useState<TOverviewFilters>(initialFilters);
-  const [filteredTestCases, setFilteredTestCases] = useState<TCase[]>([]);
 
   const emptyItem = (
     <Stack justify="center" align="center" py="xl">
@@ -75,124 +63,6 @@ export const Overview: FC<{
   const expandCollapseClick = useCallback(() => {
     setExpanded((expanded) => !expanded);
   }, [setExpanded]);
-
-  const filterCases = (cases: TCase[], filters: TOverviewFilters) => {
-    return cases.reduce((accCase: TCase[], nextCase: TCase) => {
-      const tags = project.getTagsByCaseId(nextCase.id);
-      const assignees = project.getAssigneesByCaseId(nextCase.id);
-
-      const filteredTests = nextCase.tests.reduce(
-        (accTest: TTest[], nextTest: TTest) => {
-          const tags = project.getTagsByTestId(nextTest.id);
-          const assignees = project.getAssigneesByTestId(nextTest.id);
-
-          const filteredSteps = nextTest.steps.reduce(
-            (accStep: TStep[], nextStep: TStep) => {
-              // Find if each step is visible or filtered
-
-              const textFilterPasses = checkTextFilter(
-                nextStep,
-                ["title", "description"],
-                filters,
-              );
-
-              const statusFilterPasses = checkStatusFilter(
-                nextStep,
-                ["status"],
-                filters,
-              );
-
-              const tagsFilterPasses = checkTagsFilter(tags, filters);
-              const assigneeFilterPasses = checkAssigneeFilter(
-                assignees,
-                filters,
-              );
-
-              // if the filters are off, or the step is included by the filters
-              if (
-                textFilterPasses &&
-                statusFilterPasses &&
-                tagsFilterPasses &&
-                assigneeFilterPasses
-              ) {
-                accStep.push(nextStep);
-              }
-
-              return accStep;
-            },
-            [],
-          );
-
-          // Find if each Test is visible or filtered
-
-          const textFilterPasses = checkTextFilter(
-            nextTest,
-            ["title", "description"],
-            filters,
-          );
-
-          const statusFilterPasses = checkStatusFilter(
-            nextTest,
-            ["status"],
-            filters,
-          );
-          const tagsFilterPasses = checkTagsFilter(tags, filters);
-          const assigneeFilterPasses = checkAssigneeFilter(assignees, filters);
-
-          // if the filters are off, filteredSteps has at least 1 value, or the test is included by the filters
-          if (
-            filteredSteps.length > 0 ||
-            (textFilterPasses &&
-              statusFilterPasses &&
-              tagsFilterPasses &&
-              assigneeFilterPasses)
-          ) {
-            const filtered: TTest = { ...nextTest, steps: filteredSteps };
-            accTest.push(filtered);
-          }
-          return accTest;
-        },
-        [],
-      );
-
-      // Find if each TestCase is visible or filtered
-      const textFilterPasses = checkTextFilter(
-        nextCase,
-        ["title", "description"],
-        filters,
-      );
-
-      const statusFilterPasses = checkStatusFilter(
-        nextCase,
-        ["status"],
-        filters,
-      );
-
-      const tagsFilterPasses = checkTagsFilter(tags, filters);
-      const assigneeFilterPasses = checkAssigneeFilter(assignees, filters);
-
-      // if the filters are off, filteredTests has at least 1 value, or the testCase is included by the filters
-      if (
-        filteredTests.length > 0 ||
-        (textFilterPasses &&
-          statusFilterPasses &&
-          tagsFilterPasses &&
-          assigneeFilterPasses)
-      ) {
-        const filtered: TCase = { ...nextCase, tests: filteredTests };
-        accCase.push(filtered);
-      }
-      return accCase;
-    }, []);
-  };
-
-  useEffect(() => {
-    const allTestCases = project.data?.testCases ?? [];
-
-    const filteredTestCases = filterCases(allTestCases, filters);
-
-    setFilteredTestCases(filteredTestCases);
-  }, [project.data?.testCases, filters]);
 
   return (
     <Stack gap={20}>
