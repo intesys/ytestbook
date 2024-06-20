@@ -10,7 +10,6 @@ import {
   Text,
   Textarea,
   Title,
-  VisuallyHidden,
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
@@ -22,9 +21,9 @@ import Delete from "../../assets/icons/delete.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
-import { StatusIcon } from "../statusIcon/StatusIcon";
 import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { RelativeDate } from "../relativeDate/RelativeDate";
+import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
 

@@ -13,7 +13,7 @@ export const RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS = "rta-link-dropdown";
 
 export const RichTextarea: React.FC<{
   label?: string;
-  value: string;
+  value?: string;
   onChange: React.Dispatch<React.SetStateAction<string>>;
 }> = ({ label, value, onChange }) => {
   const editor = useEditor({

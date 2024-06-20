@@ -39,7 +39,7 @@ export const StepSwitch = ({ currentStatus, onChange }: StepSwitchProps) => {
         <SegmentedControl
           data={data}
           value={currentStatus}
-          onChange={onChange}
+          onChange={(value) => onChange(value as StatusEnum)}
         />
       </Box>
 
