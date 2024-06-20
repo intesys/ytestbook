@@ -72,7 +72,7 @@ export const Header: React.FC<
         <small>Client: {customer}</small>
       </div>
 
-      {/* <Avatars assignees={project.data?.collaborators || []} /> */}
+      {/* <Avatars collaborators={project.data?.collaborators ?? []} /> */}
       <div className={classes.action}>
         <Button
           p={0}

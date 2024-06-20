@@ -53,14 +53,12 @@ export const StatusIcon = ({
       case StatusEnum.PAUSED:
         return <MdPauseCircle size="1.5rem" />;
 
+      default:
       case StatusEnum.PENDING:
         return <MdPending size="1.5rem" />;
 
       case StatusEnum.TODO:
         return <MdNotStarted size="1.5rem" />;
-
-      default:
-        return <MdPending size="1.5rem" color={statusColor} />;
     }
   }, [status, statusColor]);
 

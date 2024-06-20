@@ -4,8 +4,8 @@ import Edit from "../../assets/icons/edit.svg";
 import { Avatars } from "../avatars/Avatars";
 import { EditableText } from "../shared/EditableText";
 import { StatusIcon } from "../statusIcon/StatusIcon";
-import { JiraTagsColumns } from "./JiraTagsColumns";
 import classes from "./contentHeader.module.css";
+import { JiraTagsColumns } from "./JiraTagsColumns";
 import { TContentHeader } from "./types";
 
 export function ContentHeader({
@@ -40,7 +40,7 @@ export function ContentHeader({
             </Tooltip>
           ) : null}
         </div>
-        {assignees && <Avatars assignees={assignees} />}
+        {assignees && <Avatars collaborators={assignees} />}
       </div>
       <div className={classes.headerBottom}>
         <JiraTagsColumns jiraLink={jiraLink} tags={tags} />

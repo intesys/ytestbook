@@ -1,5 +1,6 @@
 import { Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
@@ -16,9 +17,15 @@ type TestRowProps = {
   readonly project: TUseProject;
   readonly test: TTest;
   openSidebar: () => void;
+  forceExpanded?: boolean;
 };
 
-export const TestRow = ({ openSidebar, project, test }: TestRowProps) => {
+export const TestRow = ({
+  openSidebar,
+  project,
+  test,
+  forceExpanded = false,
+}: TestRowProps) => {
   const completion = computeCompletion(test.steps);
   const tags = project.getTagsByTestId(test.id);
   const assignees = project.getAssigneesByTestId(test.id);
@@ -32,6 +39,14 @@ export const TestRow = ({ openSidebar, project, test }: TestRowProps) => {
 
     handlers.toggle();
   };
+
+  useEffect(() => {
+    if (forceExpanded) {
+      handlers.open();
+    } else {
+      handlers.close();
+    }
+  }, [forceExpanded]);
 
   if (!project.data?.id) {
     return null;
@@ -77,7 +92,7 @@ export const TestRow = ({ openSidebar, project, test }: TestRowProps) => {
           {test.lastUpdate ? <RelativeDate timeStamp={test.lastUpdate} /> : ""}
         </Table.Td>
         <Table.Td visibleFrom="md">
-          <Avatars assignees={assignees} />
+          <Avatars collaborators={assignees} />
         </Table.Td>
       </Table.Tr>
 

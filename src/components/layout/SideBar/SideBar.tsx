@@ -1,14 +1,14 @@
-import { Box, Group } from "@mantine/core";
+import { Box, Group, Stack } from "@mantine/core";
+import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useProject } from "../../../lib/operators/useProject";
+import { navbarConfig, SIDEBAR_STATUS } from "./const";
 import { Menu } from "./Menu/Menu";
 import { Overview } from "./Overview/Overview";
 import { OverviewHeader } from "./OverviewHeader";
 import { QuickClose } from "./QuickClose";
-import { SIDEBAR_STATUS, navbarConfig } from "./const";
 import classes from "./sideBar.module.css";
-import clsx from "clsx";
 
 export type WithNavbarStatus = {
   status: SIDEBAR_STATUS;
@@ -52,7 +52,8 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
   }, [params]);
 
   return (
-    <Box
+    <Stack
+      gap="md"
       style={{
         width: status
           ? navbarConfig[status as SIDEBAR_STATUS]
@@ -81,6 +82,6 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
           </Box>
         ) : null}
       </Box>
-    </Box>
+    </Stack>
   );
 };
