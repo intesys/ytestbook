@@ -1,10 +1,10 @@
 import { Repo } from "@automerge/automerge-repo";
-import { createContext, useEffect, useState } from "react";
-import { TRepoContextValue, TRepoProviderProps } from "./types";
-import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
-import { RepoContext } from "@automerge/automerge-repo-react-hooks";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
+import { RepoContext } from "@automerge/automerge-repo-react-hooks";
+import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
 import { Loader } from "@mantine/core";
+import { createContext, useCallback, useEffect, useState } from "react";
+import { TRepoContextValue, TRepoProviderProps } from "./types";
 
 const LOCAL_STORAGE_NETWORK_URL_KEY = "ytbNetworkUrl";
 
@@ -12,33 +12,51 @@ const NetworkContext = createContext<TRepoContextValue>({
   setNetworkUrl: () => null,
 });
 
-const localOnlyRepo = new Repo({
-  network: [],
-  storage: new IndexedDBStorageAdapter(), // local storage will use the default one "automerge"
-});
-
 export const NetworkProvider: React.FC<TRepoProviderProps> = ({ children }) => {
   const [repo, setRepo] = useState<Repo>();
+  const [networkAdapter, setNetworkAdapter] =
+    useState<BrowserWebSocketClientAdapter>();
 
-  const setNetworkUrl = (networkUrl?: string) => {
-    // repo?.peers.forEach(p => {
+  const setNetworkUrl = useCallback(
+    (networkUrl?: string) => {
+      if (networkAdapter) {
+        networkAdapter.disconnect();
+      }
 
-    // })
+      if (!networkUrl) {
+        const repoInstance = new Repo({
+          network: [],
+          storage: new IndexedDBStorageAdapter(), // local storage will use the default one "automerge"
+        });
+        setRepo(repoInstance);
+        setNetworkAdapter(undefined);
 
-    if (!networkUrl) {
-      setRepo(localOnlyRepo);
+        return;
+      }
+
+      const networkAdapterInstance = new BrowserWebSocketClientAdapter(
+        networkUrl,
+      );
+      const repoInstance = new Repo({
+        network: [networkAdapterInstance],
+        storage: new IndexedDBStorageAdapter(networkUrl), // use networkUrl as databaseName?
+      });
+      setRepo(repoInstance);
+      setNetworkAdapter(networkAdapterInstance);
+    },
+    [networkAdapter],
+  );
+
+  // TODO: delete this!
+  // temporary function for changing network url
+  (window as any).setNetworkUrl = setNetworkUrl;
+
+  useEffect(() => {
+    // Initialize repo only once
+    if (networkAdapter) {
       return;
     }
 
-    setRepo(
-      new Repo({
-        network: [new BrowserWebSocketClientAdapter(networkUrl)],
-        storage: new IndexedDBStorageAdapter(networkUrl), // use networkUrl as databaseName?
-      }),
-    );
-  };
-
-  useEffect(() => {
     let storedNetworkUrl =
       localStorage.getItem(LOCAL_STORAGE_NETWORK_URL_KEY) ?? undefined;
 
@@ -47,7 +65,7 @@ export const NetworkProvider: React.FC<TRepoProviderProps> = ({ children }) => {
     }
 
     setNetworkUrl(storedNetworkUrl);
-  }, []);
+  }, [networkAdapter, setNetworkUrl]);
 
   return (
     <NetworkContext.Provider value={{ setNetworkUrl }}>
