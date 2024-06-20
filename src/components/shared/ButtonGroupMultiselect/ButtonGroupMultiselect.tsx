@@ -23,7 +23,7 @@ export type TButtonGroupMultiselect<Value> = {
   radius?: MantineRadius;
 };
 
-export const ButtonGroupMultiselect = <T extends any>({
+export const ButtonGroupMultiselect = <T = any,>({
   options = [],
   values,
   onChange,
