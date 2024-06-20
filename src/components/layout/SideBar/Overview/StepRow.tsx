@@ -61,11 +61,11 @@ export const StepRow = ({
         </Flex>
       </Table.Td>
 
-      <Table.Td className="mantine-visible-from-md">
+      <Table.Td visibleFrom="md">
         {step.lastUpdate ? <RelativeDate timeStamp={step.lastUpdate} /> : ""}
       </Table.Td>
 
-      <Table.Td className="mantine-visible-from-md" />
+      <Table.Td visibleFrom="md" />
     </Table.Tr>
   );
 };

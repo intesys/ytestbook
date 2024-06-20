@@ -23,29 +23,21 @@ export const StatusButton = ({ step, updateStepStatus }: StatusButtonProps) => {
           color={statusColor}
           h={45}
           leftSection={
-            <Box className="mantine-visible-from-md">
+            <Box visibleFrom="md">
               <StatusIcon status={step.status} />
             </Box>
           }
           rightSection={
-            <img
-              className="mantine-visible-from-md"
-              src={ArrowDropdown}
-              height={24}
-              width={24}
-            />
+            <Box display="inline" visibleFrom="md">
+              <img src={ArrowDropdown} height={24} width={24} />
+            </Box>
           }
         >
-          <Box className="mantine-hidden-from-md">
+          <Box hiddenFrom="md">
             <StatusIcon status={step.status} />
           </Box>
 
-          <Text
-            c={"black"}
-            size="sm"
-            fw={500}
-            className="mantine-visible-from-md"
-          >
+          <Text c={"black"} size="sm" fw={500} visibleFrom="md">
             Change
           </Text>
         </Button>

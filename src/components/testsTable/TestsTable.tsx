@@ -57,13 +57,13 @@ export function TestsTable({
               <Table.Th>
                 <Text fw={"bold"}>Completion</Text>
               </Table.Th>
-              <Table.Th className="mantine-visible-from-sm">
+              <Table.Th visibleFrom="sm">
                 <Text fw={"bold"}>Tags</Text>
               </Table.Th>
-              <Table.Th className="mantine-visible-from-sm">
+              <Table.Th visibleFrom="sm">
                 <Text fw={"bold"}>Last update</Text>
               </Table.Th>
-              <Table.Th className="mantine-visible-from-sm">
+              <Table.Th visibleFrom="sm">
                 <Text fw={"bold"}>Assignees</Text>
               </Table.Th>
             </Table.Tr>

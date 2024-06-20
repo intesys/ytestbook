@@ -76,17 +76,17 @@ export function TestCaseRow({
             />
           </Flex>
         </Table.Td>
-        <Table.Td className="mantine-visible-from-md">
+        <Table.Td visibleFrom="md">
           <Tags tags={tags} />
         </Table.Td>
-        <Table.Td className="mantine-visible-from-md">
+        <Table.Td visibleFrom="md">
           {testCase.lastUpdate ? (
             <RelativeDate timeStamp={testCase.lastUpdate} />
           ) : (
             ""
           )}
         </Table.Td>
-        <Table.Td className="mantine-visible-from-md">
+        <Table.Td visibleFrom="md">
           <Avatars assignees={assignees} />
         </Table.Td>
       </Table.Tr>
