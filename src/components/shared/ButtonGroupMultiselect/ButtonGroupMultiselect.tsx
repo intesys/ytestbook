@@ -1,10 +1,4 @@
-import {
-  Button,
-  Group,
-  MantineColor,
-  MantineRadius,
-  Text,
-} from "@mantine/core";
+import { Button, MantineColor, MantineRadius, Text } from "@mantine/core";
 import clsx from "clsx";
 import { MouseEvent, ReactNode, useCallback } from "react";
 import classes from "./ButtonGroupMultiselect.module.css";
@@ -75,7 +69,7 @@ export const ButtonGroupMultiselect = <T extends any>({
   const isSelected = (value: T) => values.indexOf(value) >= 0;
 
   return (
-    <Group className={classes.root} gap={0} wrap="nowrap">
+    <Button.Group className={classes.root}>
       {showAllNone ? (
         <Button
           className={clsx(classes.button, classes.buttonInactive)}
@@ -111,6 +105,6 @@ export const ButtonGroupMultiselect = <T extends any>({
           {option.label}
         </Button>
       ))}
-    </Group>
+    </Button.Group>
   );
 };
