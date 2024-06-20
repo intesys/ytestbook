@@ -4,7 +4,7 @@ import FileTypeJson from "../../assets/icons/bi_filetype-json.svg";
 import { routesHelper } from "../../lib/helpers/routesHelper";
 import { useProjects } from "../../lib/operators/useProjects";
 import { Action } from "./Action";
-import classes from "./home.module.scss";
+import classes from "./home.module.css";
 
 export const JsonImporter = () => {
   const projects = useProjects();
