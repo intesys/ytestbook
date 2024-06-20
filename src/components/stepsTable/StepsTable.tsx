@@ -6,7 +6,6 @@ import { useNavigate } from "react-router";
 import Delete from "../../assets/icons/delete.svg";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../schema";
-import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
@@ -47,11 +46,11 @@ export function StepsTable({
     <>
       <Title order={4}>Steps</Title>
 
-      <ConfirmDeleteModal
+      {/*<ConfirmDeleteModal
         close={closeDeleteModal}
         handleConfirm={applyRemoveStep}
         opened={!!stepToRemove}
-      />
+      />*/}
 
       {steps.length === 0 && !opened ? (
         <Text>The steps list is empty.</Text>

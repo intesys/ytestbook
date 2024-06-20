@@ -1,11 +1,9 @@
 import { Button, Container, Flex, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { TCollaboratorDynamicData } from "../../../schema.ts";
 import { TModalProps } from "../../home/types.ts";
-
-//     <Modal [...] title={title} centered size={"xl"}>
 
 export function CollaboratorModal({
   id,
@@ -22,13 +20,15 @@ export function CollaboratorModal({
     },
   });
 
-  const close = () => context.closeModal(id);
+  const close = useCallback(() => {
+    context.closeModal(id);
+  }, [context, id]);
 
   useEffect(() => {
     if (initialValues) {
       form.setValues(initialValues);
     }
-  }, [initialValues]);
+  }, [form, initialValues]);
 
   return (
     <Container>

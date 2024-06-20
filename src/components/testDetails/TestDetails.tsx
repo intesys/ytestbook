@@ -9,7 +9,6 @@ import { useProject } from "../../lib/operators/useProject";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { CommentsList } from "../commentsList/CommentsList";
-import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepsTable } from "../stepsTable/StepsTable";
@@ -75,7 +74,7 @@ export function TestDetails() {
           close={close}
           handleSubmit={testCase.updateTest}
         /> */}
-        <ConfirmDeleteModal
+        {/*<ConfirmDeleteModal
           opened={deleteModalOpened}
           close={deleteModalHandlers.close}
           handleConfirm={() => {
@@ -86,7 +85,7 @@ export function TestDetails() {
               );
             }
           }}
-        />
+        />*/}
         <div className={classes.backButton}>
           <Button
             variant="transparent"

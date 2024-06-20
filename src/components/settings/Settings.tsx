@@ -23,7 +23,6 @@ import { useProjects } from "../../lib/operators/useProjects";
 import { TCollaborator } from "../../schema";
 import { ActionIconWithConfirm } from "../actionIconWithConfirm/ActionIconWithConfirm.tsx";
 import { Avatars } from "../avatars/Avatars.tsx";
-import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { Modals } from "../modals/modals.ts";
 import classes from "./settings.module.css";
 
@@ -53,14 +52,14 @@ export function Settings() {
   } else {
     return (
       <div className={classes.settings}>
-        <ConfirmDeleteModal
+        {/*<ConfirmDeleteModal
           opened={deleteModalOpened}
           close={deleteModalHandlers.close}
           handleConfirm={() => {
             projects.removeProject(project.data.id);
             navigate("/");
           }}
-        />
+        />*/}
 
         <div className={classes.header}>
           <Title order={3}>Settings</Title>

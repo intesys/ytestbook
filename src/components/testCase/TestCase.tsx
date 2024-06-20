@@ -7,7 +7,6 @@ import { useProject } from "../../lib/operators/useProject";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { TStep } from "../../schema";
 import { CommentsList } from "../commentsList/CommentsList";
-import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { TestCaseModal } from "../testCaseModal/TestCaseModal";
@@ -68,7 +67,7 @@ export function TestCase() {
           close={close}
           handleSubmit={project.updateTestCase}
         />
-        <ConfirmDeleteModal
+        {/*<ConfirmDeleteModal
           opened={deleteModalOpened}
           close={deleteModalHandlers.close}
           handleConfirm={() => {
@@ -77,7 +76,7 @@ export function TestCase() {
               navigate(`/project/${project.data.id}`);
             }
           }}
-        />
+        />*/}
         <ContentHeader
           status={testCase.data.status}
           title={testCase.data.title}

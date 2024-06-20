@@ -4,16 +4,19 @@ import {
   Button,
   Flex,
   Group,
+  Image,
   Select,
   Stack,
   Switch,
   Text,
   Textarea,
   Title,
+  Tooltip,
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
-import { useMemo, useState } from "react";
+import { modals } from "@mantine/modals";
+import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
 import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
@@ -21,7 +24,7 @@ import Delete from "../../assets/icons/delete.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
-import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
+import { Modals } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
@@ -53,7 +56,6 @@ export function CommentsList({
 }: CommentsListProps) {
   const params = useParams();
   const project = useProject(params.projectId);
-  const [commentToDelete, setCommentToDelete] = useState<TComment>();
 
   const form = useForm<TCommentDynamicData>({
     initialValues: {
@@ -79,9 +81,12 @@ export function CommentsList({
     }
   }, [project.data?.collaborators]);
 
-  const toggleIsResolved = (comment: TComment) => {
-    updateCommentResolved(!comment.resolved, comment.id);
-  };
+  const toggleIsResolved = useCallback(
+    (comment: TComment) => {
+      updateCommentResolved(!comment.resolved, comment.id);
+    },
+    [updateCommentResolved],
+  );
 
   // Compute select type filter options
   const filterOptions = useMemo(() => {
@@ -141,15 +146,6 @@ export function CommentsList({
     [filteredComments],
   );
 
-  const closeDeleteModal = () => setCommentToDelete(undefined);
-  const applyRemoveComment = () => {
-    if (!commentToDelete?.id) {
-      return;
-    }
-    removeComment(commentToDelete.id);
-    closeDeleteModal();
-  };
-
   if (!project.data?.id) {
     return null;
   }
@@ -157,12 +153,6 @@ export function CommentsList({
   return (
     <>
       {showTitle ? <Title order={4}>Notes</Title> : null}
-
-      <ConfirmDeleteModal
-        opened={!!commentToDelete}
-        close={closeDeleteModal}
-        handleConfirm={applyRemoveComment}
-      />
 
       {comments.length === 0 ? (
         <Text ta={"center"}>There are still no notes here</Text>
@@ -234,17 +224,36 @@ export function CommentsList({
                         p={0}
                         onClick={() => toggleIsResolved(comment)}
                       >
-                        <img
-                          alt={comment.resolved ? "Resolved" : "To resolve"}
-                          src={comment.resolved ? CheckCircleFull : CheckCircle}
-                          height={24}
-                          width={24}
-                        />
+                        <Tooltip
+                          label={
+                            comment.resolved
+                              ? "Unmark as Resolved"
+                              : "Mark as Resolved"
+                          }
+                        >
+                          <Image
+                            alt={comment.resolved ? "Resolved" : "To resolve"}
+                            src={
+                              comment.resolved ? CheckCircleFull : CheckCircle
+                            }
+                            height={24}
+                            width={24}
+                          />
+                        </Tooltip>
                       </Button>
                       <Button
                         variant="transparent"
-                        p={0}
-                        onClick={() => setCommentToDelete(comment)}
+                        onClick={() =>
+                          modals.openContextModal({
+                            modal: Modals.ConfirmModal,
+                            centered: true,
+                            title:
+                              "Are you sure you want to delete this comment?",
+                            innerProps: {
+                              handleConfirm: () => removeComment(comment.id),
+                            },
+                          })
+                        }
                       >
                         <img alt="Delete" src={Delete} height={24} width={24} />
                       </Button>
