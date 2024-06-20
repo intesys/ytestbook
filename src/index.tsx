@@ -16,15 +16,7 @@ import { MainNavigation } from "./Navigation";
 import { DocProvider } from "./components/docContext/DocContext";
 import { theme } from "./theme";
 import "./theme.scss";
-
-const repo = new Repo({
-  network: [
-    new BrowserWebSocketClientAdapter(
-      "wss://automerge-sync-server.staging.intesys.it",
-    ),
-  ],
-  storage: new IndexedDBStorageAdapter(),
-});
+import { NetworkProvider } from "./components/networkContext/NetworkContext";
 
 const root = createRoot(
   document.getElementById("ytestbook_root") as HTMLElement,
@@ -34,7 +26,7 @@ root.render(
   <React.StrictMode>
     <MantineProvider theme={{ ...theme }}>
       <Notifications position="top-right" zIndex={1000} />
-      <RepoContext.Provider value={repo}>
+      <NetworkProvider>
         <BrowserRouter>
           <ModalsProvider>
             <DatesProvider settings={{ locale: "it" }}>
@@ -44,7 +36,7 @@ root.render(
             </DatesProvider>
           </ModalsProvider>
         </BrowserRouter>
-      </RepoContext.Provider>
+      </NetworkProvider>
     </MantineProvider>
   </React.StrictMode>,
 );
