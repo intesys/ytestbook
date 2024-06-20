@@ -1,9 +1,16 @@
-import { TestModal } from "./testModal/TestModal";
+import { CollaboratorModal } from "./collaboratorModal/CollaboratorModal.tsx";
+import { TestModal } from "./testModal/TestModal.tsx";
+
+export enum Modals {
+  CollaboratorModal = "CollaboratorModal",
+  TestModal = "TestModal",
+}
 
 export const modals = {
-  testModal: TestModal,
-  /* ...other modals */
+  [Modals.CollaboratorModal]: CollaboratorModal,
+  [Modals.TestModal]: TestModal,
 };
+
 declare module "@mantine/modals" {
   export interface MantineModalsOverride {
     modals: typeof modals;

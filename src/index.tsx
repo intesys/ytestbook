@@ -12,11 +12,11 @@ import "@mantine/dropzone/styles.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { MainNavigation } from "./Navigation";
 import { DocProvider } from "./components/docContext/DocContext";
+import { modals } from "./components/modals/modals.ts";
+import { MainNavigation } from "./Navigation";
 import { theme } from "./theme";
 import "./theme.scss";
-import { modals } from "./components/modals/modals";
 
 const repo = new Repo({
   network: [

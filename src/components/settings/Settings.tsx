@@ -1,7 +1,9 @@
 import {
+  ActionIcon,
   Alert,
   Button,
   Flex,
+  Group,
   Loader,
   Table,
   TagsInput,
@@ -10,17 +12,19 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { openContextModal } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
+import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
-import Delete from "../../assets/icons/delete.svg";
-import Edit from "../../assets/icons/edit.svg";
 import { useProject } from "../../lib/operators/useProject";
 import { useProjects } from "../../lib/operators/useProjects";
-import { TCollaborator, TCollaboratorDynamicData } from "../../schema";
-import { CollaboratorModal } from "../collaboratorModal/CollaboratorModal";
+import { TCollaborator } from "../../schema";
+import { ActionIconWithConfirm } from "../actionIconWithConfirm/ActionIconWithConfirm.tsx";
+import { Avatars } from "../avatars/Avatars.tsx";
 import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
+import { Modals } from "../modals/modals.ts";
 import classes from "./settings.module.css";
 
 export function Settings() {
@@ -30,16 +34,7 @@ export function Settings() {
   const navigate = useNavigate();
   const [tags, setTags] = useState<string[]>([]);
   const [collaborators, setCollaborators] = useState<TCollaborator[]>([]);
-  const [createModalOpened, createModalActions] = useDisclosure(false);
-  const [editModalOpened, editModalActions] = useDisclosure(false);
   const [deleteModalOpened, deleteModalHandlers] = useDisclosure(false);
-  const [editModalValues, setEditModalValues] = useState<
-    TCollaboratorDynamicData & Pick<TCollaborator, "id">
-  >({
-    id: "",
-    name: "",
-    email: "",
-  });
 
   useEffect(() => {
     if (project.data?.allTags) {
@@ -67,23 +62,6 @@ export function Settings() {
           }}
         />
 
-        <CollaboratorModal
-          title="Add collaborator"
-          opened={createModalOpened}
-          close={createModalActions.close}
-          handleSubmit={project.createCollaborator}
-        />
-        <CollaboratorModal
-          id={editModalValues.id}
-          initialValues={{
-            name: editModalValues.name,
-            email: editModalValues.email,
-          }}
-          title="Edit collaborator"
-          opened={editModalOpened}
-          close={editModalActions.close}
-          handleSubmit={project.updateCollaborator}
-        />
         <div className={classes.header}>
           <Title order={3}>Settings</Title>
         </div>
@@ -98,7 +76,7 @@ export function Settings() {
             <Text mt={16}>The list is empty</Text>
           ) : (
             <Table
-              verticalSpacing={"sm"}
+              verticalSpacing={"xs"}
               horizontalSpacing={"sm"}
               withTableBorder
               mt={16}
@@ -115,10 +93,7 @@ export function Settings() {
                     <Text fw={"bold"}>Email</Text>
                   </Table.Th>
                   <Table.Th>
-                    <Text fw={"bold"}>Edit</Text>
-                  </Table.Th>
-                  <Table.Th>
-                    <Text fw={"bold"}>Delete</Text>
+                    <Text fw={"bold"}>&nbsp;</Text>
                   </Table.Th>
                 </Table.Tr>
               </Table.Thead>
@@ -126,9 +101,12 @@ export function Settings() {
                 {collaborators.map((collaborator) => (
                   <Table.Tr key={collaborator.id}>
                     <Table.Td visibleFrom="sm">
-                      <Text size="sm" visibleFrom="sm">
-                        {collaborator.name}
-                      </Text>
+                      <Group>
+                        <Avatars collaborators={[collaborator]} />
+                        <Text size="sm" visibleFrom="sm">
+                          {collaborator.name}
+                        </Text>
+                      </Group>
                     </Table.Td>
                     <Table.Td>
                       <Text size="sm" hiddenFrom="sm" mb="xs">
@@ -137,31 +115,39 @@ export function Settings() {
                       <Text size="sm">{collaborator.email}</Text>
                     </Table.Td>
                     <Table.Td>
-                      <Button
-                        variant="transparent"
-                        p={0}
-                        onClick={() => {
-                          setEditModalValues({
-                            id: collaborator.id,
-                            name: collaborator.name,
-                            email: collaborator.email,
-                          });
-                          editModalActions.open();
-                        }}
-                      >
-                        <img src={Edit} height={24} width={24} />
-                      </Button>
-                    </Table.Td>
-                    <Table.Td>
-                      <Button
-                        variant="transparent"
-                        p={0}
-                        onClick={() =>
-                          project.removeCollaborator(collaborator.id)
-                        }
-                      >
-                        <img src={Delete} height={24} width={24} />
-                      </Button>
+                      <Group justify="flex-end">
+                        <ActionIcon
+                          color="dark"
+                          variant="subtle"
+                          radius="xl"
+                          onClick={() =>
+                            openContextModal({
+                              modal: Modals.CollaboratorModal,
+                              title: "Edit Collaborator",
+                              innerProps: {
+                                initialValues: {
+                                  name: collaborator.name,
+                                  email: collaborator.email,
+                                },
+                                id: collaborator.id,
+                                handleSubmit: project.updateCollaborator,
+                              },
+                            })
+                          }
+                        >
+                          <IconPencil />
+                        </ActionIcon>
+
+                        <ActionIconWithConfirm
+                          color="red"
+                          variant="subtle"
+                          radius="xl"
+                          onConfirm={() =>
+                            project.removeCollaborator(collaborator.id)
+                          }
+                          icon={<IconTrash />}
+                        />
+                      </Group>
                     </Table.Td>
                   </Table.Tr>
                 ))}
@@ -169,7 +155,18 @@ export function Settings() {
             </Table>
           )}
           <Flex mt={16} justify={"end"} w={"100%"}>
-            <Button w={105} onClick={createModalActions.open}>
+            <Button
+              w={105}
+              onClick={() =>
+                openContextModal({
+                  modal: Modals.CollaboratorModal,
+                  title: "Add Collaborator",
+                  innerProps: {
+                    handleSubmit: project.createCollaborator,
+                  },
+                })
+              }
+            >
               Add
             </Button>
           </Flex>

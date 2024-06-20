@@ -1,5 +1,6 @@
 import { Button, Flex, Loader, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { openContextModal } from "@mantine/modals";
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
@@ -7,14 +8,12 @@ import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { useProject } from "../../lib/operators/useProject";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
+import { CommentsList } from "../commentsList/CommentsList";
 import { ConfirmDeleteModal } from "../confirmDeleteModal/ConfirmDeleteModal";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepsTable } from "../stepsTable/StepsTable";
-import { TestModal } from "../modals/testModal/TestModal";
 import classes from "./testDetails.module.css";
-import { CommentsList } from "../commentsList/CommentsList";
-import { openContextModal } from "@mantine/modals";
 
 export function TestDetails() {
   const navigate = useNavigate();
