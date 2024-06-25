@@ -6,7 +6,7 @@ export type TActionProps = {
 };
 
 export type TModalProps<T> = {
-  projectId: string;
+  projectId?: string;
   id?: string;
   initialValues?: Required<T>;
   handleSubmit: (values: T, id?: string) => void;

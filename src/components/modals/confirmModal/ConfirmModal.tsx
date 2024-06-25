@@ -3,8 +3,8 @@ import { ContextModalProps } from "@mantine/modals";
 import { ReactNode, useCallback } from "react";
 
 type TConfirmModalProps = {
-  handleCancel: () => void;
-  handleConfirm: () => void;
+  handleCancel?: () => void;
+  handleConfirm?: () => void;
   confirmButtonLabel?: string;
   confirmButtonProps?: ButtonProps;
   cancelButtonLabel?: string;

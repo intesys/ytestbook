@@ -12,11 +12,7 @@
   gap: var(--mantine-spacing-sm);
 }
 
-.headerLeft {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+.headerLeft {}
 
 .headerBottom {
   display: flex;

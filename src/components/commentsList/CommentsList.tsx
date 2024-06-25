@@ -16,6 +16,7 @@ import {
 
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
+import merge from "lodash/merge";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
@@ -24,7 +25,7 @@ import Delete from "../../assets/icons/delete.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
-import { Modals } from "../modals/modals.ts";
+import { deleteModalsDefaults } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
@@ -183,95 +184,102 @@ export function CommentsList({
             </Flex>
           </form>
           <Stack gap={10} mt={40}>
-            {computedComments.map((comment) => (
-              <Flex key={comment.id} gap={10}>
-                <Avatar alt={comment.username}>
-                  {comment.username.split(" ")[0]?.[0]}
-                  {comment.username.split(" ")[1]?.[0]}
-                </Avatar>
-                <Flex
-                  direction={"column"}
-                  gap={12}
-                  px={10}
-                  py={5}
-                  style={{ flexGrow: 1 }}
-                >
+            {computedComments.map((comment) => {
+              const deleteCommentHandler = () =>
+                modals.openContextModal(
+                  merge(deleteModalsDefaults, {
+                    title: "Are you sure you want to delete this comment?",
+                    innerProps: {
+                      handleConfirm: () => removeComment(comment.id),
+                    },
+                  }),
+                );
+
+              return (
+                <Flex key={comment.id} gap={10}>
+                  <Avatar alt={comment.username}>
+                    {comment.username.split(" ")[0]?.[0]}
+                    {comment.username.split(" ")[1]?.[0]}
+                  </Avatar>
                   <Flex
-                    gap={{ base: 5, md: 17 }}
-                    align={{ base: "flex-start", md: "center" }}
-                    justify="space-between"
-                    direction={{
-                      base: "column",
-                      md: "row",
-                    }}
+                    direction={"column"}
+                    gap={12}
+                    px={10}
+                    py={5}
+                    style={{ flexGrow: 1 }}
                   >
-                    <Text fw={700} miw={130}>
-                      {comment.username}
-                    </Text>
-                    {comment.testStatusWhenCreated && (
-                      <Flex gap={6} align="center">
-                        <Text size="sm" fw={500}>
-                          Test status when added:{" "}
-                        </Text>
+                    <Flex
+                      gap={{ base: 5, md: 17 }}
+                      align={{ base: "flex-start", md: "center" }}
+                      justify="space-between"
+                      direction={{
+                        base: "column",
+                        md: "row",
+                      }}
+                    >
+                      <Text fw={700} miw={130}>
+                        {comment.username}
+                      </Text>
+                      {comment.testStatusWhenCreated && (
+                        <Flex gap={6} align="center">
+                          <Text size="sm" fw={500}>
+                            Test status when added:{" "}
+                          </Text>
 
-                        <StatusIcon status={comment.testStatusWhenCreated} />
-                      </Flex>
-                    )}
+                          <StatusIcon status={comment.testStatusWhenCreated} />
+                        </Flex>
+                      )}
 
-                    <Group gap={10}>
-                      <Button
-                        variant="transparent"
-                        p={0}
-                        onClick={() => toggleIsResolved(comment)}
-                      >
-                        <Tooltip
-                          label={
-                            comment.resolved
-                              ? "Unmark as Resolved"
-                              : "Mark as Resolved"
-                          }
+                      <Group gap={10}>
+                        <Button
+                          variant="transparent"
+                          p={0}
+                          onClick={() => toggleIsResolved(comment)}
                         >
-                          <Image
-                            alt={comment.resolved ? "Resolved" : "To resolve"}
-                            src={
-                              comment.resolved ? CheckCircleFull : CheckCircle
+                          <Tooltip
+                            label={
+                              comment.resolved
+                                ? "Unmark as Resolved"
+                                : "Mark as Resolved"
                             }
+                          >
+                            <Image
+                              alt={comment.resolved ? "Resolved" : "To resolve"}
+                              src={
+                                comment.resolved ? CheckCircleFull : CheckCircle
+                              }
+                              h={24}
+                              w={24}
+                            />
+                          </Tooltip>
+                        </Button>
+                        <Button
+                          variant="transparent"
+                          onClick={deleteCommentHandler}
+                        >
+                          <img
+                            alt="Delete"
+                            src={Delete}
                             height={24}
                             width={24}
                           />
-                        </Tooltip>
-                      </Button>
-                      <Button
-                        variant="transparent"
-                        onClick={() =>
-                          modals.openContextModal({
-                            modal: Modals.ConfirmModal,
-                            centered: true,
-                            title:
-                              "Are you sure you want to delete this comment?",
-                            innerProps: {
-                              handleConfirm: () => removeComment(comment.id),
-                            },
-                          })
-                        }
-                      >
-                        <img alt="Delete" src={Delete} height={24} width={24} />
-                      </Button>
-                    </Group>
+                        </Button>
+                      </Group>
+                    </Flex>
+
+                    <Text size="sm">
+                      <RelativeDate timeStamp={comment.createdAt} />
+                    </Text>
+
+                    <CommentBreadcrumbs
+                      projectId={project.data?.id}
+                      comment={comment}
+                    />
+                    <Text>{comment.content}</Text>
                   </Flex>
-
-                  <Text size="sm">
-                    <RelativeDate timeStamp={comment.createdAt} />
-                  </Text>
-
-                  <CommentBreadcrumbs
-                    projectId={project.data?.id}
-                    comment={comment}
-                  />
-                  <Text>{comment.content}</Text>
                 </Flex>
-              </Flex>
-            ))}
+              );
+            })}
           </Stack>
         </Stack>
       )}

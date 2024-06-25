@@ -1,94 +1,97 @@
-import { Button, Container, Flex, MultiSelect, TextInput } from "@mantine/core";
+import { Button, Group, MultiSelect, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useProject } from "../../../lib/operators/useProject";
 import { TTestDynamicData } from "../../../schema";
 import { TModalProps } from "../../home/types";
 import { RichTextarea } from "../../shared/RichTextarea";
 
+type TTestModalForm = TTestDynamicData & {
+  tags: string[];
+  assignees: string[];
+};
+
 export function TestModal({
-  context,
   id,
+  context,
   innerProps: { handleSubmit, projectId, id: testId, initialValues },
-}: ContextModalProps<
-  TModalProps<TTestDynamicData & { tags: string[]; assignees: string[] }>
->) {
+}: ContextModalProps<TModalProps<TTestModalForm>>) {
   const project = useProject(projectId);
-  const [tags, setTags] = useState<string[]>(initialValues?.tags || []);
-  const [assignees, setAssignees] = useState<string[]>(
-    initialValues?.assignees || [],
-  );
-  const form = useForm<Pick<TTestDynamicData, "title" | "description">>({
+
+  const form = useForm<
+    TTestDynamicData & { tags: string[]; assignees: string[] }
+  >({
     initialValues: {
-      title: initialValues?.title || "",
-      description: initialValues?.description || "",
+      title: initialValues?.title ?? "",
+      description: initialValues?.description ?? "",
+      tags: initialValues?.tags ?? [],
+      assignees: initialValues?.assignees ?? [],
     },
   });
 
-  useEffect(() => {
-    if (initialValues) {
-      form.setValues({
-        title: initialValues?.title || "",
-        description: initialValues?.description || "",
-      });
-      setTags(initialValues.tags);
-      setAssignees(initialValues.assignees);
-    }
-  }, [initialValues]);
+  const close = useCallback(() => {
+    context.closeModal(id);
+  }, [context, id]);
+
+  const handleFormSubmit = useCallback(
+    (values: TTestModalForm) => {
+      if (handleSubmit) {
+        handleSubmit(values, testId);
+      }
+
+      close();
+    },
+    [close, handleSubmit, testId],
+  );
+
+  const assigneesChangeHandler = useCallback(
+    (values: string[]) => form.setFieldValue("assignees", values),
+    [form],
+  );
+
+  const tagsChangeHandler = useCallback(
+    (values: string[]) => form.setFieldValue("tags", values),
+    [form],
+  );
 
   return (
-    // <Modal opened={opened} onClose={close} title={title} centered size="xl">
-    <Container>
-      <form
-        onSubmit={form.onSubmit((values) => {
-          form.reset();
-          testId !== undefined
-            ? handleSubmit({ ...values, tags, assignees }, testId)
-            : handleSubmit({ ...values, tags, assignees });
-          setTags([]);
-          setAssignees([]);
-          context.closeModal(id);
-        })}
-      >
-        <Flex direction="column" gap={16}>
-          <TextInput
-            withAsterisk
-            label="Title"
-            placeholder="My new test"
-            {...form.getInputProps("title")}
-          />
-          <RichTextarea
-            label={"Description"}
-            {...form.getInputProps("description")}
-          />
-          <MultiSelect
-            label="Assignees"
-            data={
-              project.data?.collaborators?.map((collaborator) => ({
-                value: collaborator.id,
-                label: collaborator.name,
-              })) || []
-            }
-            value={assignees}
-            onChange={setAssignees}
-          />
-          <MultiSelect
-            label="Tags"
-            data={project.data?.allTags || []}
-            value={tags}
-            onChange={setTags}
-          />
-        </Flex>
-
-        <Flex justify="end" mt={16} gap={16}>
-          <Button variant="outline" onClick={() => context.closeModal(id)}>
+    <form onSubmit={form.onSubmit(handleFormSubmit)}>
+      <Stack gap={16}>
+        <TextInput
+          withAsterisk
+          label="Title"
+          placeholder="My new test"
+          {...form.getInputProps("title")}
+        />
+        <RichTextarea
+          label={"Description"}
+          {...form.getInputProps("description")}
+        />
+        <MultiSelect
+          label="Assignees"
+          data={
+            project.data?.collaborators?.map((collaborator) => ({
+              value: collaborator.id,
+              label: collaborator.name,
+            })) || []
+          }
+          value={form.values.assignees}
+          onChange={assigneesChangeHandler}
+        />
+        <MultiSelect
+          label="Tags"
+          data={project.data?.allTags || []}
+          value={form.values.tags}
+          onChange={tagsChangeHandler}
+        />
+        <Group justify="end" gap="md">
+          <Button variant="outline" onClick={close}>
             Cancel
           </Button>
           <Button type="submit">Confirm</Button>
-        </Flex>
-      </form>
-    </Container>
-    // </Modal>
+        </Group>
+      </Stack>
+    </form>
   );
 }

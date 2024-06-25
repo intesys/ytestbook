@@ -15,7 +15,11 @@ export const SimpleNewElementForm = ({
   onSubmit,
   close,
 }: SimpleNewElementFormProps) => {
-  const form = useForm<FormValues>();
+  const form = useForm<FormValues>({
+    initialValues: {
+      title: "",
+    },
+  });
 
   useEffect(() => {
     return () => form.reset();
@@ -28,7 +32,6 @@ export const SimpleNewElementForm = ({
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <TextInput
-        name="title"
         w={"100%"}
         required
         autoFocus

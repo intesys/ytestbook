@@ -1,4 +1,4 @@
-import { Button, Container, Flex, TextInput } from "@mantine/core";
+import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback, useEffect } from "react";
@@ -12,17 +12,13 @@ export function CollaboratorModal({
 }: ContextModalProps<TModalProps<TCollaboratorDynamicData>>) {
   const form = useForm<TCollaboratorDynamicData>({
     initialValues: {
-      name: initialValues?.name || "",
-      email: initialValues?.email || "",
+      name: initialValues?.name ?? "",
+      email: initialValues?.email ?? "",
     },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
     },
   });
-
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
 
   useEffect(() => {
     if (initialValues) {
@@ -30,18 +26,24 @@ export function CollaboratorModal({
     }
   }, [form, initialValues]);
 
+  const close = useCallback(() => {
+    context.closeModal(id);
+  }, [context, id]);
+
+  const handleFormSubmit = useCallback(
+    (values: TCollaboratorDynamicData) => {
+      if (handleSubmit) {
+        handleSubmit(values, collaboratorId);
+      }
+      close();
+    },
+    [close, collaboratorId, handleSubmit],
+  );
+
   return (
-    <Container>
-      <form
-        onSubmit={form.onSubmit((values) => {
-          form.reset();
-          collaboratorId !== undefined
-            ? handleSubmit(values, collaboratorId)
-            : handleSubmit(values);
-          close();
-        })}
-      >
-        <Flex direction={"column"} gap={16}>
+    <form onSubmit={form.onSubmit(handleFormSubmit)}>
+      <Stack gap="md">
+        <Stack gap="md">
           <TextInput
             withAsterisk
             label="Name"
@@ -52,15 +54,15 @@ export function CollaboratorModal({
             label="Email"
             {...form.getInputProps("email")}
           />
-        </Flex>
+        </Stack>
 
-        <Flex justify={"end"} mt={16} gap={16}>
+        <Group justify="end" gap="md">
           <Button variant="outline" onClick={close}>
             Cancel
           </Button>
           <Button type="submit">Confirm</Button>
-        </Flex>
-      </form>
-    </Container>
+        </Group>
+      </Stack>
+    </form>
   );
 }

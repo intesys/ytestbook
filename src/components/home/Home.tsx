@@ -1,23 +1,35 @@
 import { Loader, Table, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import React from "react";
+import { modals } from "@mantine/modals";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router";
 import AddCircle from "../../assets/icons/add_circle.svg";
 import Logo from "../../assets/logo.svg";
 import { useProjects } from "../../lib/operators/useProjects";
+import { Modals } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { Action } from "./Action";
-import { CreateTestbookModal } from "./CreateTestbookModal";
-import { JsonImporter } from "./JsonImporter";
 import classes from "./home.module.css";
+import { JsonImporter } from "./JsonImporter";
 
 export const Home: React.FC = () => {
   const projects = useProjects();
   const navigate = useNavigate();
-  const [opened, { open, close }] = useDisclosure(false);
+
+  const createTestbookAction = useCallback(
+    () =>
+      modals.openContextModal({
+        modal: Modals.CreateTestbookModal,
+        title: "Create project",
+        centered: true,
+        innerProps: {
+          handleSubmit: projects.createProject,
+        },
+      }),
+    [projects.createProject],
+  );
+
   return (
     <div className={classes.container}>
-      <CreateTestbookModal opened={opened} close={close} />
       <div className={classes.top}>
         <div className={classes.header}>
           <img src={Logo} height={78} width={78} alt="yTestbook" />
@@ -27,7 +39,7 @@ export const Home: React.FC = () => {
             title="Create project"
             label="Create a new testbook"
             icon={AddCircle}
-            action={open}
+            action={createTestbookAction}
           />
           <JsonImporter />
         </div>

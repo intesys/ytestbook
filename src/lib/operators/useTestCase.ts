@@ -8,9 +8,9 @@ import {
   TDocType,
   TTestDynamicData,
 } from "../../schema";
-import { TUseTestCase } from "./types";
-import { removeTuples } from "../helpers/removeTuples";
 import { addTuples } from "../helpers/addTuples";
+import { removeTuples } from "../helpers/removeTuples";
+import { TUseTestCase } from "./types";
 
 export function useTestCase(
   projectId: string | undefined,
@@ -93,36 +93,56 @@ export function useTestCase(
   const updateTest = useCallback(
     (
       values: TTestDynamicData & { tags: string[]; assignees: string[] },
-      testId: string,
+      testId?: string,
     ) => {
-      if (!projectId || !caseId) return;
+      if (!projectId || !caseId || !testId) {
+        return;
+      }
+
       const date = new Date();
+
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        const t = tc?.tests.find((item) => item.id === testId);
-        if (!t || !p) return;
-        if (!p.tagToTest) p.tagToTest = [];
-        if (!p.collaboratorToTest) p.collaboratorToTest = [];
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        const testCase = project?.testCases.find((item) => item.id === caseId);
+        const test = testCase?.tests.find((item) => item.id === testId);
+
+        if (!test || !project) {
+          return;
+        }
+
+        if (!project.tagToTest) {
+          project.tagToTest = [];
+        }
+
+        if (!project.collaboratorToTest) {
+          project.collaboratorToTest = [];
+        }
+
         /**Remove all old testId relationships from tagTotest that are not in 'values'  */
         removeTuples(
-          p.tagToTest,
+          project.tagToTest,
           (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0]),
         );
         /**Add new testId tags releationships */
-        addTuples(p.tagToTest || [], testId, values.tags);
+        addTuples(project.tagToTest || [], testId, values.tags);
         /**Remove all old testId relationships from collaboratorToTest that are not in 'values'  */
         removeTuples(
-          p.collaboratorToTest,
+          project.collaboratorToTest,
           (tuple) =>
             tuple[1] === testId && !values.assignees.includes(tuple[0]),
         );
         /**Add new testId collaborators releationships */
-        addTuples(p.collaboratorToTest, testId, values.assignees);
+        addTuples(project.collaboratorToTest, testId, values.assignees);
         /**TODO: needs to be enhanced */
-        if (values.title) t.title = values.title;
-        if (values.description) t.description = values.description;
-        t.lastUpdate = date.getTime();
+        if (values.title) {
+          test.title = values.title;
+        }
+        if (values.description) {
+          test.description = values.description;
+        }
+        test.lastUpdate = date.getTime();
       });
     },
     [projectId, caseId, changeDoc],
@@ -161,14 +181,22 @@ export function useTestCase(
   );
 
   const removeTest = useCallback(
-    (testId: string) => {
+    (testId?: string) => {
+      if (!testId) {
+        return;
+      }
+
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        if (!tc || !p) return;
-        const index = tc.tests.findIndex((test) => test.id === testId);
-        tc.tests.splice(index, 1);
-        removeTuples(p.tagToTest || [], (tuple) => tuple[1] === testId);
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        const testCase = project?.testCases.find((item) => item.id === caseId);
+        if (!testCase || !project) {
+          return;
+        }
+        const index = testCase.tests.findIndex((test) => test.id === testId);
+        testCase.tests.splice(index, 1);
+        removeTuples(project.tagToTest ?? [], (tuple) => tuple[1] === testId);
       });
     },
     [changeDoc, projectId, caseId],
@@ -177,13 +205,20 @@ export function useTestCase(
   const removeComment = useCallback(
     (commentId: string) => {
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        if (!tc) return;
-        const index = tc.comments.findIndex(
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        const testCase = project?.testCases.find((item) => item.id === caseId);
+
+        if (!testCase) {
+          return;
+        }
+
+        const index = testCase.comments.findIndex(
           (comment) => comment.id === commentId,
         );
-        delete tc.comments[index];
+
+        delete testCase.comments[index];
       });
     },
     [changeDoc, projectId, caseId],

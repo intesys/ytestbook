@@ -1,4 +1,4 @@
-import { Button, Progress, Title, Tooltip } from "@mantine/core";
+import { Button, Group, Progress, Title, Tooltip } from "@mantine/core";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 import { Avatars } from "../avatars/Avatars";
@@ -22,7 +22,7 @@ export function ContentHeader({
   return (
     <div className={classes.header}>
       <div className={classes.headerTop}>
-        <div className={classes.headerLeft}>
+        <Group className={classes.headerLeft} gap={10} align="center">
           <StatusIcon status={status} />
           <Title order={3}>
             <EditableText value={title} onChange={handleQuickEdit} />
@@ -39,7 +39,7 @@ export function ContentHeader({
               />
             </Tooltip>
           ) : null}
-        </div>
+        </Group>
         {assignees && <Avatars collaborators={assignees} />}
       </div>
       <div className={classes.headerBottom}>

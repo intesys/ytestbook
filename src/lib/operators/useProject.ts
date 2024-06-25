@@ -1,5 +1,6 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
+import slugify from "slugify";
 import { useDocContext } from "../../components/docContext/DocContext";
 import {
   StatusEnum,
@@ -12,10 +13,9 @@ import {
   TStep,
   TTest,
 } from "../../schema";
+import { downloadFile } from "../helpers/downloadFile";
 import { removeTuples } from "../helpers/removeTuples";
 import { TUseProject } from "./types";
-import { downloadFile } from "../helpers/downloadFile";
-import slugify from "slugify";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -188,18 +188,36 @@ export function useProject(projectId: string | undefined): TUseProject {
   );
 
   const updateTestCase = useCallback(
-    (values: TCaseDynamicData, caseId: string) => {
-      if (!projectId) return;
+    (values: TCaseDynamicData, caseId?: string) => {
+      if (!projectId || !caseId) {
+        return;
+      }
+
       const date = new Date();
+
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        if (!tc) return;
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+
+        const testCase = project?.testCases.find((item) => item.id === caseId);
+
+        if (!testCase) {
+          return;
+        }
+
         /**TODO: needs to be enhanced */
-        if (values.title) tc.title = values.title;
-        if (values.jiraLink) tc.jiraLink = values.jiraLink;
-        if (values.description) tc.description = values.description;
-        tc.lastUpdate = date.getTime();
+        if (values.title) {
+          testCase.title = values.title;
+        }
+        if (values.jiraLink) {
+          testCase.jiraLink = values.jiraLink;
+        }
+        if (values.description) {
+          testCase.description = values.description;
+        }
+
+        testCase.lastUpdate = date.getTime();
       });
     },
     [changeDoc, projectId],
@@ -260,20 +278,32 @@ export function useProject(projectId: string | undefined): TUseProject {
   );
 
   const updateCollaborator = useCallback(
-    (values: TCollaboratorDynamicData, id: TCollaborator["id"]) => {
-      if (!projectId) return;
+    (values: TCollaboratorDynamicData, id?: TCollaborator["id"]) => {
+      if (!projectId || !id) {
+        return;
+      }
       const date = new Date();
+
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
         /**@hribeiro TODO: The collaborators check was introduced to keep compatibility with older projects. To be removed*/
-        if (!p || !p.collaborators) return;
-        const collaborator = p.collaborators.find(
+        if (!project || !project.collaborators) {
+          return;
+        }
+
+        const collaborator = project.collaborators.find(
           (collaborator) => collaborator.id === id,
         );
-        if (!collaborator) return;
+
+        if (!collaborator) {
+          return;
+        }
+
         collaborator.name = values.name;
         collaborator.email = values.email;
-        p.lastUpdate = date.getTime();
+        project.lastUpdate = date.getTime();
       });
     },
     [changeDoc, projectId],
@@ -302,14 +332,25 @@ export function useProject(projectId: string | undefined): TUseProject {
   );
 
   const removeTestCase = useCallback(
-    (testCaseId: string) => {
+    (testCaseId?: string) => {
+      if (!testCaseId) {
+        return;
+      }
+
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        if (!p) return;
-        const index = p.testCases.findIndex(
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+
+        if (!project) {
+          return;
+        }
+
+        const index = project.testCases.findIndex(
           (testCase) => testCase.id === testCaseId,
         );
-        delete p.testCases[index];
+
+        delete project.testCases[index];
       });
     },
     [changeDoc, projectId],

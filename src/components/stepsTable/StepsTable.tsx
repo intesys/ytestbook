@@ -1,11 +1,14 @@
 import { Button, Table, Text, ThemeIcon, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
+import { modals } from "@mantine/modals";
+import merge from "lodash/merge";
+import { MouseEvent } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import Delete from "../../assets/icons/delete.svg";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../schema";
+import { deleteModalsDefaults } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
@@ -21,7 +24,6 @@ export function StepsTable({
   updateStepStatus: TUseTest["updateStepStatus"];
   removeStep: TUseTest["removeStep"];
 }) {
-  const [stepToRemove, setStepToRemove] = useState<TStep>();
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
 
@@ -32,25 +34,9 @@ export function StepsTable({
     close();
   };
 
-  const closeDeleteModal = () => setStepToRemove(undefined);
-  const applyRemoveStep = () => {
-    if (!stepToRemove) {
-      return;
-    }
-
-    removeStep(stepToRemove.id);
-    closeDeleteModal();
-  };
-
   return (
     <>
       <Title order={4}>Steps</Title>
-
-      {/*<ConfirmDeleteModal
-        close={closeDeleteModal}
-        handleConfirm={applyRemoveStep}
-        opened={!!stepToRemove}
-      />*/}
 
       {steps.length === 0 && !opened ? (
         <Text>The steps list is empty.</Text>
@@ -71,42 +57,60 @@ export function StepsTable({
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {steps.map((step) => (
-              <Table.Tr
-                key={step.id}
-                onClick={() => navigate(`step/${step.id}`, {})}
-              >
-                <Table.Td>
-                  <StatusButton
-                    step={step}
-                    updateStepStatus={updateStepStatus}
-                  />
-                </Table.Td>
-                <Table.Td>
-                  <Text size="sm">{step.title}</Text>
-                </Table.Td>
-                <Table.Td>
-                  {step.lastUpdate ? (
-                    <RelativeDate timeStamp={step.lastUpdate} />
-                  ) : (
-                    "—"
-                  )}
-                </Table.Td>
-                <Table.Td>
-                  <Button
-                    variant="transparent"
-                    p={0}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setStepToRemove(step);
-                    }}
-                  >
-                    <img alt="Delete step" src={Delete} />
-                  </Button>
-                </Table.Td>
-              </Table.Tr>
-            ))}
+            {steps.map((step) => {
+              const removeClickHandler = (
+                event: MouseEvent<HTMLButtonElement>,
+              ) => {
+                event.preventDefault();
+                event.stopPropagation();
+
+                modals.openContextModal(
+                  merge(deleteModalsDefaults, {
+                    title: "Are you sure you want to delete this step?",
+                    innerProps: {
+                      handleConfirm: () => {
+                        if (step.id) {
+                          removeStep(step.id);
+                        }
+                      },
+                    },
+                  }),
+                );
+              };
+
+              return (
+                <Table.Tr
+                  key={step.id}
+                  onClick={() => navigate(`step/${step.id}`, {})}
+                >
+                  <Table.Td>
+                    <StatusButton
+                      step={step}
+                      updateStepStatus={updateStepStatus}
+                    />
+                  </Table.Td>
+                  <Table.Td>
+                    <Text size="sm">{step.title}</Text>
+                  </Table.Td>
+                  <Table.Td>
+                    {step.lastUpdate ? (
+                      <RelativeDate timeStamp={step.lastUpdate} />
+                    ) : (
+                      "—"
+                    )}
+                  </Table.Td>
+                  <Table.Td>
+                    <Button
+                      variant="transparent"
+                      p={0}
+                      onClick={removeClickHandler}
+                    >
+                      <img alt="Delete step" src={Delete} />
+                    </Button>
+                  </Table.Td>
+                </Table.Tr>
+              );
+            })}
             {opened && (
               <Table.Tr>
                 <Table.Td colSpan={5}>

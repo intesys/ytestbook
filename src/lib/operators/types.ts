@@ -26,7 +26,7 @@ type TOperatorLoader<T> =
 
 export type TUseProjects = {
   createProject: (values: TProjectDynamicData) => void;
-  removeProject: (projectId: string) => void;
+  removeProject: (projectId?: string) => void;
   importJSON: (fileReaderResult?: FileReader["result"]) => string | false;
 } & TOperatorLoader<TProject[]>;
 
@@ -39,15 +39,15 @@ export type TUseProject = {
   exportJSON: () => void;
   createTestCase: (values: TCaseDynamicData) => void;
   createCollaborator: (newCollaborator: TCollaboratorDynamicData) => void;
-  updateTestCase: (values: TCaseDynamicData, caseId: string) => void;
+  updateTestCase: (values: TCaseDynamicData, caseId?: string) => void;
   updateTestCaseStatus: (caseId: string, status: StatusEnum) => void;
   updateAllTags: (allTags: string[]) => void;
   updateCollaborator: (
     values: TCollaboratorDynamicData,
-    id: TCollaborator["id"],
+    id?: TCollaborator["id"],
   ) => void;
   removeCollaborator: (id: TCollaborator["id"]) => void;
-  removeTestCase: (testCaseId: string) => void;
+  removeTestCase: (testCaseId?: string) => void;
   updateProject: (
     data: Partial<Pick<TProject, "title" | "customer" | "description">>,
   ) => void;
@@ -65,11 +65,11 @@ export type TUseTestCase = {
   updateCommentResolved: (isResolved: boolean, commentId: string) => void;
   updateTest: (
     values: TTestDynamicData & { tags: string[]; assignees: string[] },
-    testId: string,
+    testId?: string,
   ) => void;
   updateTestDescription: (testId: string, description: string) => void;
   updateTestStatus: (testId: string, status: StatusEnum) => void;
-  removeTest: (testId: string) => void;
+  removeTest: (testId?: string) => void;
   removeComment: (commentId: string) => void;
 } & TOperatorLoader<TCase>;
 

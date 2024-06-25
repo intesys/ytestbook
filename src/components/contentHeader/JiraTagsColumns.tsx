@@ -1,32 +1,27 @@
-import { TJiraTagsColumns } from "./types";
-import classes from "./contentHeader.module.css";
+import { Anchor, Badge, Group, Image, Text } from "@mantine/core";
 import JiraIcon from "../../assets/icons/cib_jira.svg";
-import { Anchor, Badge, Flex, Text } from "@mantine/core";
+import classes from "./contentHeader.module.css";
+import { TJiraTagsColumns } from "./types";
 
-export function JiraTagsColumns({ jiraLink, tags }: TJiraTagsColumns) {
-  if (!jiraLink && !tags) {
-    return null;
-  }
+// This always returns a component, so the space-between Group (in parent)
+// won't make the buttons jump around.
+export const JiraTagsColumns = ({ jiraLink, tags }: TJiraTagsColumns) => (
+  <Group gap="md">
+    {jiraLink ? (
+      <Anchor href={jiraLink} className={classes.jiraLink} target="_blank">
+        <Image alt="Jira" src={JiraIcon} h={20} w={20} />
+        <Text ml={5}>Jira Link</Text>
+      </Anchor>
+    ) : null}
 
-  return (
-    <div>
-      {jiraLink && (
-        <Anchor href={jiraLink} className={classes.jiraLink} target="_blank">
-          <img src={JiraIcon} height={20} width={20} />
-          <Text ml={5}>Jira Link</Text>
-        </Anchor>
-      )}
-      {tags && (
-        <Flex gap={5}>
-          {tags.map((tag) => (
-            <Badge key={tag} color="#EBEEFB" size="sm">
-              <Text size="sm" c={"black"} fw={"bold"} truncate="end">
-                {tag}
-              </Text>
-            </Badge>
-          ))}
-        </Flex>
-      )}
-    </div>
-  );
-}
+    <Group gap={5}>
+      {(tags ?? []).map((tag) => (
+        <Badge key={tag} color="#EBEEFB" size="sm">
+          <Text size="sm" c="black" fw="bold" truncate="end">
+            {tag}
+          </Text>
+        </Badge>
+      ))}
+    </Group>
+  </Group>
+);

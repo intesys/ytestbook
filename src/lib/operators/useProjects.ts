@@ -1,10 +1,10 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { notifications } from "@mantine/notifications";
 import { useCallback } from "react";
+import z from "zod";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { TDocType, TProject, TProjectDynamicData } from "../../schema";
 import { TUseProjects } from "./types";
-import z from "zod";
-import { notifications } from "@mantine/notifications";
 
 export function useProjects(): TUseProjects {
   const { docUrl } = useDocContext();
@@ -32,7 +32,11 @@ export function useProjects(): TUseProjects {
   );
 
   const removeProject = useCallback(
-    (id: string) => {
+    (id?: string) => {
+      if (!id) {
+        return;
+      }
+
       changeDoc((d) => {
         const index = d.projects.findIndex((project) => project.id === id);
         d.projects.splice(index, 1);
