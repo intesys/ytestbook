@@ -15,8 +15,6 @@ import {
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
-import { modals } from "@mantine/modals";
-import merge from "lodash/merge";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
@@ -25,7 +23,7 @@ import Delete from "../../assets/icons/delete.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
-import { deleteModalsDefaults } from "../modals/modals.ts";
+import { openDeleteConfirmModal } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
@@ -186,13 +184,11 @@ export function CommentsList({
           <Stack gap={10} mt={40}>
             {computedComments.map((comment) => {
               const deleteCommentHandler = () =>
-                modals.openContextModal(
-                  merge(deleteModalsDefaults, {
-                    title: "Are you sure you want to delete this comment?",
-                    innerProps: {
-                      handleConfirm: () => removeComment(comment.id),
-                    },
-                  }),
+                openDeleteConfirmModal(
+                  "Are you sure you want to delete this comment?",
+                  {
+                    handleConfirm: () => removeComment(comment.id),
+                  },
                 );
 
               return (

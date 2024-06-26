@@ -1,6 +1,5 @@
 import { Flex, Loader } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import merge from "lodash/merge";
 import { useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
@@ -9,7 +8,7 @@ import { useTestCase } from "../../lib/operators/useTestCase";
 import { TStep } from "../../schema";
 import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
-import { deleteModalsDefaults, Modals } from "../modals/modals.ts";
+import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.css";
@@ -73,18 +72,16 @@ export function TestCase() {
 
   const deleteClickHandler = useCallback(
     () =>
-      modals.openContextModal(
-        merge(deleteModalsDefaults, {
-          title: "Are you sure you want to delete this test case?",
-          innerProps: {
-            handleConfirm: () => {
-              if (project.data) {
-                project.removeTestCase(testCase?.data?.id);
-                navigate(`/project/${project.data.id}`);
-              }
-            },
+      openDeleteConfirmModal(
+        "Are you sure you want to delete this test case?",
+        {
+          handleConfirm: () => {
+            if (project.data) {
+              project.removeTestCase(testCase?.data?.id);
+              navigate(`/project/${project.data.id}`);
+            }
           },
-        }),
+        },
       ),
     [navigate, project, testCase?.data?.id],
   );

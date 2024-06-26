@@ -20,7 +20,6 @@ import {
   IconTrash,
   IconUserPlus,
 } from "@tabler/icons-react";
-import merge from "lodash/merge";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProject } from "../../lib/operators/useProject";
@@ -28,7 +27,7 @@ import { useProjects } from "../../lib/operators/useProjects";
 import { TCollaborator } from "../../schema";
 import { ActionIconWithConfirm } from "../actionIconWithConfirm/ActionIconWithConfirm.tsx";
 import { Avatars } from "../avatars/Avatars.tsx";
-import { deleteModalsDefaults, Modals } from "../modals/modals.ts";
+import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import classes from "./settings.module.css";
 
 export function Settings() {
@@ -61,17 +60,12 @@ export function Settings() {
 
   const deleteTestbookHandler = useCallback(
     () =>
-      modals.openContextModal(
-        merge(deleteModalsDefaults, {
-          title: "Are you sure you want to delete this Testbook?",
-          innerProps: {
-            handleConfirm: () => {
-              projects.removeProject(project?.data?.id);
-              navigate("/");
-            },
-          },
-        }),
-      ),
+      openDeleteConfirmModal("Are you sure you want to delete this Testbook?", {
+        handleConfirm: () => {
+          projects.removeProject(project?.data?.id);
+          navigate("/");
+        },
+      }),
     [navigate, project?.data?.id, projects],
   );
 

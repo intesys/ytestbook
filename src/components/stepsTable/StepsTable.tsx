@@ -1,14 +1,12 @@
 import { Button, Table, Text, ThemeIcon, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { modals } from "@mantine/modals";
-import merge from "lodash/merge";
 import { MouseEvent } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import Delete from "../../assets/icons/delete.svg";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../schema";
-import { deleteModalsDefaults } from "../modals/modals.ts";
+import { openDeleteConfirmModal } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
@@ -64,17 +62,15 @@ export function StepsTable({
                 event.preventDefault();
                 event.stopPropagation();
 
-                modals.openContextModal(
-                  merge(deleteModalsDefaults, {
-                    title: "Are you sure you want to delete this step?",
-                    innerProps: {
-                      handleConfirm: () => {
-                        if (step.id) {
-                          removeStep(step.id);
-                        }
-                      },
+                openDeleteConfirmModal(
+                  "Are you sure you want to delete this step?",
+                  {
+                    handleConfirm: () => {
+                      if (step.id) {
+                        removeStep(step.id);
+                      }
                     },
-                  }),
+                  },
                 );
               };
 

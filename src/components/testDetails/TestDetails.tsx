@@ -1,6 +1,5 @@
 import { Button, Flex, Image, Loader, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import merge from "lodash/merge";
 import { useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
@@ -10,7 +9,7 @@ import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
-import { deleteModalsDefaults, Modals } from "../modals/modals.ts";
+import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepsTable } from "../stepsTable/StepsTable";
 import classes from "./testDetails.module.css";
@@ -82,21 +81,16 @@ export function TestDetails() {
 
   const deleteClickHandler = useCallback(
     () =>
-      modals.openContextModal(
-        merge(deleteModalsDefaults, {
-          title: "Are you sure you want to delete this test?",
-          innerProps: {
-            handleConfirm: () => {
-              if (project.data && testCase.data) {
-                testCase.removeTest(test?.data?.id);
-                navigate(
-                  `/project/${project.data.id}/testCase/${testCase.data.id}`,
-                );
-              }
-            },
-          },
-        }),
-      ),
+      openDeleteConfirmModal("Are you sure you want to delete this test?", {
+        handleConfirm: () => {
+          if (project.data && testCase.data) {
+            testCase.removeTest(test?.data?.id);
+            navigate(
+              `/project/${project.data.id}/testCase/${testCase.data.id}`,
+            );
+          }
+        },
+      }),
     [navigate, project.data, test?.data?.id, testCase],
   );
 

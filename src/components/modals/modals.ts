@@ -1,5 +1,11 @@
+import { ModalProps } from "@mantine/core";
+import { openContextModal } from "@mantine/modals";
+import merge from "lodash/merge";
 import { CollaboratorModal } from "./collaboratorModal/CollaboratorModal.tsx";
-import { ConfirmModal } from "./confirmModal/ConfirmModal.tsx";
+import {
+  ConfirmModal,
+  TConfirmModalProps,
+} from "./confirmModal/ConfirmModal.tsx";
 import { CreateTestbookModal } from "./createTestbookModal/CreateTestbookModal.tsx";
 import { TestCaseModal } from "./testCaseModal/TestCaseModal.tsx";
 import { TestModal } from "./testModal/TestModal.tsx";
@@ -35,6 +41,19 @@ export const deleteModalsDefaults = {
     },
   },
 };
+
+export const openDeleteConfirmModal = (
+  title: string,
+  innerProps: TConfirmModalProps = {},
+  modalProps: Omit<ModalProps, "opened" | "onClose"> = {},
+) =>
+  openContextModal(
+    merge(deleteModalsDefaults, {
+      title,
+      ...modalProps,
+      innerProps,
+    }),
+  );
 
 declare module "@mantine/modals" {
   export interface MantineModalsOverride {
