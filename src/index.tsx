@@ -31,19 +31,21 @@ const root = createRoot(
   document.getElementById("ytestbook_root") as HTMLElement,
 );
 
+const datesSetting = {};
+
 root.render(
   <React.StrictMode>
     <MantineProvider theme={{ ...theme }}>
       <Notifications position="top-right" zIndex={1000} />
       <RepoContext.Provider value={repo}>
         <BrowserRouter>
-          <DocProvider>
-            <ModalsProvider modals={modals}>
-              <DatesProvider settings={{ locale: "it" }}>
+          <DatesProvider settings={datesSetting}>
+            <DocProvider>
+              <ModalsProvider modals={modals}>
                 <MainNavigation />
-              </DatesProvider>
-            </ModalsProvider>
-          </DocProvider>
+              </ModalsProvider>
+            </DocProvider>
+          </DatesProvider>
         </BrowserRouter>
       </RepoContext.Provider>
     </MantineProvider>
