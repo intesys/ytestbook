@@ -55,14 +55,12 @@ export const EditableHtmlText = ({
   const isEmpty = internalValue === "" || internalValue === EMPTY_VALUE;
 
   return (
-    <>
-      <Text
-        onClick={handlers.toggle}
-        c={isEmpty ? "dimmed" : undefined}
-        dangerouslySetInnerHTML={{
-          __html: isEmpty ? `<p>Add ${name}</p>` : internalValue,
-        }}
-      />
-    </>
+    <Text
+      onClick={handlers.toggle}
+      c={isEmpty ? "dimmed" : undefined}
+      dangerouslySetInnerHTML={{
+        __html: isEmpty ? `<p>Add ${name}</p>` : internalValue,
+      }}
+    />
   );
 };
