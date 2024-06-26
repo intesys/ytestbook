@@ -36,7 +36,7 @@ export type TTest = {
 } & TTestDynamicData;
 
 export type TCommentDynamicData = {
-  username: string;
+  collaboratorId: string;
   content: string;
 };
 

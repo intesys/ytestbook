@@ -107,6 +107,21 @@ export function useProject(projectId: string | undefined): TUseProject {
     [doc?.projects, projectId],
   );
 
+  const getCollaborator = useCallback(
+    (collaboratorId: TCollaborator["id"]) => {
+      const project = doc?.projects.find(
+        (item) => projectId && item.id === projectId,
+      );
+
+      if (!project) {
+        return undefined;
+      }
+
+      return project.collaborators?.find((c) => c.id === collaboratorId);
+    },
+    [doc?.projects, projectId],
+  );
+
   const exportJSON = () => {
     const project = doc?.projects.find((p) => p.id === projectId);
     if (project) {
@@ -365,6 +380,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       getAssigneesByTestId,
       getAssigneesByCaseId,
       getStatusChangesByStepId,
+      getCollaborator,
       exportJSON,
       createTestCase,
       createCollaborator,
@@ -385,6 +401,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       getAssigneesByTestId,
       getAssigneesByCaseId,
       getStatusChangesByStepId,
+      getCollaborator,
       exportJSON,
       createTestCase,
       createCollaborator,

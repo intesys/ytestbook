@@ -22,12 +22,21 @@ import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
 import Delete from "../../assets/icons/delete.svg";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
-import { TComment, TCommentDynamicData, TStep, TTest } from "../../schema";
-import { openDeleteConfirmModal } from "../modals/modals.ts";
+import {
+  TCollaborator,
+  TComment,
+  TCommentDynamicData,
+  TStep,
+  TTest,
+} from "../../schema";
+import { Avatars } from "../avatars/Avatars";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
+import { openDeleteConfirmModal } from "../modals/modals";
+
+export const USER_ANONYMOUS_LABEL = "Anonymous";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -58,7 +67,7 @@ export function CommentsList({
 
   const form = useForm<TCommentDynamicData>({
     initialValues: {
-      username: "",
+      collaboratorId: "",
       content: "",
     },
   });
@@ -72,10 +81,11 @@ export function CommentsList({
 
   const nameOptions = useMemo(() => {
     if (project.data?.collaborators) {
-      const options = project.data.collaborators.map(
-        (collaborator) => collaborator.name,
-      );
-      options.push("Anonymous");
+      const options = project.data.collaborators.map((collaborator) => ({
+        label: collaborator.name,
+        value: collaborator.id,
+      }));
+      options.push({ label: USER_ANONYMOUS_LABEL, value: "" });
       return options;
     }
   }, [project.data?.collaborators]);
@@ -149,6 +159,14 @@ export function CommentsList({
     return null;
   }
 
+  const collaboratorAvatar = (collaborator?: TCollaborator) => {
+    if (collaborator) {
+      return <Avatars collaborators={[collaborator]} maxAvatars={1} />;
+    }
+
+    return <Avatar alt={USER_ANONYMOUS_LABEL}>A</Avatar>;
+  };
+
   return (
     <>
       {showTitle ? <Title order={4}>Notes</Title> : null}
@@ -183,6 +201,10 @@ export function CommentsList({
           </form>
           <Stack gap={10} mt={40}>
             {computedComments.map((comment) => {
+              const collaborator = project.getCollaborator(
+                comment.collaboratorId,
+              );
+
               const deleteCommentHandler = () =>
                 openDeleteConfirmModal(
                   "Are you sure you want to delete this comment?",
@@ -193,10 +215,7 @@ export function CommentsList({
 
               return (
                 <Flex key={comment.id} gap={10}>
-                  <Avatar alt={comment.username}>
-                    {comment.username.split(" ")[0]?.[0]}
-                    {comment.username.split(" ")[1]?.[0]}
-                  </Avatar>
+                  {collaboratorAvatar(collaborator)}
                   <Flex
                     direction={"column"}
                     gap={12}
@@ -214,7 +233,7 @@ export function CommentsList({
                       }}
                     >
                       <Text fw={700} miw={130}>
-                        {comment.username}
+                        {collaborator?.name ?? USER_ANONYMOUS_LABEL}
                       </Text>
                       {comment.testStatusWhenCreated && (
                         <Flex gap={6} align="center">
@@ -291,7 +310,7 @@ export function CommentsList({
             withAsterisk
             label="Member"
             data={nameOptions}
-            {...form.getInputProps("username")}
+            {...form.getInputProps("collaboratorId")}
           />
           <Textarea
             placeholder="Your comment here"
