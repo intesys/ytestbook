@@ -1,11 +1,12 @@
 import { Button, Group, MultiSelect, Stack, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
 import { useProject } from "../../../lib/operators/useProject";
 import { TTestDynamicData } from "../../../schema";
 import { TModalProps } from "../../home/types";
 import { RichTextarea } from "../../shared/RichTextarea";
+import { FormErrorMessages } from "../../../lib/formErrors";
 
 type TTestModalForm = TTestDynamicData & {
   tags: string[];
@@ -27,6 +28,9 @@ export function TestModal({
       description: initialValues?.description ?? "",
       tags: initialValues?.tags ?? [],
       assignees: initialValues?.assignees ?? [],
+    },
+    validate: {
+      title: isNotEmpty(FormErrorMessages.required),
     },
   });
 

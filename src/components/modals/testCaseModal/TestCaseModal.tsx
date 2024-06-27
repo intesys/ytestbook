@@ -1,10 +1,11 @@
 import { Button, Group, Stack, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
 import { TCaseDynamicData } from "../../../schema";
 import { TModalProps } from "../../home/types";
 import { RichTextarea } from "../../shared/RichTextarea";
+import { FormErrorMessages } from "../../../lib/formErrors";
 
 export function TestCaseModal({
   id,
@@ -16,6 +17,9 @@ export function TestCaseModal({
       title: initialValues?.title ?? "",
       description: initialValues?.description ?? "",
       jiraLink: initialValues?.jiraLink ?? "",
+    },
+    validate: {
+      title: isNotEmpty(FormErrorMessages.required),
     },
   });
 

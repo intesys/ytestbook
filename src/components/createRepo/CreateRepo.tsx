@@ -1,7 +1,8 @@
 import { Button, Flex, Text, TextInput, Title } from "@mantine/core";
 import { useDocContext } from "../docContext/DocContext";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { isValidAutomergeUrl } from "@automerge/automerge-repo";
+import { FormErrorMessages } from "../../lib/formErrors";
 
 export function CreateRepo() {
   const { createDoc, findAndSetDoc } = useDocContext();
@@ -9,6 +10,9 @@ export function CreateRepo() {
   const form = useForm({
     initialValues: {
       docUrl: "",
+    },
+    validate: {
+      docUrl: isNotEmpty(FormErrorMessages.required),
     },
   });
 
