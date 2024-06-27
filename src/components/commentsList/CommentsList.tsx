@@ -270,9 +270,12 @@ export function CommentsList({
                         </Button>
                         <Button
                           variant="transparent"
-                          onClick={deleteCommentHandler}
+                          p={0}
+                          onClick={() => setCommentToDelete(comment)}
                         >
-                          <Image alt="Delete" src={Delete} h={24} w={24} />
+                          <Tooltip label={"Delete comment"}>
+                            <Image alt="Delete" src={Delete} h={24} w={24} />
+                          </Tooltip>
                         </Button>
                       </Group>
                     </Flex>
