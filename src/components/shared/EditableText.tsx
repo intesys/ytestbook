@@ -37,6 +37,12 @@ export const EditableText: React.FC<EditableText> = ({ onChange, value }) => {
       handlers.close();
       onChange && onChange(e.currentTarget.value);
     }
+
+    // Undo on Esc
+    if (e.key === "Escape") {
+      handlers.close();
+      setInternalValue(value ?? "");
+    }
   };
 
   if (editing) {

@@ -1,5 +1,6 @@
-import { TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Box, TextInput } from "@mantine/core";
+import { isNotEmpty, useForm } from "@mantine/form";
+import { useClickOutside } from "@mantine/hooks";
 import { useEffect } from "react";
 
 type FormValues = {
@@ -19,25 +20,56 @@ export const SimpleNewElementForm = ({
     initialValues: {
       title: "",
     },
+    validate: {
+      title: isNotEmpty(),
+    },
   });
 
   useEffect(() => {
     return () => form.reset();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.reset]);
 
   const handleSubmit = (values: FormValues) => onSubmit(values.title);
+  const triggerSubmit = () => {
+    const validateResult = form.validate();
+    if (!validateResult.hasErrors) {
+      const values = form.getValues();
+      handleSubmit(values);
+    }
+  };
 
-  const onBlur = () => close();
+  const closeAndReset = () => {
+    close();
+    form.reset();
+  };
+
+  const ref = useClickOutside(triggerSubmit);
+
+  const onBlur = () => closeAndReset();
+
+  const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
+    if (event.key === "Tab") {
+      triggerSubmit();
+    }
+
+    if (event.key === "Escape") {
+      closeAndReset();
+    }
+  };
 
   return (
-    <form onSubmit={form.onSubmit(handleSubmit)}>
-      <TextInput
-        w={"100%"}
-        required
-        autoFocus
-        {...form.getInputProps("title")}
-        onBlur={onBlur}
-      />
-    </form>
+    <Box ref={ref}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <TextInput
+          w={"100%"}
+          required
+          autoFocus
+          {...form.getInputProps("title")}
+          onBlur={onBlur}
+          onKeyDown={onKeyDown}
+        />
+      </form>
+    </Box>
   );
 };
