@@ -36,6 +36,9 @@ export type TUseProject = {
   getAssigneesByTestId: (testId: TTest["id"]) => TCollaborator[];
   getAssigneesByCaseId: (caseId: TCase["id"]) => TCollaborator[];
   getStatusChangesByStepId: (stepId: TStep["id"]) => TStatusChange[];
+  getCollaborator: (
+    collaboratorId: TCollaborator["id"],
+  ) => TCollaborator | undefined;
   exportJSON: () => void;
   createTestCase: (values: TCaseDynamicData) => void;
   createCollaborator: (newCollaborator: TCollaboratorDynamicData) => void;
