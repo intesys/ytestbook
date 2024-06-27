@@ -30,11 +30,11 @@ import {
   TTest,
 } from "../../schema";
 import { Avatars } from "../avatars/Avatars";
+import { openDeleteConfirmModal } from "../modals/modals";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
-import { openDeleteConfirmModal } from "../modals/modals";
 
 export const USER_ANONYMOUS_LABEL = "Anonymous";
 
@@ -272,12 +272,7 @@ export function CommentsList({
                           variant="transparent"
                           onClick={deleteCommentHandler}
                         >
-                          <img
-                            alt="Delete"
-                            src={Delete}
-                            height={24}
-                            width={24}
-                          />
+                          <Image alt="Delete" src={Delete} h={24} w={24} />
                         </Button>
                       </Group>
                     </Flex>
