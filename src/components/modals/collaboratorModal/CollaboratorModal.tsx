@@ -24,7 +24,8 @@ export function CollaboratorModal({
     if (initialValues) {
       form.setValues(initialValues);
     }
-  }, [form, initialValues]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.setValues, initialValues]);
 
   const close = useCallback(() => {
     context.closeModal(id);
