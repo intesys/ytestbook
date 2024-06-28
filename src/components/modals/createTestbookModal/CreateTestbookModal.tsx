@@ -46,7 +46,6 @@ export function CreateTestbookModal({
           label="Title"
           data-autofocus
           {...form.getInputProps("title")}
-          error={form.errors["title"]}
         />
         <TextInput
           id="customer"
