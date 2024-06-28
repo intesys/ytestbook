@@ -17,11 +17,18 @@ import { modals } from "./components/modals/modals.ts";
 import { MainNavigation } from "./Navigation";
 import { theme } from "./theme";
 import "./theme.scss";
+import {
+  NETWORK_URL_OFFLINE,
+  NETWORK_URL_STORAGE_KEY,
+} from "./lib/operators/useNetworkUrl.ts";
 
-export const NETWORK_URL = "wss://automerge-sync-server.staging.intesys.it"; // TODO this should be set through a form
+const networkUrl = localStorage.getItem(NETWORK_URL_STORAGE_KEY);
 
 const repo = new Repo({
-  network: [new BrowserWebSocketClientAdapter(NETWORK_URL)],
+  network:
+    networkUrl && networkUrl !== NETWORK_URL_OFFLINE
+      ? [new BrowserWebSocketClientAdapter(networkUrl)]
+      : [],
   storage: new IndexedDBStorageAdapter(),
 });
 
@@ -35,17 +42,17 @@ root.render(
   <React.StrictMode>
     <MantineProvider theme={{ ...theme }}>
       <Notifications position="top-right" zIndex={1000} />
-      <RepoContext.Provider value={repo}>
-        <BrowserRouter>
-          <DatesProvider settings={datesSetting}>
+      <BrowserRouter>
+        <DatesProvider settings={datesSetting}>
+          <RepoContext.Provider value={repo}>
             <DocProvider>
               <ModalsProvider modals={modals}>
                 <MainNavigation />
               </ModalsProvider>
             </DocProvider>
-          </DatesProvider>
-        </BrowserRouter>
-      </RepoContext.Provider>
+          </RepoContext.Provider>
+        </DatesProvider>
+      </BrowserRouter>
     </MantineProvider>
   </React.StrictMode>,
 );

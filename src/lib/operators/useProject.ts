@@ -1,13 +1,13 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
 import slugify from "slugify";
-import { NETWORK_URL } from "../..";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { TJsonExport } from "../../types/json-export";
 import { StatusEnum, TDocType } from "../../types/schema";
 import { downloadFile } from "../helpers/downloadFile";
 import { removeTuples } from "../helpers/removeTuples";
 import { TUseProject } from "./types";
+import { NETWORK_URL_STORAGE_KEY } from "./useNetworkUrl";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -126,7 +126,7 @@ export function useProject(projectId: string | undefined): TUseProject {
     const project = doc?.projects.find((p) => p.id === projectId);
     if (project) {
       const jsonContent: TJsonExport = {
-        networkServerUrl: NETWORK_URL,
+        networkServerUrl: localStorage.getItem(NETWORK_URL_STORAGE_KEY) ?? "",
         project,
         repository: {
           id: docUrl ?? "",

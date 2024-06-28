@@ -1,7 +1,7 @@
 import { Image, Text } from "@mantine/core";
 import React from "react";
-import classes from "./home.module.css";
-import { TActionProps } from "./types";
+import { TActionProps } from "../home/types";
+import classes from "./action.module.css";
 
 export const Action: React.FC<TActionProps> = ({
   title,
@@ -11,9 +11,11 @@ export const Action: React.FC<TActionProps> = ({
 }) => {
   return (
     <div className={classes.action} onClick={action}>
-      <Text fz={24} c="white" fw={700}>
-        {title}
-      </Text>
+      {title ? (
+        <Text fz={24} c="white" fw={700}>
+          {title}
+        </Text>
+      ) : null}
       <div className={classes.actionButton}>
         <div className={classes.actionButtonLabel}>
           <Image src={icon} h={40} w={40} />

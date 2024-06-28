@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import FileTypeJson from "../../assets/icons/bi_filetype-json.svg";
 import { routesHelper } from "../../lib/helpers/routesHelper";
 import { useProjects } from "../../lib/operators/useProjects";
-import { Action } from "./Action";
+import { Action } from "../action/Action";
 import classes from "./home.module.css";
 
 export const JsonImporter = () => {

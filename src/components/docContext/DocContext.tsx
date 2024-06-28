@@ -10,6 +10,7 @@ import {
   TDocContextValue,
   TDocProviderProps,
 } from "./types";
+import { useNetworkUrl } from "../../lib/operators/useNetworkUrl";
 
 const DocContext = createContext<TDocContextValue>({
   docUrl: undefined,
@@ -27,6 +28,7 @@ export const DocProvider: React.FC<TDocProviderProps> = ({ children }) => {
     status: DocContextStatusEnum.LOADING,
   });
   const navigate = useNavigate();
+  const { isFirstAccess } = useNetworkUrl();
 
   const createDoc = () => {
     const handle = repo.create<TDocType>({
@@ -52,10 +54,20 @@ export const DocProvider: React.FC<TDocProviderProps> = ({ children }) => {
       doc: handle.docSync(),
       changeDoc: handle.change,
     });
-    navigate("/");
   };
 
   useEffect(() => {
+    if (isFirstAccess) {
+      navigate("/setNetwork");
+      setState({
+        status: DocContextStatusEnum.READY,
+        docUrl: undefined,
+        doc: undefined,
+        changeDoc: undefined,
+      });
+      return;
+    }
+
     const rootDocUrl = localStorage.getItem("docUrl");
     if (isValidAutomergeUrl(rootDocUrl)) {
       findAndSetDoc(rootDocUrl);
@@ -68,7 +80,7 @@ export const DocProvider: React.FC<TDocProviderProps> = ({ children }) => {
       });
       navigate("/create");
     }
-  }, [repo]);
+  }, [isFirstAccess, navigate, repo]);
 
   switch (state.status) {
     case DocContextStatusEnum.LOADING:

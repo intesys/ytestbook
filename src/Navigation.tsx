@@ -7,10 +7,12 @@ import { Home } from "./components/home";
 import { Project } from "./components/project/Project";
 import { Settings } from "./components/settings/Settings";
 import { TestCase } from "./components/testCase/TestCase";
+import { SetNetwork } from "./components/setNetwork/SetNetwork";
 
 export const MainNavigation: React.FC = () => (
   <Routes>
     <Route path="/" element={<Home />} />
+    <Route path="/setNetwork" element={<SetNetwork />} />
     <Route path="/create" element={<CreateRepo />} />
     <Route path="/project/:projectId" element={<Project />}>
       <Route path="settings" element={<Settings />} />

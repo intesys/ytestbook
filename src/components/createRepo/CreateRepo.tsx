@@ -3,13 +3,15 @@ import { useDocContext } from "../docContext/DocContext";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { isValidAutomergeUrl } from "@automerge/automerge-repo";
 import { FormErrorMessages } from "../../lib/formErrors";
+import { useNavigate } from "react-router";
 
 export function CreateRepo() {
   const { createDoc, findAndSetDoc } = useDocContext();
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
-      docUrl: "",
+      docUrl: localStorage.getItem("docUrl") ?? "",
     },
     validate: {
       docUrl: isNotEmpty(FormErrorMessages.required),
@@ -37,6 +39,7 @@ export function CreateRepo() {
           if (isValidAutomergeUrl(values.docUrl)) {
             localStorage.setItem("docUrl", values.docUrl);
             findAndSetDoc(values.docUrl);
+            navigate("/");
           }
           form.reset();
         })}
@@ -48,7 +51,7 @@ export function CreateRepo() {
             w={400}
             {...form.getInputProps("docUrl")}
           />
-          <Button type="submit">Insert</Button>
+          <Button type="submit">Set Repository URL</Button>
         </Flex>
       </form>
     </Flex>

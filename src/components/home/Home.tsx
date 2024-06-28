@@ -1,21 +1,26 @@
-import { Grid, Loader, Table, Text } from "@mantine/core";
+import { Grid, Box, Button, Group, Loader, Table, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router";
 import AddCircle from "../../assets/icons/add_circle.svg";
 import Logo from "../../assets/logo.svg";
 import { useProjects } from "../../lib/operators/useProjects";
+import { Action } from "../action/Action.tsx";
 import { Modals } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { EditableHtmlText } from "../shared/EditableHtmlText.tsx";
 import { EditableText } from "../shared/EditableText.tsx";
-import { Action } from "./Action";
 import { JsonImporter } from "./JsonImporter";
 import classes from "./home.module.css";
+import { Link } from "react-router-dom";
+import { useNetworkUrl } from "../../lib/operators/useNetworkUrl.ts";
+import { useDocContext } from "../docContext/DocContext.tsx";
 
 export const Home: React.FC = () => {
   const projects = useProjects();
   const navigate = useNavigate();
+  const { docUrl } = useDocContext();
+  const { networkUrl, isOfflineMode } = useNetworkUrl();
 
   const createTestbookAction = useCallback(
     () =>
@@ -33,6 +38,22 @@ export const Home: React.FC = () => {
   return (
     <div className={classes.container}>
       <div className={classes.top}>
+        <Group justify="end" p="xs">
+          <Box>
+            <Text c="white">{docUrl}</Text>
+            <Text c="white" fz="sm">
+              {isOfflineMode ? "Offline-mode" : networkUrl}
+            </Text>
+          </Box>
+
+          <Link to="/create">
+            <Button variant="default">Change Repository</Button>
+          </Link>
+          <Link to="/setNetwork">
+            <Button variant="default">Set Network</Button>
+          </Link>
+        </Group>
+
         <div className={classes.header}>
           <img src={Logo} height={78} width={78} alt="yTestbook" />
         </div>
@@ -63,15 +84,31 @@ export const Home: React.FC = () => {
           </Grid.Col>
         </Grid>
 
-        <div className={classes.actions}>
-          <Action
-            title="Create project"
-            label="Create a new testbook"
-            icon={AddCircle}
-            action={createTestbookAction}
-          />
-          <JsonImporter />
-        </div>
+        <Grid p="md">
+          <Grid.Col span={2} visibleFrom="md" />
+          <Grid.Col
+            span={{
+              base: 12,
+              md: 4,
+            }}
+          >
+            <Action
+              title="Create project"
+              label="Create a new testbook"
+              icon={AddCircle}
+              action={createTestbookAction}
+            />
+          </Grid.Col>
+          <Grid.Col
+            span={{
+              base: 12,
+              md: 4,
+            }}
+          >
+            <JsonImporter />
+          </Grid.Col>
+          <Grid.Col span={2} visibleFrom="md" />
+        </Grid>
       </div>
 
       <div className={classes.bottom}>

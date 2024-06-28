@@ -1,5 +1,5 @@
 export type TActionProps = {
-  title: string;
+  title?: string;
   label: string;
   icon: string;
   action: () => void;
