@@ -151,7 +151,8 @@ export function CommentsList({
 
   // Sort comments
   const computedComments = useMemo(
-    () => filteredComments.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1)),
+    () =>
+      filteredComments.toSorted((a, b) => (a.createdAt > b.createdAt ? -1 : 1)),
     [filteredComments],
   );
 
