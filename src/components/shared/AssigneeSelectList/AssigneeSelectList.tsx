@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
-import { TCollaborator } from "../../../schema.ts";
+import { TCollaborator } from "../../../types/schema.ts";
 import { Avatars } from "../../avatars/Avatars.tsx";
 
 interface TAssigneeSelectList {

@@ -28,7 +28,7 @@ import {
   TCommentDynamicData,
   TStep,
   TTest,
-} from "../../schema";
+} from "../../types/schema";
 import { Avatars } from "../avatars/Avatars";
 import { openDeleteConfirmModal } from "../modals/modals";
 import { RelativeDate } from "../relativeDate/RelativeDate";

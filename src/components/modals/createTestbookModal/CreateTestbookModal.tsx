@@ -2,7 +2,7 @@ import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
-import { TProjectDynamicData } from "../../../schema.ts";
+import { TProjectDynamicData } from "../../../types/schema.ts";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
 
 type TCreateTestbookModalInnerProps<T> = {

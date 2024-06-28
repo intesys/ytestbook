@@ -1,7 +1,7 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
-import { StatusEnum, TDocType, TStepDynamicData } from "../../schema";
+import { StatusEnum, TDocType, TStepDynamicData } from "../../types/schema";
 import { computeStatus } from "../helpers/computeStatus";
 import { TUseTest } from "./types";
 

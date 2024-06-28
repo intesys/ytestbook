@@ -1,7 +1,7 @@
 import { Collapse, NavLink } from "@mantine/core";
 import classes from "./testCasesList.module.scss";
 import { Fragment, useCallback } from "react";
-import { TCase } from "../../schema";
+import { TCase } from "../../types/schema";
 import { useNavigate, useParams } from "react-router";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 

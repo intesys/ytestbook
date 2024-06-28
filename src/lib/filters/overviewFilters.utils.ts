@@ -1,5 +1,5 @@
 import { TOverviewFilters } from "../../components/layout/SideBar/Overview/OverviewFilters.tsx";
-import { TCase, TStep, TTest } from "../../schema.ts";
+import { TCase, TStep, TTest } from "../../types/schema.ts";
 import { TUseProject } from "../operators/types.ts";
 import {
   checkAssigneeFilter,

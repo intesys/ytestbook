@@ -24,7 +24,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProject } from "../../lib/operators/useProject";
 import { useProjects } from "../../lib/operators/useProjects";
-import { TCollaborator } from "../../schema";
+import { TCollaborator } from "../../types/schema.ts";
 import { ActionIconWithConfirm } from "../actionIconWithConfirm/ActionIconWithConfirm.tsx";
 import { Avatars } from "../avatars/Avatars.tsx";
 import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";

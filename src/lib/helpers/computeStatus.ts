@@ -1,4 +1,4 @@
-import { StatusEnum, TCase, TStep, TTest } from "../../schema";
+import { StatusEnum, TCase, TStep, TTest } from "../../types/schema";
 
 export function computeStatus(
   target: TTest | TCase,

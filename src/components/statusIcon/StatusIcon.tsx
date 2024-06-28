@@ -14,7 +14,7 @@ import {
   MdReportProblem,
 } from "react-icons/md";
 import { getStatusColor } from "../../lib/helpers/getStatusColor";
-import { StatusEnum } from "../../schema";
+import { StatusEnum } from "../../types/schema";
 import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
 import { useMemo } from "react";
 

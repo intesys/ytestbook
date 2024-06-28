@@ -7,7 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import Logo from "../../../assets/logo.svg";
 import { isEditableHtmlTextPopupVisible } from "../../../lib/helpers/isEditableHtmlTextPopupVisible";
 import { useProject } from "../../../lib/operators/useProject";
-import { TProjectDynamicData } from "../../../schema";
+import { TProjectDynamicData } from "../../../types/schema";
 import { EditableHtmlText } from "../../shared/EditableHtmlText";
 import classes from "./header.module.scss";
 

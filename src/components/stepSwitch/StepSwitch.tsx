@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import ArrowsUpdate from "../../assets/icons/arrows_update.svg";
-import { StatusEnum } from "../../schema";
+import { StatusEnum } from "../../types/schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 
 type StepSwitchProps = {

@@ -3,7 +3,7 @@ import { useRepo } from "@automerge/automerge-repo-react-hooks";
 import { Flex, Loader } from "@mantine/core";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { TDocType } from "../../schema";
+import { TDocType } from "../../types/schema";
 import {
   DocContextStatusEnum,
   TDocContextState,

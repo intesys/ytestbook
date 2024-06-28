@@ -3,7 +3,7 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
 import { useProject } from "../../../lib/operators/useProject";
-import { TTestDynamicData } from "../../../schema";
+import { TTestDynamicData } from "../../../types/schema";
 import { TModalProps } from "../../home/types";
 import { RichTextarea } from "../../shared/RichTextarea";
 import { FormErrorMessages } from "../../../lib/formErrors";

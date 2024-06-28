@@ -1,6 +1,6 @@
 import { Avatar, AvatarProps, Box, Stack, Text, Tooltip } from "@mantine/core";
 import { sha256 } from "js-sha256";
-import { TCollaborator } from "../../schema";
+import { TCollaborator } from "../../types/schema";
 
 type TAvatarsProps = {
   collaborators: TCollaborator[];

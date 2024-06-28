@@ -3,7 +3,8 @@ import { notifications } from "@mantine/notifications";
 import { useCallback } from "react";
 import z from "zod";
 import { useDocContext } from "../../components/docContext/DocContext";
-import { TDocType, TProject, TProjectDynamicData } from "../../schema";
+import { TJsonExport } from "../../types/json-export";
+import { TDocType, TProjectDynamicData } from "../../types/schema";
 import { TUseProjects } from "./types";
 
 export function useProjects(): TUseProjects {
@@ -51,47 +52,51 @@ export function useProjects(): TUseProjects {
         throw Error();
       }
 
-      const parsedData: TProject = JSON.parse(fileReaderResult);
+      const parsedData: TJsonExport = JSON.parse(fileReaderResult);
 
       // Checking parsedData validity
 
       const schema = z.object({
-        id: z.string(),
-        testCases: z.array(
-          z.object({
-            id: z.string(),
-            title: z.string(),
-            description: z.string().optional(),
-            projectId: z.string(),
-            status: z.string(),
-            tests: z.array(
-              z.object({
-                id: z.string(),
-                title: z.string(),
-                description: z.string().optional(),
-                caseId: z.string(),
-                status: z.string(),
-                steps: z.array(
-                  z.object({
-                    id: z.string(),
-                    title: z.string(),
-                    description: z.string().optional(),
-                    testId: z.string(),
-                    status: z.string(),
-                  }),
-                ),
-              }),
-            ),
-            comments: z.array(
-              z.object({
-                id: z.string(),
-                resolved: z.boolean(),
-                username: z.string(),
-                content: z.string(),
-              }),
-            ),
-          }),
-        ),
+        networkServerUrl: z.string(),
+        repoId: z.string(),
+        project: z.object({
+          id: z.string(),
+          testCases: z.array(
+            z.object({
+              id: z.string(),
+              title: z.string(),
+              description: z.string().optional(),
+              projectId: z.string(),
+              status: z.string(),
+              tests: z.array(
+                z.object({
+                  id: z.string(),
+                  title: z.string(),
+                  description: z.string().optional(),
+                  caseId: z.string(),
+                  status: z.string(),
+                  steps: z.array(
+                    z.object({
+                      id: z.string(),
+                      title: z.string(),
+                      description: z.string().optional(),
+                      testId: z.string(),
+                      status: z.string(),
+                    }),
+                  ),
+                }),
+              ),
+              comments: z.array(
+                z.object({
+                  id: z.string(),
+                  resolved: z.boolean(),
+                  username: z.string(),
+                  content: z.string(),
+                }),
+              ),
+            }),
+          ),
+        }),
       });
 
       const isValid = schema.safeParse(parsedData);
@@ -100,10 +105,10 @@ export function useProjects(): TUseProjects {
       }
 
       const projectNewId = crypto.randomUUID();
-      parsedData.id = projectNewId;
+      parsedData.project.id = projectNewId;
 
       changeDoc((d) => {
-        d.projects.push(parsedData);
+        d.projects.push(parsedData.project);
       });
 
       return projectNewId;

@@ -1,7 +1,7 @@
 import { Button, Group, Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { MouseEvent, useCallback } from "react";
-import { TCollaborator } from "../../../../../../schema.ts";
+import { TCollaborator } from "../../../../../../types/schema.ts";
 import { Avatars } from "../../../../../avatars/Avatars.tsx";
 import { AssigneeSelectList } from "../../../../../shared/AssigneeSelectList/AssigneeSelectList.tsx";
 import { DeleteActionIcon } from "../../../../../shared/DeleteActionIcon.tsx";

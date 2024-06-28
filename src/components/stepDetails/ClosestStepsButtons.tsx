@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text } from "@mantine/core";
 import { getNextStep, getPreviousStep } from "../../lib/helpers/stepsHelpers";
-import { TStep } from "../../schema";
+import { TStep } from "../../types/schema";
 
 import { useNavigate } from "react-router";
 import { routesHelper } from "../../lib/helpers/routesHelper";

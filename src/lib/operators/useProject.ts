@@ -12,10 +12,12 @@ import {
   TProject,
   TStep,
   TTest,
-} from "../../schema";
+} from "../../types/schema";
 import { downloadFile } from "../helpers/downloadFile";
 import { removeTuples } from "../helpers/removeTuples";
 import { TUseProject } from "./types";
+import { TJsonExport } from "../../types/json-export";
+import { NETWORK_URL } from "../..";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -125,7 +127,13 @@ export function useProject(projectId: string | undefined): TUseProject {
   const exportJSON = () => {
     const project = doc?.projects.find((p) => p.id === projectId);
     if (project) {
-      const parsedData = JSON.stringify(project);
+      const jsonContent: TJsonExport = {
+        networkServerUrl: NETWORK_URL,
+        project,
+        repoId: docUrl ?? "",
+      };
+
+      const parsedData = JSON.stringify(jsonContent);
 
       const slugifiedTitle = slugify(project.title, {
         lower: true,

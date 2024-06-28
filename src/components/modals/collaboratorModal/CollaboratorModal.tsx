@@ -2,7 +2,7 @@ import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback, useEffect } from "react";
-import { TCollaboratorDynamicData } from "../../../schema.ts";
+import { TCollaboratorDynamicData } from "../../../types/schema.ts";
 import { TModalProps } from "../../home/types.ts";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
 

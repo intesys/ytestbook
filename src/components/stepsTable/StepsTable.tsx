@@ -5,7 +5,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import Delete from "../../assets/icons/delete.svg";
 import { TUseTest } from "../../lib/operators/types";
-import { TStep } from "../../schema";
+import { TStep } from "../../types/schema.ts";
 import { openDeleteConfirmModal } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
