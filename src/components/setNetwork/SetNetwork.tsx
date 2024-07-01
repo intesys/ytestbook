@@ -1,5 +1,6 @@
 import {
   Button,
+  Card,
   Flex,
   Grid,
   Stack,
@@ -25,7 +26,8 @@ export function SetNetwork() {
 
   const form = useForm({
     initialValues: {
-      networkUrl: networkUrl ?? "",
+      networkUrl:
+        networkUrl && networkUrl !== NETWORK_URL_OFFLINE ? networkUrl : "",
     },
     validate: {
       networkUrl: isNotEmpty("Field required"),
@@ -61,18 +63,20 @@ export function SetNetwork() {
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 4 }}>
-          <form onSubmit={form.onSubmit(handleSubmit)}>
-            <Stack>
-              <Text>Set a yTestbook server URL to be in sync with:</Text>
+          <Card withBorder radius="xl" p="lg" mih={200}>
+            <form onSubmit={form.onSubmit(handleSubmit)}>
+              <Stack>
+                <Text>Set a yTestbook server URL to be in sync with:</Text>
 
-              <TextInput
-                withAsterisk
-                label="URL"
-                {...form.getInputProps("networkUrl")}
-              />
-              <Button type="submit">Set Network URL</Button>
-            </Stack>
-          </form>
+                <TextInput
+                  withAsterisk
+                  label="URL"
+                  {...form.getInputProps("networkUrl")}
+                />
+                <Button type="submit">Set Network URL</Button>
+              </Stack>
+            </form>
+          </Card>
         </Grid.Col>
       </Grid>
     </Flex>

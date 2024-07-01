@@ -9,9 +9,13 @@ export function CreateRepo() {
   const { createDoc, findAndSetDoc } = useDocContext();
   const navigate = useNavigate();
 
+  const currentDocUrl = localStorage.getItem("docUrl");
+
+  const isStorageEmpty = currentDocUrl === "";
+
   const form = useForm({
     initialValues: {
-      docUrl: localStorage.getItem("docUrl") ?? "",
+      docUrl: currentDocUrl ?? "",
     },
     validate: {
       docUrl: isNotEmpty(FormErrorMessages.required),
@@ -27,10 +31,13 @@ export function CreateRepo() {
       h="100dvh"
       w={"100%"}
     >
-      <Title order={3}>Empty storage</Title>
+      <Title order={3}>
+        {isStorageEmpty ? "Empty storage" : "Set repository"}
+      </Title>
       <Text>
-        You don't have any repositories registered yet. Would you like to create
-        one?
+        {isStorageEmpty
+          ? "You don't have any repositories registered yet. Would you like to create one?"
+          : "Would you like to create a new repository?"}
       </Text>
       <Button onClick={createDoc}>Create</Button>
       <Text>Or would you like to insert an existing repository URL?</Text>

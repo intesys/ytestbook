@@ -40,9 +40,9 @@ export const Home: React.FC = () => {
       <div className={classes.top}>
         <Group justify="end" p="xs">
           <Box>
-            <Text c="white">{docUrl}</Text>
+            <Text c="white">🏷️ {docUrl}</Text>
             <Text c="white" fz="sm">
-              {isOfflineMode ? "Offline-mode" : networkUrl}
+              {isOfflineMode ? "⚠️ Offline-mode" : networkUrl}
             </Text>
           </Box>
 
