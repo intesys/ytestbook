@@ -1,4 +1,4 @@
-import { StatusEnum, TStep, TTest } from "../../schema";
+import { StatusEnum, TStep, TTest } from "../../types/schema";
 
 export function computeCompletion(items: TStep[] | TTest[]) {
   if (items.length === 0) return 0;

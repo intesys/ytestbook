@@ -1,4 +1,4 @@
-import { TStep } from "../../schema";
+import { TStep } from "../../types/schema";
 
 export const getPreviousStep = (stepId: string, steps: TStep[]) => {
   const stepIndex = steps.findIndex((s) => s.id === stepId);

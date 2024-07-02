@@ -3,7 +3,7 @@ import { useStep } from "../../lib/operators/useStep";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { routesHelper } from "../../lib/helpers/routesHelper";
-import { TComment } from "../../schema";
+import { TComment } from "../../types/schema";
 import { Link } from "react-router-dom";
 
 type CommentBreadcrumbsProps = {

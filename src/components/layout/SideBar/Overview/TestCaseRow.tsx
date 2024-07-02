@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
-import { TCase, TStep } from "../../../../schema";
+import { TCase, TStep } from "../../../../types/schema";
 import { Avatars } from "../../../avatars/Avatars";
 import { RelativeDate } from "../../../relativeDate/RelativeDate";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";

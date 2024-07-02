@@ -18,12 +18,10 @@ import { MainNavigation } from "./Navigation";
 import { theme } from "./theme";
 import "./theme.scss";
 
+export const NETWORK_URL = "wss://automerge-sync-server.staging.intesys.it"; // TODO this should be set through a form
+
 const repo = new Repo({
-  network: [
-    new BrowserWebSocketClientAdapter(
-      "wss://automerge-sync-server.staging.intesys.it",
-    ),
-  ],
+  network: [new BrowserWebSocketClientAdapter(NETWORK_URL)],
   storage: new IndexedDBStorageAdapter(),
 });
 

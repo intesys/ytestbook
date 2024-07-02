@@ -13,7 +13,7 @@ import { useNavigate, useParams } from "react-router";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
-import { TTest } from "../../schema";
+import { TTest } from "../../types/schema";
 import { Avatars } from "../avatars/Avatars";
 import { RelativeDate } from "../relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";

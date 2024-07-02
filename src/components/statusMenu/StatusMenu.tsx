@@ -1,5 +1,5 @@
 import { Menu, Text } from "@mantine/core";
-import { StatusEnum } from "../../schema";
+import { StatusEnum } from "../../types/schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { TUseTest } from "../../lib/operators/types";
 

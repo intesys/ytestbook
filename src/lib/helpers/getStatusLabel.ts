@@ -1,5 +1,5 @@
 import { DefaultMantineColor } from "@mantine/core";
-import { StatusEnum } from "../../schema";
+import { StatusEnum } from "../../types/schema";
 
 export const getStatusLabel = (status?: StatusEnum): DefaultMantineColor => {
   switch (status) {

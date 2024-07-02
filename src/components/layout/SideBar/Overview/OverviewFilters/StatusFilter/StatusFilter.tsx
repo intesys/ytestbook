@@ -1,5 +1,5 @@
 import { MouseEvent, useCallback } from "react";
-import { StatusEnum } from "../../../../../../schema.ts";
+import { StatusEnum } from "../../../../../../types/schema.ts";
 import { ButtonGroupMultiselect } from "../../../../../shared/ButtonGroupMultiselect/ButtonGroupMultiselect.tsx";
 import { StatusIcon } from "../../../../../statusIcon/StatusIcon.tsx";
 

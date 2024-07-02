@@ -12,7 +12,7 @@ import {
   TStepDynamicData,
   TTest,
   TTestDynamicData,
-} from "../../schema";
+} from "../../types/schema";
 
 type TOperatorLoader<T> =
   | {

@@ -1,7 +1,7 @@
 import { Box, Button, Text } from "@mantine/core";
 import ArrowDropdown from "../../assets/icons/arrow_drop_down.svg";
 import { TUseTest } from "../../lib/operators/types";
-import { TStep } from "../../schema";
+import { TStep } from "../../types/schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
 import { getStatusColor } from "../../lib/helpers/getStatusColor";

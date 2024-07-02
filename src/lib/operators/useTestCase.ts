@@ -7,7 +7,7 @@ import {
   TCommentDynamicData,
   TDocType,
   TTestDynamicData,
-} from "../../schema";
+} from "../../types/schema";
 import { addTuples } from "../helpers/addTuples";
 import { removeTuples } from "../helpers/removeTuples";
 import { TUseTestCase } from "./types";

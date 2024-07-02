@@ -1,4 +1,4 @@
-import { StatusEnum, TCollaborator } from "../../schema";
+import { StatusEnum, TCollaborator } from "../../types/schema";
 
 export type TContentHeader = {
   status: StatusEnum;

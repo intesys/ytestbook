@@ -6,7 +6,7 @@ import { useProject } from "../../lib/operators/useProject";
 import { useStep } from "../../lib/operators/useStep";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
-import { StatusEnum } from "../../schema";
+import { StatusEnum } from "../../types/schema";
 import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";

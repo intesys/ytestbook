@@ -1,6 +1,6 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
 import { ChangeFn, ChangeOptions, Doc } from "@automerge/automerge/next";
-import { TDocType } from "../../schema";
+import { TDocType } from "../../types/schema";
 
 export type TDocContextValue = {
   docUrl: AutomergeUrl | undefined;

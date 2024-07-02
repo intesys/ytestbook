@@ -2,7 +2,7 @@ import { Group } from "@mantine/core";
 import { Dispatch, SetStateAction, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useProject } from "../../../../lib/operators/useProject.ts";
-import { StatusEnum, TCollaborator } from "../../../../schema.ts";
+import { StatusEnum, TCollaborator } from "../../../../types/schema.ts";
 import { AssigneeFilter } from "./OverviewFilters/AssigneeFilter/AssigneeFilter.tsx";
 import { StatusFilter } from "./OverviewFilters/StatusFilter/StatusFilter.tsx";
 import { TagsFilter } from "./OverviewFilters/TagsFilter/TagsFilter.tsx";

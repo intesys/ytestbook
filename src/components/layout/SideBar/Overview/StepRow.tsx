@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
 import { useTest } from "../../../../lib/operators/useTest";
-import { TStep } from "../../../../schema";
+import { TStep } from "../../../../types/schema";
 import { RelativeDate } from "../../../relativeDate/RelativeDate";
 import { StatusButton } from "../../../statusButton/StatusButton";
 

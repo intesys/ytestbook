@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
 import { useProject } from "../../lib/operators/useProject";
 import { useTestCase } from "../../lib/operators/useTestCase";
-import { TStep } from "../../schema";
+import { TStep } from "../../types/schema.ts";
 import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";

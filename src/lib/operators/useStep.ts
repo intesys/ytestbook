@@ -1,7 +1,7 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
-import { TDocType } from "../../schema";
+import { TDocType } from "../../types/schema";
 import { TUseStep } from "./types";
 
 export function useStep(

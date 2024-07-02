@@ -1,5 +1,5 @@
 import { TOverviewFilters } from "../../components/layout/SideBar/Overview/OverviewFilters.tsx";
-import { StatusEnum, TCollaborator } from "../../schema.ts";
+import { StatusEnum, TCollaborator } from "../../types/schema.ts";
 
 export function checkTextFilter<T extends Record<string, unknown>>(
   obj: T,
