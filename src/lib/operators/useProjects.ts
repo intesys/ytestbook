@@ -32,6 +32,17 @@ export function useProjects(): TUseProjects {
     [changeDoc],
   );
 
+  const updateRepository: TUseProjects["updateRepository"] = (data) => {
+    changeDoc((d) => {
+      if (data.title) {
+        d.title = data.title;
+      }
+      if (data.description) {
+        d.description = data.description;
+      }
+    });
+  };
+
   const removeProject = useCallback(
     (id?: string) => {
       if (!id) {
@@ -126,14 +137,16 @@ export function useProjects(): TUseProjects {
       data: undefined,
       loading: true,
       createProject,
+      updateRepository,
       removeProject,
       importJSON,
     };
   } else {
     return {
-      data: doc.projects,
+      data: doc,
       loading: false,
       createProject,
+      updateRepository,
       removeProject,
       importJSON,
     };

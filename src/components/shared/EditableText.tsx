@@ -1,13 +1,20 @@
-import { Box, Input } from "@mantine/core";
+import { Box, Input, Text, TextProps } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
 type EditableText = {
+  name?: string;
   onChange?: (value: string) => void;
+  textProps?: TextProps;
   value?: string;
 };
 
-export const EditableText: React.FC<EditableText> = ({ onChange, value }) => {
+export const EditableText: React.FC<EditableText> = ({
+  onChange,
+  value,
+  textProps,
+  name,
+}) => {
   const [editing, handlers] = useDisclosure(false);
   const [internalValue, setInternalValue] = useState<string>(value || "");
 
@@ -58,5 +65,16 @@ export const EditableText: React.FC<EditableText> = ({ onChange, value }) => {
     );
   }
 
-  return <span onClick={switchToEdit}>{internalValue}</span>;
+  const isEmpty = internalValue === "";
+
+  return (
+    <Text
+      span
+      c={isEmpty ? "dimmed" : textProps?.c}
+      {...textProps}
+      onClick={switchToEdit}
+    >
+      {isEmpty ? `Add ${name}` : internalValue}
+    </Text>
+  );
 };

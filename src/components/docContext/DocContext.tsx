@@ -29,7 +29,11 @@ export const DocProvider: React.FC<TDocProviderProps> = ({ children }) => {
   const navigate = useNavigate();
 
   const createDoc = () => {
-    const handle = repo.create<TDocType>({ projects: [] });
+    const handle = repo.create<TDocType>({
+      projects: [],
+      description: "",
+      title: "",
+    });
     localStorage.setItem("docUrl", handle.url);
     setState((prevState: TDocContextState) => ({
       ...prevState,

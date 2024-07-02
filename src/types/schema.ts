@@ -98,6 +98,8 @@ export type TProject = {
 } & TProjectDynamicData;
 
 export type TDocType = {
+  title: string;
+  description: string;
   projects: TProject[];
 };
 
