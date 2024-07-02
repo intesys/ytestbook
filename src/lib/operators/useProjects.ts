@@ -11,8 +11,8 @@ export function useProjects(): TUseProjects {
   const { docUrl } = useDocContext();
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
 
-  const createProject = useCallback(
-    (values: TProjectDynamicData) => {
+  const createProject: TUseProjects["createProject"] = useCallback(
+    (values) => {
       const date = new Date();
       changeDoc((d) => {
         d.projects.push({
@@ -43,8 +43,8 @@ export function useProjects(): TUseProjects {
     });
   };
 
-  const removeProject = useCallback(
-    (id?: string) => {
+  const removeProject: TUseProjects["removeProject"] = useCallback(
+    (id) => {
       if (!id) {
         return;
       }
@@ -57,7 +57,7 @@ export function useProjects(): TUseProjects {
     [changeDoc],
   );
 
-  const importJSON = (fileReaderResult?: FileReader["result"]) => {
+  const importJSON: TUseProjects["importJSON"] = (fileReaderResult) => {
     try {
       if (!fileReaderResult || typeof fileReaderResult !== "string") {
         throw Error();

@@ -19,13 +19,13 @@ export function useTestCase(
   const { docUrl } = useDocContext();
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
 
-  const testCase = useMemo(() => {
+  const testCase: TUseTestCase["data"] = useMemo(() => {
     const p = doc?.projects.find((item) => projectId && item.id === projectId);
     return p?.testCases.find((item) => item.id === caseId);
   }, [doc, projectId, caseId]);
 
-  const createTest = useCallback(
-    (values: TTestDynamicData & { tags: string[]; assignees: string[] }) => {
+  const createTest: TUseTestCase["createTest"] = useCallback(
+    (values) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -53,8 +53,8 @@ export function useTestCase(
     [projectId, caseId, changeDoc],
   );
 
-  const createComment = useCallback(
-    (values: TCommentDynamicData, testId?: string, stepId?: string) => {
+  const createComment: TUseTestCase["createComment"] = useCallback(
+    (values, testId, stepId) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -90,11 +90,8 @@ export function useTestCase(
     [projectId, caseId, changeDoc],
   );
 
-  const updateTest = useCallback(
-    (
-      values: TTestDynamicData & { tags: string[]; assignees: string[] },
-      testId?: string,
-    ) => {
+  const updateTest: TUseTestCase["updateTest"] = useCallback(
+    (values, testId) => {
       if (!projectId || !caseId || !testId) {
         return;
       }
@@ -148,24 +145,27 @@ export function useTestCase(
     [projectId, caseId, changeDoc],
   );
 
-  const updateTestDescription = useCallback(
-    (testId: string, description: string) => {
-      if (!projectId || !caseId) return;
-      const date = new Date();
-      changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        const t = tc?.tests.find((test) => test.id === testId);
-        if (!p || !tc || !t) return;
-        t.description = description;
-        t.lastUpdate = p.lastUpdate = date.getTime();
-      });
-    },
-    [projectId, caseId, changeDoc],
-  );
+  const updateTestDescription: TUseTestCase["updateTestDescription"] =
+    useCallback(
+      (testId, description) => {
+        if (!projectId || !caseId) return;
+        const date = new Date();
+        changeDoc((d) => {
+          const p = d.projects.find(
+            (item) => projectId && item.id === projectId,
+          );
+          const tc = p?.testCases.find((item) => item.id === caseId);
+          const t = tc?.tests.find((test) => test.id === testId);
+          if (!p || !tc || !t) return;
+          t.description = description;
+          t.lastUpdate = p.lastUpdate = date.getTime();
+        });
+      },
+      [projectId, caseId, changeDoc],
+    );
 
-  const updateTestStatus = useCallback(
-    (testId: string, status: StatusEnum) => {
+  const updateTestStatus: TUseTestCase["updateTestStatus"] = useCallback(
+    (testId, status) => {
       if (!projectId || !caseId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -180,8 +180,8 @@ export function useTestCase(
     [projectId, caseId, changeDoc],
   );
 
-  const removeTest = useCallback(
-    (testId?: string) => {
+  const removeTest: TUseTestCase["removeTest"] = useCallback(
+    (testId) => {
       if (!testId) {
         return;
       }
@@ -202,8 +202,8 @@ export function useTestCase(
     [changeDoc, projectId, caseId],
   );
 
-  const removeComment = useCallback(
-    (commentId: string) => {
+  const removeComment: TUseTestCase["removeComment"] = useCallback(
+    (commentId) => {
       changeDoc((d) => {
         const project = d.projects.find(
           (item) => projectId && item.id === projectId,
@@ -224,21 +224,26 @@ export function useTestCase(
     [changeDoc, projectId, caseId],
   );
 
-  const updateCommentResolved = useCallback(
-    (isResolved: boolean, commentId: string) => {
-      changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        if (!tc) return;
-        const comment = tc.comments.find((comment) => comment.id === commentId);
-        if (!comment) {
-          return;
-        }
-        comment.resolved = isResolved;
-      });
-    },
-    [changeDoc, projectId, caseId],
-  );
+  const updateCommentResolved: TUseTestCase["updateCommentResolved"] =
+    useCallback(
+      (isResolved, commentId) => {
+        changeDoc((d) => {
+          const p = d.projects.find(
+            (item) => projectId && item.id === projectId,
+          );
+          const tc = p?.testCases.find((item) => item.id === caseId);
+          if (!tc) return;
+          const comment = tc.comments.find(
+            (comment) => comment.id === commentId,
+          );
+          if (!comment) {
+            return;
+          }
+          comment.resolved = isResolved;
+        });
+      },
+      [changeDoc, projectId, caseId],
+    );
 
   if (testCase === undefined) {
     return {

@@ -13,7 +13,7 @@ export function useStep(
   const { docUrl } = useDocContext();
   const [doc] = useDocument<TDocType>(docUrl);
 
-  const step = useMemo(() => {
+  const step: TUseStep["data"] = useMemo(() => {
     const p = doc?.projects.find((item) => projectId && item.id === projectId);
     const tc = p?.testCases.find((item) => item.id === caseId);
     const t = tc?.tests.find((test) => test.id === testId);

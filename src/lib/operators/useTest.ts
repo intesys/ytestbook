@@ -13,14 +13,14 @@ export function useTest(
   const { docUrl } = useDocContext();
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
 
-  const test = useMemo(() => {
+  const test: TUseTest["data"] = useMemo(() => {
     const p = doc?.projects.find((item) => projectId && item.id === projectId);
     const tc = p?.testCases.find((item) => item.id === caseId);
     return tc?.tests.find((test) => test.id === testId);
   }, [doc, projectId, caseId, testId]);
 
-  const createStep = useCallback(
-    (values: TStepDynamicData) => {
+  const createStep: TUseTest["createStep"] = useCallback(
+    (values) => {
       if (!projectId || !caseId || !testId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -41,8 +41,8 @@ export function useTest(
     [projectId, caseId, testId, changeDoc],
   );
 
-  const updateStepStatus = useCallback(
-    (stepId: string, status: StatusEnum) => {
+  const updateStepStatus: TUseTest["updateStepStatus"] = useCallback(
+    (stepId, status) => {
       if (!projectId || !caseId || !testId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -75,8 +75,8 @@ export function useTest(
     [projectId, caseId, testId, changeDoc],
   );
 
-  const updateStep = useCallback(
-    (values: TStepDynamicData, stepId: string) => {
+  const updateStep: TUseTest["updateStep"] = useCallback(
+    (values, stepId) => {
       if (!projectId || !caseId || !testId) return;
       const date = new Date();
       changeDoc((d) => {
@@ -95,8 +95,8 @@ export function useTest(
     [projectId, caseId, testId, changeDoc],
   );
 
-  const removeStep = useCallback(
-    (stepId: string) => {
+  const removeStep: TUseTest["removeStep"] = useCallback(
+    (stepId) => {
       changeDoc((d) => {
         const p = d.projects.find((item) => projectId && item.id === projectId);
         const tc = p?.testCases.find((item) => item.id === caseId);
