@@ -2,6 +2,10 @@ import { TProject } from "./schema";
 
 export type TJsonExport = {
   networkServerUrl: string;
-  repoId: string;
+  repository: {
+    id: string;
+    title: string;
+    description: string;
+  };
   project: TProject;
 };

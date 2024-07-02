@@ -130,7 +130,11 @@ export function useProject(projectId: string | undefined): TUseProject {
       const jsonContent: TJsonExport = {
         networkServerUrl: NETWORK_URL,
         project,
-        repoId: docUrl ?? "",
+        repository: {
+          id: docUrl ?? "",
+          description: doc?.description ?? "",
+          title: doc?.title ?? "",
+        },
       };
 
       const parsedData = JSON.stringify(jsonContent);

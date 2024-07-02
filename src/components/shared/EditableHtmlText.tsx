@@ -1,4 +1,4 @@
-import { Box, Text } from "@mantine/core";
+import { Box, Text, TextProps } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { isEditableHtmlTextPopupVisible } from "../../lib/helpers/isEditableHtmlTextPopupVisible";
@@ -8,6 +8,7 @@ type EditableHtmlTextProps = {
   name?: string;
   onChange?: (value: string) => void;
   value?: string;
+  textProps?: TextProps;
 };
 
 const EMPTY_VALUE = "<p></p>";
@@ -16,6 +17,7 @@ export const EditableHtmlText = ({
   name,
   onChange,
   value,
+  textProps,
 }: EditableHtmlTextProps) => {
   const [editing, handlers] = useDisclosure(false);
   const [internalValue, setInternalValue] = useState<string>(
@@ -56,8 +58,9 @@ export const EditableHtmlText = ({
 
   return (
     <Text
+      c={isEmpty ? "dimmed" : textProps?.c}
+      {...textProps}
       onClick={handlers.toggle}
-      c={isEmpty ? "dimmed" : undefined}
       dangerouslySetInnerHTML={{
         __html: isEmpty ? `<p>Add ${name}</p>` : internalValue,
       }}

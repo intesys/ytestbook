@@ -1,4 +1,4 @@
-import { Loader, Table, Text } from "@mantine/core";
+import { Grid, Loader, Table, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router";
@@ -7,9 +7,11 @@ import Logo from "../../assets/logo.svg";
 import { useProjects } from "../../lib/operators/useProjects";
 import { Modals } from "../modals/modals.ts";
 import { RelativeDate } from "../relativeDate/RelativeDate";
+import { EditableHtmlText } from "../shared/EditableHtmlText.tsx";
+import { EditableText } from "../shared/EditableText.tsx";
 import { Action } from "./Action";
-import classes from "./home.module.css";
 import { JsonImporter } from "./JsonImporter";
+import classes from "./home.module.css";
 
 export const Home: React.FC = () => {
   const projects = useProjects();
@@ -34,6 +36,33 @@ export const Home: React.FC = () => {
         <div className={classes.header}>
           <img src={Logo} height={78} width={78} alt="yTestbook" />
         </div>
+
+        <Grid mb="sm" p={0} gutter={0}>
+          <Grid.Col span={2} visibleFrom="md" />
+          <Grid.Col span={{ base: 12, md: 8 }}>
+            <EditableText
+              value={projects.data?.title ?? ""}
+              textProps={{
+                size: "xl",
+                c: "white",
+                fw: "bold",
+              }}
+              name="repository title"
+              onChange={(title) => projects.updateRepository({ title })}
+            />
+            <EditableHtmlText
+              name="description"
+              value={projects.data?.description}
+              onChange={(description) =>
+                projects.updateRepository({ description })
+              }
+              textProps={{
+                c: "white",
+              }}
+            />
+          </Grid.Col>
+        </Grid>
+
         <div className={classes.actions}>
           <Action
             title="Create project"
@@ -49,7 +78,7 @@ export const Home: React.FC = () => {
         <div className={classes.table}>
           {projects.loading ? (
             <Loader color="blue" m={62} />
-          ) : projects.data.length === 0 ? (
+          ) : projects.data.projects.length === 0 ? (
             <Text c={"gray"} maw={400} ta={"center"} m={62}>
               Your testbook projects list is currently empty. Create a new
               project to get started.
@@ -79,7 +108,7 @@ export const Home: React.FC = () => {
                   </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
-                  {projects.data.map((item) => (
+                  {projects.data.projects.map((item) => (
                     <Table.Tr
                       key={item.id}
                       onClick={() => {

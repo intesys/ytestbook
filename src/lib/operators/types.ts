@@ -5,6 +5,7 @@ import {
   TCollaborator,
   TCollaboratorDynamicData,
   TCommentDynamicData,
+  TDocType,
   TProject,
   TProjectDynamicData,
   TStatusChange,
@@ -28,7 +29,8 @@ export type TUseProjects = {
   createProject: (values: TProjectDynamicData) => void;
   removeProject: (projectId?: string) => void;
   importJSON: (fileReaderResult?: FileReader["result"]) => string | false;
-} & TOperatorLoader<TProject[]>;
+  updateRepository: (data: { title?: string; description?: string }) => void;
+} & TOperatorLoader<TDocType>;
 
 export type TUseProject = {
   getTagsByTestId: (testId: TTest["id"]) => string[];
