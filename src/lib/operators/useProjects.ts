@@ -69,7 +69,11 @@ export function useProjects(): TUseProjects {
 
       const schema = z.object({
         networkServerUrl: z.string(),
-        repoId: z.string(),
+        repository: z.object({
+          id: z.string(),
+          description: z.string(),
+          title: z.string(),
+        }),
         project: z.object({
           id: z.string(),
           testCases: z.array(
