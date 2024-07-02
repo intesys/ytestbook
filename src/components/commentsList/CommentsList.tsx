@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
@@ -35,6 +35,7 @@ import { RelativeDate } from "../relativeDate/RelativeDate";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
+import { FormErrorMessages } from "../../lib/formErrors.ts";
 
 export const USER_ANONYMOUS_LABEL = "Anonymous";
 
@@ -69,6 +70,10 @@ export function CommentsList({
     initialValues: {
       collaboratorId: "",
       content: "",
+    },
+    validate: {
+      username: isNotEmpty(FormErrorMessages.required),
+      content: isNotEmpty(FormErrorMessages.required),
     },
   });
 

@@ -1,8 +1,9 @@
 import { Button, Group, Stack, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
 import { TProjectDynamicData } from "../../../schema.ts";
+import { FormErrorMessages } from "../../../lib/formErrors.ts";
 
 type TCreateTestbookModalInnerProps<T> = {
   handleSubmit: (values: T) => void;
@@ -17,6 +18,10 @@ export function CreateTestbookModal({
     initialValues: {
       title: "",
       customer: "",
+    },
+    validate: {
+      title: isNotEmpty(FormErrorMessages.required),
+      customer: isNotEmpty(FormErrorMessages.required),
     },
   });
 

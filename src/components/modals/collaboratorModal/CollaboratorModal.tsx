@@ -1,9 +1,10 @@
 import { Button, Group, Stack, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback, useEffect } from "react";
 import { TCollaboratorDynamicData } from "../../../schema.ts";
 import { TModalProps } from "../../home/types.ts";
+import { FormErrorMessages } from "../../../lib/formErrors.ts";
 
 export function CollaboratorModal({
   id,
@@ -16,7 +17,9 @@ export function CollaboratorModal({
       email: initialValues?.email ?? "",
     },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      name: isNotEmpty(FormErrorMessages.required),
+      email: (value) =>
+        /^\S+@\S+$/.test(value) ? null : FormErrorMessages.invalidEmail,
     },
   });
 
