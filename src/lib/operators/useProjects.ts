@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import z from "zod";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { TJsonExport } from "../../types/json-export";
-import { TDocType, TProjectDynamicData } from "../../types/schema";
+import { TDocType } from "../../types/schema";
 import { TUseProjects } from "./types";
 
 export function useProjects(): TUseProjects {

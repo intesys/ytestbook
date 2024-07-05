@@ -1,23 +1,13 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
 import slugify from "slugify";
+import { NETWORK_URL } from "../..";
 import { useDocContext } from "../../components/docContext/DocContext";
-import {
-  StatusEnum,
-  TCase,
-  TCaseDynamicData,
-  TCollaborator,
-  TCollaboratorDynamicData,
-  TDocType,
-  TProject,
-  TStep,
-  TTest,
-} from "../../types/schema";
+import { TJsonExport } from "../../types/json-export";
+import { StatusEnum, TDocType } from "../../types/schema";
 import { downloadFile } from "../helpers/downloadFile";
 import { removeTuples } from "../helpers/removeTuples";
 import { TUseProject } from "./types";
-import { TJsonExport } from "../../types/json-export";
-import { NETWORK_URL } from "../..";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -48,7 +38,9 @@ export function useProject(projectId: string | undefined): TUseProject {
         (item) => projectId && item.id === projectId,
       );
       const testCase = project?.testCases.find((item) => item.id === caseId);
-      if (!testCase || !project?.tagToTest || !project.allTags) return [];
+      if (!testCase || !project?.tagToTest || !project.allTags) {
+        return [];
+      }
 
       const testIdArr = testCase.tests.map((test) => test.id);
       const tags = project.tagToTest
@@ -64,7 +56,9 @@ export function useProject(projectId: string | undefined): TUseProject {
       const project = doc?.projects.find(
         (item) => projectId && item.id === projectId,
       );
-      if (!project?.collaboratorToTest || !project.collaborators) return [];
+      if (!project?.collaboratorToTest || !project.collaborators) {
+        return [];
+      }
       const collaboratorsIdArr = project.collaboratorToTest
         .filter((tuple) => tuple[1] === testId)
         .map((tuple) => tuple[0]);
@@ -81,8 +75,9 @@ export function useProject(projectId: string | undefined): TUseProject {
         (item) => projectId && item.id === projectId,
       );
       const testCase = project?.testCases.find((item) => item.id === caseId);
-      if (!testCase || !project?.collaboratorToTest || !project.collaborators)
+      if (!testCase || !project?.collaboratorToTest || !project.collaborators) {
         return [];
+      }
       const testIdArr = testCase.tests.map((test) => test.id);
       const collaboratorsIdArr = project.collaboratorToTest
         .filter((tuple) => testIdArr.includes(tuple[1]))
@@ -152,7 +147,9 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const updateProject: TUseProject["updateProject"] = useCallback(
     (data) => {
-      if (!projectId) return;
+      if (!projectId) {
+        return;
+      }
       changeDoc((doc) => {
         const project = doc.projects.find(
           (item) => projectId && item.id === projectId,
@@ -176,7 +173,9 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const createTestCase: TUseProject["createTestCase"] = useCallback(
     (values) => {
-      if (!projectId) return;
+      if (!projectId) {
+        return;
+      }
       const date = new Date();
       changeDoc((doc) => {
         const project = doc.projects.find(
@@ -199,19 +198,25 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const createCollaborator: TUseProject["createCollaborator"] = useCallback(
     (newCollaborator) => {
-      if (!projectId) return;
+      if (!projectId) {
+        return;
+      }
       const date = new Date();
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        if (!p) return;
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        if (!project) {
+          return;
+        }
         /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
-        if (!p.collaborators) p.collaborators = [];
-        p.collaborators.push({
+        if (!project.collaborators) project.collaborators = [];
+        project.collaborators.push({
           ...newCollaborator,
           id: crypto.randomUUID(),
           createdAt: date.getTime(),
         });
-        p.lastUpdate = date.getTime();
+        project.lastUpdate = date.getTime();
       });
     },
     [changeDoc, projectId],
@@ -255,14 +260,20 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const updateTestCaseStatus: TUseProject["updateTestCaseStatus"] = useCallback(
     (caseId, status) => {
-      if (!projectId) return;
+      if (!projectId) {
+        return;
+      }
       const date = new Date();
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        const tc = p?.testCases.find((item) => item.id === caseId);
-        if (!p || !tc) return;
-        tc.status = status;
-        p.lastUpdate = date.getTime();
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        const testCase = project?.testCases.find((item) => item.id === caseId);
+        if (!project || !testCase) {
+          return;
+        }
+        testCase.status = status;
+        project.lastUpdate = date.getTime();
       });
     },
     [changeDoc, projectId],
@@ -270,38 +281,46 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const updateAllTags: TUseProject["updateAllTags"] = useCallback(
     (newTags) => {
-      if (!projectId) return;
+      if (!projectId) {
+        return;
+      }
       const date = new Date();
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        if (!p) return;
-        if (!p.allTags) p.allTags = [];
-        if (!p.tagToTest) p.tagToTest = [];
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        if (!project) {
+          return;
+        }
+        if (!project.allTags) project.allTags = [];
+        if (!project.tagToTest) project.tagToTest = [];
 
         /**Remove from state all tags that don't exist in the new state */
-        p.allTags
+        project.allTags
           .filter((tag) => !newTags.includes(tag))
           .forEach((tagToRemove) => {
-            const index = p.allTags?.findIndex((tag) => tag === tagToRemove);
-            if (index !== undefined) p.allTags?.splice(index, 1);
+            const index = project.allTags?.findIndex(
+              (tag) => tag === tagToRemove,
+            );
+            if (index !== undefined) project.allTags?.splice(index, 1);
           });
 
         /**Add new tags to state  */
         newTags.forEach((tag) => {
-          if (!p.allTags?.includes(tag)) p.allTags?.push(tag);
+          if (!project.allTags?.includes(tag)) project.allTags?.push(tag);
         });
 
         /**Remove all relationships carrying the key of a removed tag */
-        p.tagToTest
+        project.tagToTest
           .filter((tuple) => !newTags.includes(tuple[0]))
           .forEach((tupleToRemove) => {
-            const index = p.tagToTest?.findIndex((tuple) =>
+            const index = project.tagToTest?.findIndex((tuple) =>
               tuple.every((value, index) => value === tupleToRemove[index]),
             );
-            if (index !== undefined) p.tagToTest?.splice(index, 1);
+            if (index !== undefined) project.tagToTest?.splice(index, 1);
           });
 
-        p.lastUpdate = date.getTime();
+        project.lastUpdate = date.getTime();
       });
     },
     [changeDoc, projectId],
@@ -341,21 +360,30 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const removeCollaborator: TUseProject["removeCollaborator"] = useCallback(
     (id) => {
-      if (!projectId) return;
+      if (!projectId) {
+        return;
+      }
       const date = new Date();
       changeDoc((d) => {
-        const p = d.projects.find((item) => projectId && item.id === projectId);
-        if (!p) return;
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        if (!project) {
+          return;
+        }
         /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
-        if (!p.collaborators) p.collaborators = [];
-        const index = p.collaborators.findIndex(
+        if (!project.collaborators) project.collaborators = [];
+        const index = project.collaborators.findIndex(
           (collaborator) => collaborator.id === id,
         );
-        p.collaborators.splice(index, 1);
+        project.collaborators.splice(index, 1);
 
         /**@hribeiro TODO: The empty array was introduced to keep compatibility with older projects. To be removed*/
-        removeTuples(p.collaboratorToTest || [], (tuple) => tuple[0] === id);
-        p.lastUpdate = date.getTime();
+        removeTuples(
+          project.collaboratorToTest || [],
+          (tuple) => tuple[0] === id,
+        );
+        project.lastUpdate = date.getTime();
       });
     },
     [changeDoc, projectId],

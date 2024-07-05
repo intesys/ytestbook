@@ -14,10 +14,12 @@ export function useStep(
   const [doc] = useDocument<TDocType>(docUrl);
 
   const step: TUseStep["data"] = useMemo(() => {
-    const p = doc?.projects.find((item) => projectId && item.id === projectId);
-    const tc = p?.testCases.find((item) => item.id === caseId);
-    const t = tc?.tests.find((test) => test.id === testId);
-    return t?.steps.find((step) => step.id === stepId);
+    const project = doc?.projects.find(
+      (item) => projectId && item.id === projectId,
+    );
+    const testCase = project?.testCases.find((item) => item.id === caseId);
+    const test = testCase?.tests.find((test) => test.id === testId);
+    return test?.steps.find((step) => step.id === stepId);
   }, [doc, projectId, caseId, testId, stepId]);
 
   if (step === undefined) {
