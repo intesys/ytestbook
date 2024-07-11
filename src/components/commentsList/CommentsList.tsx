@@ -72,7 +72,7 @@ export function CommentsList({
       content: "",
     },
     validate: {
-      username: isNotEmpty(FormErrorMessages.required),
+      collaboratorId: isNotEmpty(FormErrorMessages.required),
       content: isNotEmpty(FormErrorMessages.required),
     },
   });
