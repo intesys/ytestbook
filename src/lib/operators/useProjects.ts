@@ -9,6 +9,7 @@ import { TUseProjects } from "./types";
 
 export function useProjects(): TUseProjects {
   const { docUrl } = useDocContext();
+  console.log("🚀 ~ useProjects ~ docUrl:", docUrl);
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
 
   const createProject: TUseProjects["createProject"] = useCallback(

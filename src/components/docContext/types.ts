@@ -29,4 +29,4 @@ export type TDocContextState =
       status: Exclude<DocContextStatusEnum, "READY">;
     };
 
-export type TDocProviderProps = { children: React.ReactNode };
+export type TDocProviderProps = { children: React.ReactNode; docUrl?: string };

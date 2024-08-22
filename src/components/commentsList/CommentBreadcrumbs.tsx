@@ -5,6 +5,7 @@ import { useTestCase } from "../../lib/operators/useTestCase";
 import { routesHelper } from "../../lib/helpers/routesHelper";
 import { TComment } from "../../types/schema";
 import { Link } from "react-router-dom";
+import { useServerName } from "../../lib/helpers/useServerName";
 
 type CommentBreadcrumbsProps = {
   readonly projectId: string;
@@ -15,6 +16,7 @@ export function CommentBreadcrumbs({
   projectId,
   comment,
 }: CommentBreadcrumbsProps) {
+  const serverName = useServerName();
   const testCase = useTestCase(projectId, comment.caseId);
   const test = useTest(projectId, comment.caseId, comment.testId);
   const step = useStep(
@@ -31,7 +33,11 @@ export function CommentBreadcrumbs({
       {testCase.data ? (
         <Anchor
           component={Link}
-          to={routesHelper.testCaseDetail(projectId, comment.caseId)}
+          to={routesHelper.testCaseDetail(
+            serverName,
+            projectId,
+            comment.caseId,
+          )}
         >
           {testCase.data?.title}
         </Anchor>
@@ -43,6 +49,7 @@ export function CommentBreadcrumbs({
           <Anchor
             component={Link}
             to={routesHelper.testDetail(
+              serverName,
               projectId,
               comment.caseId,
               test.data.id,
@@ -59,6 +66,7 @@ export function CommentBreadcrumbs({
           <Anchor
             component={Link}
             to={routesHelper.stepDetail(
+              serverName,
               projectId,
               comment.caseId,
               test.data.id,

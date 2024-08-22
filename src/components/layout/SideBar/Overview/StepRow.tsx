@@ -6,6 +6,7 @@ import { useTest } from "../../../../lib/operators/useTest";
 import { TStep } from "../../../../types/schema";
 import { RelativeDate } from "../../../relativeDate/RelativeDate";
 import { StatusButton } from "../../../statusButton/StatusButton";
+import { useServerName } from "../../../../lib/helpers/useServerName";
 
 type StepRowProps = {
   readonly project: TUseProject;
@@ -21,6 +22,7 @@ export const StepRow = ({
   step,
 }: StepRowProps) => {
   const navigate = useNavigate();
+  const serverName = useServerName();
   const test = useTest(project.data?.id, caseId, step.testId);
 
   const blockEvents = (e: React.MouseEvent) => {
@@ -37,6 +39,7 @@ export const StepRow = ({
       onClick={() => {
         navigate(
           routesHelper.stepDetail(
+            serverName,
             project.data.id,
             caseId,
             step.testId,
