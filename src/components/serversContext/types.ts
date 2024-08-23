@@ -13,12 +13,7 @@ export type ServersList = Record<string, Repository>;
 export type TServersContextValue = {
   servers: ServersList;
   addServer: (id: string, repository: Repository) => void;
-  removeServer: (id: string) => void;
-  updateServerStatus: (
-    id: string,
-    status: SERVER_STATUS,
-    repositoryId: string,
-  ) => void;
+  disconnectFromServer: (id: string) => void;
 };
 
 export type Repository = {

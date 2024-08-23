@@ -31,7 +31,7 @@
   padding: 0;
 
   &:hover {
-    background-color: transparent;
+    background-color: var(--mantine-color-primary-8);
   }
 
   grid-column: 7 / span 3;

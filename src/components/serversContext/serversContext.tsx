@@ -20,6 +20,10 @@ import { TDocType } from "../../types/schema";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
 import { isEqual } from "lodash";
 import { urlPrefix } from "@automerge/automerge-repo/dist/AutomergeUrl";
+import { openDeleteConfirmModal } from "../modals/modals";
+
+export const SERVERS_CONF_STORAGE_KEY = "yt-servers";
+export const SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY = "yt-offline-repo-id";
 
 let done = false;
 
@@ -28,21 +32,38 @@ export const serversHandler: Record<string, Repo> = {};
 
 const ServersContext = createContext<TServersContextValue>({
   servers: {},
-  updateServerStatus: () => {},
   addServer: () => {},
-  removeServer: () => {},
+  disconnectFromServer: () => {},
 });
 
 export function useServersContext() {
   return useContext(ServersContext);
 }
 
-export const SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY = "yt-offline-repo-id";
-
 export const ServersProvider: React.FC<TServersProviderProps> = ({
   children,
 }) => {
   const [servers, setServers] = useState<ServersList>({});
+
+  useEffect(() => {
+    if (!done) {
+      return;
+    }
+    const configToStore: StorageServersConfig = {
+      servers: Object.values(servers)
+        .filter((s) => s.type === REPOSITORY_TYPE.remote)
+        .map((s) => ({
+          name: s.name,
+          repositoryIds: s.repositoryIds,
+          url: s.url,
+        })),
+    };
+
+    localStorage.setItem(
+      SERVERS_CONF_STORAGE_KEY,
+      JSON.stringify(configToStore),
+    );
+  }, [servers]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,7 +77,6 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
           );
 
           if (!isEqual(currentServer.repositoryIds, handlesRepoIds)) {
-            console.log("SET SERVERS", handlesRepoIds);
             setServers((prevServers) => {
               return {
                 ...prevServers,
@@ -75,43 +95,23 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
   }, [servers]);
 
   const addServer = useCallback((id: string, repo: Repository) => {
+    const handler = new Repo({
+      network: [new BrowserWebSocketClientAdapter(repo.url)],
+      storage: new IndexedDBStorageAdapter(),
+      sharePolicy: async () => true,
+      enableRemoteHeadsGossiping: true,
+    });
+    serversHandler[repo.name] = handler;
+
     setServers((currentServers) => {
-      currentServers[id] = repo;
-      return currentServers;
+      const newServers = { ...currentServers };
+      newServers[id] = repo;
+      return newServers;
     });
   }, []);
 
-  const updateServerStatus = useCallback(
-    (id: string, status: SERVER_STATUS, repositoryId: string) => {
-      setServers((currentServers) => {
-        if (currentServers[id]) {
-          currentServers[id].status = status;
-          currentServers[id].repositoryIds = [repositoryId];
-        }
-        return currentServers;
-      });
-    },
-    [],
-  );
-
   //   load initial servers
   useEffect(() => {
-    // const proxed = new Proxy(
-    //   new Repo({
-    //     network: [],
-    //     storage: new IndexedDBStorageAdapter(),
-    //     sharePolicy: async () => true,
-    //     enableRemoteHeadsGossiping: true,
-    //   }),
-    //   {
-    //     set: function (target, key, value) {
-    //       console.log(`${key} set from ${obj.foo} to ${value}`);
-    //       target[key] = value;
-    //       return true;
-    //     },
-    //   },
-    // );
-
     if (done) {
       return;
     }
@@ -119,15 +119,9 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
 
     const offlineRepoId =
       localStorage.getItem(SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY) ??
-      undefined; // "automerge:4A3MevempMNWJ3YbaRjsSoomSoaB",
+      undefined;
 
     const offlineServerInitializer: Repository = {
-      //   handler: new Repo({
-      //     network: [],
-      //     storage: new IndexedDBStorageAdapter(),
-      //     sharePolicy: async () => true,
-      //     enableRemoteHeadsGossiping: true,
-      //   }),
       name: "offline",
       type: REPOSITORY_TYPE.offline,
       status: SERVER_STATUS.NO_REPOSITORY,
@@ -156,33 +150,17 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       );
     }
 
-    // offlineServerInitializer.handler.addListener("document", () => {
-    //   const repositoryId = repositoryHandler.getServerDocUrl(
-    //     offlineServerInitializer.handler,
-    //   );
-    //   console.log(
-    //     "🚀 ~ offlineServerInitializer.handler.addListener ~ repositoryId:",
-    //     repositoryId,
-    //   );
-
-    //   if (!repositoryId) {
-    //     return;
-    //   }
-    //   updateServerStatus("offline", SERVER_STATUS.CONNECTED, repositoryId);
+    // const serversFromStorageRaw = JSON.stringify({
+    //   servers: [
+    //     {
+    //       name: "local-wss",
+    //       url: "ws://localhost:3030",
+    //     },
+    //   ],
     // });
-
-    // const serversFromStorageRaw = localStorage.getItem(
-    //   SERVERS_CONF_STORAGE_KEY,
-    // );
-    const serversFromStorageRaw = JSON.stringify({
-      servers: [
-        {
-          name: "local-wss",
-          url: "ws://localhost:3030",
-          // repositoryId: "automerge:2REVoRJ82sJNLVTdFiWYaVcwSpNP",
-        },
-      ],
-    });
+    const serversFromStorageRaw = localStorage.getItem(
+      SERVERS_CONF_STORAGE_KEY,
+    );
 
     if (serversFromStorageRaw && serversFromStorageRaw !== "") {
       const serversFromStorage: StorageServersConfig = JSON.parse(
@@ -200,25 +178,15 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
             sharePolicy: async () => true,
             enableRemoteHeadsGossiping: true,
           });
-
-          //   handler.addListener("document", () => {
-          //     updateServerStatus(
-          //       server.name,
-          //       SERVER_STATUS.CONNECTED,
-          //       Object.keys(handler.handles)[0],
-          //     );
-          //   });
+          serversHandler[server.name] = handler;
 
           serversInitialized[server.name] = {
             name: server.name,
             type: REPOSITORY_TYPE.remote,
-            // handler,
             status: SERVER_STATUS.NO_REPOSITORY,
             url: server.url,
-            repositoryIds: [], // server.repositoryIds, // "automerge:2REVoRJ82sJNLVTdFiWYaVcwSpNP",
+            repositoryIds: [],
           };
-
-          serversHandler[server.name] = handler;
         });
 
         setServers(serversInitialized);
@@ -234,15 +202,29 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       };
       setServers(serversInitialized);
     }
-  }, [updateServerStatus]);
+  }, []);
+
+  const disconnectFromServer = useCallback((name: string) => {
+    openDeleteConfirmModal("Disconnect from server?", {
+      confirmButtonLabel: "Disconnect",
+      handleConfirm: () =>
+        setServers((prevServers) => {
+          const newServers = { ...prevServers };
+          delete newServers[name];
+
+          return newServers;
+        }),
+    });
+  }, []);
+
+  console.log("🚀 ~ servers:", servers);
 
   return (
     <ServersContext.Provider
       value={{
         servers,
         addServer,
-        removeServer: () => {},
-        updateServerStatus,
+        disconnectFromServer,
       }}
     >
       {children}

@@ -1,10 +1,7 @@
 import { Repo } from "@automerge/automerge-repo";
-import { REPOSITORY_TYPE, Repository, StorageServersConfig } from "./types";
-import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
-import { TDocType } from "../../types/schema";
-
-export const SERVERS_CONF_STORAGE_KEY = "yt-servers";
+import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
+import { REPOSITORY_TYPE, Repository, StorageServersConfig } from "./types";
 
 export class RepositoryHandler {
   private _offlineServer: Repository = {
