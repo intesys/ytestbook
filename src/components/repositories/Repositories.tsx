@@ -1,47 +1,79 @@
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
-import { Divider, Text, Title } from "@mantine/core";
+import {
+  Box,
+  Container,
+  Grid,
+  Group,
+  Image,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import React from "react";
+import Logo from "../../assets/logo.svg";
 import {
   serversHandler,
   useServersContext,
 } from "../serversContext/serversContext";
+import { REPOSITORY_TYPE } from "../serversContext/types";
 import { Actions } from "./Actions";
 import { ProjectList } from "./ProjectList";
+import classes from "./repositories.module.css";
 
 export const Repositories: React.FC = () => {
   const { servers } = useServersContext();
 
-  // console.log("Repositories", servers);
-
   return (
-    <div>
-      {Object.values(servers).map((repo) => {
-        const handler = serversHandler[repo.name];
-        console.log(
-          "🚀 ~ {Object.values ~ handler:",
-          handler.handles,
-          repo.repositoryIds,
-        );
+    <div className={classes.container}>
+      <Container>
+        <Grid>
+          <Grid.Col>
+            <Image src={Logo} alt="yTestbook" w={78} my={45} />
+          </Grid.Col>
 
-        return (
-          <RepoContext.Provider value={handler} key={repo.name}>
-            <Title order={2}>
-              {repo.name}
+          <Grid.Col>
+            <Stack gap={40}>
+              {Object.values(servers).map((repo) => {
+                const handler = serversHandler[repo.name];
 
-              <Text size="sm">{repo.url}</Text>
-            </Title>
-            {/* {Object.keys(handler.handles).map((repoIdFromCache) => {
-              return <ProjectList repo={repo} repositoryId={repoIdFromCache} />;
-            })} */}
+                return (
+                  <Box key={repo.name}>
+                    <RepoContext.Provider value={handler}>
+                      {repo.type === REPOSITORY_TYPE.offline ? (
+                        <Title order={3} c="white" mb={20}>
+                          Local Testbooks
+                        </Title>
+                      ) : (
+                        <Group c="white" mb={20}>
+                          <Title order={3} mb={0}>
+                            {repo.name}
+                          </Title>
+                          <Text>{repo.url}</Text>
 
-            {repo.repositoryIds[0] ? (
-              <ProjectList repo={repo} repositoryId={repo.repositoryIds[0]} />
-            ) : null}
-            <Actions repo={repo} repositoryId={repo.repositoryIds[0]} />
-            <Divider my="lg" />
-          </RepoContext.Provider>
-        );
-      })}
+                          <Text size="sm">Disconnect</Text>
+                        </Group>
+                      )}
+
+                      <Grid>
+                        {repo.repositoryIds[0] ? (
+                          <ProjectList
+                            repo={repo}
+                            repositoryId={repo.repositoryIds[0]}
+                          />
+                        ) : null}
+                        <Actions
+                          repo={repo}
+                          repositoryId={repo.repositoryIds[0]}
+                        />
+                      </Grid>
+                    </RepoContext.Provider>
+                  </Box>
+                );
+              })}
+            </Stack>
+          </Grid.Col>
+        </Grid>
+      </Container>
     </div>
   );
 };

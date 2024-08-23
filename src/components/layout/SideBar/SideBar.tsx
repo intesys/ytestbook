@@ -43,7 +43,7 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
       );
       // `/project/${project.data.id}/testCase/${caseId}`);
     }
-  }, [params, project.data, activeCaseId, pathname, navigate]);
+  }, [params, project.data, activeCaseId, pathname, navigate, serverName]);
 
   useEffect(() => {
     if (params.caseId) {

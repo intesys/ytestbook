@@ -1,5 +1,5 @@
 .container {
-  background-color: #ebeefb;
+  background: linear-gradient(252.07deg, #7B61FF 0%, #0F33CE 100%);
   min-height: 100dvh;
 }
 
@@ -106,3 +106,15 @@ thead {
 tbody {
   cursor: pointer;
 }
+
+
+
+.projectCard {
+  background-color: #5871DD;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--mantine-color-primary-3);
+  }
+}
+
