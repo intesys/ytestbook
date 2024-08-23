@@ -1,37 +1,40 @@
-import React, { useCallback } from "react";
-import { useDocContext } from "../docContext/DocContext";
-import { Repository, SERVER_STATUS } from "../serversContext/types";
-import { TDocType } from "../../types/schema";
-import { useServersContext } from "../serversContext/serversContext";
-import { modals } from "@mantine/modals";
-import { useProjects } from "../../lib/operators/useProjects";
-import { Modals } from "../modals/modals";
+import { useRepo } from "@automerge/automerge-repo-react-hooks";
 import { Button } from "@mantine/core";
-import { useDocument, useRepo } from "@automerge/automerge-repo-react-hooks";
+import { modals } from "@mantine/modals";
+import { useCallback } from "react";
+import { TDocType } from "../../types/schema";
+import { Modals } from "../modals/modals";
+import { useServersContext } from "../serversContext/serversContext";
+import { Repository } from "../serversContext/types";
 
 type ActionsProps = {
   repo: Repository;
+  repositoryId?: string;
 };
 
-export const Actions = ({ repo }: ActionsProps) => {
+export const Actions = ({ repo, repositoryId }: ActionsProps) => {
   const { updateServerStatus } = useServersContext();
 
   const repoHandler = useRepo();
 
-  const [doc, changeDoc] = useDocument<TDocType>(repo.repositoryId);
-  //   const projects = useProjects();
-
   const createTestbookAction = useCallback(() => {
-    console.log("🚀 ~ createTestbookAction ~ repo:", repo);
-    // if (!repo.repositoryId) {
-    //   const docHandle = repoHandler.create<TDocType>({
-    //     projects: [],
-    //     description: "",
-    //     title: "",
-    //   });
+    let docHandle;
 
-    //   updateServerStatus(repo.name, SERVER_STATUS.CONNECTED, docHandle.url);
-    // }
+    if (!repo.repositoryIds || repo.repositoryIds.length === 0) {
+      docHandle = repoHandler.create<TDocType>({
+        projects: [],
+        description: "",
+        title: "",
+      });
+    } else {
+      if (repositoryId) {
+        docHandle = repoHandler.find<TDocType>(repositoryId as any);
+      }
+    }
+
+    if (!docHandle) {
+      return;
+    }
 
     modals.openContextModal({
       modal: Modals.CreateTestbookModal,
@@ -39,10 +42,9 @@ export const Actions = ({ repo }: ActionsProps) => {
       centered: true,
       innerProps: {
         handleSubmit: (values) => {
-          //   projects.createProject(values);
-
           const date = new Date();
-          changeDoc((d) => {
+
+          docHandle.change((d) => {
             d.projects.push({
               ...values,
               id: crypto.randomUUID(),

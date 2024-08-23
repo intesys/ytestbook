@@ -1,63 +1,43 @@
-import React, { useMemo } from "react";
-import { repositoryHandler } from "../../lib/repositoryHandler/repositoryHandler";
-import { useRepositoryHandler } from "../../lib/repositoryHandler/useRepositoryHandler";
+import { RepoContext } from "@automerge/automerge-repo-react-hooks";
+import { Divider, Text, Title } from "@mantine/core";
+import React from "react";
 import {
   serversHandler,
   useServersContext,
 } from "../serversContext/serversContext";
-import { Box, Button, Divider, Text, Title } from "@mantine/core";
-import { RepoContext } from "@automerge/automerge-repo-react-hooks";
-import { DocProvider, useDocContext } from "../docContext/DocContext";
-import { ProjectList } from "./ProjectList";
-import { Modals } from "../modals/modals";
-import { Action } from "../action/Action";
 import { Actions } from "./Actions";
-import { Repo } from "@automerge/automerge-repo";
-import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
-import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
-
-// const r = new Repo({
-//   // network: [new BrowserWebSocketClientAdapter(server.url)],
-//   network: [],
-//   storage: new IndexedDBStorageAdapter(),
-// });
+import { ProjectList } from "./ProjectList";
 
 export const Repositories: React.FC = () => {
-  // const servers = useMemo(() => repositoryHandler.getServers(), []);
-
-  // const { servers } = useRepositoryHandler();
-
   const { servers } = useServersContext();
 
-  console.log(servers);
+  // console.log("Repositories", servers);
 
   return (
     <div>
-      {Object.entries(servers).map((server) => {
-        const [name, repo] = server;
-        console.log("🚀 ~ {Object.entries ~ repo:", repo);
-
-        if (!repo) {
-          return "";
-        }
+      {Object.values(servers).map((repo) => {
+        const handler = serversHandler[repo.name];
+        console.log(
+          "🚀 ~ {Object.values ~ handler:",
+          handler.handles,
+          repo.repositoryIds,
+        );
 
         return (
-          <RepoContext.Provider
-            value={serversHandler["offline"]}
-            key={repo.name}
-          >
+          <RepoContext.Provider value={handler} key={repo.name}>
             <Title order={2}>
               {repo.name}
 
               <Text size="sm">{repo.url}</Text>
             </Title>
+            {/* {Object.keys(handler.handles).map((repoIdFromCache) => {
+              return <ProjectList repo={repo} repositoryId={repoIdFromCache} />;
+            })} */}
 
-            {/* <DocProvider docUrl={repo.repositoryId}> */}
-            {repo.repositoryId ? <ProjectList repo={repo} /> : null}
-
-            <Actions repo={repo} />
-            {/* </DocProvider> */}
-
+            {repo.repositoryIds[0] ? (
+              <ProjectList repo={repo} repositoryId={repo.repositoryIds[0]} />
+            ) : null}
+            <Actions repo={repo} repositoryId={repo.repositoryIds[0]} />
             <Divider my="lg" />
           </RepoContext.Provider>
         );

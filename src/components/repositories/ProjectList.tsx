@@ -6,24 +6,13 @@ import { Repository } from "../serversContext/types";
 
 type ProjectListProps = {
   repo: Repository;
+  repositoryId: string;
 };
 
-export const ProjectList = ({ repo }: ProjectListProps) => {
-  const [doc] = useDocument<TDocType>(repo.repositoryId as any);
-  console.log("🚀 ~ ProjectList ~ doc:", repo.repositoryId, doc);
+export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
+  const [doc] = useDocument<TDocType>(repositoryId as any);
 
   const navigate = useNavigate();
-
-  //   const doc = useMemo(() => {
-  //     const docUrl = repositoryHandler.getServerDocUrl(repo.handler);
-
-  //     if (!docUrl) {
-  //       return undefined;
-  //     }
-  //     const docHandle = repo.handler.find<TDocType>(docUrl as any);
-
-  //     return docHandle;
-  //   }, []);
 
   return (
     <div>

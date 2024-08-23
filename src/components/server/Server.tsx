@@ -1,6 +1,7 @@
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
 import { useMemo } from "react";
-import { Outlet, useParams } from "react-router";
+import { Outlet } from "react-router";
+import { useServerName } from "../../lib/helpers/useServerName";
 import { DocProvider } from "../docContext/DocContext";
 import {
   serversHandler,
@@ -8,29 +9,24 @@ import {
 } from "../serversContext/serversContext";
 
 export const Server = () => {
-  const params = useParams();
+  const serverName = useServerName();
 
   const { servers } = useServersContext();
 
   const server = useMemo(() => {
-    // const key Object.keys(servers).find((name) => {
-    //   return name === params.serverName;
-    // });
+    return serverName ? servers[serverName] : undefined;
+  }, [serverName, servers]);
 
-    return params.serverName ? servers[params.serverName] : undefined;
-  }, [params.serverName, servers]);
-
-  const handler = params["serverName"]
-    ? serversHandler[params["serverName"]]
-    : undefined;
+  const handler = serverName ? serversHandler[serverName] : undefined;
 
   if (!handler) {
     return <>No handler</>;
   }
 
+  console.log("🚀 ~ Server ~ repositoryIds:", server);
   return (
     <RepoContext.Provider value={handler}>
-      <DocProvider docUrl={server?.repositoryId}>
+      <DocProvider docUrl={server?.repositoryIds[0]}>
         <Outlet />
       </DocProvider>
     </RepoContext.Provider>

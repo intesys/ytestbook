@@ -1,5 +1,3 @@
-import { Repo } from "@automerge/automerge-repo";
-
 export enum REPOSITORY_TYPE {
   offline = "offline",
   remote = "remote",
@@ -29,7 +27,7 @@ export type Repository = {
   // handler: Repo;
   status: SERVER_STATUS;
   url: string;
-  repositoryId?: string;
+  repositoryIds: string[];
 };
 
 // export enum DocContextStatusEnum {

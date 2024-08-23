@@ -17,6 +17,9 @@ import {
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
 import { Repo } from "@automerge/automerge-repo";
 import { TDocType } from "../../types/schema";
+import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
+import { isEqual } from "lodash";
+import { urlPrefix } from "@automerge/automerge-repo/dist/AutomergeUrl";
 
 let done = false;
 
@@ -41,7 +44,35 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
 }) => {
   const [servers, setServers] = useState<ServersList>({});
 
-  console.log("HANDLES", servers);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      Object.keys(serversHandler).forEach((serverName) => {
+        const currentServer = servers[serverName];
+        if (currentServer && currentServer.type !== REPOSITORY_TYPE.offline) {
+          const handlesRepoIds = Object.keys(
+            serversHandler[serverName].handles,
+          ).map((id) =>
+            id.indexOf(urlPrefix) === 0 ? id : `${urlPrefix}${id}`,
+          );
+
+          if (!isEqual(currentServer.repositoryIds, handlesRepoIds)) {
+            console.log("SET SERVERS", handlesRepoIds);
+            setServers((prevServers) => {
+              return {
+                ...prevServers,
+                [serverName]: {
+                  ...prevServers[serverName],
+                  repositoryIds: handlesRepoIds,
+                },
+              };
+            });
+          }
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [servers]);
 
   const addServer = useCallback((id: string, repo: Repository) => {
     setServers((currentServers) => {
@@ -55,7 +86,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       setServers((currentServers) => {
         if (currentServers[id]) {
           currentServers[id].status = status;
-          currentServers[id].repositoryId = `${repositoryId}`;
+          currentServers[id].repositoryIds = [repositoryId];
         }
         return currentServers;
       });
@@ -101,7 +132,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       type: REPOSITORY_TYPE.offline,
       status: SERVER_STATUS.NO_REPOSITORY,
       url: "offline",
-      repositoryId: offlineRepoId,
+      repositoryIds: offlineRepoId ? [offlineRepoId] : [],
     };
 
     serversHandler["offline"] = new Repo({
@@ -118,7 +149,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         title: "",
       });
 
-      offlineServerInitializer.repositoryId = docHandle.url;
+      offlineServerInitializer.repositoryIds = [docHandle.url];
       localStorage.setItem(
         SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY,
         docHandle.url,
@@ -145,10 +176,11 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     // );
     const serversFromStorageRaw = JSON.stringify({
       servers: [
-        // {
-        //   name: "local-wss",
-        //   url: "ws://localhost:3030",
-        // },
+        {
+          name: "local-wss",
+          url: "ws://localhost:3030",
+          // repositoryId: "automerge:2REVoRJ82sJNLVTdFiWYaVcwSpNP",
+        },
       ],
     });
 
@@ -162,10 +194,12 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
           offline: offlineServerInitializer,
         };
         serversFromStorage.servers.forEach((server) => {
-          //   const handler = new Repo({
-          //     network: [new BrowserWebSocketClientAdapter(server.url)],
-          //     storage: new IndexedDBStorageAdapter(),
-          //   });
+          const handler = new Repo({
+            network: [new BrowserWebSocketClientAdapter(server.url)],
+            storage: new IndexedDBStorageAdapter(),
+            sharePolicy: async () => true,
+            enableRemoteHeadsGossiping: true,
+          });
 
           //   handler.addListener("document", () => {
           //     updateServerStatus(
@@ -181,7 +215,10 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
             // handler,
             status: SERVER_STATUS.NO_REPOSITORY,
             url: server.url,
+            repositoryIds: [], // server.repositoryIds, // "automerge:2REVoRJ82sJNLVTdFiWYaVcwSpNP",
           };
+
+          serversHandler[server.name] = handler;
         });
 
         setServers(serversInitialized);
