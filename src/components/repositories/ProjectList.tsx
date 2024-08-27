@@ -3,13 +3,13 @@ import { Card, Grid, Stack, Text, Title } from "@mantine/core";
 import { useNavigate } from "react-router";
 import { parseTimestamp } from "../../lib/date/parseTimestamp";
 import { TDocType } from "../../types/schema";
-import { Repository } from "../serversContext/types";
+import { YtServer } from "../serversContext/types";
 import classes from "./repositories.module.css";
 import { routesHelper } from "../../lib/helpers/routesHelper";
 import { AnyDocumentId } from "@automerge/automerge-repo";
 
 type ProjectListProps = {
-  repo: Repository;
+  repo: YtServer;
   repositoryId: string;
 };
 
@@ -29,9 +29,7 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
             c="white"
             mih={228}
             display="flex"
-            onClick={() =>
-              navigate(routesHelper.projectDetail(repo.name, p.id))
-            }
+            onClick={() => navigate(routesHelper.projectDetail(repo.id, p.id))}
           >
             <Stack gap={0} flex={1}>
               <Text size="lg" fw={500} mb={5}>

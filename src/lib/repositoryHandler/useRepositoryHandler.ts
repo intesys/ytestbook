@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { REPOSITORY_TYPE, Repository, StorageServersConfig } from "./types";
 import { Repo } from "@automerge/automerge-repo";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
-import { SERVERS_CONF_STORAGE_KEY } from "./repositoryHandler";
+import { useEffect, useMemo, useState } from "react";
+import { REPOSITORY_TYPE, Repository, StorageServersConfig } from "./types";
 
 export const useRepositoryHandler = () => {
   const [offlineServer, setOfflineServer] = useState<Repository>();
@@ -19,22 +18,11 @@ export const useRepositoryHandler = () => {
       name: "offline",
       type: REPOSITORY_TYPE.offline,
     };
-    //   {
-    //     set: function (target, key, value) {
-    //       console.log(`${key} set from ${obj.foo} to ${value}`);
-    //       target[key] = value;
-    //       return true;
-    //     },
-    //   },
-    // );
 
     offlineServerInitializer.handler.addListener("document", () => {
       setOfflineServer(offlineServerInitializer);
     });
 
-    // const serversFromStorageRaw = localStorage.getItem(
-    //   SERVERS_CONF_STORAGE_KEY,
-    // );
     const serversFromStorageRaw = JSON.stringify({
       servers: [
         {
@@ -60,19 +48,6 @@ export const useRepositoryHandler = () => {
           handler.addListener("document", () => {
             setOfflineServer(offlineServerInitializer);
           });
-
-          //   const handlerProxy = new Proxy(
-          //     {},
-          //     {
-          //       set: function (target, key, value) {
-          //         console.log(`${key} set from ${obj.foo} to ${value}`);
-          //         target[key] = value;
-          //         return true;
-          //       },
-          //     },
-          //   );
-
-          //   handlerProxy.meow = "1";
 
           serversInitialized.push({
             name: server.name,

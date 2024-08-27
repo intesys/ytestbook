@@ -8,38 +8,22 @@ export enum SERVER_STATUS {
   CONNECTED = "CONNECTED",
 }
 
-export type ServersList = Record<string, Repository>;
+export type ServersList = Record<string, YtServer>;
 
 export type TServersContextValue = {
   servers: ServersList;
-  addServer: (id: string, repository: Repository) => void;
+  addServer: (id: string, repository: YtServer) => void;
   disconnectFromServer: (id: string) => void;
 };
 
-export type Repository = {
+export type YtServer = {
   type: REPOSITORY_TYPE;
+  id: string;
   name: string;
   // handler: Repo;
   status: SERVER_STATUS;
   url: string;
   repositoryIds: string[];
 };
-
-// export enum DocContextStatusEnum {
-//   READY = "READY",
-//   LOADING = "LOADING",
-// }
-
-// export type TDocContextState = {
-//   status: DocContextStatusEnum.READY;
-//   docUrl: AutomergeUrl | undefined;
-//   doc: Doc<TDocType> | undefined;
-//   changeDoc:
-//     | ((
-//         changeFn: ChangeFn<TDocType>,
-//         options?: ChangeOptions<TDocType> | undefined,
-//       ) => void)
-//     | undefined;
-// };
 
 export type TServersProviderProps = { children: React.ReactNode };

@@ -19,6 +19,7 @@ export type Server = {
 export type StorageServersConfig = {
   servers?: {
     name: string;
+    id: string;
     url: string;
     repositoryIds: string[];
   }[];

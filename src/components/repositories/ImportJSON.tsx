@@ -2,19 +2,18 @@ import { useRepo } from "@automerge/automerge-repo-react-hooks";
 import { Text } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
+import { useNavigate } from "react-router";
 import { z } from "zod";
 import FileTypeJson from "../../assets/icons/bi_filetype-json.svg";
+import { routesHelper } from "../../lib/helpers/routesHelper";
 import { TJsonExport } from "../../types/json-export";
-import { Repository } from "../serversContext/types";
+import { YtServer } from "../serversContext/types";
 import { ActionButton } from "../shared/ActionButton/ActionButton";
 import classes from "./repositories.module.css";
 import { getDocHandlerFromRepo } from "./utils.repositories";
-import { routesHelper } from "../../lib/helpers/routesHelper";
-import { useNavigate } from "react-router";
-import slugify from "slugify";
 
 type ImportJSONProps = {
-  repo: Repository;
+  repo: YtServer;
   repositoryId?: string;
 };
 
@@ -72,7 +71,6 @@ export const ImportJSON = ({ repo, repositoryId }: ImportJSONProps) => {
                 z.object({
                   id: z.string(),
                   resolved: z.boolean(),
-                  username: z.string(),
                   content: z.string(),
                 }),
               ),
@@ -117,7 +115,7 @@ export const ImportJSON = ({ repo, repositoryId }: ImportJSONProps) => {
           const projectId = tryImportJSON(event.target?.result);
 
           if (projectId) {
-            navigate(routesHelper.projectDetail(slugify(repo.name), projectId));
+            navigate(routesHelper.projectDetail(repo.id, projectId));
           }
         };
 
@@ -126,18 +124,7 @@ export const ImportJSON = ({ repo, repositoryId }: ImportJSONProps) => {
       multiple={false}
       className={classes.jsonImporter}
     >
-      {/* <Action
-            title="Upload project"
-            label="Drag and drop the testbook file here"
-            icon={FileTypeJson}
-            action={() => ""}
-          /> */}
-
-      <ActionButton
-        // onClick={createTestbookAction}
-        justify="left"
-        icon={FileTypeJson}
-      >
+      <ActionButton justify="left" icon={FileTypeJson}>
         <Text span fw={700}>
           Import
         </Text>{" "}

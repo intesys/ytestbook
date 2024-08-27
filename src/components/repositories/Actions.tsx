@@ -4,13 +4,13 @@ import { modals } from "@mantine/modals";
 import { useCallback } from "react";
 import addCircle from "../../assets/icons/add_circle.svg";
 import { Modals } from "../modals/modals";
-import { Repository } from "../serversContext/types";
+import { YtServer } from "../serversContext/types";
 import { ActionButton } from "../shared/ActionButton/ActionButton";
 import { ImportJSON } from "./ImportJSON";
 import { getDocHandlerFromRepo } from "./utils.repositories";
 
 type ActionsProps = {
-  repo: Repository;
+  repo: YtServer;
   repositoryId?: string;
 };
 

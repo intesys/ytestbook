@@ -1,3 +1,8 @@
+import { Repo } from "@automerge/automerge-repo";
+import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
+import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
+import { urlPrefix } from "@automerge/automerge-repo/dist/AutomergeUrl";
+import { isEqual } from "lodash";
 import {
   createContext,
   useCallback,
@@ -6,21 +11,16 @@ import {
   useState,
 } from "react";
 import { StorageServersConfig } from "../../lib/repositoryHandler/types";
+import { TDocType } from "../../types/schema";
+import { openDeleteConfirmModal } from "../modals/modals";
 import {
   REPOSITORY_TYPE,
-  Repository,
   SERVER_STATUS,
   ServersList,
   TServersContextValue,
   TServersProviderProps,
+  YtServer,
 } from "./types";
-import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
-import { Repo } from "@automerge/automerge-repo";
-import { TDocType } from "../../types/schema";
-import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
-import { isEqual } from "lodash";
-import { urlPrefix } from "@automerge/automerge-repo/dist/AutomergeUrl";
-import { openDeleteConfirmModal } from "../modals/modals";
 
 export const SERVERS_CONF_STORAGE_KEY = "yt-servers";
 export const SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY = "yt-offline-repo-id";
@@ -53,6 +53,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       servers: Object.values(servers)
         .filter((s) => s.type === REPOSITORY_TYPE.remote)
         .map((s) => ({
+          id: s.id,
           name: s.name,
           repositoryIds: s.repositoryIds,
           url: s.url,
@@ -94,14 +95,14 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     return () => clearInterval(interval);
   }, [servers]);
 
-  const addServer = useCallback((id: string, repo: Repository) => {
+  const addServer = useCallback((id: string, repo: YtServer) => {
     const handler = new Repo({
       network: [new BrowserWebSocketClientAdapter(repo.url)],
       storage: new IndexedDBStorageAdapter(),
       sharePolicy: async () => true,
       enableRemoteHeadsGossiping: true,
     });
-    serversHandler[repo.name] = handler;
+    serversHandler[repo.id] = handler;
 
     setServers((currentServers) => {
       const newServers = { ...currentServers };
@@ -121,8 +122,9 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       localStorage.getItem(SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY) ??
       undefined;
 
-    const offlineServerInitializer: Repository = {
-      name: "offline",
+    const offlineServerInitializer: YtServer = {
+      name: "Offline",
+      id: "offline",
       type: REPOSITORY_TYPE.offline,
       status: SERVER_STATUS.NO_REPOSITORY,
       url: "offline",
@@ -150,14 +152,6 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       );
     }
 
-    // const serversFromStorageRaw = JSON.stringify({
-    //   servers: [
-    //     {
-    //       name: "local-wss",
-    //       url: "ws://localhost:3030",
-    //     },
-    //   ],
-    // });
     const serversFromStorageRaw = localStorage.getItem(
       SERVERS_CONF_STORAGE_KEY,
     );
@@ -178,9 +172,10 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
             sharePolicy: async () => true,
             enableRemoteHeadsGossiping: true,
           });
-          serversHandler[server.name] = handler;
+          serversHandler[server.id] = handler;
 
-          serversInitialized[server.name] = {
+          serversInitialized[server.id] = {
+            id: server.id,
             name: server.name,
             type: REPOSITORY_TYPE.remote,
             status: SERVER_STATUS.NO_REPOSITORY,

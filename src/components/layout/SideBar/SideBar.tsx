@@ -41,7 +41,6 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
       navigate(
         routesHelper.testCaseDetail(serverName, project.data.id, caseId),
       );
-      // `/project/${project.data.id}/testCase/${caseId}`);
     }
   }, [params, project.data, activeCaseId, pathname, navigate, serverName]);
 

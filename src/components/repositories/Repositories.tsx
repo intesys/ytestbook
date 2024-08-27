@@ -23,10 +23,10 @@ import { ProjectList } from "./ProjectList";
 import classes from "./repositories.module.css";
 import { modals } from "@mantine/modals";
 import { Modals } from "../modals/modals";
+import slugify from "slugify";
 
 export const Repositories: React.FC = () => {
   const { servers, disconnectFromServer, addServer } = useServersContext();
-  console.log("🚀 ~ servers:", servers);
 
   const openAddServerModal = () => {
     modals.openContextModal({
@@ -36,27 +36,13 @@ export const Repositories: React.FC = () => {
       innerProps: {
         handleSubmit: (values) => {
           addServer(values.name, {
+            id: slugify(values.name),
             name: values.name,
             repositoryIds: [],
             status: SERVER_STATUS.NO_REPOSITORY,
             type: REPOSITORY_TYPE.remote,
             url: values.url,
           });
-          // const date = new Date();
-          // docHandle.change((d) => {
-          //   d.projects.push({
-          //     ...values,
-          //     id: crypto.randomUUID(),
-          //     createdAt: date.getTime(),
-          //     collaborators: [],
-          //     collaboratorToTest: [],
-          //     tagToTest: [],
-          //     testCases: [],
-          //     allTags: [],
-          //     statusChanges: [],
-          //     description: "",
-          //   });
-          // });
         },
       },
     });
@@ -64,66 +50,73 @@ export const Repositories: React.FC = () => {
 
   return (
     <div className={classes.container}>
-      <Container>
+      <Container fluid>
         <Grid>
-          <Grid.Col>
-            <Image src={Logo} alt="yTestbook" w={78} my={45} />
-          </Grid.Col>
+          <Grid.Col
+            span={{
+              xl: 10,
+              xs: 12,
+            }}
+            offset={{
+              xl: 1,
+              md: 0,
+            }}
+          >
+            <Stack gap={40} my={45}>
+              <Image src={Logo} alt="yTestbook" w={78} mb={5} />
+              <Stack gap={40}>
+                {Object.values(servers).map((repo) => {
+                  const handler = serversHandler[repo.id];
 
-          <Grid.Col>
-            <Stack gap={40}>
-              {Object.values(servers).map((repo) => {
-                const handler = serversHandler[repo.name];
+                  console.log(repo, repo.repositoryIds[0]);
 
-                return (
-                  <Box key={repo.name}>
-                    <RepoContext.Provider value={handler}>
-                      {repo.type === REPOSITORY_TYPE.offline ? (
-                        <Title order={3} c="white" mb={20}>
-                          Local Testbooks
-                        </Title>
-                      ) : (
-                        <Group c="white" mb={20}>
-                          <Title order={3} mb={0}>
-                            {repo.name}
+                  return (
+                    <Box key={repo.id}>
+                      <RepoContext.Provider value={handler}>
+                        {repo.type === REPOSITORY_TYPE.offline ? (
+                          <Title order={3} c="white" mb={20}>
+                            Local Testbooks
                           </Title>
-                          <Text>{repo.url}</Text>
+                        ) : (
+                          <Group c="white" mb={20}>
+                            <Title order={3} mb={0}>
+                              {repo.name}
+                            </Title>
+                            <Text>{repo.url}</Text>
 
-                          <Anchor
-                            onClick={() => disconnectFromServer(repo.name)}
-                            size="sm"
-                            c="white"
-                            fw={600}
-                          >
-                            Disconnect
-                          </Anchor>
-                        </Group>
-                      )}
+                            <Anchor
+                              onClick={() => disconnectFromServer(repo.name)}
+                              size="sm"
+                              c="white"
+                              fw={600}
+                            >
+                              Disconnect
+                            </Anchor>
+                          </Group>
+                        )}
 
-                      <Grid>
-                        {repo.repositoryIds[0] ? (
-                          <ProjectList
+                        <Grid>
+                          {repo.repositoryIds[0] ? (
+                            <ProjectList
+                              repo={repo}
+                              repositoryId={repo.repositoryIds[0]}
+                            />
+                          ) : null}
+                          <Actions
                             repo={repo}
                             repositoryId={repo.repositoryIds[0]}
                           />
-                        ) : null}
-                        <Actions
-                          repo={repo}
-                          repositoryId={repo.repositoryIds[0]}
-                        />
-                      </Grid>
-                    </RepoContext.Provider>
-                  </Box>
-                );
-              })}
+                        </Grid>
+                      </RepoContext.Provider>
+                    </Box>
+                  );
+                })}
+              </Stack>
+              <Divider c="white" />
+              <Anchor onClick={openAddServerModal} c="white">
+                Connect to a remote server
+              </Anchor>
             </Stack>
-          </Grid.Col>
-
-          <Grid.Col mb={50}>
-            <Divider c="white" my={40} />
-            <Anchor onClick={openAddServerModal} c="white">
-              Connect to a remote server
-            </Anchor>
           </Grid.Col>
         </Grid>
       </Container>
