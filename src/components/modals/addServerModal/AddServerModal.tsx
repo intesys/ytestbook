@@ -4,13 +4,13 @@ import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
 
-type TCreateTestbookModalInnerProps<T> = {
-  handleSubmit: (values: T) => void;
-};
-
 export type AddServerFormValues = {
   name: string;
   url: string;
+};
+
+type TCreateTestbookModalInnerProps<T> = {
+  handleSubmit: (values: T) => void;
 };
 
 export function AddServerModal({

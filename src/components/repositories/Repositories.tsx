@@ -24,7 +24,7 @@ import classes from "./repositories.module.css";
 import { modals } from "@mantine/modals";
 import { Modals } from "../modals/modals";
 import slugify from "slugify";
-import { AddServerFormValues } from "../modals/AddServerModal/AddServerModal";
+import { AddServerFormValues } from "../modals/addServerModal/AddServerModal";
 
 export const Repositories: React.FC = () => {
   const { servers, disconnectFromServer, addServer } = useServersContext();

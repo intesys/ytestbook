@@ -1,7 +1,7 @@
 import { ModalProps } from "@mantine/core";
 import { openContextModal } from "@mantine/modals";
 import merge from "lodash/merge";
-import { AddServerModal } from "./AddServerModal/AddServerModal.tsx";
+import { AddServerModal } from "./addServerModal/AddServerModal.tsx";
 import { CollaboratorModal } from "./collaboratorModal/CollaboratorModal.tsx";
 import {
   ConfirmModal,
