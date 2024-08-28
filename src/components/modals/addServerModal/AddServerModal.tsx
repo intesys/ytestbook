@@ -8,7 +8,7 @@ type TCreateTestbookModalInnerProps<T> = {
   handleSubmit: (values: T) => void;
 };
 
-type AddServerFormValues = {
+export type AddServerFormValues = {
   name: string;
   url: string;
 };

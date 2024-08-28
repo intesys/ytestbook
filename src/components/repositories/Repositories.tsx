@@ -24,6 +24,7 @@ import classes from "./repositories.module.css";
 import { modals } from "@mantine/modals";
 import { Modals } from "../modals/modals";
 import slugify from "slugify";
+import { AddServerFormValues } from "../modals/AddServerModal/AddServerModal";
 
 export const Repositories: React.FC = () => {
   const { servers, disconnectFromServer, addServer } = useServersContext();
@@ -34,7 +35,7 @@ export const Repositories: React.FC = () => {
       title: "Add server",
       centered: true,
       innerProps: {
-        handleSubmit: (values) => {
+        handleSubmit: (values: AddServerFormValues) => {
           addServer(values.name, {
             id: slugify(values.name),
             name: values.name,

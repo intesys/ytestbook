@@ -8,6 +8,7 @@ import { YtServer } from "../serversContext/types";
 import { ActionButton } from "../shared/ActionButton/ActionButton";
 import { ImportJSON } from "./ImportJSON";
 import { getDocHandlerFromRepo } from "./utils.repositories";
+import { TProjectDynamicData } from "../../types/schema";
 
 type ActionsProps = {
   repo: YtServer;
@@ -30,7 +31,7 @@ export const Actions = ({ repo, repositoryId }: ActionsProps) => {
       title: "Create project",
       centered: true,
       innerProps: {
-        handleSubmit: (values) => {
+        handleSubmit: (values: TProjectDynamicData) => {
           const date = new Date();
 
           docHandle.change((d) => {

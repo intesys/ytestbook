@@ -16,7 +16,6 @@ import {
   TDocContextValue,
   TDocProviderProps,
 } from "./types";
-import { useNetworkUrl } from "../../lib/operators/useNetworkUrl";
 
 const DocContext = createContext<TDocContextValue>({
   docUrl: undefined,

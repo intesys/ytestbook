@@ -1,6 +1,7 @@
 import { ModalProps } from "@mantine/core";
 import { openContextModal } from "@mantine/modals";
 import merge from "lodash/merge";
+import { AddServerModal } from "./AddServerModal/AddServerModal.tsx";
 import { CollaboratorModal } from "./collaboratorModal/CollaboratorModal.tsx";
 import {
   ConfirmModal,
@@ -9,7 +10,6 @@ import {
 import { CreateTestbookModal } from "./createTestbookModal/CreateTestbookModal.tsx";
 import { TestCaseModal } from "./testCaseModal/TestCaseModal.tsx";
 import { TestModal } from "./testModal/TestModal.tsx";
-import { AddServerModal } from "./addServerModal/AddServerModal.tsx";
 
 export enum Modals {
   CollaboratorModal = "CollaboratorModal",
@@ -21,12 +21,12 @@ export enum Modals {
 }
 
 export const modals = {
+  [Modals.AddServerModal]: AddServerModal,
   [Modals.CollaboratorModal]: CollaboratorModal,
   [Modals.ConfirmModal]: ConfirmModal,
   [Modals.CreateTestbookModal]: CreateTestbookModal,
   [Modals.TestCaseModal]: TestCaseModal,
   [Modals.TestModal]: TestModal,
-  [Modals.AddServerModal]: AddServerModal,
 };
 
 export const deleteModalsDefaults = {
