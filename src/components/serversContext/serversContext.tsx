@@ -10,13 +10,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import { StorageServersConfig } from "../../lib/repositoryHandler/types";
 import { TDocType } from "../../types/schema";
 import { openDeleteConfirmModal } from "../modals/modals";
 import {
   REPOSITORY_TYPE,
   SERVER_STATUS,
   ServersList,
+  StorageServersConfig,
   TServersContextValue,
   TServersProviderProps,
   YtServer,
