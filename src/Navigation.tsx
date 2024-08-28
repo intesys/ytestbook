@@ -1,23 +1,17 @@
 import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { CreateRepo } from "./components/createRepo/CreateRepo";
+import { NotFound } from "./components/notFound/NotFound";
 import { DetailSection } from "./components/detailSection/DetailSection";
 import { Empty } from "./components/empty/Empty";
-import { Home } from "./components/home";
 import { Project } from "./components/project/Project";
 import { Settings } from "./components/settings/Settings";
 import { TestCase } from "./components/testCase/TestCase";
-import { SetNetwork } from "./components/setNetwork/SetNetwork";
 import { Repositories } from "./components/repositories/Repositories";
 import { Server } from "./components/server/Server";
 
 export const MainNavigation: React.FC = () => (
   <Routes>
     <Route path="/" element={<Repositories />} />
-    <Route path="/repositories" element={<Repositories />} />
-    <Route path="/home" element={<Home />} />
-    <Route path="/setNetwork" element={<SetNetwork />} />
-    <Route path="/create" element={<CreateRepo />} />
     <Route path="/server/:serverName" element={<Server />}>
       <Route path="project/:projectId" element={<Project />}>
         <Route path="settings" element={<Settings />} />
@@ -30,5 +24,6 @@ export const MainNavigation: React.FC = () => (
         </Route>
       </Route>
     </Route>
+    <Route path="*" element={<NotFound />} />
   </Routes>
 );

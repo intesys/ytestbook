@@ -36,7 +36,6 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
     status: DocContextStatusEnum.LOADING,
   });
   const navigate = useNavigate();
-  // const { isFirstAccess } = useNetworkUrl();
 
   const createDoc = useCallback(() => {
     const handle = repo.create<TDocType>({
@@ -44,14 +43,12 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
       description: "",
       title: "",
     });
-    // localStorage.setItem("docUrl", handle.url);
     setState((prevState: TDocContextState) => ({
       ...prevState,
       docUrl: handle.url,
       doc: handle.docSync(),
       changeDoc: handle.change,
     }));
-    // navigate("/");
   }, [navigate, repo]);
 
   const findAndSetDoc = useCallback(
@@ -69,20 +66,6 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
   );
 
   useEffect(() => {
-    // if (isFirstAccess) {
-    //   navigate("/setNetwork");
-    //   setState({
-    //     status: DocContextStatusEnum.READY,
-    //     docUrl: undefined,
-    //     doc: undefined,
-    //     changeDoc: undefined,
-    //   });
-    //   return;
-    // }
-
-    // const rootDocUrl = localStorage.getItem("docUrl");
-    console.log("🚀 ~ useEffect ~ defaultDocUrl:", defaultDocUrl);
-
     if (isValidAutomergeUrl(defaultDocUrl)) {
       findAndSetDoc(defaultDocUrl);
     } else {
@@ -92,7 +75,6 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
         doc: undefined,
         changeDoc: undefined,
       });
-      // navigate("/create");
     }
   }, [defaultDocUrl, findAndSetDoc, navigate, repo]);
 
