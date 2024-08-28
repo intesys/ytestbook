@@ -12,7 +12,7 @@ import { MainNavigation } from "./Navigation";
 import { modals } from "./components/modals/modals.ts";
 import { ServersProvider } from "./components/serversContext/serversContext.tsx";
 import { theme } from "./theme";
-import "./theme.scss";
+import "./theme.css";
 
 const root = createRoot(
   document.getElementById("ytestbook_root") as HTMLElement,

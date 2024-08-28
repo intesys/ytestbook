@@ -51,15 +51,15 @@ export const Repositories: React.FC = () => {
   return (
     <div className={classes.container}>
       <Container fluid>
-        <Grid>
+        <Grid overflow="hidden">
           <Grid.Col
             span={{
               xl: 10,
-              xs: 12,
+              base: 12,
             }}
             offset={{
               xl: 1,
-              md: 0,
+              base: 0,
             }}
           >
             <Stack gap={40} my={45}>
@@ -67,8 +67,6 @@ export const Repositories: React.FC = () => {
               <Stack gap={40}>
                 {Object.values(servers).map((repo) => {
                   const handler = serversHandler[repo.id];
-
-                  console.log(repo, repo.repositoryIds[0]);
 
                   return (
                     <Box key={repo.id}>
