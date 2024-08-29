@@ -1,14 +1,14 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { Card, Grid, Image, Stack, Text, Title } from "@mantine/core";
 import { useNavigate } from "react-router";
-import { parseTimestamp } from "../../lib/date/parseTimestamp";
-import { TDocType } from "../../types/schema";
-import { YtServer } from "../serversContext/types";
-import classes from "./repositories.module.css";
-import { routesHelper } from "../../lib/helpers/routesHelper";
+import { parseTimestamp } from "../../../lib/date/parseTimestamp";
+import { TDocType } from "../../../types/schema";
+import { YtServer } from "../../serversContext/types";
+import classes from "../repositories.module.css";
+import { routesHelper } from "../../../lib/helpers/routesHelper";
 import { AnyDocumentId } from "@automerge/automerge-repo";
-import CircleXWhite from "../../assets/icons/circle_x white.svg";
-import { openDeleteConfirmModal } from "../modals/modals";
+import CircleXWhite from "../../../assets/icons/circle_x white.svg";
+import { openDeleteConfirmModal } from "../../modals/modals";
 
 type ProjectListProps = {
   repo: YtServer;

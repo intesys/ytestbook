@@ -3,19 +3,6 @@
   min-height: 100dvh;
 }
 
-.top {
-  background: var(--background-gradient);
-  padding-bottom: 48px;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-  padding: 52px;
-}
-
-
-
 .jsonImporter {
   background-color: transparent;
   flex-direction: column;
@@ -30,43 +17,6 @@
   }
 }
 
-.bottom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 39px;
-}
-
-.table {
-  max-width: 900px;
-
-  @media (max-width: $mantine-breakpoint-xs) {
-    td,
-    th {
-      padding: 10px;
-    }
-  }
-}
-
-.tableTitle {
-  text-align: left;
-  font-size: 20px;
-  font-weight: 700;
-  width: 100%;
-  margin-bottom: 15px;
-}
-
-thead {
-  background-color: #d3d9f6;
-}
-
-tbody {
-  cursor: pointer;
-}
-
-
-
 .projectCard {
   background-color: #5871DD;
   cursor: pointer;
@@ -75,4 +25,3 @@ tbody {
     background-color: var(--mantine-color-primary-3);
   }
 }
-

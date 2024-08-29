@@ -2,13 +2,13 @@ import { useRepo } from "@automerge/automerge-repo-react-hooks";
 import { Grid, Stack, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useCallback } from "react";
-import addCircle from "../../assets/icons/add_circle.svg";
-import { Modals } from "../modals/modals";
-import { YtServer } from "../serversContext/types";
-import { ActionButton } from "../shared/ActionButton/ActionButton";
+import addCircle from "../../../assets/icons/add_circle.svg";
+import { Modals } from "../../modals/modals";
+import { YtServer } from "../../serversContext/types";
+import { ActionButton } from "../../shared/ActionButton/ActionButton";
 import { ImportJSON } from "./ImportJSON";
-import { getDocHandlerFromRepo } from "./utils.repositories";
-import { TProjectDynamicData } from "../../types/schema";
+import { getDocHandlerFromRepo } from "../utils.repositories";
+import { TProjectDynamicData } from "../../../types/schema";
 
 type ActionsProps = {
   repo: YtServer;

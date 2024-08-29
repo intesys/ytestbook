@@ -24,6 +24,8 @@ import {
 export const SERVERS_CONF_STORAGE_KEY = "yt-servers";
 export const SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY = "yt-offline-repo-id";
 
+const urlPrefix = "automerge:";
+
 let done = false;
 
 // global handlers need to be a singleton
@@ -92,7 +94,11 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       // Sync server repositoryIDs
       handler.networkSubsystem.addListener("message", (e) => {
         if (e.type === "sync") {
-          const handlesRepoIds = Object.keys(serversHandler[serverId].handles);
+          const handlesRepoIds = Object.keys(
+            serversHandler[serverId].handles,
+          ).map((id) =>
+            id.indexOf(urlPrefix) === 0 ? id : `${urlPrefix}${id}`,
+          );
           if (!isEqual(servers[serverId], handlesRepoIds)) {
             setServers((currentServers) => {
               const newServers = { ...currentServers };
@@ -114,10 +120,9 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         sharePolicy: async () => true,
         enableRemoteHeadsGossiping: true,
       });
+      serversHandler[repo.id] = handler;
 
       addListenersToHandler(handler, repo.id);
-
-      serversHandler[repo.id] = handler;
 
       setServers((currentServers) => {
         const newServers = { ...currentServers };
@@ -219,17 +224,15 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     }
   }, []);
 
-  const disconnectFromServer = useCallback((name: string) => {
+  const disconnectFromServer = useCallback((serverId: string) => {
     openDeleteConfirmModal("Disconnect from server?", {
       confirmButtonLabel: "Disconnect",
       handleConfirm: () =>
         setServers((prevServers) => {
           const newServers = { ...prevServers };
-          delete newServers[name];
-          serversHandler[name].removeAllListeners();
-
-          serversHandler[name].networkSubsystem.disconnect();
-          delete serversHandler[name];
+          delete newServers[serverId];
+          serversHandler[serverId].networkSubsystem.disconnect();
+          delete serversHandler[serverId];
 
           return newServers;
         }),

@@ -1,6 +1,5 @@
 import { AutomergeUrl, isValidAutomergeUrl } from "@automerge/automerge-repo";
 import { useRepo } from "@automerge/automerge-repo-react-hooks";
-import { Flex, Loader } from "@mantine/core";
 import React, {
   createContext,
   useCallback,
@@ -10,6 +9,7 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router";
 import { TDocType } from "../../types/schema";
+import { FullPageSpinner } from "../fullPageSpinner/FullPageSpinner";
 import {
   DocContextStatusEnum,
   TDocContextState,
@@ -79,11 +79,7 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
 
   switch (state.status) {
     case DocContextStatusEnum.LOADING:
-      return (
-        <Flex align="center" justify="center" h="100dvh" w={"100%"}>
-          <Loader color="blue" size="lg" />
-        </Flex>
-      );
+      return <FullPageSpinner />;
     case DocContextStatusEnum.READY:
       return (
         <DocContext.Provider

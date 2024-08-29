@@ -21,8 +21,8 @@ import {
   useServersContext,
 } from "../serversContext/serversContext";
 import { REPOSITORY_TYPE, SERVER_STATUS } from "../serversContext/types";
-import { Actions } from "./Actions";
-import { ProjectList } from "./ProjectList";
+import { Actions } from "./partials/Actions";
+import { ProjectList } from "./partials/ProjectList";
 import classes from "./repositories.module.css";
 import { modals } from "@mantine/modals";
 import { Modals } from "../modals/modals";
@@ -111,7 +111,7 @@ export const Repositories: React.FC = () => {
                             <Text>{repo.url}</Text>
 
                             <Anchor
-                              onClick={() => disconnectFromServer(repo.name)}
+                              onClick={() => disconnectFromServer(repo.id)}
                               size="sm"
                               c="white"
                               fw={600}

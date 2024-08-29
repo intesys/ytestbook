@@ -4,13 +4,13 @@ import { Dropzone } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router";
 import { z } from "zod";
-import FileTypeJson from "../../assets/icons/bi_filetype-json.svg";
-import { routesHelper } from "../../lib/helpers/routesHelper";
-import { TJsonExport } from "../../types/json-export";
-import { YtServer } from "../serversContext/types";
-import { ActionButton } from "../shared/ActionButton/ActionButton";
-import classes from "./repositories.module.css";
-import { getDocHandlerFromRepo } from "./utils.repositories";
+import FileTypeJson from "../../../assets/icons/bi_filetype-json.svg";
+import { routesHelper } from "../../../lib/helpers/routesHelper";
+import { TJsonExport } from "../../../types/json-export";
+import { YtServer } from "../../serversContext/types";
+import { ActionButton } from "../../shared/ActionButton/ActionButton";
+import classes from "../repositories.module.css";
+import { getDocHandlerFromRepo } from "../utils.repositories";
 
 type ImportJSONProps = {
   repo: YtServer;

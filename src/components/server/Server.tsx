@@ -7,6 +7,7 @@ import {
   serversHandler,
   useServersContext,
 } from "../serversContext/serversContext";
+import { FullPageSpinner } from "../fullPageSpinner/FullPageSpinner";
 
 export const Server = () => {
   const serverName = useServerName();
@@ -20,7 +21,7 @@ export const Server = () => {
   const handler = serverName ? serversHandler[serverName] : undefined;
 
   if (!handler) {
-    return <>No handler</>;
+    return <FullPageSpinner />;
   }
 
   return (
