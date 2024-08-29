@@ -1,7 +1,6 @@
 import { Repo } from "@automerge/automerge-repo";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
-import { urlPrefix } from "@automerge/automerge-repo/dist/AutomergeUrl";
 import { isEqual } from "lodash";
 import {
   createContext,
@@ -73,8 +72,6 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         if (currentServer && currentServer.type !== REPOSITORY_TYPE.offline) {
           const handlesRepoIds = Object.keys(
             serversHandler[serverName].handles,
-          ).map((id) =>
-            id.indexOf(urlPrefix) === 0 ? id : `${urlPrefix}${id}`,
           );
 
           if (!isEqual(currentServer.repositoryIds, handlesRepoIds)) {
@@ -102,6 +99,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       sharePolicy: async () => true,
       enableRemoteHeadsGossiping: true,
     });
+
     serversHandler[repo.id] = handler;
 
     setServers((currentServers) => {
@@ -172,6 +170,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
             sharePolicy: async () => true,
             enableRemoteHeadsGossiping: true,
           });
+
           serversHandler[server.id] = handler;
 
           serversInitialized[server.id] = {
@@ -206,13 +205,15 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         setServers((prevServers) => {
           const newServers = { ...prevServers };
           delete newServers[name];
+          serversHandler[name].removeAllListeners();
+
+          serversHandler[name].networkSubsystem.disconnect();
+          delete serversHandler[name];
 
           return newServers;
         }),
     });
   }, []);
-
-  console.log("🚀 ~ servers:", servers);
 
   return (
     <ServersContext.Provider

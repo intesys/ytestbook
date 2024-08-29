@@ -3,6 +3,7 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
+import { isValidWebSocketUrl } from "../../../lib/formValidators/formValidators.ts";
 
 export type AddServerFormValues = {
   name: string;
@@ -25,7 +26,7 @@ export function AddServerModal({
     },
     validate: {
       name: isNotEmpty(FormErrorMessages.required),
-      url: isNotEmpty(FormErrorMessages.required),
+      url: isValidWebSocketUrl,
     },
   });
 

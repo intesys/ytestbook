@@ -15,11 +15,11 @@
     "k8s:restart": "kubectl rollout restart deployment ytestbook-deployment -n dolomiti-sharedtracking"
   },
   "dependencies": {
-    "@automerge/automerge": "^2.1.10",
-    "@automerge/automerge-repo": "^1.1.2",
-    "@automerge/automerge-repo-network-websocket": "^1.1.2",
-    "@automerge/automerge-repo-react-hooks": "^1.1.2",
-    "@automerge/automerge-repo-storage-indexeddb": "^1.1.2",
+    "@automerge/automerge": "2.2.9-alpha.1",
+    "@automerge/automerge-repo": "2.0.0-alpha.11",
+    "@automerge/automerge-repo-network-websocket": "2.0.0-alpha.11",
+    "@automerge/automerge-repo-react-hooks": "2.0.0-alpha.11",
+    "@automerge/automerge-repo-storage-indexeddb": "2.0.0-alpha.11",
     "@mantine/core": "^7.10.2",
     "@mantine/dates": "^7.10.2",
     "@mantine/dropzone": "7.10.2",

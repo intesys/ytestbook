@@ -23,7 +23,6 @@ export const Server = () => {
     return <>No handler</>;
   }
 
-  console.log("🚀 ~ Server ~ repositoryIds:", server);
   return (
     <RepoContext.Provider value={handler}>
       <DocProvider docUrl={server?.repositoryIds[0]}>

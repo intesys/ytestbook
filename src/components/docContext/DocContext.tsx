@@ -53,7 +53,6 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
 
   const findAndSetDoc = useCallback(
     (docUrl: AutomergeUrl) => {
-      console.log("🚀 ~ findAndSetDoc:", docUrl);
       const handle = repo.find<TDocType>(docUrl);
       setState({
         status: DocContextStatusEnum.READY,
@@ -86,8 +85,6 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
         </Flex>
       );
     case DocContextStatusEnum.READY:
-      console.log("🚀 ~ docUrl:", state.docUrl);
-
       return (
         <DocContext.Provider
           value={{
