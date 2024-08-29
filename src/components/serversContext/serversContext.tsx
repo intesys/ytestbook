@@ -65,49 +65,68 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     );
   }, [servers]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      Object.keys(serversHandler).forEach((serverName) => {
-        const currentServer = servers[serverName];
-        if (currentServer && currentServer.type !== REPOSITORY_TYPE.offline) {
-          const handlesRepoIds = Object.keys(
-            serversHandler[serverName].handles,
-          );
+  const addListenersToHandler = useCallback(
+    (handler: Repo, serverId: string) => {
+      // handle server disconnected
+      handler.networkSubsystem.addListener("peer-disconnected", () => {
+        setServers((currentServers) => {
+          const newServers = { ...currentServers };
+          newServers[serverId].status = SERVER_STATUS.DISCONNECTED;
+          return newServers;
+        });
+      });
 
-          if (!isEqual(currentServer.repositoryIds, handlesRepoIds)) {
-            setServers((prevServers) => {
-              return {
-                ...prevServers,
-                [serverName]: {
-                  ...prevServers[serverName],
-                  repositoryIds: handlesRepoIds,
-                },
-              };
+      // handle server connected
+      handler.networkSubsystem.addListener("peer", () => {
+        setServers((currentServers) => {
+          const newServers = { ...currentServers };
+          newServers[serverId].status = SERVER_STATUS.CONNECTED;
+
+          const handlesRepoIds = Object.keys(serversHandler[serverId].handles);
+          newServers[serverId].repositoryIds = handlesRepoIds;
+
+          return newServers;
+        });
+      });
+
+      // Sync server repositoryIDs
+      handler.networkSubsystem.addListener("message", (e) => {
+        if (e.type === "sync") {
+          const handlesRepoIds = Object.keys(serversHandler[serverId].handles);
+          if (!isEqual(servers[serverId], handlesRepoIds)) {
+            setServers((currentServers) => {
+              const newServers = { ...currentServers };
+              newServers[serverId].repositoryIds = handlesRepoIds;
+              return newServers;
             });
           }
         }
       });
-    }, 1000);
+    },
+    [servers],
+  );
 
-    return () => clearInterval(interval);
-  }, [servers]);
+  const addServer = useCallback(
+    (id: string, repo: YtServer) => {
+      const handler = new Repo({
+        network: [new BrowserWebSocketClientAdapter(repo.url)],
+        storage: new IndexedDBStorageAdapter(),
+        sharePolicy: async () => true,
+        enableRemoteHeadsGossiping: true,
+      });
 
-  const addServer = useCallback((id: string, repo: YtServer) => {
-    const handler = new Repo({
-      network: [new BrowserWebSocketClientAdapter(repo.url)],
-      storage: new IndexedDBStorageAdapter(),
-      sharePolicy: async () => true,
-      enableRemoteHeadsGossiping: true,
-    });
+      addListenersToHandler(handler, repo.id);
 
-    serversHandler[repo.id] = handler;
+      serversHandler[repo.id] = handler;
 
-    setServers((currentServers) => {
-      const newServers = { ...currentServers };
-      newServers[id] = repo;
-      return newServers;
-    });
-  }, []);
+      setServers((currentServers) => {
+        const newServers = { ...currentServers };
+        newServers[id] = repo;
+        return newServers;
+      });
+    },
+    [addListenersToHandler],
+  );
 
   //   load initial servers
   useEffect(() => {
@@ -124,7 +143,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       name: "Offline",
       id: "offline",
       type: REPOSITORY_TYPE.offline,
-      status: SERVER_STATUS.NO_REPOSITORY,
+      status: SERVER_STATUS.CONNECTED,
       url: "offline",
       repositoryIds: offlineRepoId ? [offlineRepoId] : [],
     };
@@ -171,13 +190,15 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
             enableRemoteHeadsGossiping: true,
           });
 
+          addListenersToHandler(handler, server.id);
+
           serversHandler[server.id] = handler;
 
           serversInitialized[server.id] = {
             id: server.id,
             name: server.name,
             type: REPOSITORY_TYPE.remote,
-            status: SERVER_STATUS.NO_REPOSITORY,
+            status: SERVER_STATUS.CONNECTING,
             url: server.url,
             repositoryIds: [],
           };

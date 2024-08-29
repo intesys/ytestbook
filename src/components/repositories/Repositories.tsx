@@ -7,11 +7,12 @@ import {
   Grid,
   Group,
   Image,
+  Loader,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
-import React from "react";
+import React, { useMemo } from "react";
 import Logo from "../../assets/logo.svg";
 import {
   serversHandler,
@@ -40,7 +41,7 @@ export const Repositories: React.FC = () => {
             id: slugify(values.name),
             name: values.name,
             repositoryIds: [],
-            status: SERVER_STATUS.NO_REPOSITORY,
+            status: SERVER_STATUS.CONNECTING,
             type: REPOSITORY_TYPE.remote,
             url: values.url,
           });
@@ -48,6 +49,26 @@ export const Repositories: React.FC = () => {
       },
     });
   };
+
+  const orderedServersKeys = useMemo(() => {
+    return Object.keys(servers).sort((a, b) => {
+      if (
+        servers[a].type === REPOSITORY_TYPE.remote &&
+        servers[b].type === REPOSITORY_TYPE.offline
+      ) {
+        return 1;
+      }
+
+      if (
+        servers[a].type === REPOSITORY_TYPE.offline &&
+        servers[b].type === REPOSITORY_TYPE.remote
+      ) {
+        return -1;
+      }
+
+      return a > b ? -1 : 1;
+    });
+  }, [servers]);
 
   return (
     <div className={classes.container}>
@@ -66,8 +87,12 @@ export const Repositories: React.FC = () => {
             <Stack gap={40} my={45}>
               <Image src={Logo} alt="yTestbook" w={78} mb={5} />
               <Stack gap={40}>
-                {Object.values(servers).map((repo) => {
+                {orderedServersKeys.map((serverId) => {
+                  const repo = servers[serverId];
+
                   const handler = serversHandler[repo.id];
+
+                  const isConnecting = repo.status === SERVER_STATUS.CONNECTING;
 
                   return (
                     <Box key={repo.id}>
@@ -94,7 +119,16 @@ export const Repositories: React.FC = () => {
                           </Group>
                         )}
 
-                        <Grid>
+                        {isConnecting ? (
+                          <Group mb="sm">
+                            <Loader c="white" />
+                            <Title order={4} c="gray.3">
+                              Connecting
+                            </Title>
+                          </Group>
+                        ) : null}
+
+                        <Grid opacity={isConnecting ? 0.5 : 1}>
                           {repo.repositoryIds[0] ? (
                             <ProjectList
                               repo={repo}

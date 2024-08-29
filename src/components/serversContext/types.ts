@@ -6,8 +6,9 @@ export enum REPOSITORY_TYPE {
 }
 
 export enum SERVER_STATUS {
-  NO_REPOSITORY = "NO_REPOSITORY",
+  CONNECTING = "CONNECTING",
   CONNECTED = "CONNECTED",
+  DISCONNECTED = "DISCONNECTED",
 }
 
 export type ServersList = Record<string, YtServer>;
