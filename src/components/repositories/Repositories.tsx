@@ -14,6 +14,8 @@ import {
 } from "@mantine/core";
 import React, { useMemo } from "react";
 import Logo from "../../assets/logo.svg";
+import Dns from "../../assets/icons/dns.svg";
+import Logout from "../../assets/icons/logout.svg";
 import {
   serversHandler,
   useServersContext,
@@ -102,7 +104,7 @@ export const Repositories: React.FC = () => {
                             Local Testbooks
                           </Title>
                         ) : (
-                          <Group c="white" mb={20}>
+                          <Group gap={20} c="white" mb={20}>
                             <Title order={3} mb={0}>
                               {repo.name}
                             </Title>
@@ -113,8 +115,12 @@ export const Repositories: React.FC = () => {
                               size="sm"
                               c="white"
                               fw={600}
+                              ml={10}
                             >
-                              Disconnect
+                              <Group gap="xs">
+                                <Image src={Logout} alt="Disconnect" w={24} />
+                                Disconnect
+                              </Group>
                             </Anchor>
                           </Group>
                         )}
@@ -147,7 +153,10 @@ export const Repositories: React.FC = () => {
               </Stack>
               <Divider c="white" />
               <Anchor onClick={openAddServerModal} c="white">
-                Connect to a remote server
+                <Group gap="xs">
+                  <Image src={Dns} alt="Connect to a remote server" w={24} />
+                  Connect to a remote server
+                </Group>
               </Anchor>
             </Stack>
           </Grid.Col>
