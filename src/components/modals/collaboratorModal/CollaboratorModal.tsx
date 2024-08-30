@@ -3,8 +3,8 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback, useEffect } from "react";
 import { TCollaboratorDynamicData } from "../../../types/schema.ts";
-import { TModalProps } from "../../home/types.ts";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
+import { TModalProps } from "../../repositories/types.ts";
 
 export function CollaboratorModal({
   id,

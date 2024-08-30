@@ -1,7 +1,7 @@
 import { Image, Text } from "@mantine/core";
 import React from "react";
-import { TActionProps } from "../home/types";
 import classes from "./action.module.css";
+import { TActionProps } from "../repositories/types";
 
 export const Action: React.FC<TActionProps> = ({
   title,
