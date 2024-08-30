@@ -7,7 +7,7 @@ import { YtServer } from "../../serversContext/types";
 import classes from "../repositories.module.css";
 import { routesHelper } from "../../../lib/helpers/routesHelper";
 import { AnyDocumentId } from "@automerge/automerge-repo";
-import CircleXWhite from "../../../assets/icons/circle_x white.svg";
+import VisibilityOff from "../../../assets/icons/visibility_off.svg";
 import { openDeleteConfirmModal } from "../../modals/modals";
 import { useProjectVisibility } from "../../../lib/repositories/useProjectVisibility";
 
@@ -27,9 +27,9 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
       {doc?.projects
         .filter((p) => !hiddenProjectIds.includes(p.id))
         .map((p) => {
-          const deleteProject: React.MouseEventHandler<HTMLImageElement> = (
-            e,
-          ) => {
+          const hideProjectOnClick: React.MouseEventHandler<
+            HTMLImageElement
+          > = (e) => {
             e.preventDefault();
             e.stopPropagation();
 
@@ -40,7 +40,24 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
           };
 
           return (
-            <Grid.Col span={{ base: 12, sm: 6, md: 4, lg: 3 }} key={p.id}>
+            <Grid.Col
+              span={{ base: 12, sm: 6, md: 4, lg: 3 }}
+              key={p.id}
+              pos="relative"
+            >
+              <Image
+                pos="absolute"
+                w={24}
+                top={15}
+                right={15}
+                src={VisibilityOff}
+                alt="Hide project"
+                onClick={hideProjectOnClick}
+                style={{
+                  zIndex: 1000,
+                  cursor: "pointer",
+                }}
+              />
               <Card
                 className={classes.projectCard}
                 p={20}
@@ -52,15 +69,6 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                   navigate(routesHelper.projectDetail(repo.id, p.id))
                 }
               >
-                <Image
-                  pos="absolute"
-                  w={24}
-                  top={7}
-                  right={7}
-                  src={CircleXWhite}
-                  alt="Delete project"
-                  onClick={deleteProject}
-                />
                 <Stack gap={0} flex={1}>
                   <Text size="lg" fw={500} mb={5}>
                     {p.customer}

@@ -12,14 +12,23 @@
   padding: 0;
   height: 80px; 
 
+  button {
+    transition: all 200ms;
+  }
+
   &:hover {
-    background-color: var(--mantine-color-primary-8);
+    background-color: transparent;
+
+    button {
+      background-color: var(--mantine-color-primary-8);
+    }
   }
 }
 
 .projectCard {
   background-color: #5871DD;
   cursor: pointer;
+  transition: all 200ms;
 
   &:hover {
     background-color: var(--mantine-color-primary-3);

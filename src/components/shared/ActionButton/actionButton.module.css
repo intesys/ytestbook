@@ -1,5 +1,6 @@
 .actionButton {
     border-color: white;
+    transition: all 200ms;
 
     &:hover {
         background-color: var(--mantine-color-primary-8);
