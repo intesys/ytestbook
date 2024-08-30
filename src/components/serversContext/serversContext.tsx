@@ -9,6 +9,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { STORAGE_KEYS } from "../../lib/constants/localStorageKeys";
 import { TDocType } from "../../types/schema";
 import { openDeleteConfirmModal } from "../modals/modals";
 import {
@@ -20,9 +21,6 @@ import {
   TServersProviderProps,
   YtServer,
 } from "./types";
-
-export const SERVERS_CONF_STORAGE_KEY = "yt-servers";
-export const SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY = "yt-offline-repo-id";
 
 const urlPrefix = "automerge:";
 
@@ -62,7 +60,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     };
 
     localStorage.setItem(
-      SERVERS_CONF_STORAGE_KEY,
+      STORAGE_KEYS.SERVERS_CONF,
       JSON.stringify(configToStore),
     );
   }, [servers]);
@@ -141,7 +139,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     done = true;
 
     const offlineRepoId =
-      localStorage.getItem(SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY) ??
+      localStorage.getItem(STORAGE_KEYS.SERVER_OFFLINE_REPOSITORY_ID) ??
       undefined;
 
     const offlineServerInitializer: YtServer = {
@@ -169,13 +167,13 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
 
       offlineServerInitializer.repositoryIds = [docHandle.url];
       localStorage.setItem(
-        SERVER_OFFLINE_REPOSITORY_ID_STORAGE_KEY,
+        STORAGE_KEYS.SERVER_OFFLINE_REPOSITORY_ID,
         docHandle.url,
       );
     }
 
     const serversFromStorageRaw = localStorage.getItem(
-      SERVERS_CONF_STORAGE_KEY,
+      STORAGE_KEYS.SERVERS_CONF,
     );
 
     if (serversFromStorageRaw && serversFromStorageRaw !== "") {
