@@ -15,9 +15,14 @@ import { getDocHandlerFromRepo } from "../utils.repositories";
 type ImportJSONProps = {
   repo: YtServer;
   repositoryId?: string;
+  isConnecting: boolean;
 };
 
-export const ImportJSON = ({ repo, repositoryId }: ImportJSONProps) => {
+export const ImportJSON = ({
+  repo,
+  repositoryId,
+  isConnecting,
+}: ImportJSONProps) => {
   const repoHandler = useRepo();
   const navigate = useNavigate();
 
@@ -123,8 +128,10 @@ export const ImportJSON = ({ repo, repositoryId }: ImportJSONProps) => {
       }}
       multiple={false}
       className={classes.jsonImporter}
+      disabled={isConnecting}
+      data-disabled={isConnecting}
     >
-      <ActionButton justify="left" icon={FileTypeJson}>
+      <ActionButton justify="left" icon={FileTypeJson} disabled={isConnecting}>
         <Text span fw={700}>
           Import
         </Text>{" "}

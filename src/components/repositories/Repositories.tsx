@@ -144,6 +144,7 @@ export const Repositories: React.FC = () => {
                           <Actions
                             repo={repo}
                             repositoryId={repo.repositoryIds[0]}
+                            isConnecting={isConnecting}
                           />
                         </Grid>
                       </RepoContext.Provider>

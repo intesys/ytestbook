@@ -16,13 +16,24 @@
     transition: all 200ms;
   }
 
+  &[data-disabled] {
+    cursor: not-allowed !important;
+  }
+
   &:hover {
     background-color: transparent;
 
     button {
       background-color: var(--mantine-color-primary-8);
+
+      &[data-disabled] {
+        background-color: transparent;
+        cursor: not-allowed !important;
+      }
     }
   }
+
+
 }
 
 .projectCard {

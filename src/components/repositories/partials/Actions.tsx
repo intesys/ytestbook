@@ -13,9 +13,10 @@ import { TProjectDynamicData } from "../../../types/schema";
 type ActionsProps = {
   repo: YtServer;
   repositoryId?: string;
+  isConnecting: boolean;
 };
 
-export const Actions = ({ repo, repositoryId }: ActionsProps) => {
+export const Actions = ({ repo, repositoryId, isConnecting }: ActionsProps) => {
   const repoHandler = useRepo();
 
   const createTestbookAction = useCallback(() => {
@@ -60,6 +61,7 @@ export const Actions = ({ repo, repositoryId }: ActionsProps) => {
           onClick={createTestbookAction}
           justify="left"
           icon={addCircle}
+          disabled={isConnecting}
         >
           <Text span fw={700}>
             Create a new
@@ -69,7 +71,11 @@ export const Actions = ({ repo, repositoryId }: ActionsProps) => {
           </Text>
         </ActionButton>
 
-        <ImportJSON repo={repo} repositoryId={repositoryId} />
+        <ImportJSON
+          repo={repo}
+          repositoryId={repositoryId}
+          isConnecting={isConnecting}
+        />
       </Stack>
     </Grid.Col>
   );
