@@ -1,15 +1,33 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { Card, Grid, Image, Stack, Text, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Card,
+  Grid,
+  Image,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useNavigate } from "react-router";
 import { parseTimestamp } from "../../../lib/date/parseTimestamp";
 import { TDocType } from "../../../types/schema";
-import { YtServer } from "../../serversContext/types";
+import { REPOSITORY_TYPE, YtServer } from "../../serversContext/types";
 import classes from "../repositories.module.css";
 import { routesHelper } from "../../../lib/helpers/routesHelper";
 import { AnyDocumentId } from "@automerge/automerge-repo";
 import VisibilityOff from "../../../assets/icons/visibility_off.svg";
-import { openDeleteConfirmModal } from "../../modals/modals";
+import { Modals, openDeleteConfirmModal } from "../../modals/modals";
 import { useProjectVisibility } from "../../../lib/repositories/useProjectVisibility";
+import { IconCopy } from "@tabler/icons-react";
+import { modals } from "@mantine/modals";
+import { CopyProjectToServerFormValues } from "../../modals/copyProjectToServer/CopyProjectToServer";
+import {
+  serversHandler,
+  useServersContext,
+} from "../../serversContext/serversContext";
+import { useMemo } from "react";
+import { getDocHandlerFromRepo } from "../utils.repositories";
+import { notifications } from "@mantine/notifications";
 
 type ProjectListProps = {
   repo: YtServer;
@@ -19,8 +37,17 @@ type ProjectListProps = {
 export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
   const [doc] = useDocument<TDocType>(repositoryId as AnyDocumentId);
   const { hiddenProjectIds, hideProject } = useProjectVisibility();
+  const { servers } = useServersContext();
 
   const navigate = useNavigate();
+
+  const hasRemoteServers = useMemo(() => {
+    return (
+      Object.values(servers).filter(
+        (server) => server.type === REPOSITORY_TYPE.remote,
+      ).length > 0
+    );
+  }, [servers]);
 
   return (
     <>
@@ -36,6 +63,51 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
             openDeleteConfirmModal(`Hide project ${p.title}?`, {
               confirmButtonLabel: "Hide",
               handleConfirm: () => hideProject(p.id),
+            });
+          };
+
+          const copyProjectToServerOnClick = () => {
+            modals.openContextModal({
+              modal: Modals.CopyProjectToServer,
+              title: "Copy project to server",
+              centered: true,
+              innerProps: {
+                handleSubmit: (values: CopyProjectToServerFormValues) => {
+                  const serverRepo = Object.values(servers).find(
+                    (s) => s.id === values.serverId,
+                  );
+
+                  if (
+                    !serverRepo ||
+                    !serversHandler[values.serverId] ||
+                    !serverRepo.repositoryIds[0]
+                  ) {
+                    notifications.show({
+                      withBorder: true,
+                      title: "Error!",
+                      message: "An error occurred while copying project",
+                      color: "red",
+                    });
+                    return;
+                  }
+
+                  const docHandle = getDocHandlerFromRepo(
+                    serverRepo,
+                    serversHandler[values.serverId],
+                    serverRepo.repositoryIds[0],
+                  );
+
+                  docHandle?.change((doc) => {
+                    doc.projects.push(p);
+                  });
+
+                  notifications.show({
+                    withBorder: true,
+                    title: "Success!",
+                    message: "Project copied to remote server",
+                  });
+                },
+              },
             });
           };
 
@@ -58,6 +130,25 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                   cursor: "pointer",
                 }}
               />
+
+              {repo.type === REPOSITORY_TYPE.offline && hasRemoteServers ? (
+                <ActionIcon
+                  onClick={copyProjectToServerOnClick}
+                  pos="absolute"
+                  w={24}
+                  top={15 + 30}
+                  right={15}
+                  style={{
+                    zIndex: 1000,
+                    cursor: "pointer",
+                  }}
+                  variant="transparent"
+                  c="white"
+                >
+                  <IconCopy />
+                </ActionIcon>
+              ) : null}
+
               <Card
                 className={classes.projectCard}
                 p={20}

@@ -10,6 +10,7 @@ import {
 import { CreateTestbookModal } from "./createTestbookModal/CreateTestbookModal.tsx";
 import { TestCaseModal } from "./testCaseModal/TestCaseModal.tsx";
 import { TestModal } from "./testModal/TestModal.tsx";
+import { CopyProjectToServer } from "./copyProjectToServer/CopyProjectToServer.tsx";
 
 export enum Modals {
   CollaboratorModal = "CollaboratorModal",
@@ -18,10 +19,12 @@ export enum Modals {
   TestCaseModal = "TestCaseModal",
   TestModal = "TestModal",
   AddServerModal = "AddServerModal",
+  CopyProjectToServer = "CopyProjectToServer",
 }
 
 export const modals = {
   [Modals.AddServerModal]: AddServerModal,
+  [Modals.CopyProjectToServer]: CopyProjectToServer,
   [Modals.CollaboratorModal]: CollaboratorModal,
   [Modals.ConfirmModal]: ConfirmModal,
   [Modals.CreateTestbookModal]: CreateTestbookModal,
