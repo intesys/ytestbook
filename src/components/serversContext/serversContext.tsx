@@ -203,7 +203,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
             type: REPOSITORY_TYPE.remote,
             status: SERVER_STATUS.CONNECTING,
             url: server.url,
-            repositoryIds: [],
+            repositoryIds: server.repositoryIds,
           };
         });
 

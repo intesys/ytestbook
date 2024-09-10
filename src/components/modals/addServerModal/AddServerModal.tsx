@@ -3,11 +3,11 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
-import { isValidWebSocketUrl } from "../../../lib/formValidators/formValidators.ts";
 
 export type AddServerFormValues = {
   name: string;
   url: string;
+  documentId: string;
 };
 
 type TCreateTestbookModalInnerProps<T> = {
@@ -23,10 +23,13 @@ export function AddServerModal({
     initialValues: {
       name: "",
       url: "",
+      documentId: "",
     },
     validate: {
       name: isNotEmpty(FormErrorMessages.required),
-      url: isValidWebSocketUrl,
+      url: isNotEmpty(FormErrorMessages.required),
+      // url: isValidWebSocketUrl,
+      // documentId: isNotEmpty(FormErrorMessages.required),
     },
   });
 
@@ -49,10 +52,16 @@ export function AddServerModal({
       <Stack gap="md">
         <TextInput
           label="Name"
+          required
           data-autofocus
           {...form.getInputProps("name")}
         />
-        <TextInput label="Url" {...form.getInputProps("url")} />
+        <TextInput required label="Url" {...form.getInputProps("url")} />
+        <TextInput
+          label="Document Id"
+          {...form.getInputProps("documentId")}
+          description="(not required, it will be generated if empty)"
+        />
 
         <Group justify="end" gap="md">
           <Button variant="outline" onClick={close}>

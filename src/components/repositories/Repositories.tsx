@@ -42,7 +42,7 @@ export const Repositories: React.FC = () => {
           addServer(values.name, {
             id: slugify(values.name),
             name: values.name,
-            repositoryIds: [],
+            repositoryIds: [values.documentId],
             status: SERVER_STATUS.CONNECTING,
             type: REPOSITORY_TYPE.remote,
             url: values.url,
@@ -108,7 +108,9 @@ export const Repositories: React.FC = () => {
                             <Title order={3} mb={0}>
                               {repo.name}
                             </Title>
-                            <Text>{repo.url}</Text>
+                            <Text>
+                              {repo.url} [{repo.repositoryIds[0]}]
+                            </Text>
 
                             <Anchor
                               onClick={() => disconnectFromServer(repo.id)}
