@@ -1,3 +1,4 @@
+import { AnyDocumentId } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import {
   ActionIcon,
@@ -8,26 +9,25 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { useNavigate } from "react-router";
-import { parseTimestamp } from "../../../lib/date/parseTimestamp";
-import { TDocType } from "../../../types/schema";
-import { REPOSITORY_TYPE, YtServer } from "../../serversContext/types";
-import classes from "../repositories.module.css";
-import { routesHelper } from "../../../lib/helpers/routesHelper";
-import { AnyDocumentId } from "@automerge/automerge-repo";
-import VisibilityOff from "../../../assets/icons/visibility_off.svg";
-import { Modals, openDeleteConfirmModal } from "../../modals/modals";
-import { useProjectVisibility } from "../../../lib/repositories/useProjectVisibility";
-import { IconCopy } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
+import { notifications } from "@mantine/notifications";
+import { IconCopy } from "@tabler/icons-react";
+import { useMemo } from "react";
+import { useNavigate } from "react-router";
+import VisibilityOff from "../../../assets/icons/visibility_off.svg";
+import { parseTimestamp } from "../../../lib/date/parseTimestamp";
+import { routesHelper } from "../../../lib/helpers/routesHelper";
+import { useProjectVisibility } from "../../../lib/repositories/useProjectVisibility";
+import { TDocType } from "../../../types/schema";
 import { CopyProjectToServerFormValues } from "../../modals/copyProjectToServer/CopyProjectToServer";
+import { Modals, openDeleteConfirmModal } from "../../modals/modals";
 import {
   serversHandler,
   useServersContext,
 } from "../../serversContext/serversContext";
-import { useMemo } from "react";
+import { REPOSITORY_TYPE, YtServer } from "../../serversContext/types";
+import classes from "../repositories.module.css";
 import { getDocHandlerFromRepo } from "../utils.repositories";
-import { notifications } from "@mantine/notifications";
 
 type ProjectListProps = {
   repo: YtServer;
@@ -126,7 +126,7 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                 alt="Hide project"
                 onClick={hideProjectOnClick}
                 style={{
-                  zIndex: 1000,
+                  zIndex: 10,
                   cursor: "pointer",
                 }}
               />
@@ -139,7 +139,7 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                   top={15 + 30}
                   right={15}
                   style={{
-                    zIndex: 1000,
+                    zIndex: 10,
                     cursor: "pointer",
                   }}
                   variant="transparent"

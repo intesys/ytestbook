@@ -11,23 +11,26 @@ import { CreateTestbookModal } from "./createTestbookModal/CreateTestbookModal.t
 import { TestCaseModal } from "./testCaseModal/TestCaseModal.tsx";
 import { TestModal } from "./testModal/TestModal.tsx";
 import { CopyProjectToServer } from "./copyProjectToServer/CopyProjectToServer.tsx";
+import { ShareServerModal } from "./shareServerModal/ShareServerModal.tsx";
 
 export enum Modals {
+  AddServerModal = "AddServerModal",
   CollaboratorModal = "CollaboratorModal",
   ConfirmModal = "ConfirmModal",
+  CopyProjectToServer = "CopyProjectToServer",
   CreateTestbookModal = "CreateTestbookModal",
+  ShareServerModal = "ShareServerModal",
   TestCaseModal = "TestCaseModal",
   TestModal = "TestModal",
-  AddServerModal = "AddServerModal",
-  CopyProjectToServer = "CopyProjectToServer",
 }
 
 export const modals = {
   [Modals.AddServerModal]: AddServerModal,
-  [Modals.CopyProjectToServer]: CopyProjectToServer,
   [Modals.CollaboratorModal]: CollaboratorModal,
   [Modals.ConfirmModal]: ConfirmModal,
+  [Modals.CopyProjectToServer]: CopyProjectToServer,
   [Modals.CreateTestbookModal]: CreateTestbookModal,
+  [Modals.ShareServerModal]: ShareServerModal,
   [Modals.TestCaseModal]: TestCaseModal,
   [Modals.TestModal]: TestModal,
 };

@@ -12,7 +12,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import Logo from "../../assets/logo.svg";
 import Dns from "../../assets/icons/dns.svg";
 import Logout from "../../assets/icons/logout.svg";
@@ -28,9 +28,28 @@ import { modals } from "@mantine/modals";
 import { Modals } from "../modals/modals";
 import slugify from "slugify";
 import { AddServerFormValues } from "../modals/addServerModal/AddServerModal";
+import { ShareServer } from "./partials/ShareServer";
+import { AnchorWithIcon } from "../shared/AnchorWithIcon";
+import { useCheckForServerImport } from "./hooks/useCheckForServerImport";
 
 export const Repositories: React.FC = () => {
   const { servers, disconnectFromServer, addServer } = useServersContext();
+
+  const addServerCallback = useCallback(
+    (values: AddServerFormValues) => {
+      addServer(values.name, {
+        id: slugify(values.name),
+        name: values.name,
+        repositoryIds: [values.documentId],
+        status: SERVER_STATUS.CONNECTING,
+        type: REPOSITORY_TYPE.remote,
+        url: values.url,
+      });
+    },
+    [addServer],
+  );
+
+  useCheckForServerImport(addServerCallback);
 
   const openAddServerModal = () => {
     modals.openContextModal({
@@ -38,16 +57,7 @@ export const Repositories: React.FC = () => {
       title: "Add server",
       centered: true,
       innerProps: {
-        handleSubmit: (values: AddServerFormValues) => {
-          addServer(values.name, {
-            id: slugify(values.name),
-            name: values.name,
-            repositoryIds: [values.documentId],
-            status: SERVER_STATUS.CONNECTING,
-            type: REPOSITORY_TYPE.remote,
-            url: values.url,
-          });
-        },
+        handleSubmit: addServerCallback,
       },
     });
   };
@@ -112,18 +122,18 @@ export const Repositories: React.FC = () => {
                               {repo.url} [{repo.repositoryIds[0]}]
                             </Text>
 
-                            <Anchor
+                            <AnchorWithIcon
                               onClick={() => disconnectFromServer(repo.id)}
-                              size="sm"
-                              c="white"
-                              fw={600}
-                              ml={10}
-                            >
-                              <Group gap="xs">
+                              icon={
                                 <Image src={Logout} alt="Disconnect" w={24} />
-                                Disconnect
-                              </Group>
-                            </Anchor>
+                              }
+                              label="Disconnect"
+                            />
+
+                            <ShareServer
+                              repo={repo}
+                              repositoryId={repo.repositoryIds[0]}
+                            />
                           </Group>
                         )}
 

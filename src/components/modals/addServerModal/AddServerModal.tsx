@@ -11,16 +11,17 @@ export type AddServerFormValues = {
 };
 
 type TCreateTestbookModalInnerProps<T> = {
+  defaultValues?: AddServerFormValues;
   handleSubmit: (values: T) => void;
 };
 
 export function AddServerModal({
   id,
   context,
-  innerProps: { handleSubmit },
+  innerProps: { defaultValues, handleSubmit },
 }: ContextModalProps<TCreateTestbookModalInnerProps<AddServerFormValues>>) {
   const form = useForm<AddServerFormValues>({
-    initialValues: {
+    initialValues: defaultValues ?? {
       name: "",
       url: "",
       documentId: "",
