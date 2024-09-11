@@ -7,7 +7,7 @@ import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
 import { TTest } from "../../../../types/schema";
 import { Avatars } from "../../../avatars/Avatars";
-import { RelativeDate } from "../../../relativeDate/RelativeDate";
+import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { Tags } from "../../../tags/Tags";
 import { ExpandButton } from "./ExpandButton";

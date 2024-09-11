@@ -1,6 +1,6 @@
 import { Text, Group, Table } from "@mantine/core";
 import { TUseProject } from "../../lib/operators/types";
-import { RelativeDate } from "../relativeDate/RelativeDate";
+import { RelativeDate } from "../shared/relativeDate/RelativeDate";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
 

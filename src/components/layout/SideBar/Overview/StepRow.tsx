@@ -4,7 +4,7 @@ import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
 import { useTest } from "../../../../lib/operators/useTest";
 import { TStep } from "../../../../types/schema";
-import { RelativeDate } from "../../../relativeDate/RelativeDate";
+import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
 import { StatusButton } from "../../../statusButton/StatusButton";
 import { useServerName } from "../../../../lib/helpers/useServerName";
 
