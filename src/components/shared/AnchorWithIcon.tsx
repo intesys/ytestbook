@@ -1,5 +1,5 @@
 import { Anchor, Group } from "@mantine/core";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 type AnchorWithIconProps = {
   onClick: () => void;
