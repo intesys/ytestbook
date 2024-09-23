@@ -1,7 +1,13 @@
-import { Anchor, AnchorProps, Group, GroupProps } from "@mantine/core";
+import {
+  Anchor,
+  AnchorProps,
+  Group,
+  GroupProps,
+  PolymorphicComponentProps,
+} from "@mantine/core";
 import { ReactNode } from "react";
 
-type AnchorWithIconProps = AnchorProps & {
+type AnchorWithIconProps = PolymorphicComponentProps<"a", AnchorProps> & {
   icon: ReactNode;
   label: string;
   groupProps?: GroupProps;
