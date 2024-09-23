@@ -1,0 +1,28 @@
+{
+  "theme_color": "#0F33CE",
+  "background_color": "#0F33CE",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "icon512_maskable.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "512x512",
+      "src": "icon512_rounded.png",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "any",
+  "display": "standalone",
+  "id": "/?source=pwa",
+  "dir": "auto",
+  "lang": "en",
+  "name": "yTestbook",
+  "short_name": "yTestbook",
+  "description": "Manage test planning, execution and report",
+  "scope": "/",
+  "start_url": "/?source=pwa"
+}

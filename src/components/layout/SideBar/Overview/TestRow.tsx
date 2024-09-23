@@ -7,11 +7,12 @@ import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
 import { TTest } from "../../../../types/schema";
 import { Avatars } from "../../../avatars/Avatars";
-import { RelativeDate } from "../../../relativeDate/RelativeDate";
+import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { Tags } from "../../../tags/Tags";
 import { ExpandButton } from "./ExpandButton";
 import { StepRow } from "./StepRow";
+import { useServerName } from "../../../../lib/helpers/useServerName";
 
 type TestRowProps = {
   readonly project: TUseProject;
@@ -26,6 +27,7 @@ export const TestRow = ({
   test,
   forceExpanded = false,
 }: TestRowProps) => {
+  const serverName = useServerName();
   const completion = computeCompletion(test.steps);
   const tags = project.getTagsByTestId(test.id);
   const assignees = project.getAssigneesByTestId(test.id);
@@ -57,7 +59,12 @@ export const TestRow = ({
       <Table.Tr
         onClick={() => {
           navigate(
-            routesHelper.testDetail(project.data.id, test.caseId, test.id),
+            routesHelper.testDetail(
+              serverName,
+              project.data.id,
+              test.caseId,
+              test.id,
+            ),
           );
           openSidebar();
         }}

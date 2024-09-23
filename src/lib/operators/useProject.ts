@@ -7,7 +7,7 @@ import { StatusEnum, TDocType } from "../../types/schema";
 import { downloadFile } from "../helpers/downloadFile";
 import { removeTuples } from "../helpers/removeTuples";
 import { TUseProject } from "./types";
-import { NETWORK_URL_STORAGE_KEY } from "./useNetworkUrl";
+import { STORAGE_KEYS } from "../constants/localStorageKeys";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -126,7 +126,7 @@ export function useProject(projectId: string | undefined): TUseProject {
     const project = doc?.projects.find((p) => p.id === projectId);
     if (project) {
       const jsonContent: TJsonExport = {
-        networkServerUrl: localStorage.getItem(NETWORK_URL_STORAGE_KEY) ?? "",
+        networkServerUrl: localStorage.getItem(STORAGE_KEYS.SERVERS_CONF) ?? "",
         project,
         repository: {
           id: docUrl ?? "",

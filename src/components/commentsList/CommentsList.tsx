@@ -31,7 +31,7 @@ import {
 } from "../../types/schema";
 import { Avatars } from "../avatars/Avatars";
 import { openDeleteConfirmModal } from "../modals/modals";
-import { RelativeDate } from "../relativeDate/RelativeDate";
+import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";

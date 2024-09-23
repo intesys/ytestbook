@@ -1,6 +1,6 @@
 import { Text } from "@mantine/core";
-import dayjsConfigured from "../../lib/date/dayjsConfigured";
-import { parseTimestamp } from "../../lib/date/parseTimestamp";
+import dayjsConfigured from "../../../lib/date/dayjsConfigured";
+import { parseTimestamp } from "../../../lib/date/parseTimestamp";
 
 type RelativeDateProps = {
   timeStamp?: number;

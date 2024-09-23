@@ -4,6 +4,8 @@ import { Fragment, useCallback } from "react";
 import { TCase } from "../../types/schema";
 import { useNavigate, useParams } from "react-router";
 import { StatusIcon } from "../statusIcon/StatusIcon";
+import { useServerName } from "../../lib/helpers/useServerName";
+import { routesHelper } from "../../lib/helpers/routesHelper";
 
 interface IOwnProps {
   data: TCase[];
@@ -18,6 +20,7 @@ export const TestCasesList = ({
 }: IOwnProps) => {
   const { projectId, caseId, testId } = useParams();
   const navigate = useNavigate();
+  const serverName = useServerName();
   const handleClick = useCallback(
     (path: string) => () => {
       navigate(path);
@@ -37,7 +40,11 @@ export const TestCasesList = ({
             c={activeCaseId === testCase.id ? "primary" : "black"}
             fw={activeCaseId === testCase.id ? "bold" : "normal"}
             onClick={handleClick(
-              `/project/${projectId}/testCase/${testCase.id}`,
+              routesHelper.testCaseDetail(
+                serverName,
+                projectId ?? "",
+                testCase.id,
+              ),
             )}
           />
           {testCase.tests.length > 0 && (
@@ -55,7 +62,12 @@ export const TestCasesList = ({
                       c={activeTestId === test.id ? "primary" : "black"}
                       fw={activeTestId === test.id ? "bold" : "normal"}
                       onClick={handleClick(
-                        `/project/${projectId}/testCase/${testCase.id}/test/${test.id}`,
+                        routesHelper.testDetail(
+                          serverName,
+                          projectId ?? "",
+                          testCase.id,
+                          test.id,
+                        ),
                       )}
                     />
                   </div>

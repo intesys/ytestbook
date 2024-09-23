@@ -1,0 +1,47 @@
+.container {
+  background: linear-gradient(252.07deg, #7B61FF 0%, #0F33CE 100%);
+  min-height: 100dvh;
+}
+
+.jsonImporter {
+  background-color: transparent;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  padding: 0;
+  height: 80px; 
+
+  button {
+    transition: all 200ms;
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed !important;
+  }
+
+  &:hover {
+    background-color: transparent;
+
+    button {
+      background-color: var(--mantine-color-primary-8);
+
+      &[data-disabled] {
+        background-color: transparent;
+        cursor: not-allowed !important;
+      }
+    }
+  }
+
+
+}
+
+.projectCard {
+  background-color: #5871DD;
+  cursor: pointer;
+  transition: all 200ms;
+
+  &:hover {
+    background-color: var(--mantine-color-primary-3);
+  }
+}

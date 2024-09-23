@@ -1,14 +1,25 @@
 export const routesHelper = {
-  projectDetail: (projectId: string) => `/project/${projectId}`,
-  testCaseDetail: (projectId: string, testCase: string) =>
-    `/project/${projectId}/testCase/${testCase}`,
-  testDetail: (projectId: string, testCase: string, testId: string) =>
-    `/project/${projectId}/testCase/${testCase}/test/${testId}`,
+  projectDetail: (serverName: string, projectId: string) =>
+    `/server/${serverName}/project/${projectId}`,
+  projectDetailEmpty: (serverName: string, projectId: string) =>
+    `/server/${serverName}/project/${projectId}/empty`,
+  projectDetailSettings: (serverName: string, projectId: string) =>
+    `/server/${serverName}/project/${projectId}/settings`,
+  testCaseDetail: (serverName: string, projectId: string, testCase: string) =>
+    `/server/${serverName}/project/${projectId}/testCase/${testCase}`,
+  testDetail: (
+    serverName: string,
+    projectId: string,
+    testCase: string,
+    testId: string,
+  ) =>
+    `/server/${serverName}/project/${projectId}/testCase/${testCase}/test/${testId}`,
   stepDetail: (
+    serverName: string,
     projectId: string,
     testCase: string,
     testId: string,
     stepId: string,
   ) =>
-    `/project/${projectId}/testCase/${testCase}/test/${testId}/step/${stepId}`,
+    `/server/${serverName}/project/${projectId}/testCase/${testCase}/test/${testId}/step/${stepId}`,
 };

@@ -9,6 +9,8 @@ import { Overview } from "./Overview/Overview";
 import { OverviewHeader } from "./OverviewHeader";
 import { QuickClose } from "./QuickClose";
 import classes from "./sideBar.module.css";
+import { routesHelper } from "../../../lib/helpers/routesHelper";
+import { useServerName } from "../../../lib/helpers/useServerName";
 
 export type WithNavbarStatus = {
   status: SIDEBAR_STATUS;
@@ -20,6 +22,7 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
   const project = useProject(params.projectId);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const serverName = useServerName();
 
   const [activeCaseId, setActiveCaseId] = useState("");
   const [activeTestId, setActiveTestId] = useState("");
@@ -30,14 +33,16 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
     if (params.caseId || !project.data) return;
     if (project.data.testCases.length === 0) {
       /**If there's no caseId defined in the URL and no test cases, go to Empty  */
-      navigate(`/project/${project.data.id}/empty`);
+      navigate(routesHelper.projectDetailEmpty(serverName, project.data.id));
     } else {
       /**If there's no caseId defined in the URL, it sets the first testCase as the active one  */
       const caseId = project.data.testCases[0].id;
       setActiveCaseId(caseId);
-      navigate(`/project/${project.data.id}/testCase/${caseId}`);
+      navigate(
+        routesHelper.testCaseDetail(serverName, project.data.id, caseId),
+      );
     }
-  }, [params, project.data, activeCaseId, pathname, navigate]);
+  }, [params, project.data, activeCaseId, pathname, navigate, serverName]);
 
   useEffect(() => {
     if (params.caseId) {

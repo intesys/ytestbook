@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { routesHelper } from "../../lib/helpers/routesHelper";
 import ArrowCircleDown from "../../assets/icons/arrow_circle_down.svg";
 import ArrowCircleUp from "../../assets/icons/arrow_circle_up.svg";
+import { useServerName } from "../../lib/helpers/useServerName";
 
 type ClosestStepsButtonsProps = {
   stepId: string;
@@ -21,6 +22,7 @@ export const ClosestStepsButtons = ({
   testId,
   steps,
 }: ClosestStepsButtonsProps) => {
+  const serverName = useServerName();
   const previousStep = getPreviousStep(stepId, steps);
   const nextStep = getNextStep(stepId, steps);
   const navigate = useNavigate();
@@ -30,7 +32,13 @@ export const ClosestStepsButtons = ({
       return;
     }
     navigate(
-      routesHelper.stepDetail(projectId, caseId, testId, previousStep.id),
+      routesHelper.stepDetail(
+        serverName,
+        projectId,
+        caseId,
+        testId,
+        previousStep.id,
+      ),
     );
   };
 
@@ -38,7 +46,15 @@ export const ClosestStepsButtons = ({
     if (!nextStep?.id) {
       return;
     }
-    navigate(routesHelper.stepDetail(projectId, caseId, testId, nextStep.id));
+    navigate(
+      routesHelper.stepDetail(
+        serverName,
+        projectId,
+        caseId,
+        testId,
+        nextStep.id,
+      ),
+    );
   };
 
   if (!previousStep && !nextStep) {

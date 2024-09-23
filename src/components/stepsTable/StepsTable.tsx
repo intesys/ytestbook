@@ -7,7 +7,7 @@ import Delete from "../../assets/icons/delete.svg";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../types/schema.ts";
 import { openDeleteConfirmModal } from "../modals/modals.ts";
-import { RelativeDate } from "../relativeDate/RelativeDate";
+import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
 

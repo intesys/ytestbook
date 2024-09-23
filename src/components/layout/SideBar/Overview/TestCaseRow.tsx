@@ -7,11 +7,12 @@ import { routesHelper } from "../../../../lib/helpers/routesHelper";
 import { TUseProject } from "../../../../lib/operators/types";
 import { TCase, TStep } from "../../../../types/schema";
 import { Avatars } from "../../../avatars/Avatars";
-import { RelativeDate } from "../../../relativeDate/RelativeDate";
+import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { Tags } from "../../../tags/Tags";
 import { ExpandButton } from "./ExpandButton";
 import { TestRow } from "./TestRow";
+import { useServerName } from "../../../../lib/helpers/useServerName";
 
 type TestCaseRowProps = {
   readonly testCase: TCase;
@@ -26,6 +27,7 @@ export function TestCaseRow({
   openSidebar,
   forceExpanded = false,
 }: TestCaseRowProps) {
+  const serverName = useServerName();
   const allSteps = testCase.tests.reduce((acc, test) => {
     test.steps.forEach((step) => acc.push(step));
     return acc;
@@ -61,7 +63,13 @@ export function TestCaseRow({
       <Table.Tr
         key={testCase.id}
         onClick={() => {
-          navigate(routesHelper.testCaseDetail(project.data.id, testCase.id));
+          navigate(
+            routesHelper.testCaseDetail(
+              serverName,
+              project.data.id,
+              testCase.id,
+            ),
+          );
           openSidebar();
         }}
       >

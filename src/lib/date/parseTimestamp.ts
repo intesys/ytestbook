@@ -1,4 +1,8 @@
+import dayjsConfigured from "./dayjsConfigured";
+
 export function parseTimestamp(timestamp: number) {
   const date = new Date(timestamp);
-  return `${date.toDateString()}, ${date.getHours()}:${date.getMinutes()}`;
+  const dateDayJs = dayjsConfigured(date);
+
+  return dateDayJs.format("llll");
 }

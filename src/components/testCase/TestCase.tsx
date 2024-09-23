@@ -12,12 +12,15 @@ import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.css";
+import { useServerName } from "../../lib/helpers/useServerName.ts";
+import { routesHelper } from "../../lib/helpers/routesHelper.ts";
 
 export function TestCase() {
   const navigate = useNavigate();
   const params = useParams();
   const project = useProject(params.projectId);
   const testCase = useTestCase(params.projectId, params.caseId);
+  const serverName = useServerName();
 
   const queriedData = useMemo(() => {
     if (testCase.data) {
@@ -78,12 +81,12 @@ export function TestCase() {
           handleConfirm: () => {
             if (project.data) {
               project.removeTestCase(testCase?.data?.id);
-              navigate(`/project/${project.data.id}`);
+              navigate(routesHelper.projectDetail(serverName, project.data.id));
             }
           },
         },
       ),
-    [navigate, project, testCase?.data?.id],
+    [navigate, project, serverName, testCase?.data?.id],
   );
 
   if (testCase.loading) {

@@ -13,6 +13,8 @@ import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { StepsTable } from "../stepsTable/StepsTable";
 import classes from "./testDetails.module.css";
+import { routesHelper } from "../../lib/helpers/routesHelper.ts";
+import { useServerName } from "../../lib/helpers/useServerName.ts";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ export function TestDetails() {
   const project = useProject(params.projectId);
   const testCase = useTestCase(params.projectId, params.caseId);
   const test = useTest(params.projectId, params.caseId, params.testId);
+  const serverName = useServerName();
 
   const completion = useMemo(
     () => computeCompletion(test.data?.steps || []),
@@ -86,12 +89,16 @@ export function TestDetails() {
           if (project.data && testCase.data) {
             testCase.removeTest(test?.data?.id);
             navigate(
-              `/project/${project.data.id}/testCase/${testCase.data.id}`,
+              routesHelper.testCaseDetail(
+                serverName,
+                project.data.id,
+                testCase.data.id,
+              ),
             );
           }
         },
       }),
-    [navigate, project.data, test?.data?.id, testCase],
+    [navigate, project.data, serverName, test?.data?.id, testCase],
   );
 
   if (test.loading) {
@@ -112,7 +119,11 @@ export function TestDetails() {
           onClick={() => {
             if (project.data && testCase.data) {
               navigate(
-                `/project/${project.data.id}/testCase/${testCase.data.id}`,
+                routesHelper.testCaseDetail(
+                  serverName,
+                  project.data.id,
+                  testCase.data.id,
+                ),
               );
             }
           }}

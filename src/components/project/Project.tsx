@@ -6,11 +6,14 @@ import { Header } from "../layout/Header/Header";
 import { SideBar } from "../layout/SideBar/SideBar";
 import { SIDEBAR_STATUS } from "../layout/SideBar/const";
 import classes from "./project.module.css";
+import { useServerName } from "../../lib/helpers/useServerName";
+import { routesHelper } from "../../lib/helpers/routesHelper";
 
 export function Project() {
   const params = useParams();
   const project = useProject(params.projectId);
   const navigate = useNavigate();
+  const serverName = useServerName();
 
   const [sidebarStatus, toggle] = useToggle<SIDEBAR_STATUS>([
     SIDEBAR_STATUS.FULLSCREEN,
@@ -20,7 +23,9 @@ export function Project() {
 
   const goToSettings = () => {
     toggle(SIDEBAR_STATUS.OPEN);
-    navigate(`/project/${params.projectId}/settings`);
+    navigate(
+      routesHelper.projectDetailSettings(serverName, params.projectId ?? ""),
+    );
   };
 
   if (!project || project.loading) {

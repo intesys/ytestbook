@@ -14,9 +14,11 @@ import { StepSwitch } from "../stepSwitch/StepSwitch";
 import { ClosestStepsButtons } from "./ClosestStepsButtons";
 import classes from "./stepDetails.module.css";
 import { StepLog } from "./StepLog";
+import { useServerName } from "../../lib/helpers/useServerName";
 
 export const StepDetails = () => {
   const navigate = useNavigate();
+  const serverName = useServerName();
   const params = useParams();
   const project = useProject(params.projectId);
   const testCase = useTestCase(params.projectId, params.caseId);
@@ -55,7 +57,12 @@ export const StepDetails = () => {
       return;
     }
     navigate(
-      routesHelper.testDetail(params.projectId, params.caseId, params.testId),
+      routesHelper.testDetail(
+        serverName,
+        params.projectId,
+        params.caseId,
+        params.testId,
+      ),
     );
   };
 

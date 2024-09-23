@@ -1,9 +1,6 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { notifications } from "@mantine/notifications";
 import { useCallback } from "react";
-import z from "zod";
 import { useDocContext } from "../../components/docContext/DocContext";
-import { TJsonExport } from "../../types/json-export";
 import { TDocType } from "../../types/schema";
 import { TUseProjects } from "./types";
 
@@ -57,85 +54,6 @@ export function useProjects(): TUseProjects {
     [changeDoc],
   );
 
-  const importJSON: TUseProjects["importJSON"] = (fileReaderResult) => {
-    try {
-      if (!fileReaderResult || typeof fileReaderResult !== "string") {
-        throw Error();
-      }
-
-      const parsedData: TJsonExport = JSON.parse(fileReaderResult);
-
-      // Checking parsedData validity
-
-      const schema = z.object({
-        networkServerUrl: z.string(),
-        repository: z.object({
-          id: z.string(),
-          description: z.string(),
-          title: z.string(),
-        }),
-        project: z.object({
-          id: z.string(),
-          testCases: z.array(
-            z.object({
-              id: z.string(),
-              title: z.string(),
-              description: z.string().optional(),
-              projectId: z.string(),
-              status: z.string(),
-              tests: z.array(
-                z.object({
-                  id: z.string(),
-                  title: z.string(),
-                  description: z.string().optional(),
-                  caseId: z.string(),
-                  status: z.string(),
-                  steps: z.array(
-                    z.object({
-                      id: z.string(),
-                      title: z.string(),
-                      description: z.string().optional(),
-                      testId: z.string(),
-                      status: z.string(),
-                    }),
-                  ),
-                }),
-              ),
-              comments: z.array(
-                z.object({
-                  id: z.string(),
-                  resolved: z.boolean(),
-                  username: z.string(),
-                  content: z.string(),
-                }),
-              ),
-            }),
-          ),
-        }),
-      });
-
-      const isValid = schema.safeParse(parsedData);
-      if (!isValid.success) {
-        throw new Error();
-      }
-
-      const projectNewId = crypto.randomUUID();
-      parsedData.project.id = projectNewId;
-
-      changeDoc((d) => {
-        d.projects.push(parsedData.project);
-      });
-
-      return projectNewId;
-    } catch (error) {
-      notifications.show({
-        message: "yTestbook JSON is not valid",
-        color: "red",
-      });
-      return false;
-    }
-  };
-
   if (doc === undefined) {
     return {
       data: undefined,
@@ -143,7 +61,6 @@ export function useProjects(): TUseProjects {
       createProject,
       updateRepository,
       removeProject,
-      importJSON,
     };
   } else {
     return {
@@ -152,7 +69,6 @@ export function useProjects(): TUseProjects {
       createProject,
       updateRepository,
       removeProject,
-      importJSON,
     };
   }
 }

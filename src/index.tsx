@@ -1,36 +1,18 @@
-import { Repo } from "@automerge/automerge-repo";
-import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
-import { RepoContext } from "@automerge/automerge-repo-react-hooks";
-import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { DatesProvider } from "@mantine/dates";
+import "@mantine/dropzone/styles.css";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
-import "@mantine/dropzone/styles.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { DocProvider } from "./components/docContext/DocContext";
-import { modals } from "./components/modals/modals.ts";
 import { MainNavigation } from "./Navigation";
+import { modals } from "./components/modals/modals.ts";
+import { ServersProvider } from "./components/serversContext/serversContext.tsx";
 import { theme } from "./theme";
-import "./theme.scss";
-import {
-  NETWORK_URL_OFFLINE,
-  NETWORK_URL_STORAGE_KEY,
-} from "./lib/operators/useNetworkUrl.ts";
-
-const networkUrl = localStorage.getItem(NETWORK_URL_STORAGE_KEY);
-
-const repo = new Repo({
-  network:
-    networkUrl && networkUrl !== NETWORK_URL_OFFLINE
-      ? [new BrowserWebSocketClientAdapter(networkUrl)]
-      : [],
-  storage: new IndexedDBStorageAdapter(),
-});
+import "./theme.css";
 
 const root = createRoot(
   document.getElementById("ytestbook_root") as HTMLElement,
@@ -44,13 +26,11 @@ root.render(
       <Notifications position="top-right" zIndex={1000} />
       <BrowserRouter>
         <DatesProvider settings={datesSetting}>
-          <RepoContext.Provider value={repo}>
-            <DocProvider>
-              <ModalsProvider modals={modals}>
-                <MainNavigation />
-              </ModalsProvider>
-            </DocProvider>
-          </RepoContext.Provider>
+          <ServersProvider>
+            <ModalsProvider modals={modals}>
+              <MainNavigation />
+            </ModalsProvider>
+          </ServersProvider>
         </DatesProvider>
       </BrowserRouter>
     </MantineProvider>

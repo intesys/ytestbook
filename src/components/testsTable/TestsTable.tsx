@@ -15,7 +15,7 @@ import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TTest } from "../../types/schema";
 import { Avatars } from "../avatars/Avatars";
-import { RelativeDate } from "../relativeDate/RelativeDate";
+import { RelativeDate } from "../shared/relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { Tags } from "../tags/Tags";
