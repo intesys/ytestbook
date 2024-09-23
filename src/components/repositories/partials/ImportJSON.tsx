@@ -85,7 +85,6 @@ export const ImportJSON = ({
       });
 
       const isValid = schema.safeParse(parsedData);
-      console.error(isValid);
       if (!isValid.success) {
         throw new Error();
       }

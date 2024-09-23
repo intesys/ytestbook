@@ -21,10 +21,10 @@ import {
   TServersProviderProps,
   YtServer,
 } from "./types";
+import { useIsFirstRender } from "@mantine/hooks";
+import { useSyncServersOnStorage } from "./hooks/useSyncServersOnStorage";
 
 const urlPrefix = "automerge:";
-
-let done = false;
 
 // global handlers need to be a singleton
 export const serversHandler: Record<string, Repo> = {};
@@ -43,27 +43,10 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
   children,
 }) => {
   const [servers, setServers] = useState<ServersList>({});
+  const isFirstRender = useIsFirstRender();
 
-  useEffect(() => {
-    if (!done) {
-      return;
-    }
-    const configToStore: StorageServersConfig = {
-      servers: Object.values(servers)
-        .filter((s) => s.type === REPOSITORY_TYPE.remote)
-        .map((s) => ({
-          id: s.id,
-          name: s.name,
-          repositoryIds: s.repositoryIds,
-          url: s.url,
-        })),
-    };
-
-    localStorage.setItem(
-      STORAGE_KEYS.SERVERS_CONF,
-      JSON.stringify(configToStore),
-    );
-  }, [servers]);
+  // On server list update save localstroerage
+  useSyncServersOnStorage(servers, isFirstRender);
 
   const addListenersToHandler = useCallback(
     (handler: Repo, serverId: string) => {
@@ -131,13 +114,13 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     [addListenersToHandler],
   );
 
-  //   load initial servers
+  // load initial servers from user's local storage
   useEffect(() => {
-    if (done) {
+    if (!isFirstRender) {
       return;
     }
-    done = true;
 
+    // Prepend Offline server
     const offlineRepoId =
       localStorage.getItem(STORAGE_KEYS.SERVER_OFFLINE_REPOSITORY_ID) ??
       undefined;
@@ -152,7 +135,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     };
 
     serversHandler["offline"] = new Repo({
-      network: [],
+      network: [], // no networks for offline server
       storage: new IndexedDBStorageAdapter(),
       sharePolicy: async () => true,
       enableRemoteHeadsGossiping: true,
@@ -172,6 +155,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       );
     }
 
+    // Load config from localStorage
     const serversFromStorageRaw = localStorage.getItem(
       STORAGE_KEYS.SERVERS_CONF,
     );
@@ -182,10 +166,12 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       );
 
       if (serversFromStorage?.servers) {
+        // Initialize server load and init
         const serversInitialized: ServersList = {
           offline: offlineServerInitializer,
         };
         serversFromStorage.servers.forEach((server) => {
+          // init the server repo with network adapter
           const handler = new Repo({
             network: [new BrowserWebSocketClientAdapter(server.url)],
             storage: new IndexedDBStorageAdapter(),
@@ -208,19 +194,16 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         });
 
         setServers(serversInitialized);
-      } else {
-        const serversInitialized: ServersList = {
-          offline: offlineServerInitializer,
-        };
-        setServers(serversInitialized);
+        return;
       }
-    } else {
-      const serversInitialized: ServersList = {
-        offline: offlineServerInitializer,
-      };
-      setServers(serversInitialized);
     }
-  }, []);
+
+    // No config or invalid config found. Set only offline server.
+    const serversInitialized: ServersList = {
+      offline: offlineServerInitializer,
+    };
+    setServers(serversInitialized);
+  }, [addListenersToHandler, isFirstRender]);
 
   const disconnectFromServer = useCallback((serverId: string) => {
     openDeleteConfirmModal("Disconnect from server?", {

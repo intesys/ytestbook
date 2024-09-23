@@ -1,9 +1,16 @@
 .actionButton {
     border-color: white;
     transition: all 200ms;
+    padding: 20px;
+    height: 80px;
+    border-radius: 15px;
+    color: white;
+    text-transform: uppercase;
+    width: 100%;
 
     &:hover {
         background-color: var(--mantine-color-primary-8);
+        color: white;
     }
 
     &[data-disabled] {

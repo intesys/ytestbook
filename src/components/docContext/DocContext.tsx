@@ -7,7 +7,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { useNavigate } from "react-router";
 import { TDocType } from "../../types/schema";
 import { FullPageSpinner } from "../fullPageSpinner/FullPageSpinner";
 import {
@@ -35,7 +34,6 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
   const [state, setState] = useState<TDocContextState>({
     status: DocContextStatusEnum.LOADING,
   });
-  const navigate = useNavigate();
 
   const createDoc = useCallback(() => {
     const handle = repo.create<TDocType>({
@@ -49,7 +47,7 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
       doc: handle.docSync(),
       changeDoc: handle.change,
     }));
-  }, [navigate, repo]);
+  }, [repo]);
 
   const findAndSetDoc = useCallback(
     (docUrl: AutomergeUrl) => {
@@ -75,7 +73,7 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
         changeDoc: undefined,
       });
     }
-  }, [defaultDocUrl, findAndSetDoc, navigate, repo]);
+  }, [defaultDocUrl, findAndSetDoc]);
 
   switch (state.status) {
     case DocContextStatusEnum.LOADING:

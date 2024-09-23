@@ -1,20 +1,21 @@
-import { Anchor, Group } from "@mantine/core";
+import { Anchor, AnchorProps, Group, GroupProps } from "@mantine/core";
 import { ReactNode } from "react";
 
-type AnchorWithIconProps = {
-  onClick: () => void;
+type AnchorWithIconProps = AnchorProps & {
   icon: ReactNode;
   label: string;
+  groupProps?: GroupProps;
 };
 
 export const AnchorWithIcon = ({
-  onClick,
   icon,
   label,
+  groupProps = {},
+  ...rest
 }: AnchorWithIconProps) => {
   return (
-    <Anchor onClick={onClick} size="sm" c="white" fw={600} ml={10}>
-      <Group gap="xs">
+    <Anchor size="sm" c="white" fw={600} ml={10} {...rest}>
+      <Group gap="xs" {...groupProps}>
         {icon}
         {label}
       </Group>

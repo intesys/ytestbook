@@ -61,7 +61,7 @@ export function AddServerModal({
         <TextInput
           label="Document Id"
           {...form.getInputProps("documentId")}
-          description="(not required, it will be generated if empty)"
+          description="(optional, it will be generated if empty)"
         />
 
         <Group justify="end" gap="md">

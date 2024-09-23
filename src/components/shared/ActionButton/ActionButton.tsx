@@ -19,17 +19,7 @@ export const ActionButton = ({
   ...props
 }: ActionButtonProps) => {
   return (
-    <Button
-      {...props}
-      variant="outline"
-      c="white"
-      className={classes.actionButton}
-      p={20}
-      h={80}
-      fullWidth
-      radius={15}
-      tt="uppercase"
-    >
+    <Button {...props} variant="outline" className={classes.actionButton}>
       <Group gap={20} justify="start" align="center">
         <Image src={icon} w={24} />
         <Box>{children}</Box>
