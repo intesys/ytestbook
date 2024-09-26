@@ -1,8 +1,10 @@
-import { Flex, Loader } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
+import { routesHelper } from "../../lib/helpers/routesHelper.ts";
+import { useServerName } from "../../lib/helpers/useServerName.ts";
+import { TOperatorLoaderStatus } from "../../lib/operators/types.ts";
 import { useProject } from "../../lib/operators/useProject";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { TStep } from "../../types/schema.ts";
@@ -10,10 +12,10 @@ import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
+import { SectionError } from "../shared/SectionError.tsx";
+import { SectionLoading } from "../shared/SectionLoading.tsx";
 import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.css";
-import { useServerName } from "../../lib/helpers/useServerName.ts";
-import { routesHelper } from "../../lib/helpers/routesHelper.ts";
 
 export function TestCase() {
   const navigate = useNavigate();
@@ -89,12 +91,11 @@ export function TestCase() {
     [navigate, project, serverName, testCase?.data?.id],
   );
 
-  if (testCase.loading) {
-    return (
-      <Flex align="center" justify="center" h="100dvh" w="100%">
-        <Loader color="blue" size="lg" />
-      </Flex>
-    );
+  if (testCase.status === TOperatorLoaderStatus.loading) {
+    return <SectionLoading />;
+  }
+  if (testCase.status === TOperatorLoaderStatus.error) {
+    return <SectionError />;
   }
 
   return (

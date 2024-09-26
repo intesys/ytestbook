@@ -1,7 +1,8 @@
-import { Button, Flex, Loader, Tabs, Text, Title } from "@mantine/core";
+import { Button, Tabs, Text, Title } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
 import CircleX from "../../assets/icons/circle_x.svg";
 import { routesHelper } from "../../lib/helpers/routesHelper";
+import { useServerName } from "../../lib/helpers/useServerName";
 import { useProject } from "../../lib/operators/useProject";
 import { useStep } from "../../lib/operators/useStep";
 import { useTest } from "../../lib/operators/useTest";
@@ -10,11 +11,12 @@ import { StatusEnum } from "../../types/schema";
 import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
+import { SectionError } from "../shared/SectionError";
+import { SectionLoading } from "../shared/SectionLoading";
 import { StepSwitch } from "../stepSwitch/StepSwitch";
 import { ClosestStepsButtons } from "./ClosestStepsButtons";
-import classes from "./stepDetails.module.css";
 import { StepLog } from "./StepLog";
-import { useServerName } from "../../lib/helpers/useServerName";
+import classes from "./stepDetails.module.css";
 
 export const StepDetails = () => {
   const navigate = useNavigate();
@@ -31,11 +33,11 @@ export const StepDetails = () => {
   );
 
   if (step.loading || project.loading || testCase.loading || test.loading) {
-    return (
-      <Flex align="center" justify="center" h="100dvh" w={"100%"} bg="gray.0">
-        <Loader color="blue" size="lg" />
-      </Flex>
-    );
+    return <SectionLoading />;
+  }
+
+  if (step.error || project.error || testCase.error || test.error) {
+    return <SectionError />;
   }
 
   const handleQuickEdit = (title: string) => {

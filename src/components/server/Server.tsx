@@ -1,32 +1,30 @@
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
-import { useMemo } from "react";
-import { Outlet } from "react-router";
-import { useServerName } from "../../lib/helpers/useServerName";
+import { Outlet, useParams } from "react-router";
 import { DocProvider } from "../docContext/DocContext";
-import {
-  serversHandler,
-  useServersContext,
-} from "../serversContext/serversContext";
 import { FullPageSpinner } from "../fullPageSpinner/FullPageSpinner";
+import { NotFound } from "../notFound/NotFound";
+import { useLoadServer } from "./hooks/useLoadServer";
 
 export const Server = () => {
-  const serverName = useServerName();
+  const serverLoadStatus = useLoadServer();
+  const params = useParams();
 
-  const { servers } = useServersContext();
+  // Check that a projectId has been passed
+  if (!params.projectId) {
+    return <NotFound />;
+  }
 
-  const server = useMemo(() => {
-    return serverName ? servers[serverName] : undefined;
-  }, [serverName, servers]);
-
-  const handler = serverName ? serversHandler[serverName] : undefined;
-
-  if (!handler) {
+  if (serverLoadStatus.status === "loading") {
     return <FullPageSpinner />;
   }
 
+  if (serverLoadStatus.status === "not-found") {
+    return <NotFound />;
+  }
+
   return (
-    <RepoContext.Provider value={handler}>
-      <DocProvider docUrl={server?.repositoryIds[0]}>
+    <RepoContext.Provider value={serverLoadStatus.handler}>
+      <DocProvider docUrl={serverLoadStatus.server?.repositoryIds[0]}>
         <Outlet />
       </DocProvider>
     </RepoContext.Provider>

@@ -23,6 +23,7 @@ export const MainNavigation: React.FC = () => (
           </Route>
         </Route>
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Route>
     <Route path="*" element={<NotFound />} />
   </Routes>

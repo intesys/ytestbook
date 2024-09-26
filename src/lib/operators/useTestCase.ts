@@ -4,7 +4,7 @@ import { useDocContext } from "../../components/docContext/DocContext";
 import { StatusEnum, TComment, TDocType } from "../../types/schema";
 import { addTuples } from "../helpers/addTuples";
 import { removeTuples } from "../helpers/removeTuples";
-import { TUseTestCase } from "./types";
+import { TOperatorLoaderStatus, TUseTestCase } from "./types";
 
 export function useTestCase(
   projectId: string | undefined,
@@ -17,6 +17,9 @@ export function useTestCase(
     const p = doc?.projects.find((item) => projectId && item.id === projectId);
     return p?.testCases.find((item) => item.id === caseId);
   }, [doc, projectId, caseId]);
+
+  const loading = useMemo(() => !doc, [doc]);
+  const error = useMemo(() => !!doc && !testCase, [doc, testCase]);
 
   const createTest: TUseTestCase["createTest"] = useCallback(
     (values) => {
@@ -265,31 +268,61 @@ export function useTestCase(
       [changeDoc, projectId, caseId],
     );
 
-  if (testCase === undefined) {
+  const sharedMethods = useMemo(
+    () => ({
+      createTest,
+      createComment,
+      updateTest,
+      updateTestDescription,
+      updateTestStatus,
+      removeTest,
+      removeComment,
+      updateCommentResolved,
+    }),
+    [
+      createComment,
+      createTest,
+      removeComment,
+      removeTest,
+      updateCommentResolved,
+      updateTest,
+      updateTestDescription,
+      updateTestStatus,
+    ],
+  );
+
+  if (loading) {
     return {
+      status: TOperatorLoaderStatus.loading,
       data: undefined,
       loading: true,
-      createTest,
-      createComment,
-      updateTest,
-      updateTestDescription,
-      updateTestStatus,
-      removeTest,
-      removeComment,
-      updateCommentResolved,
-    };
-  } else {
-    return {
-      data: testCase,
-      loading: false,
-      createTest,
-      createComment,
-      updateTest,
-      updateTestDescription,
-      updateTestStatus,
-      removeTest,
-      removeComment,
-      updateCommentResolved,
+      error: false,
+      ...sharedMethods,
     };
   }
+
+  if (error || !testCase) {
+    return {
+      status: TOperatorLoaderStatus.error,
+      data: undefined,
+      loading: false,
+      error: true,
+      ...sharedMethods,
+    };
+  }
+
+  return {
+    status: TOperatorLoaderStatus.loaded,
+    data: testCase,
+    loading: false,
+    error: false,
+    createTest,
+    createComment,
+    updateTest,
+    updateTestDescription,
+    updateTestStatus,
+    removeTest,
+    removeComment,
+    updateCommentResolved,
+  };
 }
