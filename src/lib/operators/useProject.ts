@@ -6,7 +6,7 @@ import { TJsonExport } from "../../types/json-export";
 import { StatusEnum, TDocType } from "../../types/schema";
 import { downloadFile } from "../helpers/downloadFile";
 import { removeTuples } from "../helpers/removeTuples";
-import { TUseProject } from "./types";
+import { TOperatorLoaderStatus, TUseProject } from "./types";
 import { STORAGE_KEYS } from "../constants/localStorageKeys";
 
 export function useProject(projectId: string | undefined): TUseProject {
@@ -17,6 +17,9 @@ export function useProject(projectId: string | undefined): TUseProject {
     () => doc?.projects.find((item) => projectId && item.id === projectId),
     [doc, projectId],
   );
+
+  const loading = useMemo(() => !doc, [doc]);
+  const error = useMemo(() => !!doc && !project, [doc, project]);
 
   const getTagsByTestId: TUseProject["getTagsByTestId"] = useCallback(
     (testId) => {
@@ -414,47 +417,70 @@ export function useProject(projectId: string | undefined): TUseProject {
     [changeDoc, projectId],
   );
 
-  if (project === undefined) {
+  const methods = useMemo(
+    () => ({
+      getTagsByTestId,
+      getTagsByCaseId,
+      getAssigneesByTestId,
+      getAssigneesByCaseId,
+      getStatusChangesByStepId,
+      getCollaborator,
+      exportJSON,
+      createTestCase,
+      createCollaborator,
+      updateTestCase,
+      updateTestCaseStatus,
+      updateAllTags,
+      updateCollaborator,
+      removeCollaborator,
+      removeTestCase,
+      updateProject,
+    }),
+    [
+      createCollaborator,
+      createTestCase,
+      exportJSON,
+      getAssigneesByCaseId,
+      getAssigneesByTestId,
+      getCollaborator,
+      getStatusChangesByStepId,
+      getTagsByCaseId,
+      getTagsByTestId,
+      removeCollaborator,
+      removeTestCase,
+      updateAllTags,
+      updateCollaborator,
+      updateProject,
+      updateTestCase,
+      updateTestCaseStatus,
+    ],
+  );
+
+  if (loading) {
     return {
+      status: TOperatorLoaderStatus.loading,
       data: undefined,
       loading: true,
-      getTagsByTestId,
-      getTagsByCaseId,
-      getAssigneesByTestId,
-      getAssigneesByCaseId,
-      getStatusChangesByStepId,
-      getCollaborator,
-      exportJSON,
-      createTestCase,
-      createCollaborator,
-      updateTestCase,
-      updateTestCaseStatus,
-      updateAllTags,
-      updateCollaborator,
-      removeCollaborator,
-      removeTestCase,
-      updateProject,
-    };
-  } else {
-    return {
-      data: project,
-      loading: false,
-      getTagsByTestId,
-      getTagsByCaseId,
-      getAssigneesByTestId,
-      getAssigneesByCaseId,
-      getStatusChangesByStepId,
-      getCollaborator,
-      exportJSON,
-      createTestCase,
-      createCollaborator,
-      updateTestCase,
-      updateTestCaseStatus,
-      updateAllTags,
-      updateCollaborator,
-      removeCollaborator,
-      removeTestCase,
-      updateProject,
+      error: false,
+      ...methods,
     };
   }
+
+  if (error || !project) {
+    return {
+      status: TOperatorLoaderStatus.error,
+      data: undefined,
+      loading: false,
+      error: true,
+      ...methods,
+    };
+  }
+
+  return {
+    status: TOperatorLoaderStatus.loaded,
+    data: project,
+    loading: false,
+    error: false,
+    ...methods,
+  };
 }

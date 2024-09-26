@@ -15,14 +15,30 @@ import {
   TTestDynamicData,
 } from "../../types/schema";
 
+export enum TOperatorLoaderStatus {
+  "loading" = "loading",
+  "error" = "error",
+  "loaded" = "loaded",
+}
+
 type TOperatorLoader<T> =
   | {
+      status: TOperatorLoaderStatus.loading;
       data: undefined;
       loading: true;
+      error: false;
     }
   | {
+      status: TOperatorLoaderStatus.error;
+      data: undefined;
+      loading: false;
+      error: true;
+    }
+  | {
+      status: TOperatorLoaderStatus.loaded;
       data: T;
       loading: false;
+      error: false;
     };
 
 export type TUseProjects = {

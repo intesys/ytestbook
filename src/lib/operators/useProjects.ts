@@ -2,7 +2,7 @@ import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { TDocType } from "../../types/schema";
-import { TUseProjects } from "./types";
+import { TOperatorLoaderStatus, TUseProjects } from "./types";
 
 export function useProjects(): TUseProjects {
   const { docUrl } = useDocContext();
@@ -56,19 +56,23 @@ export function useProjects(): TUseProjects {
 
   if (doc === undefined) {
     return {
+      status: TOperatorLoaderStatus.loading,
       data: undefined,
       loading: true,
-      createProject,
-      updateRepository,
-      removeProject,
-    };
-  } else {
-    return {
-      data: doc,
-      loading: false,
+      error: false,
       createProject,
       updateRepository,
       removeProject,
     };
   }
+
+  return {
+    status: TOperatorLoaderStatus.loaded,
+    data: doc,
+    loading: false,
+    error: false,
+    createProject,
+    updateRepository,
+    removeProject,
+  };
 }

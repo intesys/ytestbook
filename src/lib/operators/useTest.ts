@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { StatusEnum, TDocType } from "../../types/schema";
 import { computeStatus } from "../helpers/computeStatus";
-import { TUseTest } from "./types";
+import { TOperatorLoaderStatus, TUseTest } from "./types";
 
 export function useTest(
   projectId: string | undefined,
@@ -20,6 +20,9 @@ export function useTest(
     const testCase = project?.testCases.find((item) => item.id === caseId);
     return testCase?.tests.find((test) => test.id === testId);
   }, [doc, projectId, caseId, testId]);
+
+  const loading = useMemo(() => !doc, [doc]);
+  const error = useMemo(() => !!doc && !test, [doc, test]);
 
   const createStep: TUseTest["createStep"] = useCallback(
     (values) => {
@@ -131,23 +134,40 @@ export function useTest(
     [changeDoc, projectId, caseId, testId],
   );
 
-  if (test === undefined) {
+  if (loading) {
     return {
+      status: TOperatorLoaderStatus.loading,
       data: undefined,
       loading: true,
-      createStep,
-      updateStepStatus,
-      removeStep,
-      updateStep,
-    };
-  } else {
-    return {
-      data: test,
-      loading: false,
+      error: false,
       createStep,
       updateStepStatus,
       removeStep,
       updateStep,
     };
   }
+
+  if (error || !test) {
+    return {
+      status: TOperatorLoaderStatus.error,
+      data: undefined,
+      loading: false,
+      error: true,
+      createStep,
+      updateStepStatus,
+      removeStep,
+      updateStep,
+    };
+  }
+
+  return {
+    status: TOperatorLoaderStatus.loaded,
+    data: test,
+    loading: false,
+    error: false,
+    createStep,
+    updateStepStatus,
+    removeStep,
+    updateStep,
+  };
 }

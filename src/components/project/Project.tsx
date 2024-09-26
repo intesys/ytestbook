@@ -8,6 +8,8 @@ import { SIDEBAR_STATUS } from "../layout/SideBar/const";
 import classes from "./project.module.css";
 import { useServerName } from "../../lib/helpers/useServerName";
 import { routesHelper } from "../../lib/helpers/routesHelper";
+import { NotFound } from "../notFound/NotFound";
+import { TOperatorLoaderStatus } from "../../lib/operators/types";
 
 export function Project() {
   const params = useParams();
@@ -28,12 +30,16 @@ export function Project() {
     );
   };
 
-  if (!project || project.loading) {
+  if (project.status === TOperatorLoaderStatus.loading) {
     return (
       <Flex align="center" justify="center" h="100dvh" w={"100%"}>
         <Loader color="blue" size="lg" />
       </Flex>
     );
+  }
+
+  if (project.status === TOperatorLoaderStatus.error) {
+    return <NotFound />;
   }
 
   return (

@@ -1,9 +1,12 @@
-import { Button, Flex, Image, Loader, Text } from "@mantine/core";
+import { Button, Image, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
+import { routesHelper } from "../../lib/helpers/routesHelper.ts";
+import { useServerName } from "../../lib/helpers/useServerName.ts";
+import { TOperatorLoaderStatus } from "../../lib/operators/types.ts";
 import { useProject } from "../../lib/operators/useProject";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
@@ -11,10 +14,10 @@ import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
 import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
+import { SectionError } from "../shared/SectionError.tsx";
+import { SectionLoading } from "../shared/SectionLoading.tsx";
 import { StepsTable } from "../stepsTable/StepsTable";
 import classes from "./testDetails.module.css";
-import { routesHelper } from "../../lib/helpers/routesHelper.ts";
-import { useServerName } from "../../lib/helpers/useServerName.ts";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -101,12 +104,12 @@ export function TestDetails() {
     [navigate, project.data, serverName, test?.data?.id, testCase],
   );
 
-  if (test.loading) {
-    return (
-      <Flex align="center" justify="center" h="100dvh" w={"100%"}>
-        <Loader color="blue" size="lg" />
-      </Flex>
-    );
+  if (test.status === TOperatorLoaderStatus.loading) {
+    return <SectionLoading />;
+  }
+
+  if (test.status === TOperatorLoaderStatus.error) {
+    return <SectionError />;
   }
 
   return (
