@@ -7,25 +7,39 @@ import {
   useServersContext,
 } from "../../serversContext/serversContext";
 
-type LoadServerStatus =
+export enum LoadServerStatus {
+  Loading = "loading",
+  NotFound = "not-found",
+  Loaded = "loaded",
+}
+
+type LoadServer =
   | {
-      status: "loading";
+      status: LoadServerStatus.Loading;
     }
-  | { status: "not-found" }
+  | { status: LoadServerStatus.NotFound }
   | {
-      status: "loaded";
+      status: LoadServerStatus.Loaded;
       server: YtServer;
       handler: Repo;
     };
 
-export const useLoadServer = (): LoadServerStatus => {
+/**
+ * Try to load server data
+ * @returns {
+ * status: The loading status
+ * server: The server configuration
+ * handler: The server automerge handler
+ * }
+ */
+export const useLoadServer = (): LoadServer => {
   const serverName = useServerName();
   const { servers } = useServersContext();
 
   return useMemo(() => {
     if (!servers || !serverName) {
       return {
-        status: "loading",
+        status: LoadServerStatus.Loading,
       };
     }
 
@@ -34,12 +48,12 @@ export const useLoadServer = (): LoadServerStatus => {
 
     if (!currentServer || !handler) {
       return {
-        status: "not-found",
+        status: LoadServerStatus.NotFound,
       };
     }
 
     return {
-      status: "loaded",
+      status: LoadServerStatus.Loaded,
       server: currentServer,
       handler,
     };

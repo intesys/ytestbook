@@ -3,7 +3,7 @@ import { Outlet, useParams } from "react-router";
 import { DocProvider } from "../docContext/DocContext";
 import { FullPageSpinner } from "../fullPageSpinner/FullPageSpinner";
 import { NotFound } from "../notFound/NotFound";
-import { useLoadServer } from "./hooks/useLoadServer";
+import { LoadServerStatus, useLoadServer } from "./hooks/useLoadServer";
 
 export const Server = () => {
   const serverLoadStatus = useLoadServer();
@@ -14,11 +14,11 @@ export const Server = () => {
     return <NotFound />;
   }
 
-  if (serverLoadStatus.status === "loading") {
+  if (serverLoadStatus.status === LoadServerStatus.Loading) {
     return <FullPageSpinner />;
   }
 
-  if (serverLoadStatus.status === "not-found") {
+  if (serverLoadStatus.status === LoadServerStatus.NotFound) {
     return <NotFound />;
   }
 

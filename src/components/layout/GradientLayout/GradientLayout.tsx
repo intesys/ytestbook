@@ -1,11 +1,13 @@
-import { Container, Grid, Stack, Image } from "@mantine/core";
+import { Container, Grid, Stack, Image, Box, BoxProps } from "@mantine/core";
 import classes from "./gradientLayout.module.css";
 import { PropsWithChildren } from "react";
 import Logo from "../../../assets/logo.svg";
 
-export const GradientLayout: React.FC<PropsWithChildren> = ({ children }) => {
+type GradientLayoutProps = BoxProps & PropsWithChildren;
+
+export const GradientLayout = ({ children, ...rest }: GradientLayoutProps) => {
   return (
-    <div className={classes.container}>
+    <Box className={classes.container} {...rest}>
       <Container fluid>
         <Grid overflow="hidden">
           <Grid.Col
@@ -26,6 +28,6 @@ export const GradientLayout: React.FC<PropsWithChildren> = ({ children }) => {
           </Grid.Col>
         </Grid>
       </Container>
-    </div>
+    </Box>
   );
 };
