@@ -54,7 +54,7 @@ export const EditableText: React.FC<EditableText> = ({
 
   if (editing) {
     return (
-      <Box ref={ref} onBlur={onBlur}>
+      <Box ref={ref} onBlur={onBlur} flex={1}>
         <Input
           value={internalValue}
           onChange={onTextInputChange}

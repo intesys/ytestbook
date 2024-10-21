@@ -1,11 +1,11 @@
-import { Button, Group, Progress, Title, Tooltip } from "@mantine/core";
+import { Button, Group, Progress, Tooltip } from "@mantine/core";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 import { Avatars } from "../avatars/Avatars";
 import { EditableText } from "../shared/EditableText";
 import { StatusIcon } from "../statusIcon/StatusIcon";
-import classes from "./contentHeader.module.css";
 import { JiraTagsColumns } from "./JiraTagsColumns";
+import classes from "./contentHeader.module.css";
 import { TContentHeader } from "./types";
 
 export function ContentHeader({
@@ -22,11 +22,9 @@ export function ContentHeader({
   return (
     <div className={classes.header}>
       <div className={classes.headerTop}>
-        <Group className={classes.headerLeft} gap={10} align="center">
+        <Group className={classes.headerLeft} gap={10} align="center" flex={1}>
           <StatusIcon status={status} />
-          <Title order={3}>
-            <EditableText value={title} onChange={handleQuickEdit} />
-          </Title>
+          <EditableText value={title} onChange={handleQuickEdit} />
           {completion !== undefined ? (
             <Tooltip label={`${completion}%`}>
               <Progress
