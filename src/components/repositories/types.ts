@@ -1,3 +1,5 @@
+import { TUseProject } from "../../lib/operators/types";
+
 export type TActionProps = {
   title?: string;
   label: string;
@@ -6,7 +8,7 @@ export type TActionProps = {
 };
 
 export type TModalProps<T> = {
-  projectId?: string;
+  project?: TUseProject;
   id?: string;
   initialValues?: Required<T>;
   handleSubmit: (values: T, id?: string) => void;

@@ -2,11 +2,10 @@ import { Button, Group, MultiSelect, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
-import { useProject } from "../../../lib/operators/useProject";
-import { TTestDynamicData } from "../../../types/schema";
-import { RichTextarea } from "../../shared/RichTextarea";
 import { FormErrorMessages } from "../../../lib/formErrors";
+import { TTestDynamicData } from "../../../types/schema";
 import { TModalProps } from "../../repositories/types";
+import { RichTextarea } from "../../shared/RichTextarea";
 
 type TTestModalForm = TTestDynamicData & {
   tags: string[];
@@ -16,10 +15,8 @@ type TTestModalForm = TTestDynamicData & {
 export function TestModal({
   id,
   context,
-  innerProps: { handleSubmit, projectId, id: testId, initialValues },
+  innerProps: { handleSubmit, project, id: testId, initialValues },
 }: ContextModalProps<TModalProps<TTestModalForm>>) {
-  const project = useProject(projectId);
-
   const form = useForm<
     TTestDynamicData & { tags: string[]; assignees: string[] }
   >({
@@ -75,7 +72,7 @@ export function TestModal({
         <MultiSelect
           label="Assignees"
           data={
-            project.data?.collaborators?.map((collaborator) => ({
+            project?.data?.collaborators?.map((collaborator) => ({
               value: collaborator.id,
               label: collaborator.name,
             })) || []
@@ -85,7 +82,7 @@ export function TestModal({
         />
         <MultiSelect
           label="Tags"
-          data={project.data?.allTags || []}
+          data={project?.data?.allTags || []}
           value={form.values.tags}
           onChange={tagsChangeHandler}
         />

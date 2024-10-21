@@ -55,7 +55,7 @@ export function TestCase() {
         title: "Edit test case",
         size: "xl",
         innerProps: {
-          projectId: project.data?.id ?? "",
+          project,
           id: testCase?.data?.id,
           initialValues: {
             title: testCase?.data?.title ?? "",
@@ -66,8 +66,7 @@ export function TestCase() {
         },
       }),
     [
-      project.data?.id,
-      project.updateTestCase,
+      project,
       testCase?.data?.description,
       testCase?.data?.id,
       testCase?.data?.jiraLink,

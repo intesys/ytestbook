@@ -62,7 +62,7 @@ export function TestDetails() {
         title: "Edit Test",
         size: "xl",
         innerProps: {
-          projectId: project.data?.id ?? "",
+          project,
           id: test?.data?.id,
           initialValues: {
             title: test?.data?.title ?? "",
@@ -75,7 +75,7 @@ export function TestDetails() {
         },
       }),
     [
-      project.data?.id,
+      project,
       queriedData?.assignees,
       queriedData?.tags,
       test?.data?.description,
