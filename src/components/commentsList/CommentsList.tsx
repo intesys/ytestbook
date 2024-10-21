@@ -37,7 +37,8 @@ import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
 import { FormErrorMessages } from "../../lib/formErrors.ts";
 
-export const USER_ANONYMOUS_LABEL = "Anonymous";
+const USER_ANONYMOUS_LABEL = "Anonymous";
+const USER_ANONYMOUS_VALUE = "Anonymous";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -90,7 +91,10 @@ export function CommentsList({
         label: collaborator.name,
         value: collaborator.id,
       }));
-      options.push({ label: USER_ANONYMOUS_LABEL, value: "" });
+      options.push({
+        label: USER_ANONYMOUS_LABEL,
+        value: USER_ANONYMOUS_VALUE,
+      });
       return options;
     }
   }, [project.data?.collaborators]);
