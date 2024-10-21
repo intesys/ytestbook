@@ -4,6 +4,7 @@ import { DocProvider } from "../docContext/DocContext";
 import { FullPageSpinner } from "../fullPageSpinner/FullPageSpinner";
 import { NotFound } from "../notFound/NotFound";
 import { LoadServerStatus, useLoadServer } from "./hooks/useLoadServer";
+import ScrollToTop from "../shared/ScrollToTop";
 
 export const Server = () => {
   const serverLoadStatus = useLoadServer();
@@ -25,6 +26,7 @@ export const Server = () => {
   return (
     <RepoContext.Provider value={serverLoadStatus.handler}>
       <DocProvider docUrl={serverLoadStatus.server?.repositoryIds[0]}>
+        <ScrollToTop />
         <Outlet />
       </DocProvider>
     </RepoContext.Provider>
