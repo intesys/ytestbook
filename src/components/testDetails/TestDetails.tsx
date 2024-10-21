@@ -131,7 +131,9 @@ export function TestDetails() {
             }
           }}
         >
-          <Text c={"black"}>Go to test case — {test.data.title}</Text>
+          <Text c={"black"} style={{ whiteSpace: "normal" }} ta="left">
+            Go to test case — {test.data.title}
+          </Text>
         </Button>
       </div>
       <ContentHeader
