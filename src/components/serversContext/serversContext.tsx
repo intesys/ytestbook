@@ -212,8 +212,13 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         setServers((prevServers) => {
           const newServers = { ...prevServers };
           delete newServers[serverId];
-          serversHandler[serverId].networkSubsystem.disconnect();
-          delete serversHandler[serverId];
+
+          try {
+            serversHandler[serverId].networkSubsystem.disconnect();
+            delete serversHandler[serverId];
+          } catch (error) {
+            console.log("Error while disconnecting from remote server", error);
+          }
 
           return newServers;
         }),
