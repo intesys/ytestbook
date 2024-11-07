@@ -13,7 +13,7 @@
     transition: all 200ms;
   }
 
-  &[data-disabled] {
+  &[data-disabled="true"] {
     cursor: not-allowed !important;
   }
 
@@ -23,14 +23,12 @@
     button {
       background-color: var(--mantine-color-primary-8);
 
-      &[data-disabled] {
+      &[data-disabled="true"] {
         background-color: transparent;
         cursor: not-allowed !important;
       }
     }
   }
-
-
 }
 
 .projectCard {

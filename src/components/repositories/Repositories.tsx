@@ -15,7 +15,9 @@ import { modals } from "@mantine/modals";
 import React, { useCallback, useMemo } from "react";
 import slugify from "slugify";
 import Dns from "../../assets/icons/dns.svg";
+import Eye from "../../assets/icons/eye.svg";
 import Logout from "../../assets/icons/logout.svg";
+import { useProjectVisibility } from "../../lib/repositories/useProjectVisibility";
 import { GradientLayout } from "../layout/GradientLayout/GradientLayout";
 import { AddServerFormValues } from "../modals/addServerModal/AddServerModal";
 import { Modals } from "../modals/modals";
@@ -32,6 +34,7 @@ import { ShareServer } from "./partials/ShareServer";
 
 export const Repositories: React.FC = () => {
   const { servers, disconnectFromServer, addServer } = useServersContext();
+  const { hiddenProjectIds, showAllProjects } = useProjectVisibility();
 
   const addServerCallback = useCallback(
     (values: AddServerFormValues) => {
@@ -147,12 +150,27 @@ export const Repositories: React.FC = () => {
         })}
       </Stack>
       <Divider c="white" />
-      <Anchor onClick={openAddServerModal} c="white">
-        <Group gap="xs">
-          <Image src={Dns} alt="Connect to a remote server" w={24} />
-          Connect to a remote server
-        </Group>
-      </Anchor>
+      <Group>
+        <Anchor onClick={openAddServerModal} c="white">
+          <Group gap="xs">
+            <Image src={Dns} alt="Connect to a remote server" w={24} />
+            Connect to a remote server
+          </Group>
+        </Anchor>
+
+        {hiddenProjectIds.length > 0 ? (
+          <Anchor onClick={showAllProjects} c="white">
+            <Group gap="xs">
+              <Image
+                src={Eye}
+                alt={`Show ${hiddenProjectIds.length} hidden projects`}
+                w={24}
+              />
+              Show {hiddenProjectIds.length} hidden projects
+            </Group>
+          </Anchor>
+        ) : null}
+      </Group>
     </GradientLayout>
   );
 };

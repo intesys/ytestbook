@@ -28,11 +28,16 @@ export const useProjectVisibility = () => {
     [hiddenProjectIds, setHiddenProjectIds],
   );
 
+  const showAllProjects = useCallback(() => {
+    setHiddenProjectIds([]);
+  }, [setHiddenProjectIds]);
+
   return useMemo(
     () => ({
       hiddenProjectIds,
       hideProject,
+      showAllProjects,
     }),
-    [hiddenProjectIds, hideProject],
+    [hiddenProjectIds, hideProject, showAllProjects],
   );
 };
