@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { StatusEnum, TComment, TDocType } from "../../types/schema";
 import { addTuples } from "../helpers/addTuples";
+import { computeStatus } from "../helpers/computeStatus.ts";
 import { removeTuples } from "../helpers/removeTuples";
 import { TOperatorLoaderStatus, TUseTestCase } from "./types";
 
@@ -33,15 +34,20 @@ export function useTestCase(
           (item) => projectId && item.id === projectId,
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
-        if (!project) {
+
+        if (!project || !testCase) {
           return;
         }
+
         /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
         if (!project.collaboratorToTest) project.collaboratorToTest = [];
+
         values.tags.forEach((tag) => project.tagToTest?.push([tag, testId]));
+
         values.assignees.forEach((assigneeId) =>
           project.collaboratorToTest?.push([assigneeId, testId]),
         );
+
         testCase?.tests.push({
           title: values.title,
           description: values.description,
@@ -51,6 +57,8 @@ export function useTestCase(
           status: StatusEnum.PENDING,
           steps: [],
         });
+
+        computeStatus(testCase, testCase.tests);
       });
     },
     [projectId, caseId, changeDoc],
