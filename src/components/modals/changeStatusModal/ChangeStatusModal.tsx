@@ -63,7 +63,7 @@ export function ChangeStatusModal({
       <Stack gap="md">
         <Select
           withAsterisk
-          label="Collaborator"
+          label="Assign to"
           placeholder="Select a Collaborator..."
           data={nameOptions}
           {...form.getInputProps("collaboratorId")}

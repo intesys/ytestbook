@@ -27,7 +27,7 @@ export const StepLog = ({ project, stepId }: StepLogProps) => {
           <Table.Th>Change Time</Table.Th>
           <Table.Th>Previous Status</Table.Th>
           <Table.Th>Target Status</Table.Th>
-          <Table.Th>Collaborator</Table.Th>
+          <Table.Th>Assigned To</Table.Th>
           <Table.Th>Notes</Table.Th>
         </Table.Tr>
       </Table.Thead>
