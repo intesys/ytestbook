@@ -20,6 +20,8 @@ import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
 import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
 import Delete from "../../assets/icons/delete.svg";
+import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
+import { FormErrorMessages } from "../../lib/formErrors.ts";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import {
@@ -35,10 +37,6 @@ import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
-import { FormErrorMessages } from "../../lib/formErrors.ts";
-
-const USER_ANONYMOUS_LABEL = "Anonymous";
-const USER_ANONYMOUS_VALUE = "Anonymous";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -92,8 +90,8 @@ export function CommentsList({
         value: collaborator.id,
       }));
       options.push({
-        label: USER_ANONYMOUS_LABEL,
-        value: USER_ANONYMOUS_VALUE,
+        label: USER_ANONYMOUS.name,
+        value: USER_ANONYMOUS.id,
       });
       return options;
     }
@@ -174,7 +172,11 @@ export function CommentsList({
       return <Avatars collaborators={[collaborator]} maxAvatars={1} />;
     }
 
-    return <Avatar alt={USER_ANONYMOUS_LABEL}>A</Avatar>;
+    return (
+      <Avatar alt={USER_ANONYMOUS.name}>
+        {USER_ANONYMOUS.name.substring(0, 1)}
+      </Avatar>
+    );
   };
 
   return (
@@ -243,7 +245,7 @@ export function CommentsList({
                       }}
                     >
                       <Text fw={700} miw={130}>
-                        {collaborator?.name ?? USER_ANONYMOUS_LABEL}
+                        {collaborator?.name ?? USER_ANONYMOUS.name}
                       </Text>
                       {comment.testStatusWhenCreated && (
                         <Flex gap={6} align="center">

@@ -2,6 +2,7 @@ import { Button, Group, Select, Stack, Textarea } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback, useMemo } from "react";
+import { USER_ANONYMOUS } from "../../../lib/constants/generic.ts";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
 import { TUseProject } from "../../../lib/operators/types.ts";
 
@@ -48,10 +49,12 @@ export function ChangeStatusModal({
 
   const nameOptions = useMemo(() => {
     if (project.data?.collaborators) {
-      return project.data.collaborators.map((collaborator) => ({
-        label: collaborator.name,
-        value: collaborator.id,
-      }));
+      return (project.data.collaborators ?? [])
+        .concat(USER_ANONYMOUS)
+        .map((collaborator) => ({
+          label: collaborator.name,
+          value: collaborator.id,
+        }));
     }
   }, [project.data?.collaborators]);
 

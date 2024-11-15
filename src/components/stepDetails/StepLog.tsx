@@ -16,6 +16,9 @@ const NOTES_LIMIT_LENGTH = 10;
 
 export const StepLog = ({ project, stepId }: StepLogProps) => {
   const statusChanges = project.getStatusChangesByStepId(stepId);
+  const collaborators = useMemo(() => {
+    return (project.data?.collaborators ?? [])?.concat(USER_ANONYMOUS);
+  }, [project.data?.collaborators]);
 
   return (
     <Table>
@@ -30,7 +33,7 @@ export const StepLog = ({ project, stepId }: StepLogProps) => {
       </Table.Thead>
       <Table.Tbody>
         {statusChanges.map((status) => {
-          const collaborator = project.data?.collaborators?.find(
+          const collaborator = collaborators.find(
             (collaborator) => collaborator.id === status.collaboratorId,
           );
 
