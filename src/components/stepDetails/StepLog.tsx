@@ -1,18 +1,17 @@
-import { ActionIcon, Button, Flex, Group, Table, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { IconWindowMaximize } from "@tabler/icons-react";
+import { Group, Table, Text } from "@mantine/core";
+import { useMemo } from "react";
+import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
 import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
 import { TUseProject } from "../../lib/operators/types";
 import { Avatars } from "../avatars/Avatars.tsx";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate";
 import { StatusIcon } from "../statusIcon/StatusIcon";
+import { StepLogNotes } from "./StepLogNotes.tsx";
 
 type StepLogProps = {
   stepId: string;
   project: TUseProject;
 };
-
-const NOTES_LIMIT_LENGTH = 10;
 
 export const StepLog = ({ project, stepId }: StepLogProps) => {
   const statusChanges = project.getStatusChangesByStepId(stepId);
@@ -72,46 +71,7 @@ export const StepLog = ({ project, stepId }: StepLogProps) => {
                 )}
               </Table.Td>
               <Table.Td>
-                {status.notes ? (
-                  status.notes.length > NOTES_LIMIT_LENGTH ? (
-                    <Group gap={6} wrap="nowrap">
-                      <Text size="sm" fs="italic">
-                        {status.notes.substring(0, NOTES_LIMIT_LENGTH)}...
-                      </Text>
-                      <ActionIcon
-                        size="sm"
-                        variant="subtle"
-                        onClick={() =>
-                          modals.open({
-                            title: "Notes",
-                            centered: true,
-                            children: (
-                              <>
-                                <Text>{status.notes}</Text>
-                                <Flex justify="flex-end">
-                                  <Button
-                                    onClick={() => modals.closeAll()}
-                                    mt="md"
-                                  >
-                                    Close
-                                  </Button>
-                                </Flex>
-                              </>
-                            ),
-                          })
-                        }
-                      >
-                        <IconWindowMaximize />
-                      </ActionIcon>
-                    </Group>
-                  ) : (
-                    status.notes
-                  )
-                ) : (
-                  <Text size="sm" c="dimmed" fs="italic">
-                    &mdash;
-                  </Text>
-                )}
+                <StepLogNotes notes={status.notes} />
               </Table.Td>
             </Table.Tr>
           );
