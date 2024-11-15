@@ -53,7 +53,7 @@ export function useTest(
   );
 
   const updateStepStatus: TUseTest["updateStepStatus"] = useCallback(
-    (stepId, status) => {
+    (stepId, status, collaboratorId, notes) => {
       if (!projectId || !caseId || !testId) {
         return;
       }
@@ -84,6 +84,8 @@ export function useTest(
           stepId,
           targetStatus: status,
           testId,
+          collaboratorId,
+          notes,
         });
       });
     },

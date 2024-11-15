@@ -2,10 +2,10 @@ import {
   Box,
   Button,
   Flex,
+  Image,
   SegmentedControl,
   SegmentedControlItem,
   Text,
-  Tooltip,
 } from "@mantine/core";
 import ArrowsUpdate from "../../assets/icons/arrows_update.svg";
 import { StatusEnum } from "../../types/schema";
@@ -19,12 +19,7 @@ type StepSwitchProps = {
 export const StepSwitch = ({ currentStatus, onChange }: StepSwitchProps) => {
   const data: SegmentedControlItem[] = Object.values(StatusEnum).map((s) => ({
     label: (
-      <Tooltip label={s} title={s}>
-        <StatusIcon
-          status={s}
-          color={s !== currentStatus ? "gray" : undefined}
-        />
-      </Tooltip>
+      <StatusIcon status={s} color={s !== currentStatus ? "gray" : undefined} />
     ),
     value: s,
   }));
@@ -33,7 +28,9 @@ export const StepSwitch = ({ currentStatus, onChange }: StepSwitchProps) => {
 
   return (
     <Flex wrap="wrap" align="center" gap="sm">
-      <Text fw="bold">Set state:</Text>
+      <Text span fw="bold">
+        Set state:
+      </Text>
 
       <Box style={{ flex: 1 }}>
         <SegmentedControl
@@ -46,7 +43,7 @@ export const StepSwitch = ({ currentStatus, onChange }: StepSwitchProps) => {
       <Button
         variant="outline"
         onClick={resetStep}
-        leftSection={<img src={ArrowsUpdate} />}
+        leftSection={<Image alt="Reset step" src={ArrowsUpdate} />}
       >
         Reset step
       </Button>

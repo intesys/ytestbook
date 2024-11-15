@@ -4,6 +4,7 @@ import {
   ThemeIconVariant,
   Tooltip,
 } from "@mantine/core";
+import { useMemo } from "react";
 import {
   MdCheckCircle,
   MdDangerous,
@@ -14,9 +15,8 @@ import {
   MdReportProblem,
 } from "react-icons/md";
 import { getStatusColor } from "../../lib/helpers/getStatusColor";
-import { StatusEnum } from "../../types/schema";
 import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
-import { useMemo } from "react";
+import { StatusEnum } from "../../types/schema";
 
 interface IProps {
   status?: StatusEnum;
@@ -60,7 +60,7 @@ export const StatusIcon = ({
       case StatusEnum.TODO:
         return <MdNotStarted size="1.5rem" />;
     }
-  }, [status, statusColor]);
+  }, [status]);
 
   const themeIcon = (
     <ThemeIcon color={statusColor} variant={variant} size={size}>

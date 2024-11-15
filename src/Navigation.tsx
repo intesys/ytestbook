@@ -1,13 +1,13 @@
 import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { NotFound } from "./components/notFound/NotFound";
 import { DetailSection } from "./components/detailSection/DetailSection";
 import { Empty } from "./components/empty/Empty";
+import { NotFound } from "./components/notFound/NotFound";
 import { Project } from "./components/project/Project";
-import { Settings } from "./components/settings/Settings";
-import { TestCase } from "./components/testCase/TestCase";
 import { Repositories } from "./components/repositories/Repositories";
 import { Server } from "./components/server/Server";
+import { Settings } from "./components/settings/Settings";
+import { TestCase } from "./components/testCase/TestCase";
 
 export const MainNavigation: React.FC = () => (
   <Routes>

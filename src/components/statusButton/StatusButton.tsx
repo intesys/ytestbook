@@ -1,10 +1,10 @@
-import { Box, Button, Text } from "@mantine/core";
+import { Box, Button, Image, Text } from "@mantine/core";
 import ArrowDropdown from "../../assets/icons/arrow_drop_down.svg";
+import { getStatusColor } from "../../lib/helpers/getStatusColor";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../types/schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { StatusMenu } from "../statusMenu/StatusMenu";
-import { getStatusColor } from "../../lib/helpers/getStatusColor";
 
 type StatusButtonProps = {
   step: TStep;
@@ -29,7 +29,7 @@ export const StatusButton = ({ step, updateStepStatus }: StatusButtonProps) => {
           }
           rightSection={
             <Box display="inline" visibleFrom="md">
-              <img src={ArrowDropdown} height={24} width={24} />
+              <Image alt="Change" src={ArrowDropdown} height={24} width={24} />
             </Box>
           }
         >

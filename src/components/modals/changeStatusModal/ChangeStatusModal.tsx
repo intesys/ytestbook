@@ -2,16 +2,16 @@ import { Button, Group, Select, Stack, Textarea } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback, useMemo } from "react";
-import { useParams } from "react-router-dom";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
-import { useProject } from "../../../lib/operators/useProject.ts";
+import { TUseProject } from "../../../lib/operators/types.ts";
 
 export type ChangeStatusFormValues = {
-  collaboratorId: string;
-  notes: string;
+  collaboratorId?: string;
+  notes?: string;
 };
 
-type TChangeStatusModalInnerProps<T> = {
+export type TChangeStatusModalInnerProps<T> = {
+  project: TUseProject;
   defaultValues?: ChangeStatusFormValues;
   handleSubmit: (values: T) => void;
 };
@@ -19,11 +19,8 @@ type TChangeStatusModalInnerProps<T> = {
 export function ChangeStatusModal({
   id,
   context,
-  innerProps: { defaultValues, handleSubmit },
+  innerProps: { project, defaultValues, handleSubmit },
 }: ContextModalProps<TChangeStatusModalInnerProps<ChangeStatusFormValues>>) {
-  const params = useParams();
-  const project = useProject(params.projectId);
-
   const form = useForm<ChangeStatusFormValues>({
     initialValues: defaultValues ?? {
       collaboratorId: "",
@@ -63,14 +60,16 @@ export function ChangeStatusModal({
       <Stack gap="md">
         <Select
           withAsterisk
-          label="Member"
+          label="Collaborator"
+          placeholder="Select a Collaborator..."
           data={nameOptions}
           {...form.getInputProps("collaboratorId")}
         />
 
         <Textarea
+          withAsterisk
           label="Notes"
-          placeholder="Your comment here"
+          placeholder="Add some notes..."
           rows={6}
           {...form.getInputProps("notes")}
         />
