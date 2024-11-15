@@ -36,9 +36,11 @@ export function useTest(
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         const test = testCase?.tests.find((test) => test.id === testId);
-        if (!test || !project) {
+
+        if (!test || !testCase || !project) {
           return;
         }
+
         test.steps.push({
           ...values,
           id: crypto.randomUUID(),
@@ -47,6 +49,9 @@ export function useTest(
           createdAt: date.getTime(),
         });
         test.lastUpdate = project.lastUpdate = date.getTime();
+
+        computeStatus(test, test.steps);
+        computeStatus(testCase, testCase.tests);
       });
     },
     [projectId, caseId, testId, changeDoc],
