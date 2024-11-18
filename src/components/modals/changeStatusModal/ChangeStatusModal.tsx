@@ -29,7 +29,7 @@ export function ChangeStatusModal({
     },
     validate: {
       collaboratorId: isNotEmpty(FormErrorMessages.required),
-      notes: isNotEmpty(FormErrorMessages.required),
+      // notes: isNotEmpty(FormErrorMessages.required),
     },
   });
 
@@ -70,7 +70,6 @@ export function ChangeStatusModal({
         />
 
         <Textarea
-          withAsterisk
           label="Notes"
           placeholder="Add some notes..."
           rows={6}
