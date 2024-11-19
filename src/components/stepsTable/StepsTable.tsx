@@ -71,6 +71,11 @@ export function StepsTable({
                   {
                     handleConfirm: () => {
                       if (step.id) {
+                        if (params.stepId === step.id) {
+                          // Close step side-panel when we are deleting the opened step
+                          navigate("", {});
+                        }
+
                         removeStep(step.id);
                       }
                     },
