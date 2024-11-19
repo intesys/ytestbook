@@ -1,8 +1,10 @@
 import { Button, Table, Text, ThemeIcon, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import clsx from "clsx";
 import { MouseEvent } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import Delete from "../../assets/icons/delete.svg";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../types/schema.ts";
@@ -10,6 +12,7 @@ import { openDeleteConfirmModal } from "../modals/modals.ts";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
+import classes from "./stepsTable.module.css";
 
 export function StepsTable({
   steps,
@@ -22,6 +25,7 @@ export function StepsTable({
   updateStepStatus: TUseTest["updateStepStatus"];
   removeStep: TUseTest["removeStep"];
 }) {
+  const params = useParams();
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
 
@@ -76,6 +80,9 @@ export function StepsTable({
 
               return (
                 <Table.Tr
+                  className={clsx(classes.row, {
+                    [classes.active]: params.stepId === step.id,
+                  })}
                   key={step.id}
                   onClick={() => navigate(`step/${step.id}`, {})}
                 >
