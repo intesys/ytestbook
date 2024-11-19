@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Alert,
+  Anchor,
   Button,
   Flex,
   Group,
@@ -87,10 +88,14 @@ export function Settings() {
         <Title order={4}>Project data</Title>
       </Stack>
 
-      <Stack className={classes.members} gap="md">
-        <Title order={4}>Members</Title>
+      <Stack className={classes.collaborators} gap="md">
+        <Title order={4}>Collaborators</Title>
         {collaborators.length === 0 ? (
-          <Text span>The list is empty</Text>
+          <Text span>
+            The list is empty. Do you want to{" "}
+            <Anchor onClick={addCollaboratorHandler}>add a Collaborator</Anchor>
+            ?
+          </Text>
         ) : (
           <Table verticalSpacing="xs" horizontalSpacing="sm" withTableBorder>
             <Table.Thead>
@@ -172,11 +177,10 @@ export function Settings() {
         )}
         <Group justify="end">
           <Button
-            w={105}
             leftSection={<IconUserPlus size={18} />}
             onClick={addCollaboratorHandler}
           >
-            Add
+            Add Collaborator
           </Button>
         </Group>
       </Stack>

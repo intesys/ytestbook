@@ -8,7 +8,7 @@ type RelativeDateProps = {
 
 export const RelativeDate = ({ timeStamp }: RelativeDateProps) => {
   if (!timeStamp) {
-    return "";
+    return null;
   }
 
   return (

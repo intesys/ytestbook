@@ -1,6 +1,8 @@
-import { Button, Tabs, Text, Title } from "@mantine/core";
+import { Button, Group, Image, Tabs, Text, Title } from "@mantine/core";
+import { modals } from "@mantine/modals";
 import { useNavigate, useParams } from "react-router-dom";
 import CircleX from "../../assets/icons/circle_x.svg";
+import { getStatusLabel } from "../../lib/helpers/getStatusLabel.ts";
 import { routesHelper } from "../../lib/helpers/routesHelper";
 import { useServerName } from "../../lib/helpers/useServerName";
 import { useProject } from "../../lib/operators/useProject";
@@ -10,13 +12,16 @@ import { useTestCase } from "../../lib/operators/useTestCase";
 import { StatusEnum } from "../../types/schema";
 import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
+import { ChangeStatusFormValues } from "../modals/changeStatusModal/ChangeStatusModal.tsx";
+import { Modals } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { SectionError } from "../shared/SectionError";
 import { SectionLoading } from "../shared/SectionLoading";
+import { StatusIcon } from "../statusIcon/StatusIcon.tsx";
 import { StepSwitch } from "../stepSwitch/StepSwitch";
 import { ClosestStepsButtons } from "./ClosestStepsButtons";
-import { StepLog } from "./StepLog";
 import classes from "./stepDetails.module.css";
+import { StepLog } from "./StepLog";
 
 export const StepDetails = () => {
   const navigate = useNavigate();
@@ -69,15 +74,41 @@ export const StepDetails = () => {
   };
 
   const onStatusChange = (status: StatusEnum) => {
-    test.updateStepStatus(step.data.id, status);
+    modals.openContextModal({
+      modal: Modals.ChangeStatusModal,
+      title: (
+        <Group wrap="nowrap" gap={6}>
+          Update Status to{" "}
+          <Group gap={6} wrap="nowrap">
+            <StatusIcon status={status} showTooltip={false} />
+            <Text span>{getStatusLabel(status)}</Text>
+          </Group>
+        </Group>
+      ),
+      centered: true,
+      innerProps: {
+        project,
+        handleSubmit: handleStatusChange(status),
+      },
+    });
   };
+
+  const handleStatusChange =
+    (status: StatusEnum) => (values: ChangeStatusFormValues) => {
+      test.updateStepStatus(
+        step.data.id,
+        status,
+        values.collaboratorId,
+        values.notes,
+      );
+    };
 
   return (
     <div className={classes.stepDetails}>
       <div className={classes.backButton}>
         <Button
           variant="transparent"
-          leftSection={<img src={CircleX} />}
+          leftSection={<Image alt="Close" src={CircleX} />}
           p={0}
           onClick={closeStep}
         >
