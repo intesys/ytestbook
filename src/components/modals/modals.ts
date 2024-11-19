@@ -10,6 +10,7 @@ import {
 } from "./confirmModal/ConfirmModal.tsx";
 import { CopyProjectToServer } from "./copyProjectToServer/CopyProjectToServer.tsx";
 import { CreateTestbookModal } from "./createTestbookModal/CreateTestbookModal.tsx";
+import { PromptModal } from "./promptModal/PromptModal.tsx";
 import { ShareServerModal } from "./shareServerModal/ShareServerModal.tsx";
 import { TestCaseModal } from "./testCaseModal/TestCaseModal.tsx";
 import { TestModal } from "./testModal/TestModal.tsx";
@@ -21,6 +22,7 @@ export enum Modals {
   ConfirmModal = "ConfirmModal",
   CopyProjectToServer = "CopyProjectToServer",
   CreateTestbookModal = "CreateTestbookModal",
+  PromptModal = "PromptModal",
   ShareServerModal = "ShareServerModal",
   TestCaseModal = "TestCaseModal",
   TestModal = "TestModal",
@@ -33,6 +35,7 @@ export const modals = {
   [Modals.ConfirmModal]: ConfirmModal,
   [Modals.CopyProjectToServer]: CopyProjectToServer,
   [Modals.CreateTestbookModal]: CreateTestbookModal,
+  [Modals.PromptModal]: PromptModal,
   [Modals.ShareServerModal]: ShareServerModal,
   [Modals.TestCaseModal]: TestCaseModal,
   [Modals.TestModal]: TestModal,

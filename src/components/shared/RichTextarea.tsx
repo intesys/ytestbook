@@ -2,19 +2,23 @@ import { Text } from "@mantine/core";
 import { Link, RichTextEditor } from "@mantine/tiptap";
 import "@mantine/tiptap/styles.css";
 import Highlight from "@tiptap/extension-highlight";
+import Image from "@tiptap/extension-image";
 import SubScript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
+
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { Dispatch, FC, SetStateAction } from "react";
+import { RichTextEditorImageControl } from "./RichTextEditorControls/RichTextEditorImageControl.tsx";
 
 export const RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS = "rta-link-dropdown";
 
-export const RichTextarea: React.FC<{
+export const RichTextarea: FC<{
   label?: string;
   value?: string;
-  onChange: React.Dispatch<React.SetStateAction<string>>;
+  onChange: Dispatch<SetStateAction<string>>;
 }> = ({ label, value, onChange }) => {
   const editor = useEditor({
     extensions: [
@@ -25,6 +29,11 @@ export const RichTextarea: React.FC<{
       SubScript,
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
+      Image.configure({
+        HTMLAttributes: {
+          class: "rta-image",
+        },
+      }),
     ],
     content: value,
     onUpdate: ({ editor }) => {
@@ -83,6 +92,10 @@ export const RichTextarea: React.FC<{
             <RichTextEditor.AlignCenter />
             <RichTextEditor.AlignJustify />
             <RichTextEditor.AlignRight />
+          </RichTextEditor.ControlsGroup>
+
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditorImageControl editor={editor} />
           </RichTextEditor.ControlsGroup>
         </RichTextEditor.Toolbar>
 
