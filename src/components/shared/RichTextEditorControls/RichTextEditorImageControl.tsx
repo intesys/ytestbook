@@ -11,7 +11,6 @@ interface IProps {
 export const RICHTEXTAREA_ADD_IMAGE_MODAL_CLASS = "rta-add-image";
 
 export const RichTextEditorImageControl = ({ editor }: IProps) => {
-  /*TODO: Move in an external component */
   const appendImage = useCallback(
     (url: string) => {
       if (url) {
