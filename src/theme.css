@@ -1,3 +1,7 @@
 :root {
   --background-gradient: linear-gradient(75deg, #0f33ce, #9747ff);
 }
+
+.rta-image {
+  max-width: 100%;
+}

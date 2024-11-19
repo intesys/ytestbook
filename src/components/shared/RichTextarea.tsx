@@ -29,7 +29,11 @@ export const RichTextarea: FC<{
       SubScript,
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
-      Image,
+      Image.configure({
+        HTMLAttributes: {
+          class: "rta-image",
+        },
+      }),
     ],
     content: value,
     onUpdate: ({ editor }) => {
