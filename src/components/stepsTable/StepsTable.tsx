@@ -6,6 +6,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import Delete from "../../assets/icons/delete.svg";
+import { routesHelper } from "../../lib/helpers/routesHelper.ts";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../types/schema.ts";
 import { openDeleteConfirmModal } from "../modals/modals.ts";
@@ -71,9 +72,17 @@ export function StepsTable({
                   {
                     handleConfirm: () => {
                       if (step.id) {
-                        if (params.stepId === step.id) {
+                        if (params.stepId ?? "" === step.id) {
                           // Close step side-panel when we are deleting the opened step
-                          navigate("", {});
+                          navigate(
+                            routesHelper.testDetail(
+                              params.serverName ?? "",
+                              params.projectId ?? "",
+                              params.caseId ?? "",
+                              params.testId ?? "",
+                            ),
+                            {},
+                          );
                         }
 
                         removeStep(step.id);
@@ -89,7 +98,18 @@ export function StepsTable({
                     [classes.active]: params.stepId === step.id,
                   })}
                   key={step.id}
-                  onClick={() => navigate(`step/${step.id}`, {})}
+                  onClick={() =>
+                    navigate(
+                      routesHelper.stepDetail(
+                        params.serverName ?? "",
+                        params.projectId ?? "",
+                        params.caseId ?? "",
+                        params.testId ?? "",
+                        params.stepId ?? "",
+                      ),
+                      {},
+                    )
+                  }
                 >
                   <Table.Td>
                     <StatusButton
