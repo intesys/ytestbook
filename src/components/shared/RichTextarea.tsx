@@ -30,6 +30,7 @@ export const RichTextarea: FC<{
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Image.configure({
+        allowBase64: true,
         HTMLAttributes: {
           class: "rta-image",
         },
