@@ -11,6 +11,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate, useParams } from "react-router";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
+import { routesHelper } from "../../lib/helpers/routesHelper.ts";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TTest } from "../../types/schema";
@@ -19,6 +20,7 @@ import { RelativeDate } from "../shared/relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { Tags } from "../tags/Tags";
+import classes from "./testsTable.module.css";
 
 export function TestsTable({
   tests,
@@ -75,8 +77,19 @@ export function TestsTable({
               const assignees = project.getAssigneesByTestId(test.id);
               return (
                 <Table.Tr
+                  className={classes.row}
                   key={test.id}
-                  onClick={() => navigate(`test/${test.id}`, {})}
+                  onClick={() =>
+                    navigate(
+                      routesHelper.testDetail(
+                        params.serverName ?? "",
+                        params.projectId ?? "",
+                        params.caseId ?? "",
+                        test.id ?? "",
+                      ),
+                      {},
+                    )
+                  }
                 >
                   <Table.Td>
                     <Flex gap={10} align={"center"}>

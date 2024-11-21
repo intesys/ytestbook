@@ -1,9 +1,11 @@
 import { Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import clsx from "clsx";
 import { MouseEvent, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
+import { useServerName } from "../../../../lib/helpers/useServerName";
 import { TUseProject } from "../../../../lib/operators/types";
 import { TCase, TStep } from "../../../../types/schema";
 import { Avatars } from "../../../avatars/Avatars";
@@ -11,8 +13,8 @@ import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { Tags } from "../../../tags/Tags";
 import { ExpandButton } from "./ExpandButton";
+import classes from "./overview.module.css";
 import { TestRow } from "./TestRow";
-import { useServerName } from "../../../../lib/helpers/useServerName";
 
 type TestCaseRowProps = {
   readonly testCase: TCase;
@@ -61,6 +63,7 @@ export function TestCaseRow({
   return (
     <>
       <Table.Tr
+        className={clsx(classes.row, classes.testCaseRow)}
         key={testCase.id}
         onClick={() => {
           navigate(
