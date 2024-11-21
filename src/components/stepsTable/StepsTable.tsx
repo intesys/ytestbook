@@ -105,7 +105,7 @@ export function StepsTable({
                         params.projectId ?? "",
                         params.caseId ?? "",
                         params.testId ?? "",
-                        params.stepId ?? "",
+                        step.id ?? "",
                       ),
                       {},
                     )
