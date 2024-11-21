@@ -260,7 +260,7 @@ export function CommentsList({
                         </Flex>
                       )}
 
-                      <Group gap={10}>
+                      <Group gap={6} wrap="nowrap">
                         <Button
                           variant="transparent"
                           p={0}
