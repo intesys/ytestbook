@@ -15,6 +15,7 @@ import { MdUnfoldLessDouble, MdUnfoldMoreDouble } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useOverviewFilters } from "../../../../lib/filters/useOverviewFilters.ts";
 import { useProject } from "../../../../lib/operators/useProject";
+import { BulkAddButton } from "../../../shared/BulkAddButton/BulkAddButton.tsx";
 import { SimpleNewElementForm } from "../../../shared/SimpleNewElementForm";
 import { SIDEBAR_STATUS } from "../const";
 import classes from "./overview.module.css";
@@ -63,6 +64,15 @@ export const Overview: FC<{
   const expandCollapseClick = useCallback(() => {
     setExpanded((expanded) => !expanded);
   }, [setExpanded]);
+
+  const bulkLoadHandler = useCallback(
+    (values: string[]) => {
+      values.forEach((value) => {
+        createNewTestCase(value);
+      });
+    },
+    [createNewTestCase],
+  );
 
   return (
     <Stack gap={20}>
@@ -129,21 +139,24 @@ export const Overview: FC<{
         </Table.Tbody>
       </Table>
 
-      <Button
-        w={290}
-        justify="space-between"
-        rightSection={
-          <ThemeIcon color="black" variant="transparent">
-            <IoMdAddCircle size="18px" />
-          </ThemeIcon>
-        }
-        variant="light"
-        c="indigo.2"
-        bg="white"
-        onClick={open}
-      >
-        Add
-      </Button>
+      <Group gap="md" wrap="nowrap">
+        <Button
+          w={290}
+          justify="space-between"
+          rightSection={
+            <ThemeIcon color="black" variant="transparent">
+              <IoMdAddCircle size="18px" />
+            </ThemeIcon>
+          }
+          variant="light"
+          c="indigo.2"
+          bg="white"
+          onClick={open}
+        >
+          Add
+        </Button>
+        <BulkAddButton onBulkLoad={bulkLoadHandler} />
+      </Group>
     </Stack>
   );
 };
