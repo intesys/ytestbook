@@ -1,7 +1,7 @@
-import { Button, Table, Text, ThemeIcon, Title } from "@mantine/core";
+import { Button, Group, Table, Text, ThemeIcon, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
-import { MouseEvent } from "react";
+import { MouseEvent, useCallback } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import { routesHelper } from "../../lib/helpers/routesHelper.ts";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../types/schema.ts";
 import { openDeleteConfirmModal } from "../modals/modals.ts";
+import { BulkAddButton } from "../shared/BulkAddButton/BulkAddButton.tsx";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
@@ -30,12 +31,24 @@ export function StepsTable({
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
 
-  const createNewTest = (title: string) => {
-    createStep({
-      title,
-    });
-    close();
-  };
+  const createNewStep = useCallback(
+    (title: string) => {
+      createStep({
+        title,
+      });
+      close();
+    },
+    [close, createStep],
+  );
+
+  const bulkLoadHandler = useCallback(
+    (values: string[]) => {
+      values.forEach((value) => {
+        createNewStep(value);
+      });
+    },
+    [createNewStep],
+  );
 
   return (
     <>
@@ -143,7 +156,7 @@ export function StepsTable({
               <Table.Tr>
                 <Table.Td colSpan={5}>
                   <SimpleNewElementForm
-                    onSubmit={createNewTest}
+                    onSubmit={createNewStep}
                     close={close}
                   />
                 </Table.Td>
@@ -152,19 +165,22 @@ export function StepsTable({
           </Table.Tbody>
         </Table>
       )}
-      <Button
-        w={290}
-        justify="space-between"
-        rightSection={
-          <ThemeIcon color="black" variant="transparent">
-            <IoMdAddCircle size="18px" />
-          </ThemeIcon>
-        }
-        variant="default"
-        onClick={open}
-      >
-        Add step
-      </Button>
+      <Group gap="md" wrap="nowrap">
+        <Button
+          w={290}
+          justify="space-between"
+          rightSection={
+            <ThemeIcon color="black" variant="transparent">
+              <IoMdAddCircle size="18px" />
+            </ThemeIcon>
+          }
+          variant="default"
+          onClick={open}
+        >
+          Add step
+        </Button>
+        <BulkAddButton onBulkLoad={bulkLoadHandler} />
+      </Group>
     </>
   );
 }
