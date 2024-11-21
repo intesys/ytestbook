@@ -23,8 +23,12 @@ export const StepLog = ({ project, stepId }: StepLogProps) => {
       <Table.Thead>
         <Table.Tr>
           <Table.Th>Change Time</Table.Th>
-          <Table.Th>Previous Status</Table.Th>
-          <Table.Th>Target Status</Table.Th>
+          <Table.Th w="20%" style={{ textAlign: "center" }}>
+            Previous Status
+          </Table.Th>
+          <Table.Th w="20%" style={{ textAlign: "center" }}>
+            Target Status
+          </Table.Th>
           <Table.Th>Assigned To</Table.Th>
           <Table.Th>Notes</Table.Th>
         </Table.Tr>
@@ -42,6 +46,7 @@ export const StepLog = ({ project, stepId }: StepLogProps) => {
               </Table.Td>
               <Table.Td>
                 <StatusIconWithLabel
+                  justify="center"
                   status={status.previousStatus}
                   align="center"
                   gap={6}
@@ -51,6 +56,7 @@ export const StepLog = ({ project, stepId }: StepLogProps) => {
               </Table.Td>
               <Table.Td>
                 <StatusIconWithLabel
+                  justify="center"
                   status={status.targetStatus}
                   align="center"
                   gap={6}
