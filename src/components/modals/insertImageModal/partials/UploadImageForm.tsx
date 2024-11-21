@@ -1,7 +1,7 @@
 import { Button, Center, Group, Image, Stack, Text } from "@mantine/core";
 import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { useMemo, useState } from "react";
-import { IMAGE_UPLOAD_ALLOWED_MIME_TYPES } from "../../../../lib/constants/generic";
+import { IMAGE_INSERT_ALLOWED_MIME_TYPES } from "../../../../lib/constants/generic";
 import { compressImage } from "../../../../lib/helpers/compressImage";
 import { convertBase64 } from "../../../../lib/helpers/convertBase64";
 import { TInsertImageModalProps } from "../InsertImageModal";
@@ -51,7 +51,7 @@ export const UploadImageForm = ({
           setUploadedFile(files[0]);
         }}
         maxSize={2 * 1024 ** 2}
-        accept={IMAGE_UPLOAD_ALLOWED_MIME_TYPES}
+        accept={IMAGE_INSERT_ALLOWED_MIME_TYPES}
         multiple={false}
       >
         {imagePreview}
