@@ -7,26 +7,16 @@ import SubScript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
-
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Compressor from "compressorjs";
+import MimeMatcher from "mime-matcher";
 import { Dispatch, FC, SetStateAction } from "react";
-import { convertBase64 } from "../../lib/helpers/convertBase64.ts";
-import { RichTextEditorImageControl } from "./RichTextEditorControls/RichTextEditorImageControl.tsx";
+import { IMAGE_PASTE_ALLOWED_MIME_TYPES } from "../../lib/constants/generic.ts";
+import { compressImage } from "../../lib/helpers/compressImage.ts";
+import { convertBase64 } from "../../lib/helpers/convertBase64";
+import { RichTextEditorImageControl } from "./RichTextEditorControls/RichTextEditorImageControl";
 
 export const RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS = "rta-link-dropdown";
-
-const RICHTEXTAREA_ALLOWED_PASTE_IMAGE_TYPES = [
-  "image/bmp",
-  "image/gif",
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/tiff",
-  "image/webp",
-  "image/x-icon",
-];
 
 export const RichTextarea: FC<{
   label?: string;
@@ -68,23 +58,16 @@ export const RichTextarea: FC<{
           const blob = await clipboardItems[0].getType(type);
 
           // Check if paste file type is allowed (is Image)
-          if (!RICHTEXTAREA_ALLOWED_PASTE_IMAGE_TYPES.includes(type)) {
+          if (!new MimeMatcher(...IMAGE_PASTE_ALLOWED_MIME_TYPES).match(type)) {
             return;
           }
 
           // Compress and base64 the image
-          new Compressor(blob, {
-            quality: 0.6,
-            maxWidth: 600,
-            maxHeight: 400,
-            success: async (result) => {
-              const base64 = (await convertBase64(result)) as string;
-              editor.chain().focus().setImage({ src: base64 }).run();
-            },
-            error(err) {
-              console.log(err.message);
-            },
-          });
+          const compressedFile = await compressImage(blob);
+          const base64 = (await convertBase64(compressedFile)) as string;
+
+          // Insert image into editor
+          editor.chain().focus().setImage({ src: base64 }).run();
         };
 
         // If paste has files try to import the image
