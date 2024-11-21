@@ -1,9 +1,11 @@
 import { Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import clsx from "clsx";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
+import { useServerName } from "../../../../lib/helpers/useServerName";
 import { TUseProject } from "../../../../lib/operators/types";
 import { TTest } from "../../../../types/schema";
 import { Avatars } from "../../../avatars/Avatars";
@@ -11,8 +13,8 @@ import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
 import { StatusIcon } from "../../../statusIcon/StatusIcon";
 import { Tags } from "../../../tags/Tags";
 import { ExpandButton } from "./ExpandButton";
+import classes from "./overview.module.css";
 import { StepRow } from "./StepRow";
-import { useServerName } from "../../../../lib/helpers/useServerName";
 
 type TestRowProps = {
   readonly project: TUseProject;
@@ -57,6 +59,7 @@ export const TestRow = ({
   return (
     <>
       <Table.Tr
+        className={clsx(classes.row, classes.testRow)}
         onClick={() => {
           navigate(
             routesHelper.testDetail(
@@ -68,7 +71,6 @@ export const TestRow = ({
           );
           openSidebar();
         }}
-        bg="#E4E9FFCC"
       >
         <Table.Td onClick={onExpandToggle} w={60}>
           {test.steps.length > 0 ? <ExpandButton opened={opened} /> : null}

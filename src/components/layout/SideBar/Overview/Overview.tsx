@@ -17,7 +17,7 @@ import { useOverviewFilters } from "../../../../lib/filters/useOverviewFilters.t
 import { useProject } from "../../../../lib/operators/useProject";
 import { SimpleNewElementForm } from "../../../shared/SimpleNewElementForm";
 import { SIDEBAR_STATUS } from "../const";
-import classes from "./overview.module.scss";
+import classes from "./overview.module.css";
 import { OverviewFilters } from "./OverviewFilters.tsx";
 import { TestCaseRow } from "./TestCaseRow";
 
@@ -90,7 +90,7 @@ export const Overview: FC<{
         borderColor="#eaefff"
         mt={25}
       >
-        <Table.Thead bg={"#eaefff"}>
+        <Table.Thead className={classes.thead}>
           <Table.Tr>
             <Table.Th></Table.Th>
             <Table.Th>Name</Table.Th>

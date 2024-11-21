@@ -1,12 +1,14 @@
 import { Flex, Table, Text } from "@mantine/core";
+import clsx from "clsx";
 import { useNavigate } from "react-router";
 import { routesHelper } from "../../../../lib/helpers/routesHelper";
+import { useServerName } from "../../../../lib/helpers/useServerName";
 import { TUseProject } from "../../../../lib/operators/types";
 import { useTest } from "../../../../lib/operators/useTest";
 import { TStep } from "../../../../types/schema";
 import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
 import { StatusButton } from "../../../statusButton/StatusButton";
-import { useServerName } from "../../../../lib/helpers/useServerName";
+import classes from "./overview.module.css";
 
 type StepRowProps = {
   readonly project: TUseProject;
@@ -36,6 +38,7 @@ export const StepRow = ({
 
   return (
     <Table.Tr
+      className={clsx(classes.row, classes.stepRow)}
       onClick={() => {
         navigate(
           routesHelper.stepDetail(
@@ -48,7 +51,6 @@ export const StepRow = ({
         );
         openSidebar();
       }}
-      bg="#D3D9F6"
     >
       <Table.Td />
       <Table.Td colSpan={3}>

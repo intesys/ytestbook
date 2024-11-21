@@ -20,6 +20,7 @@ import { RelativeDate } from "../shared/relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusIcon } from "../statusIcon/StatusIcon";
 import { Tags } from "../tags/Tags";
+import classes from "./testsTable.module.css";
 
 export function TestsTable({
   tests,
@@ -76,6 +77,7 @@ export function TestsTable({
               const assignees = project.getAssigneesByTestId(test.id);
               return (
                 <Table.Tr
+                  className={classes.row}
                   key={test.id}
                   onClick={() =>
                     navigate(
