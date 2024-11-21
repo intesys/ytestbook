@@ -3,6 +3,8 @@ import {
   ButtonProps,
   Group,
   Stack,
+  Textarea,
+  TextareaProps,
   TextInput,
   TextInputProps,
 } from "@mantine/core";
@@ -10,18 +12,24 @@ import { useField } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { ReactNode, useCallback } from "react";
 
-export type TPromptModalProps = {
+type TPromptModalCommonProps = {
   cancelButtonLabel?: string;
   cancelButtonProps?: ButtonProps;
   children?: ReactNode;
   handleCancel?: () => void;
   handleSubmit?: (value: string) => void;
   initialValue?: string;
-  inputProps?: TextInputProps;
+  multiline?: boolean;
   submitButtonLabel?: string;
   submitButtonProps?: ButtonProps;
   validation?: (value: string) => ReactNode | undefined;
 };
+
+export type TPromptModalProps = TPromptModalCommonProps &
+  (
+    | ({ multiline: true } & { inputProps: TextareaProps })
+    | ({ multiline: false } & { inputProps: TextInputProps })
+  );
 
 export function PromptModal({
   id,
@@ -34,6 +42,7 @@ export function PromptModal({
     handleSubmit,
     initialValue = "",
     inputProps = {},
+    multiline = false,
     submitButtonLabel = "Submit",
     submitButtonProps = {},
     validation,
@@ -71,7 +80,19 @@ export function PromptModal({
   return (
     <Stack>
       {children}
-      <TextInput data-autofocus {...field.getInputProps()} {...inputProps} />
+      {multiline ? (
+        <Textarea
+          data-autofocus
+          {...field.getInputProps()}
+          {...(inputProps as TextareaProps)}
+        />
+      ) : (
+        <TextInput
+          data-autofocus
+          {...field.getInputProps()}
+          {...(inputProps as TextInputProps)}
+        />
+      )}
       <Group justify="flex-end" gap="md">
         <Button
           variant="outline"
