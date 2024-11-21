@@ -18,7 +18,7 @@ import { getStatusColor } from "../../lib/helpers/getStatusColor";
 import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
 import { StatusEnum } from "../../types/schema";
 
-interface IProps {
+export interface StatusIconProps {
   status?: StatusEnum;
   size?: number;
   variant?: ThemeIconVariant;
@@ -32,7 +32,7 @@ export const StatusIcon = ({
   variant = "transparent",
   color,
   showTooltip = true,
-}: IProps) => {
+}: StatusIconProps) => {
   const statusColor = color ?? getStatusColor(status);
   const tooltip = getStatusLabel(status);
 

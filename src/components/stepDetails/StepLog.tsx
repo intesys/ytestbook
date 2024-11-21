@@ -1,11 +1,10 @@
 import { Group, Table, Text } from "@mantine/core";
 import { useMemo } from "react";
 import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
-import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
 import { TUseProject } from "../../lib/operators/types";
 import { Avatars } from "../avatars/Avatars.tsx";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate";
-import { StatusIcon } from "../statusIcon/StatusIcon";
+import { StatusIconWithLabel } from "../statusIcon/StatusIconWithLabel.tsx";
 import { StepLogNotes } from "./StepLogNotes.tsx";
 
 type StepLogProps = {
@@ -42,16 +41,22 @@ export const StepLog = ({ project, stepId }: StepLogProps) => {
                 <RelativeDate timeStamp={status.createdAt} />
               </Table.Td>
               <Table.Td>
-                <Group align="center" gap={6} wrap="nowrap">
-                  <StatusIcon status={status.previousStatus} />
-                  <Text size="sm">{getStatusLabel(status.previousStatus)}</Text>
-                </Group>
+                <StatusIconWithLabel
+                  status={status.previousStatus}
+                  align="center"
+                  gap={6}
+                  wrap="nowrap"
+                  labelProps={{ size: "sm" }}
+                />
               </Table.Td>
               <Table.Td>
-                <Group align="center" gap={6} wrap="nowrap">
-                  <StatusIcon status={status.targetStatus} />
-                  <Text size="sm">{getStatusLabel(status.targetStatus)}</Text>
-                </Group>
+                <StatusIconWithLabel
+                  status={status.targetStatus}
+                  align="center"
+                  gap={6}
+                  wrap="nowrap"
+                  labelProps={{ size: "sm" }}
+                />
               </Table.Td>
               <Table.Td>
                 {collaborator ? (
