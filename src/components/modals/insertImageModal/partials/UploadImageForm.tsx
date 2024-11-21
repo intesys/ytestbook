@@ -1,9 +1,13 @@
 import { Button, Center, Group, Image, Stack, Text } from "@mantine/core";
 import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { useMemo, useState } from "react";
-import { IMAGE_INSERT_ALLOWED_MIME_TYPES } from "../../../../lib/constants/generic";
+import {
+  IMAGE_INSERT_ALLOWED_MIME_TYPES,
+  IMAGE_UPLOAD_MAX_SIZE,
+} from "../../../../lib/constants/generic";
 import { compressImage } from "../../../../lib/helpers/compressImage";
 import { convertBase64 } from "../../../../lib/helpers/convertBase64";
+import { humanizeBytes } from "../../../../lib/helpers/humanizeBytes";
 import { TInsertImageModalProps } from "../InsertImageModal";
 
 type UploadImageFormProps = TInsertImageModalProps;
@@ -44,13 +48,24 @@ export const UploadImageForm = ({
     handleSubmit(base64);
   };
 
+  const imageSizeWarning = (
+    <Text size="sm" c="dimmed" inline mt={7}>
+      The uploaded image should not exceed{" "}
+      {humanizeBytes(IMAGE_UPLOAD_MAX_SIZE, {
+        decimals: 0,
+        isBinaryUnits: false,
+        space: false,
+      })}
+    </Text>
+  );
+
   return (
     <Stack>
       <Dropzone
         onDrop={(files) => {
           setUploadedFile(files[0]);
         }}
-        maxSize={2 * 1024 ** 2}
+        maxSize={IMAGE_UPLOAD_MAX_SIZE}
         accept={IMAGE_INSERT_ALLOWED_MIME_TYPES}
         multiple={false}
       >
@@ -59,25 +74,19 @@ export const UploadImageForm = ({
           <Text size="xl" inline mb="sm">
             Drop image here
           </Text>
-          <Text size="sm" c="dimmed" inline mt={7}>
-            The uploaded image should not exceed 2Mb
-          </Text>
+          {imageSizeWarning}
         </Dropzone.Accept>
         <Dropzone.Idle>
           <Text size="xl" inline mb="sm">
             Drag image here or click to select
           </Text>
-          <Text size="sm" c="dimmed" inline mt={7}>
-            The uploaded image should not exceed 2Mb
-          </Text>
+          {imageSizeWarning}
         </Dropzone.Idle>
         <Dropzone.Reject>
           <Text size="xl" inline mb="sm">
             Dragged file is not valid
           </Text>
-          <Text size="sm" c="dimmed" inline mt={7}>
-            The uploaded image should not exceed 2Mb
-          </Text>
+          {imageSizeWarning}
         </Dropzone.Reject>
       </Dropzone>
 
