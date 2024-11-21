@@ -34,7 +34,7 @@ import {
 import { Avatars } from "../avatars/Avatars";
 import { openDeleteConfirmModal } from "../modals/modals";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
-import { StatusIcon } from "../statusIcon/StatusIcon";
+import { StatusIconWithLabel } from "../statusIcon/StatusIconWithLabel.tsx";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
 
@@ -248,12 +248,15 @@ export function CommentsList({
                         {collaborator?.name ?? USER_ANONYMOUS.name}
                       </Text>
                       {comment.testStatusWhenCreated && (
-                        <Flex gap={6} align="center">
+                        <Flex gap={6} align="center" style={{ flexBasis: 300 }}>
                           <Text size="sm" fw={500}>
-                            Test status when added:{" "}
+                            Status when added:{" "}
                           </Text>
 
-                          <StatusIcon status={comment.testStatusWhenCreated} />
+                          <StatusIconWithLabel
+                            status={comment.testStatusWhenCreated}
+                            style={{ flexBasis: 150 }}
+                          />
                         </Flex>
                       )}
 
