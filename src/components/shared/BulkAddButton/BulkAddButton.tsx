@@ -44,7 +44,9 @@ export const BulkAddButton = ({
           return undefined;
         },
         handleSubmit: (value) => {
-          const splittedValue = value.split("\n");
+          const splittedValue = value
+            .split("\n")
+            .filter((item) => item.length > 0);
 
           if (onBulkLoad) {
             onBulkLoad(splittedValue);
