@@ -52,12 +52,15 @@ export const Overview: FC<{
     </Stack>
   );
 
-  const createNewTestCase = (title: string) => {
-    project.createTestCase({
-      title,
-    });
-    close();
-  };
+  const createNewTestCase = useCallback(
+    (title: string) => {
+      project.createTestCase({
+        title,
+      });
+      close();
+    },
+    [close, project],
+  );
 
   const openSidebar = () => toggle(SIDEBAR_STATUS.OPEN);
 

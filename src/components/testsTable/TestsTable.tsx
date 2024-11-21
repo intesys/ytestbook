@@ -37,15 +37,18 @@ export function TestsTable({
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
 
-  const createNewTest = (title: string) => {
-    createTest({
-      title,
-      assignees: [],
-      tags: [],
-      description: "",
-    });
-    close();
-  };
+  const createNewTest = useCallback(
+    (title: string) => {
+      createTest({
+        title,
+        assignees: [],
+        tags: [],
+        description: "",
+      });
+      close();
+    },
+    [close, createTest],
+  );
 
   const bulkLoadHandler = useCallback(
     (values: string[]) => {
