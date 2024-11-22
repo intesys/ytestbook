@@ -1,6 +1,7 @@
 import {
   Button,
   Flex,
+  Group,
   Progress,
   Table,
   Text,
@@ -8,6 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useCallback } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate, useParams } from "react-router";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
@@ -16,6 +18,7 @@ import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
 import { TTest } from "../../types/schema";
 import { Avatars } from "../avatars/Avatars";
+import { BulkAddButton } from "../shared/BulkAddButton/BulkAddButton.tsx";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusIcon } from "../statusIcon/StatusIcon";
@@ -34,15 +37,27 @@ export function TestsTable({
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
 
-  const createNewTest = (title: string) => {
-    createTest({
-      title,
-      assignees: [],
-      tags: [],
-      description: "",
-    });
-    close();
-  };
+  const createNewTest = useCallback(
+    (title: string) => {
+      createTest({
+        title,
+        assignees: [],
+        tags: [],
+        description: "",
+      });
+      close();
+    },
+    [close, createTest],
+  );
+
+  const bulkLoadHandler = useCallback(
+    (values: string[]) => {
+      values.forEach((value) => {
+        createNewTest(value);
+      });
+    },
+    [createNewTest],
+  );
 
   return (
     <>
@@ -145,19 +160,22 @@ export function TestsTable({
           </Table.Tbody>
         </Table>
       )}
-      <Button
-        w={290}
-        justify="space-between"
-        rightSection={
-          <ThemeIcon color="black" variant="transparent">
-            <IoMdAddCircle size="18px" />
-          </ThemeIcon>
-        }
-        variant="default"
-        onClick={open}
-      >
-        Add test
-      </Button>
+      <Group gap="md" wrap="nowrap">
+        <Button
+          w={290}
+          justify="space-between"
+          rightSection={
+            <ThemeIcon color="black" variant="transparent">
+              <IoMdAddCircle size="18px" />
+            </ThemeIcon>
+          }
+          variant="default"
+          onClick={open}
+        >
+          Add test
+        </Button>
+        <BulkAddButton onBulkLoad={bulkLoadHandler} />
+      </Group>
     </>
   );
 }
