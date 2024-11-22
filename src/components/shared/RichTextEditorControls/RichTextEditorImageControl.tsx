@@ -22,25 +22,11 @@ export const RichTextEditorImageControl = ({ editor }: IProps) => {
 
   const addImageHandler = useCallback(() => {
     modals.openContextModal({
-      modal: Modals.PromptModal,
-      title: "Attach an image",
+      modal: Modals.InsertImageModal,
+      title: "Insert image",
       centered: true,
       className: RICHTEXTAREA_ADD_IMAGE_MODAL_CLASS,
       innerProps: {
-        inputProps: {
-          label: "Image URL",
-          placeholder: "Please enter an image URL",
-        },
-        validation: (value) => {
-          const trimmedValue = value.trim();
-          if (trimmedValue.length <= 10) {
-            return "Value too short";
-          }
-          if (!trimmedValue.startsWith("https://")) {
-            return "Should be a valid URL";
-          }
-          return undefined;
-        },
         handleSubmit: (value) => {
           appendImage(value);
         },
