@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { AddImageUrlForm } from "./partials/AddImageUrlForm";
 import { UploadImageForm } from "./partials/UploadImageForm";
 import { Tabs } from "@mantine/core";
+import { IconLink, IconUpload } from "@tabler/icons-react";
 
 export type TInsertImageModalProps = {
   handleCancel?: () => void;
@@ -38,8 +39,12 @@ export const InsertImageModal = ({
   return (
     <Tabs defaultValue="upload">
       <Tabs.List mb={"md"}>
-        <Tabs.Tab value="upload">From computer</Tabs.Tab>
-        <Tabs.Tab value="insertUrl">From URL</Tabs.Tab>
+        <Tabs.Tab value="upload" leftSection={<IconUpload size={18} />}>
+          Local
+        </Tabs.Tab>
+        <Tabs.Tab value="insertUrl" leftSection={<IconLink size={18} />}>
+          From URL
+        </Tabs.Tab>
       </Tabs.List>
 
       <Tabs.Panel value="upload">
