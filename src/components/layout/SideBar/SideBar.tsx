@@ -34,13 +34,6 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
     if (project.data.testCases.length === 0) {
       /**If there's no caseId defined in the URL and no test cases, go to Empty  */
       navigate(routesHelper.projectDetailEmpty(serverName, project.data.id));
-    } else {
-      /**If there's no caseId defined in the URL, it sets the first testCase as the active one  */
-      const caseId = project.data.testCases[0].id;
-      setActiveCaseId(caseId);
-      navigate(
-        routesHelper.testCaseDetail(serverName, project.data.id, caseId),
-      );
     }
   }, [params, project.data, activeCaseId, pathname, navigate, serverName]);
 
