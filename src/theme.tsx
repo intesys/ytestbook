@@ -85,4 +85,16 @@ export const theme = createTheme({
       },
     },
   },
+  components: {
+    Select: {
+      defaultProps: {
+        scrollAreaProps: { type: "auto" },
+      },
+    },
+    MultiSelect: {
+      defaultProps: {
+        scrollAreaProps: { type: "auto" },
+      },
+    },
+  },
 });
