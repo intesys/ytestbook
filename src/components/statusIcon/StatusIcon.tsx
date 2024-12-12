@@ -63,7 +63,13 @@ export const StatusIcon = ({
   }, [status]);
 
   const themeIcon = (
-    <ThemeIcon color={statusColor} variant={variant} size={size}>
+    <ThemeIcon
+      //IMPORTANT: Use a span to avoid invalid DOM nesting when used inside <p>s
+      component="span"
+      color={statusColor}
+      variant={variant}
+      size={size}
+    >
       {statusIcon}
     </ThemeIcon>
   );
