@@ -3,11 +3,11 @@ import { useCallback, useMemo } from "react";
 import slugify from "slugify";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { TJsonExport } from "../../types/json-export";
-import { StatusEnum, TDocType } from "../../types/schema";
+import { StatusEnum, TDocType, TTest } from "../../types/schema";
+import { STORAGE_KEYS } from "../constants/localStorageKeys";
 import { downloadFile } from "../helpers/downloadFile";
 import { removeTuples } from "../helpers/removeTuples";
 import { TOperatorLoaderStatus, TUseProject } from "./types";
-import { STORAGE_KEYS } from "../constants/localStorageKeys";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -92,6 +92,32 @@ export function useProject(projectId: string | undefined): TUseProject {
     [doc, projectId],
   );
 
+  const getRelatedTestsByTestId: TUseProject["getRelatedTestsByTestId"] =
+    useCallback(
+      (testId) => {
+        const project = doc?.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+
+        if (!project || !project?.relatedTestToTest) {
+          return [];
+        }
+
+        const relatedTestIdArr = project.relatedTestToTest
+          .filter((tuple) => tuple[1] === testId)
+          .map((tuple) => tuple[0]);
+
+        return project.testCases.reduce<TTest[]>((acc, testCase) => {
+          return acc.concat(
+            (testCase.tests ?? []).filter((test) =>
+              relatedTestIdArr.includes(test.id),
+            ),
+          );
+        }, []);
+      },
+      [doc?.projects, projectId],
+    );
+
   const getStatusChangesByStepId: TUseProject["getStatusChangesByStepId"] =
     useCallback(
       (stepId) => {
@@ -125,7 +151,7 @@ export function useProject(projectId: string | undefined): TUseProject {
     [doc?.projects, projectId],
   );
 
-  const exportJSON: TUseProject["exportJSON"] = () => {
+  const exportJSON: TUseProject["exportJSON"] = useCallback(() => {
     const project = doc?.projects.find((p) => p.id === projectId);
     if (project) {
       const jsonContent: TJsonExport = {
@@ -146,7 +172,7 @@ export function useProject(projectId: string | undefined): TUseProject {
 
       downloadFile(parsedData, `ytestbook-export-${slugifiedTitle}.json`);
     }
-  };
+  }, [doc?.description, doc?.projects, doc?.title, docUrl, projectId]);
 
   const updateProject: TUseProject["updateProject"] = useCallback(
     (data) => {
@@ -292,35 +318,48 @@ export function useProject(projectId: string | undefined): TUseProject {
         const project = d.projects.find(
           (item) => projectId && item.id === projectId,
         );
+
         if (!project) {
           return;
         }
-        if (!project.allTags) project.allTags = [];
-        if (!project.tagToTest) project.tagToTest = [];
 
-        /**Remove from state all tags that don't exist in the new state */
+        if (!project.allTags) {
+          project.allTags = [];
+        }
+
+        if (!project.tagToTest) {
+          project.tagToTest = [];
+        }
+
+        /** Remove from state all tags that don't exist in the new state */
         project.allTags
           .filter((tag) => !newTags.includes(tag))
           .forEach((tagToRemove) => {
             const index = project.allTags?.findIndex(
               (tag) => tag === tagToRemove,
             );
-            if (index !== undefined) project.allTags?.splice(index, 1);
+            if (index !== undefined) {
+              project.allTags?.splice(index, 1);
+            }
           });
 
-        /**Add new tags to state  */
+        /** Add new tags to state  */
         newTags.forEach((tag) => {
-          if (!project.allTags?.includes(tag)) project.allTags?.push(tag);
+          if (!project.allTags?.includes(tag)) {
+            project.allTags?.push(tag);
+          }
         });
 
-        /**Remove all relationships carrying the key of a removed tag */
+        /** Remove all relationships carrying the key of a removed tag */
         project.tagToTest
           .filter((tuple) => !newTags.includes(tuple[0]))
           .forEach((tupleToRemove) => {
             const index = project.tagToTest?.findIndex((tuple) =>
               tuple.every((value, index) => value === tupleToRemove[index]),
             );
-            if (index !== undefined) project.tagToTest?.splice(index, 1);
+            if (index !== undefined) {
+              project.tagToTest?.splice(index, 1);
+            }
           });
 
         project.lastUpdate = date.getTime();
@@ -417,24 +456,50 @@ export function useProject(projectId: string | undefined): TUseProject {
     [changeDoc, projectId],
   );
 
+  const removeRelatedTest: TUseProject["removeRelatedTest"] = useCallback(
+    (testId, relatedTestId) => {
+      if (!testId || !relatedTestId) {
+        return;
+      }
+
+      changeDoc((d) => {
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+
+        if (!project) {
+          return;
+        }
+
+        removeTuples(
+          project.relatedTestToTest || [],
+          (tuple) => tuple[0] === relatedTestId && tuple[1] === testId,
+        );
+      });
+    },
+    [changeDoc, projectId],
+  );
+
   const methods = useMemo(
     () => ({
-      getTagsByTestId,
-      getTagsByCaseId,
-      getAssigneesByTestId,
-      getAssigneesByCaseId,
-      getStatusChangesByStepId,
-      getCollaborator,
-      exportJSON,
-      createTestCase,
       createCollaborator,
-      updateTestCase,
-      updateTestCaseStatus,
+      createTestCase,
+      exportJSON,
+      getAssigneesByCaseId,
+      getAssigneesByTestId,
+      getCollaborator,
+      getRelatedTestsByTestId,
+      getStatusChangesByStepId,
+      getTagsByCaseId,
+      getTagsByTestId,
+      removeCollaborator,
+      removeRelatedTest,
+      removeTestCase,
       updateAllTags,
       updateCollaborator,
-      removeCollaborator,
-      removeTestCase,
       updateProject,
+      updateTestCase,
+      updateTestCaseStatus,
     }),
     [
       createCollaborator,
@@ -443,10 +508,12 @@ export function useProject(projectId: string | undefined): TUseProject {
       getAssigneesByCaseId,
       getAssigneesByTestId,
       getCollaborator,
+      getRelatedTestsByTestId,
       getStatusChangesByStepId,
       getTagsByCaseId,
       getTagsByTestId,
       removeCollaborator,
+      removeRelatedTest,
       removeTestCase,
       updateAllTags,
       updateCollaborator,

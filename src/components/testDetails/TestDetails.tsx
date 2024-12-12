@@ -1,6 +1,21 @@
-import { Button, Image, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Badge,
+  Box,
+  Button,
+  Collapse,
+  Group,
+  Image,
+  Stack,
+  Table,
+  Text,
+  Title,
+  UnstyledButton,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import { useCallback, useMemo } from "react";
+import { IconChevronDown, IconTrash } from "@tabler/icons-react";
+import { MouseEvent, useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
 import { computeCompletion } from "../../lib/helpers/computeCompletion";
@@ -16,6 +31,7 @@ import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
 import { SectionError } from "../shared/SectionError.tsx";
 import { SectionLoading } from "../shared/SectionLoading.tsx";
+import { StatusIcon } from "../statusIcon/StatusIcon.tsx";
 import { StepsTable } from "../stepsTable/StepsTable";
 import classes from "./testDetails.module.css";
 
@@ -27,6 +43,9 @@ export function TestDetails() {
   const test = useTest(params.projectId, params.caseId, params.testId);
   const serverName = useServerName();
 
+  const [openedRelatedTests, { toggle: toggleRelatedTests }] =
+    useDisclosure(false);
+
   const completion = useMemo(
     () => computeCompletion(test.data?.steps || []),
     [test.data],
@@ -36,7 +55,9 @@ export function TestDetails() {
     if (test.data) {
       const tags = project.getTagsByTestId(test.data.id);
       const assignees = project.getAssigneesByTestId(test.data.id);
-      return { tags, assignees };
+      const relatedTests = project.getRelatedTestsByTestId(test.data.id);
+
+      return { tags, assignees, relatedTests };
     }
   }, [test.data, project]);
 
@@ -47,9 +68,11 @@ export function TestDetails() {
     testCase.updateTest(
       {
         title: value,
-        assignees: queriedData?.assignees.map((assignee) => assignee.id) || [],
-        tags: queriedData?.tags || [],
-        description: test?.data?.description || "",
+        assignees: queriedData?.assignees.map((assignee) => assignee.id) ?? [],
+        tags: queriedData?.tags ?? [],
+        description: test?.data?.description ?? "",
+        relatedTests:
+          queriedData?.relatedTests.map((relatedTest) => relatedTest.id) ?? [],
       },
       test.data.id,
     );
@@ -70,6 +93,8 @@ export function TestDetails() {
             tags: queriedData?.tags ?? [],
             assignees:
               queriedData?.assignees.map((assignee) => assignee.id) ?? [],
+            relatedTests:
+              queriedData?.relatedTests.map((test) => test.id) ?? [],
           },
           handleSubmit: testCase.updateTest,
         },
@@ -78,6 +103,7 @@ export function TestDetails() {
       project,
       queriedData?.assignees,
       queriedData?.tags,
+      queriedData?.relatedTests,
       test?.data?.description,
       test?.data?.id,
       test?.data?.title,
@@ -113,8 +139,8 @@ export function TestDetails() {
   }
 
   return (
-    <div className={classes.testDetails}>
-      <div className={classes.backButton}>
+    <Stack className={classes.testDetails}>
+      <Stack className={classes.backButton}>
         <Button
           variant="transparent"
           leftSection={<Image alt="" src={ArrowCircle} />}
@@ -135,7 +161,7 @@ export function TestDetails() {
             Go to test case — {test.data.title}
           </Text>
         </Button>
-      </div>
+      </Stack>
       <ContentHeader
         status={test.data.status}
         title={test.data.title}
@@ -163,6 +189,95 @@ export function TestDetails() {
           removeStep={test.removeStep}
         />
       </div>
+      {queriedData?.relatedTests.length ? (
+        <Box className={classes.relatedTests}>
+          <UnstyledButton
+            onClick={toggleRelatedTests}
+            className={classes.relatedTestsButton}
+          >
+            <Group justify="space-between">
+              <Group gap="xs">
+                <Badge>{queriedData?.relatedTests.length}</Badge>
+                <Title order={4}>Related Tests</Title>
+              </Group>
+              <IconChevronDown
+                style={{
+                  transition: "transform 0.2s",
+                  transform: openedRelatedTests
+                    ? "rotate(180deg)"
+                    : "rotate(0deg)",
+                }}
+              />
+            </Group>
+          </UnstyledButton>
+          <Collapse in={openedRelatedTests}>
+            <Table
+              verticalSpacing="xs"
+              horizontalSpacing="xs"
+              w="100%"
+              withTableBorder
+            >
+              {queriedData?.relatedTests.map((relatedTest) => {
+                const removeClickHandler = (
+                  event: MouseEvent<HTMLButtonElement>,
+                ) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+
+                  openDeleteConfirmModal(
+                    "Are you sure you want to delete this relation?",
+                    {
+                      handleConfirm: () => {
+                        if (test.data.id && relatedTest.id) {
+                          project.removeRelatedTest(
+                            test.data.id,
+                            relatedTest.id,
+                          );
+                        }
+                      },
+                    },
+                  );
+                };
+
+                return (
+                  <Table.Tr
+                    key={relatedTest.id}
+                    className={classes.clickableRow}
+                    onClick={() =>
+                      navigate(
+                        routesHelper.testDetail(
+                          serverName,
+                          params.projectId ?? "",
+                          relatedTest.caseId,
+                          relatedTest.id,
+                        ),
+                      )
+                    }
+                  >
+                    <Table.Td>
+                      <Group gap={6} wrap="nowrap">
+                        <StatusIcon status={relatedTest.status} />
+                        {relatedTest.title}
+                      </Group>
+                    </Table.Td>
+                    <Table.Td align="right">
+                      <ActionIcon
+                        size="lg"
+                        variant="subtle"
+                        radius="xl"
+                        color="dark"
+                        onClick={removeClickHandler}
+                      >
+                        <IconTrash size={21} />
+                      </ActionIcon>
+                    </Table.Td>
+                  </Table.Tr>
+                );
+              })}
+            </Table>
+          </Collapse>
+        </Box>
+      ) : null}
       <div className={classes.comments}>
         {testCase.data && (
           <CommentsList
@@ -180,6 +295,6 @@ export function TestDetails() {
           />
         )}
       </div>
-    </div>
+    </Stack>
   );
 }

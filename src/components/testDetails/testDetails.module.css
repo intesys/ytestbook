@@ -19,12 +19,29 @@
   grid-column: 1 / span 12;
 }
 
-.steps {
+.relatedTests, .steps {
   display: flex;
   flex-direction: column;
   gap: 20px;
   grid-column: 1 / span 12;
   flex-grow: 1;
+}
+
+.relatedTestsButton {
+  border-radius: var(--mantine-radius-default);
+  padding: var(--mantine-spacing-xs);
+
+  @mixin hover {
+    background-color: var(--mantine-color-gray-1);
+  }
+}
+
+.clickableRow {
+  cursor: pointer;
+
+  @mixin hover {
+    background-color: var(--mantine-color-gray-1) ;
+  }
 }
 
 .comments {

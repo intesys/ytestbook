@@ -131,11 +131,14 @@ export function useTest(
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         const test = testCase?.tests.find((test) => test.id === testId);
-        if (!test) {
+        if (!test || !testCase) {
           return;
         }
         const index = test.steps.findIndex((step) => step.id === stepId);
         delete test.steps[index];
+
+        computeStatus(test, test.steps);
+        computeStatus(testCase, testCase.tests);
       });
     },
     [changeDoc, projectId, caseId, testId],

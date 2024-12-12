@@ -26,6 +26,12 @@ export type TTestDynamicData = {
   description?: string;
 };
 
+export type TTestAggregatedData = {
+  tags: string[];
+  assignees: string[];
+  relatedTests: string[];
+};
+
 export type TTest = {
   id: string;
   caseId: TCase["id"];
@@ -91,8 +97,9 @@ export type TProject = {
   collaborators:
     | TCollaborator[]
     | undefined /**@hribeiro TODO: undefined for compatibility. To be removed */;
-  tagToTest: [string, string][] | undefined;
-  collaboratorToTest: [string, string][] | undefined;
+  tagToTest?: Array<[string, string]>;
+  collaboratorToTest?: Array<[string, string]>;
+  relatedTestToTest?: Array<[string, string]>;
   statusChanges: TStatusChange[];
   description: string;
 } & TProjectDynamicData;

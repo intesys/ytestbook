@@ -48,6 +48,10 @@ export function useTestCase(
           project.collaboratorToTest?.push([assigneeId, testId]),
         );
 
+        values.relatedTests.forEach((relatedTestId) =>
+          project.relatedTestToTest?.push([relatedTestId, testId]),
+        );
+
         testCase?.tests.push({
           title: values.title,
           description: values.description,
@@ -132,28 +136,46 @@ export function useTestCase(
           project.collaboratorToTest = [];
         }
 
-        /**Remove all old testId relationships from tagTotest that are not in 'values'  */
+        if (!project.relatedTestToTest) {
+          project.relatedTestToTest = [];
+        }
+
+        /** Remove all old testId relationships from tagTotest that are not in 'values'  */
         removeTuples(
           project.tagToTest,
           (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0]),
         );
-        /**Add new testId tags releationships */
+
+        /** Add new testId tags releationships */
         addTuples(project.tagToTest || [], testId, values.tags);
-        /**Remove all old testId relationships from collaboratorToTest that are not in 'values'  */
+
+        /** Remove all old testId relationships from collaboratorToTest that are not in 'values'  */
         removeTuples(
           project.collaboratorToTest,
           (tuple) =>
             tuple[1] === testId && !values.assignees.includes(tuple[0]),
         );
-        /**Add new testId collaborators releationships */
+
+        /** Add new testId collaborators releationships */
         addTuples(project.collaboratorToTest, testId, values.assignees);
-        /**TODO: needs to be enhanced */
+
+        /** Remove all old testId relationships from relatedTestToTest that are not in 'values'  */
+        removeTuples(
+          project.relatedTestToTest,
+          (tuple) =>
+            tuple[1] === testId && !values.relatedTests.includes(tuple[0]),
+        );
+        /** Add new testId relatedTests releationships */
+        addTuples(project.relatedTestToTest, testId, values.relatedTests);
+
+        /** TODO: needs to be enhanced */
         if (values.title) {
           test.title = values.title;
         }
         if (values.description) {
           test.description = values.description;
         }
+
         test.lastUpdate = date.getTime();
       });
     },
@@ -224,6 +246,12 @@ export function useTestCase(
         const index = testCase.tests.findIndex((test) => test.id === testId);
         testCase.tests.splice(index, 1);
         removeTuples(project.tagToTest ?? [], (tuple) => tuple[1] === testId);
+
+        // Remove all relationships between other tests and the deleted one.
+        removeTuples(
+          project.relatedTestToTest ?? [],
+          (tuple) => tuple[0] === testId || tuple[1] === testId,
+        );
       });
     },
     [changeDoc, projectId, caseId],
@@ -278,14 +306,14 @@ export function useTestCase(
 
   const sharedMethods = useMemo(
     () => ({
-      createTest,
       createComment,
+      createTest,
+      removeComment,
+      removeTest,
+      updateCommentResolved,
       updateTest,
       updateTestDescription,
       updateTestStatus,
-      removeTest,
-      removeComment,
-      updateCommentResolved,
     }),
     [
       createComment,
@@ -324,13 +352,13 @@ export function useTestCase(
     data: testCase,
     loading: false,
     error: false,
-    createTest,
     createComment,
+    createTest,
+    removeComment,
+    removeTest,
+    updateCommentResolved,
     updateTest,
     updateTestDescription,
     updateTestStatus,
-    removeTest,
-    removeComment,
-    updateCommentResolved,
   };
 }

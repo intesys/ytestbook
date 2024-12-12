@@ -12,6 +12,7 @@ import {
   TStep,
   TStepDynamicData,
   TTest,
+  TTestAggregatedData,
   TTestDynamicData,
 } from "../../types/schema";
 
@@ -52,6 +53,7 @@ export type TUseProject = {
   getTagsByCaseId: (caseId: TCase["id"]) => string[];
   getAssigneesByTestId: (testId: TTest["id"]) => TCollaborator[];
   getAssigneesByCaseId: (caseId: TCase["id"]) => TCollaborator[];
+  getRelatedTestsByTestId: (testId: TTest["id"]) => TTest[];
   getStatusChangesByStepId: (stepId: TStep["id"]) => TStatusChange[];
   getCollaborator: (
     collaboratorId: TCollaborator["id"],
@@ -67,6 +69,7 @@ export type TUseProject = {
     id?: TCollaborator["id"],
   ) => void;
   removeCollaborator: (id: TCollaborator["id"]) => void;
+  removeRelatedTest: (testId: string, relatedTestId: string) => void;
   removeTestCase: (testCaseId?: string) => void;
   updateProject: (
     data: Partial<Pick<TProject, "title" | "customer" | "description">>,
@@ -74,9 +77,7 @@ export type TUseProject = {
 } & TOperatorLoader<TProject>;
 
 export type TUseTestCase = {
-  createTest: (
-    values: TTestDynamicData & { tags: string[]; assignees: string[] },
-  ) => void;
+  createTest: (values: TTestDynamicData & TTestAggregatedData) => void;
   createComment: (
     values: TCommentDynamicData,
     testId?: string,
@@ -84,7 +85,7 @@ export type TUseTestCase = {
   ) => void;
   updateCommentResolved: (isResolved: boolean, commentId: string) => void;
   updateTest: (
-    values: TTestDynamicData & { tags: string[]; assignees: string[] },
+    values: TTestDynamicData & TTestAggregatedData,
     testId?: string,
   ) => void;
   updateTestDescription: (testId: string, description: string) => void;

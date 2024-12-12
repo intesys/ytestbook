@@ -1,11 +1,19 @@
-import { Button, Group, Table, Text, ThemeIcon, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Group,
+  Table,
+  Text,
+  ThemeIcon,
+  Title,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { IconTrash } from "@tabler/icons-react";
 import clsx from "clsx";
 import { MouseEvent, useCallback } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
-import Delete from "../../assets/icons/delete.svg";
 import { routesHelper } from "../../lib/helpers/routesHelper.ts";
 import { TUseTest } from "../../lib/operators/types";
 import { TStep } from "../../types/schema.ts";
@@ -140,14 +148,16 @@ export function StepsTable({
                       "—"
                     )}
                   </Table.Td>
-                  <Table.Td>
-                    <Button
-                      variant="transparent"
-                      p={0}
+                  <Table.Td align="right">
+                    <ActionIcon
+                      variant="subtle"
+                      radius="xl"
+                      size="lg"
+                      color="dark"
                       onClick={removeClickHandler}
                     >
-                      <img alt="Delete step" src={Delete} />
-                    </Button>
+                      <IconTrash size={21} />
+                    </ActionIcon>
                   </Table.Td>
                 </Table.Tr>
               );
