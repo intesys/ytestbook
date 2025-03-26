@@ -5,7 +5,7 @@ import { useCallback } from "react";
 import { FormErrorMessages } from "../../../lib/formErrors";
 import { TTestDynamicData } from "../../../types/schema";
 import { TModalProps } from "../../repositories/types";
-import { RichTextarea } from "../../shared/RichTextarea";
+import { RichTextarea } from "../../shared/RichTextarea/RichTextarea";
 
 type TTestModalForm = TTestDynamicData & {
   tags: string[];

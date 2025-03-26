@@ -9,33 +9,26 @@ import {
   Stack,
   Switch,
   Text,
-  Textarea,
   Title,
   Tooltip,
 } from "@mantine/core";
 
-import { isNotEmpty, useForm } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
 import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
 import Delete from "../../assets/icons/delete.svg";
 import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
-import { FormErrorMessages } from "../../lib/formErrors.ts";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
-import {
-  TCollaborator,
-  TComment,
-  TCommentDynamicData,
-  TStep,
-  TTest,
-} from "../../types/schema";
+import { TCollaborator, TComment, TStep, TTest } from "../../types/schema";
 import { Avatars } from "../avatars/Avatars";
 import { openDeleteConfirmModal } from "../modals/modals";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { StatusIconWithLabel } from "../statusIcon/StatusIconWithLabel.tsx";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
+import { NewCommentForm } from "./NewCommentForm.tsx";
 import { TFilterForm } from "./types";
 import classes from "./CommentsList.module.css";
 import clsx from "clsx";
@@ -67,37 +60,12 @@ export function CommentsList({
   const params = useParams();
   const project = useProject(params.projectId);
 
-  const form = useForm<TCommentDynamicData>({
-    initialValues: {
-      collaboratorId: "",
-      content: "",
-    },
-    validate: {
-      collaboratorId: isNotEmpty(FormErrorMessages.required),
-      content: isNotEmpty(FormErrorMessages.required),
-    },
-  });
-
   const filterForm = useForm<TFilterForm>({
     initialValues: {
       test: "all",
       showSolved: true,
     },
   });
-
-  const nameOptions = useMemo(() => {
-    if (project.data?.collaborators) {
-      const options = project.data.collaborators.map((collaborator) => ({
-        label: collaborator.name,
-        value: collaborator.id,
-      }));
-      options.push({
-        label: USER_ANONYMOUS.name,
-        value: USER_ANONYMOUS.id,
-      });
-      return options;
-    }
-  }, [project.data?.collaborators]);
 
   const toggleIsResolved = useCallback(
     (comment: TComment) => {
@@ -317,9 +285,10 @@ export function CommentsList({
                       projectId={project.data?.id}
                       comment={comment}
                     />
-                    <Text className={classes.fadedElement}>
-                      {comment.content}
-                    </Text>
+                    <Text
+                      className={classes.fadedElement}
+                      dangerouslySetInnerHTML={{ __html: comment.content }}
+                    />
                   </Flex>
                 </Flex>
               );
@@ -328,29 +297,12 @@ export function CommentsList({
         </Stack>
       )}
 
-      <form
-        onSubmit={form.onSubmit((values) => {
-          createComment(values, testId, stepId);
-          form.reset();
-        })}
-      >
-        <Flex direction="column" gap={16}>
-          <Select
-            withAsterisk
-            label="Member"
-            data={nameOptions}
-            {...form.getInputProps("collaboratorId")}
-          />
-          <Textarea
-            placeholder="Your comment here"
-            rows={6}
-            {...form.getInputProps("content")}
-          />
-        </Flex>
-        <Flex justify="end" mt={16}>
-          <Button type="submit">Submit</Button>
-        </Flex>
-      </form>
+      <NewCommentForm
+        createComment={createComment}
+        project={project}
+        stepId={stepId}
+        testId={testId}
+      />
     </>
   );
 }
