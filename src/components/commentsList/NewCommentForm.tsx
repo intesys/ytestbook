@@ -68,7 +68,7 @@ export const NewCommentForm = ({
         <Flex direction="column" gap={16}>
           <Select
             withAsterisk
-            label="Member"
+            label="Author"
             data={nameOptions}
             allowDeselect
             {...form.getInputProps("collaboratorId")}
