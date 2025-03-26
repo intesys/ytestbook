@@ -32,6 +32,7 @@ import { NewCommentForm } from "./NewCommentForm.tsx";
 import { TFilterForm } from "./types";
 import classes from "./CommentsList.module.css";
 import clsx from "clsx";
+import { EditableHtmlText } from "../shared/EditableHtmlText.tsx";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -40,6 +41,7 @@ type CommentsListProps = Readonly<{
   createComment: TUseTestCase["createComment"];
   removeComment: TUseTestCase["removeComment"];
   updateCommentResolved: TUseTestCase["updateCommentResolved"];
+  updateCommentContent: TUseTestCase["updateCommentContent"];
   filter?: {
     type: "test" | "step";
     elements: (TTest | TStep)[];
@@ -54,6 +56,7 @@ export function CommentsList({
   createComment,
   removeComment,
   updateCommentResolved,
+  updateCommentContent,
   filter,
   showTitle = true,
 }: CommentsListProps) {
@@ -72,6 +75,12 @@ export function CommentsList({
       updateCommentResolved(!comment.resolved, comment.id);
     },
     [updateCommentResolved],
+  );
+  const updateContent = useCallback(
+    (content: string, comment: TComment) => {
+      updateCommentContent(content, comment.id);
+    },
+    [updateCommentContent],
   );
 
   // Compute select type filter options
@@ -292,9 +301,13 @@ export function CommentsList({
                       projectId={project.data?.id}
                       comment={comment}
                     />
-                    <Text
-                      className={classes.fadedElement}
-                      dangerouslySetInnerHTML={{ __html: comment.content }}
+
+                    <EditableHtmlText
+                      textProps={{
+                        className: classes.fadedElement,
+                      }}
+                      value={comment.content}
+                      onChange={(content) => updateContent(content, comment)}
                     />
                   </Flex>
                 </Flex>

@@ -254,21 +254,48 @@ export function useTestCase(
       [changeDoc, projectId, caseId],
     );
 
+  const updateCommentContent: TUseTestCase["updateCommentContent"] =
+    useCallback(
+      (content, commentId) => {
+        changeDoc((d) => {
+          const project = d.projects.find(
+            (item) => projectId && item.id === projectId,
+          );
+          const testCase = project?.testCases.find(
+            (item) => item.id === caseId,
+          );
+          if (!testCase) {
+            return;
+          }
+          const comment = testCase.comments.find(
+            (comment) => comment.id === commentId,
+          );
+          if (!comment) {
+            return;
+          }
+          comment.content = content;
+        });
+      },
+      [changeDoc, projectId, caseId],
+    );
+
   const sharedMethods = useMemo(
     () => ({
-      createTest,
       createComment,
+      createTest,
+      removeComment,
+      removeTest,
+      updateCommentContent,
+      updateCommentResolved,
       updateTest,
       updateTestDescription,
-      removeTest,
-      removeComment,
-      updateCommentResolved,
     }),
     [
       createComment,
       createTest,
       removeComment,
       removeTest,
+      updateCommentContent,
       updateCommentResolved,
       updateTest,
       updateTestDescription,
@@ -300,12 +327,6 @@ export function useTestCase(
     data: testCase,
     loading: false,
     error: false,
-    createTest,
-    createComment,
-    updateTest,
-    updateTestDescription,
-    removeTest,
-    removeComment,
-    updateCommentResolved,
+    ...sharedMethods,
   };
 }
