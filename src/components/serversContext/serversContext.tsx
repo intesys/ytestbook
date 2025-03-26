@@ -21,7 +21,6 @@ import {
   TServersProviderProps,
   YtServer,
 } from "./types";
-import { useIsFirstRender } from "@mantine/hooks";
 import { useSyncServersOnStorage } from "./hooks/useSyncServersOnStorage";
 
 const urlPrefix = "automerge:";
@@ -43,10 +42,11 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
   children,
 }) => {
   const [servers, setServers] = useState<ServersList>({});
-  const isFirstRender = useIsFirstRender();
+  const [isServerLoadedFromStorage, setIsServerLoadedFromStorage] =
+    useState(false);
 
   // On server list update save localstroerage
-  useSyncServersOnStorage(servers, isFirstRender);
+  useSyncServersOnStorage(servers, !isServerLoadedFromStorage);
 
   const addListenersToHandler = useCallback(
     (handler: Repo, serverId: string) => {
@@ -116,7 +116,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
 
   // load initial servers from user's local storage
   useEffect(() => {
-    if (!isFirstRender) {
+    if (isServerLoadedFromStorage) {
       return;
     }
 
@@ -194,6 +194,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         });
 
         setServers(serversInitialized);
+        setIsServerLoadedFromStorage(true);
         return;
       }
     }
@@ -202,8 +203,10 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
     const serversInitialized: ServersList = {
       offline: offlineServerInitializer,
     };
+
     setServers(serversInitialized);
-  }, [addListenersToHandler, isFirstRender]);
+    setIsServerLoadedFromStorage(true);
+  }, [addListenersToHandler, isServerLoadedFromStorage]);
 
   const disconnectFromServer = useCallback((serverId: string) => {
     openDeleteConfirmModal("Disconnect from server?", {
