@@ -153,6 +153,13 @@ export function CommentsList({
     <>
       {showTitle ? <Title order={4}>Notes</Title> : null}
 
+      <NewCommentForm
+        createComment={createComment}
+        project={project}
+        stepId={stepId}
+        testId={testId}
+      />
+
       {comments.length === 0 ? (
         <Text ta={"center"}>There are still no notes here</Text>
       ) : (
@@ -296,13 +303,6 @@ export function CommentsList({
           </Stack>
         </Stack>
       )}
-
-      <NewCommentForm
-        createComment={createComment}
-        project={project}
-        stepId={stepId}
-        testId={testId}
-      />
     </>
   );
 }
