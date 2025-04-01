@@ -5,15 +5,15 @@ import {
   TooltipProps,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { IconPlaylistAdd, TablerIconsProps } from "@tabler/icons-react";
-import { useCallback } from "react";
+import { IconPlaylistAdd } from "@tabler/icons-react";
+import { ComponentProps, useCallback } from "react";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
 import { Modals } from "../../modals/modals.ts";
 
 type BulkAddButtonProps = ActionIconProps & {
   onBulkLoad?: (values: string[]) => void;
   icon?: React.ReactNode;
-  iconProps?: TablerIconsProps;
+  iconProps?: ComponentProps<typeof IconPlaylistAdd>;
   tooltipProps?: Omit<TooltipProps, "children" | "label">;
 };
 
