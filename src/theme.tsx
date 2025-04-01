@@ -13,14 +13,14 @@ export const theme = createTheme({
   black: "#3C3C3C",
   colors: {
     primary: [
-      "#eaefff",
+      "#ebeefb", // BLU Shades/blu 1
       "#d2dbff",
       "#a2b3f8",
       "#7088f4",
       "#4664ef",
       "#2c4ded",
       "#1d42ed",
-      "#0f34d4",
+      "#0F33CE", // Primary Blue
       "#052ebe",
       "#0027a8",
     ],

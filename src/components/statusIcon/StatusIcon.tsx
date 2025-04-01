@@ -4,7 +4,7 @@ import {
   ThemeIconVariant,
   Tooltip,
 } from "@mantine/core";
-import { useMemo } from "react";
+import { CSSProperties, useMemo } from "react";
 import {
   MdCheckCircle,
   MdDangerous,
@@ -17,13 +17,16 @@ import {
 import { getStatusColor } from "../../lib/helpers/getStatusColor";
 import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
 import { StatusEnum } from "../../types/schema";
+import classes from "./statusIcon.module.css";
 
 export interface StatusIconProps {
   status?: StatusEnum;
   size?: number;
   variant?: ThemeIconVariant;
   color?: DefaultMantineColor;
+  hoverColor?: DefaultMantineColor;
   showTooltip?: boolean;
+  style?: CSSProperties;
 }
 
 export const StatusIcon = ({
@@ -32,9 +35,22 @@ export const StatusIcon = ({
   variant = "transparent",
   color,
   showTooltip = true,
+  hoverColor,
+  style,
 }: StatusIconProps) => {
   const statusColor = color ?? getStatusColor(status);
   const tooltip = getStatusLabel(status);
+
+  const styles = useMemo(() => {
+    if (hoverColor) {
+      return {
+        "--status-icon-hover-color": hoverColor, // passing the hoverColor through CSS variable since Mantine doesn't support '&:hover' in styles since 7.x
+        ...style,
+      };
+    }
+
+    return style;
+  }, [hoverColor, style]);
 
   const statusIcon = useMemo(() => {
     switch (status) {
@@ -63,7 +79,15 @@ export const StatusIcon = ({
   }, [status]);
 
   const themeIcon = (
-    <ThemeIcon color={statusColor} variant={variant} size={size}>
+    <ThemeIcon
+      className={classes.statusIcon}
+      color={statusColor}
+      variant={variant}
+      size={size}
+      styles={{
+        root: styles,
+      }}
+    >
       {statusIcon}
     </ThemeIcon>
   );

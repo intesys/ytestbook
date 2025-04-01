@@ -22,6 +22,10 @@
 
 .stepSwitch {
   grid-column: 1 / span 12;
+  background-color: var(--mantine-color-primary-0);
+  margin-left: -40px;
+  margin-right: -40px;
+  padding: 20px 40px 25px;
 }
 
 .closestSteps {
