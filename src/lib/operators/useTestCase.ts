@@ -54,11 +54,11 @@ export function useTestCase(
           id: testId,
           caseId,
           createdAt: date.getTime(),
-          status: StatusEnum.PENDING,
+          status: StatusEnum.TODO,
           steps: [],
         });
 
-        computeStatus(testCase, testCase.tests);
+        computeStatus(testCase, testCase.tests, "testCase");
       });
     },
     [projectId, caseId, changeDoc],

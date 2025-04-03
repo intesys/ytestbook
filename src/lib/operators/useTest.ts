@@ -50,8 +50,8 @@ export function useTest(
         });
         test.lastUpdate = project.lastUpdate = date.getTime();
 
-        computeStatus(test, test.steps);
-        computeStatus(testCase, testCase.tests);
+        computeStatus(test, test.steps, "test");
+        computeStatus(testCase, testCase.tests, "testCase");
       });
     },
     [projectId, caseId, testId, changeDoc],
@@ -78,8 +78,8 @@ export function useTest(
           const previousStatus = step.status;
 
           step.status = status;
-          computeStatus(test, test.steps);
-          computeStatus(testCase, testCase.tests);
+          computeStatus(test, test.steps, "test");
+          computeStatus(testCase, testCase.tests, "testCase");
           step.lastUpdate =
             test.lastUpdate =
             project.lastUpdate =

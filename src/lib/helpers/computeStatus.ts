@@ -1,5 +1,5 @@
 import { TCase, TStep, TTest } from "../../types/schema";
-import { resolveStatuses } from "./resolveStatuses/resolveStatuses";
+import { resolveStatuses, TargetType } from "./resolveStatuses/resolveStatuses";
 
 /**
  * Computes and assigns the status of a target entity based on the statuses of related items.
@@ -11,7 +11,11 @@ import { resolveStatuses } from "./resolveStatuses/resolveStatuses";
 export function computeStatus(
   target: TTest | TCase,
   items: TStep[] | TTest[] | TCase[],
+  targetType: TargetType,
 ) {
-  const resolvedStatus = resolveStatuses(items.map((item) => item.status));
+  const resolvedStatus = resolveStatuses(
+    items.map((item) => item.status),
+    targetType,
+  );
   target.status = resolvedStatus;
 }

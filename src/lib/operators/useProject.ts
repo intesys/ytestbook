@@ -189,7 +189,7 @@ export function useProject(projectId: string | undefined): TUseProject {
           id: crypto.randomUUID(),
           projectId,
           createdAt: date.getTime(),
-          status: StatusEnum.PENDING,
+          status: StatusEnum.TODO,
           completion: 0,
           tests: [],
           comments: [],
