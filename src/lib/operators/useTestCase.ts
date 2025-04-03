@@ -185,28 +185,6 @@ export function useTestCase(
       [projectId, caseId, changeDoc],
     );
 
-  const updateTestStatus: TUseTestCase["updateTestStatus"] = useCallback(
-    (testId, status) => {
-      if (!projectId || !caseId) {
-        return;
-      }
-      const date = new Date();
-      changeDoc((d) => {
-        const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
-        );
-        const testCase = project?.testCases.find((item) => item.id === caseId);
-        const test = testCase?.tests.find((test) => test.id === testId);
-        if (!project || !testCase || !test) {
-          return;
-        }
-        test.status = status;
-        test.lastUpdate = project.lastUpdate = date.getTime();
-      });
-    },
-    [projectId, caseId, changeDoc],
-  );
-
   const removeTest: TUseTestCase["removeTest"] = useCallback(
     (testId) => {
       if (!testId) {
@@ -282,7 +260,6 @@ export function useTestCase(
       createComment,
       updateTest,
       updateTestDescription,
-      updateTestStatus,
       removeTest,
       removeComment,
       updateCommentResolved,
@@ -295,7 +272,6 @@ export function useTestCase(
       updateCommentResolved,
       updateTest,
       updateTestDescription,
-      updateTestStatus,
     ],
   );
 
@@ -328,7 +304,6 @@ export function useTestCase(
     createComment,
     updateTest,
     updateTestDescription,
-    updateTestStatus,
     removeTest,
     removeComment,
     updateCommentResolved,
