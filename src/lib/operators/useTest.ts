@@ -57,8 +57,8 @@ export function useTest(
     [projectId, caseId, testId, changeDoc],
   );
 
-  const updateStepStatus: TUseTest["updateStepStatus"] = useCallback(
-    (stepId, status, collaboratorId, notes) => {
+  const updateStepStatuses: TUseTest["updateStepStatuses"] = useCallback(
+    (stepIds, status, collaboratorId, notes) => {
       if (!projectId || !caseId || !testId) {
         return;
       }
@@ -69,33 +69,78 @@ export function useTest(
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         const test = testCase?.tests.find((test) => test.id === testId);
-        const step = test?.steps.find((step) => step.id === stepId);
-        if (!step || !test || !testCase || !project) {
+        const steps = test?.steps.filter((step) => stepIds.includes(step.id));
+        if (!steps || !test || !testCase || !project) {
           return;
         }
 
-        const previousStatus = step.status;
+        steps.forEach((step) => {
+          const previousStatus = step.status;
 
-        step.status = status;
-        computeStatus(test, test.steps);
-        computeStatus(testCase, testCase.tests);
-        step.lastUpdate = test.lastUpdate = project.lastUpdate = date.getTime();
+          step.status = status;
+          computeStatus(test, test.steps);
+          computeStatus(testCase, testCase.tests);
+          step.lastUpdate =
+            test.lastUpdate =
+            project.lastUpdate =
+              date.getTime();
 
-        project?.statusChanges.push({
-          id: crypto.randomUUID(),
-          createdAt: date.getTime(),
-          caseId,
-          previousStatus,
-          stepId,
-          targetStatus: status,
-          testId,
-          collaboratorId,
-          notes,
+          project?.statusChanges.push({
+            id: crypto.randomUUID(),
+            createdAt: date.getTime(),
+            caseId,
+            previousStatus,
+            stepId: step.id,
+            targetStatus: status,
+            testId,
+            collaboratorId,
+            notes,
+          });
         });
       });
     },
     [projectId, caseId, testId, changeDoc],
   );
+
+  // const updateStepStatuses: TUseTest["updateStepStatus"] = useCallback(
+  //   (stepId, status, collaboratorId, notes) => {
+  //     if (!projectId || !caseId || !testId) {
+  //       return;
+  //     }
+  //     const date = new Date();
+  //     changeDoc((d) => {
+  //       const project = d.projects.find(
+  //         (item) => projectId && item.id === projectId,
+  //       );
+  //       const testCase = project?.testCases.find((item) => item.id === caseId);
+  //       const test = testCase?.tests.find((test) => test.id === testId);
+  //       const step = test?.steps.find((step) => step.id === stepId);
+  //       if (!step || !test || !testCase || !project) {
+  //         return;
+  //       }
+
+  //       const previousStatus = step.status;
+
+  //       step.status = status;
+  //       computeStatus(test, test.steps, "test");
+  //       computeStatus(testCase, testCase.tests, "testCase");
+  //       step.lastUpdate = test.lastUpdate = project.lastUpdate = date.getTime();
+
+  //       project?.statusChanges.push({
+  //         id: crypto.randomUUID(),
+  //         createdAt: date.getTime(),
+  //         caseId,
+  //         previousStatus,
+  //         stepId,
+  //         targetStatus: status,
+  //         testId,
+  //         collaboratorId,
+  //         notes,
+  //       });
+  //     });
+  //   },
+  //   [projectId, caseId, testId, changeDoc],
+  // );
 
   const updateStep: TUseTest["updateStep"] = useCallback(
     (values, stepId) => {
@@ -148,7 +193,7 @@ export function useTest(
       loading: true,
       error: false,
       createStep,
-      updateStepStatus,
+      updateStepStatuses,
       removeStep,
       updateStep,
     };
@@ -161,7 +206,7 @@ export function useTest(
       loading: false,
       error: true,
       createStep,
-      updateStepStatus,
+      updateStepStatuses,
       removeStep,
       updateStep,
     };
@@ -173,7 +218,7 @@ export function useTest(
     loading: false,
     error: false,
     createStep,
-    updateStepStatus,
+    updateStepStatuses,
     removeStep,
     updateStep,
   };

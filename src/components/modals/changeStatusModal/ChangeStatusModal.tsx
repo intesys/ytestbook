@@ -1,12 +1,22 @@
-import { Button, Group, Select, Stack, Textarea } from "@mantine/core";
+import {
+  Button,
+  Group,
+  InputWrapper,
+  Select,
+  Stack,
+  Textarea,
+} from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { useCallback, useMemo } from "react";
 import { USER_ANONYMOUS } from "../../../lib/constants/generic.ts";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
 import { TUseProject } from "../../../lib/operators/types.ts";
+import { StatusEnum } from "../../../types/schema.ts";
+import { StatusMenuDropdown } from "../../statusMenu/StatusMenuDropdown.tsx";
 
 export type ChangeStatusFormValues = {
+  status: StatusEnum;
   collaboratorId?: string;
   notes?: string;
 };
@@ -14,16 +24,18 @@ export type ChangeStatusFormValues = {
 export type TChangeStatusModalInnerProps<T> = {
   project: TUseProject;
   defaultValues?: ChangeStatusFormValues;
+  statusChangable?: boolean;
   handleSubmit: (values: T) => void;
 };
 
 export function ChangeStatusModal({
   id,
   context,
-  innerProps: { project, defaultValues, handleSubmit },
+  innerProps: { project, defaultValues, handleSubmit, statusChangable = false },
 }: ContextModalProps<TChangeStatusModalInnerProps<ChangeStatusFormValues>>) {
   const form = useForm<ChangeStatusFormValues>({
     initialValues: defaultValues ?? {
+      status: StatusEnum.TODO,
       collaboratorId: "",
       notes: "",
     },
@@ -58,9 +70,28 @@ export function ChangeStatusModal({
     }
   }, [project.data?.collaborators]);
 
+  const onStatusChange = useCallback(
+    (status: StatusEnum) => {
+      form.setFieldValue("status", status);
+    },
+    [form],
+  );
+
   return (
     <form onSubmit={form.onSubmit(handleFormSubmit)}>
       <Stack gap="md">
+        {statusChangable && (
+          <InputWrapper
+            label="Status"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <StatusMenuDropdown
+              onSelect={onStatusChange}
+              currentStatus={form.values.status}
+            />
+          </InputWrapper>
+        )}
+
         <Select
           withAsterisk
           label="Assign to"

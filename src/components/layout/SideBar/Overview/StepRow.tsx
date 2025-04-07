@@ -58,7 +58,7 @@ export const StepRow = ({
           <div onClick={blockEvents}>
             <StatusButton
               step={step}
-              updateStepStatus={test.updateStepStatus}
+              updateStepStatuses={test.updateStepStatuses}
             />
           </div>
 

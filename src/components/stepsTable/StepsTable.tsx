@@ -1,35 +1,52 @@
-import { Button, Group, Table, Text, ThemeIcon, Title } from "@mantine/core";
+import {
+  Button,
+  Checkbox,
+  Group,
+  Table,
+  Text,
+  ThemeIcon,
+  Title,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
-import { MouseEvent, useCallback } from "react";
+import { MouseEvent, useCallback, useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import Delete from "../../assets/icons/delete.svg";
 import { routesHelper } from "../../lib/helpers/routesHelper.ts";
 import { TUseTest } from "../../lib/operators/types";
-import { TStep } from "../../types/schema.ts";
-import { openDeleteConfirmModal } from "../modals/modals.ts";
+import { StatusEnum, TStep } from "../../types/schema.ts";
+import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import { BulkAddButton } from "../shared/BulkAddButton/BulkAddButton.tsx";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
 import { StatusButton } from "../statusButton/StatusButton";
 import classes from "./stepsTable.module.css";
+import { modals } from "@mantine/modals";
+import { useProject } from "../../lib/operators/useProject.ts";
+import { ChangeStatusFormValues } from "../modals/changeStatusModal/ChangeStatusModal.tsx";
+import Edit from "../../assets/icons/edit.svg";
 
 export function StepsTable({
   steps,
   createStep,
-  updateStepStatus,
+  updateStepStatuses,
   removeStep,
 }: {
   steps: TStep[];
   createStep: TUseTest["createStep"];
-  updateStepStatus: TUseTest["updateStepStatus"];
+  updateStepStatuses: TUseTest["updateStepStatuses"];
   removeStep: TUseTest["removeStep"];
 }) {
   const params = useParams();
+  const project = useProject(params.projectId);
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
+  const [selectedSteps, setSelectedSteps] = useState<string[]>([]);
+
+  const allChecked = selectedSteps.length === steps.length;
+  const indeterminate = selectedSteps.length > 0 && !allChecked;
 
   const createNewStep = useCallback(
     (title: string) => {
@@ -50,9 +67,49 @@ export function StepsTable({
     [createNewStep],
   );
 
+  const handleStatusChange = (values: ChangeStatusFormValues) => {
+    console.log("🚀 ~ handleStatusChange ~ values:", values);
+
+    updateStepStatuses(
+      selectedSteps,
+      values.status as StatusEnum,
+      values.collaboratorId,
+      values.notes,
+    );
+  };
+
+  const onStatusChange = () => {
+    modals.openContextModal({
+      modal: Modals.ChangeStatusModal,
+      title: (
+        <Group wrap="nowrap" gap={6}>
+          Bulk update status
+        </Group>
+      ),
+      centered: true,
+      innerProps: {
+        project,
+        handleSubmit: handleStatusChange,
+        statusChangable: true,
+      },
+    });
+  };
+
   return (
     <>
-      <Title order={4}>Steps</Title>
+      <Group justify="space-between" mb={20}>
+        <Title order={4}>Steps</Title>
+
+        {selectedSteps.length > 0 && (
+          <Button
+            variant="default"
+            onClick={onStatusChange}
+            leftSection={<img src={Edit} height={24} width={24} />}
+          >
+            Bulk edit
+          </Button>
+        )}
+      </Group>
 
       {steps.length === 0 && !opened ? (
         <Text>The steps list is empty.</Text>
@@ -60,6 +117,24 @@ export function StepsTable({
         <Table verticalSpacing={10} horizontalSpacing={20} withTableBorder>
           <Table.Thead>
             <Table.Tr>
+              <Table.Th>
+                <Text fw={"bold"}>
+                  <Checkbox
+                    size="xs"
+                    checked={allChecked}
+                    indeterminate={indeterminate}
+                    onChange={(event) => {
+                      const { checked } = event.currentTarget;
+
+                      if (checked) {
+                        setSelectedSteps(steps.map((step) => step.id));
+                      } else {
+                        setSelectedSteps([]);
+                      }
+                    }}
+                  />
+                </Text>
+              </Table.Th>
               <Table.Th>
                 <Text fw={"bold"}>Status</Text>
               </Table.Th>
@@ -125,9 +200,26 @@ export function StepsTable({
                   }
                 >
                   <Table.Td>
+                    <Checkbox
+                      size="xs"
+                      checked={selectedSteps.includes(step.id)}
+                      onChange={(event) => {
+                        const { checked } = event.currentTarget;
+
+                        if (checked) {
+                          setSelectedSteps((prev) => [...prev, step.id]);
+                        } else {
+                          setSelectedSteps((prev) =>
+                            prev.filter((id) => id !== step.id),
+                          );
+                        }
+                      }}
+                    />
+                  </Table.Td>
+                  <Table.Td>
                     <StatusButton
                       step={step}
-                      updateStepStatus={updateStepStatus}
+                      updateStepStatuses={updateStepStatuses}
                     />
                   </Table.Td>
                   <Table.Td>
