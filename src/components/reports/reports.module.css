@@ -1,0 +1,29 @@
+.reports {
+  padding: 30px 40px;
+  row-gap: 34px;
+  width: 100%;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 30px 15px;
+  }
+}
+
+.header {
+  grid-column: 1 / span 12;
+}
+
+.projectData {
+  grid-column: 1 / span 12;
+}
+
+.collaborators {
+  grid-column: 1 / span 12;
+}
+
+.tags {
+  grid-column: 1 / span 12;
+}
+
+.alert {
+  grid-column: 1 / span 12;
+}
