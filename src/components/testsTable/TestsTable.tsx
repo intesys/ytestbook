@@ -153,6 +153,7 @@ export function TestsTable({
                   <SimpleNewElementForm
                     onSubmit={createNewTest}
                     close={close}
+                    placeholder="Enter the new Test title"
                   />
                 </Table.Td>
               </Table.Tr>
@@ -174,7 +175,7 @@ export function TestsTable({
         >
           Add test
         </Button>
-        <BulkAddButton onBulkLoad={bulkLoadHandler} />
+        <BulkAddButton title="Bulk Add Tests" onBulkLoad={bulkLoadHandler} />
       </Group>
     </>
   );
