@@ -1,15 +1,21 @@
-import { StatusEnum, TCase, TStep, TTest } from "../../types/schema";
+import { TCase, TStep, TTest } from "../../types/schema";
+import { resolveStatuses, TargetType } from "./resolveStatuses/resolveStatuses";
 
+/**
+ * Computes and assigns the status of a target entity based on the statuses of related items.
+ *
+ * @param target - The target entity whose status will be computed. It can be of type `TTest` or `TCase`.
+ * @param items - An array of related items whose statuses will be used to compute the target's status.
+ *                 The array can contain elements of type `TStep`, `TTest`, or `TCase`.
+ */
 export function computeStatus(
   target: TTest | TCase,
   items: TStep[] | TTest[] | TCase[],
+  targetType: TargetType,
 ) {
-  const isDone = items.every(
-    (item) =>
-      item.status === StatusEnum.DONE || item.status === StatusEnum.CANCELLED,
+  const resolvedStatus = resolveStatuses(
+    items.map((item) => item.status),
+    targetType,
   );
-
-  isDone
-    ? (target.status = StatusEnum.DONE)
-    : (target.status = StatusEnum.PENDING);
+  target.status = resolvedStatus;
 }
