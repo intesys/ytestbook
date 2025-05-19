@@ -6,6 +6,7 @@ import { routesHelper } from "../../lib/helpers/routesHelper";
 import { TComment } from "../../types/schema";
 import { Link } from "react-router-dom";
 import { useServerName } from "../../lib/helpers/useServerName";
+import classes from "./CommentsList.module.css";
 
 type CommentBreadcrumbsProps = {
   readonly projectId: string;
@@ -29,7 +30,7 @@ export function CommentBreadcrumbs({
   const separator = " > ";
 
   return (
-    <Text size="sm">
+    <Text size="sm" className={classes.fadedElement}>
       {testCase.data ? (
         <Anchor
           component={Link}

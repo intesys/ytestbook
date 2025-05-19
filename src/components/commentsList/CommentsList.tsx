@@ -37,6 +37,8 @@ import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { StatusIconWithLabel } from "../statusIcon/StatusIconWithLabel.tsx";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
 import { TFilterForm } from "./types";
+import classes from "./CommentsList.module.css";
+import clsx from "clsx";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -226,7 +228,14 @@ export function CommentsList({
                 );
 
               return (
-                <Flex key={comment.id} gap={10}>
+                <Flex
+                  key={comment.id}
+                  gap={10}
+                  className={clsx({
+                    [classes.comment]: true,
+                    [classes.commentSolved]: comment.resolved,
+                  })}
+                >
                   {collaboratorAvatar(collaborator)}
                   <Flex
                     direction={"column"}
@@ -244,11 +253,16 @@ export function CommentsList({
                         md: "row",
                       }}
                     >
-                      <Text fw={700} miw={130}>
+                      <Text fw={700} miw={130} className={classes.fadedElement}>
                         {collaborator?.name ?? USER_ANONYMOUS.name}
                       </Text>
                       {comment.testStatusWhenCreated && (
-                        <Flex gap={6} align="center" style={{ flexBasis: 300 }}>
+                        <Flex
+                          gap={6}
+                          align="center"
+                          style={{ flexBasis: 300 }}
+                          className={classes.fadedElement}
+                        >
                           <Text size="sm" fw={500}>
                             Status when added:{" "}
                           </Text>
@@ -295,7 +309,7 @@ export function CommentsList({
                       </Group>
                     </Flex>
 
-                    <Text size="sm">
+                    <Text size="sm" className={classes.fadedElement}>
                       <RelativeDate timeStamp={comment.createdAt} />
                     </Text>
 
@@ -303,7 +317,9 @@ export function CommentsList({
                       projectId={project.data?.id}
                       comment={comment}
                     />
-                    <Text>{comment.content}</Text>
+                    <Text className={classes.fadedElement}>
+                      {comment.content}
+                    </Text>
                   </Flex>
                 </Flex>
               );

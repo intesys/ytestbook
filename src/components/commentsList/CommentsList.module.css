@@ -1,0 +1,11 @@
+.comment {
+    .fadedElement {
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    &.commentSolved {
+        .fadedElement {
+            opacity: 0.5;
+        }
+    }
+}
