@@ -92,6 +92,7 @@ export type TUseTestCase = {
   updateTestDescription: (testId: string, description: string) => void;
   removeTest: (testId?: string) => void;
   removeComment: (commentId: string) => void;
+  cloneTest: (testId: string) => void;
 } & TOperatorLoader<TCase>;
 
 export type TUseTest = {

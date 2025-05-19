@@ -104,6 +104,13 @@ export function TestDetails() {
     [navigate, project.data, serverName, test?.data?.id, testCase],
   );
 
+  const cloneClickHandler = useCallback(() => {
+    if (!test?.data?.id) {
+      return;
+    }
+    testCase.cloneTest(test?.data?.id);
+  }, [test?.data?.id, testCase]);
+
   if (test.status === TOperatorLoaderStatus.loading) {
     return <SectionLoading />;
   }
@@ -145,6 +152,7 @@ export function TestDetails() {
         handleEditClick={editClickHandler}
         handleDeleteClick={deleteClickHandler}
         handleQuickEdit={handleQuickEdit}
+        handleCloneClick={cloneClickHandler}
       />
       <div className={classes.description}>
         <EditableHtmlText
