@@ -15,6 +15,7 @@ type BulkAddButtonProps = ActionIconProps & {
   icon?: React.ReactNode;
   iconProps?: ComponentProps<typeof IconPlaylistAdd>;
   tooltipProps?: Omit<TooltipProps, "children" | "label">;
+  title?: string;
 };
 
 export const BulkAddButton = ({
@@ -22,12 +23,13 @@ export const BulkAddButton = ({
   icon,
   iconProps = {},
   tooltipProps = {},
+  title = "Bulk Add",
   ...actionIconProps
 }: BulkAddButtonProps) => {
   const clickHandler = useCallback(() => {
     modals.openContextModal({
       modal: Modals.PromptModal,
-      title: "Bulk Add",
+      title,
       centered: true,
       size: "lg",
       innerProps: {
@@ -58,7 +60,7 @@ export const BulkAddButton = ({
   }, [onBulkLoad]);
 
   return (
-    <Tooltip label="Bulk Add" {...tooltipProps}>
+    <Tooltip label={title} {...tooltipProps}>
       <ActionIcon
         variant="subtle"
         color="black"

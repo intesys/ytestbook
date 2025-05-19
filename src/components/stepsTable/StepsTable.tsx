@@ -158,6 +158,7 @@ export function StepsTable({
                   <SimpleNewElementForm
                     onSubmit={createNewStep}
                     close={close}
+                    placeholder="Enter the new Step title"
                   />
                 </Table.Td>
               </Table.Tr>
@@ -179,7 +180,7 @@ export function StepsTable({
         >
           Add step
         </Button>
-        <BulkAddButton onBulkLoad={bulkLoadHandler} />
+        <BulkAddButton title="Bulk Add Steps" onBulkLoad={bulkLoadHandler} />
       </Group>
     </>
   );

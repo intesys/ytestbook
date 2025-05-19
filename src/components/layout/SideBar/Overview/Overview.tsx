@@ -135,6 +135,7 @@ export const Overview: FC<{
                 <SimpleNewElementForm
                   onSubmit={createNewTestCase}
                   close={close}
+                  placeholder="Enter the new Test Case title"
                 />
               </Table.Td>
             </Table.Tr>
@@ -156,9 +157,12 @@ export const Overview: FC<{
           bg="white"
           onClick={open}
         >
-          Add
+          Add Test Case
         </Button>
-        <BulkAddButton onBulkLoad={bulkLoadHandler} />
+        <BulkAddButton
+          title="Bulk add Test Cases"
+          onBulkLoad={bulkLoadHandler}
+        />
       </Group>
     </Stack>
   );

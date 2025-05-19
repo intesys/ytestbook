@@ -10,11 +10,13 @@ type FormValues = {
 type SimpleNewElementFormProps = {
   onSubmit: (title: string) => void;
   close: () => void;
+  placeholder?: string;
 };
 
 export const SimpleNewElementForm = ({
   onSubmit,
   close,
+  placeholder = "Enter title",
 }: SimpleNewElementFormProps) => {
   const form = useForm<FormValues>({
     initialValues: {
@@ -68,6 +70,7 @@ export const SimpleNewElementForm = ({
           {...form.getInputProps("title")}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
+          placeholder={placeholder}
         />
       </form>
     </Box>
