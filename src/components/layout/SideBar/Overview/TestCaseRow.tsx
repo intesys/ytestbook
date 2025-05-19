@@ -1,4 +1,4 @@
-import { Flex, Progress, Table, Text } from "@mantine/core";
+import { Collapse, Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
 import { MouseEvent, useEffect } from "react";
@@ -76,7 +76,7 @@ export function TestCaseRow({
           openSidebar();
         }}
       >
-        <Table.Td onClick={onExpandToggle} w={60}>
+        <Table.Td onClick={onExpandToggle} w={80}>
           {testCase.tests.length > 0 ? <ExpandButton opened={opened} /> : null}
         </Table.Td>
         <Table.Td>
@@ -85,7 +85,7 @@ export function TestCaseRow({
             <Text size="sm">{testCase.title}</Text>
           </Flex>
         </Table.Td>
-        <Table.Td>
+        <Table.Td w={200}>
           <Flex direction={"column"}>
             <Text size="sm" fw={"bold"}>
               {completion}%
@@ -98,32 +98,38 @@ export function TestCaseRow({
             />
           </Flex>
         </Table.Td>
-        <Table.Td visibleFrom="md">
+        <Table.Td visibleFrom="md" w={300}>
           <Tags tags={tags} />
         </Table.Td>
-        <Table.Td visibleFrom="md">
+        <Table.Td visibleFrom="md" w={150}>
           {testCase.lastUpdate ? (
             <RelativeDate timeStamp={testCase.lastUpdate} />
           ) : (
             ""
           )}
         </Table.Td>
-        <Table.Td visibleFrom="md">
+        <Table.Td visibleFrom="md" w={100}>
           <Avatars collaborators={assignees} />
         </Table.Td>
       </Table.Tr>
 
-      {opened
-        ? testCase.tests.map((test) => (
-            <TestRow
-              key={test.id}
-              openSidebar={openSidebar}
-              project={project}
-              test={test}
-              forceExpanded={forceExpanded}
-            />
-          ))
-        : null}
+      <Table.Td colSpan={8} p={0}>
+        <Collapse in={opened} transitionDuration={200}>
+          <div style={{ boxShadow: "0 7px 9px -7px rgba(0,0,0,0.4)" }}>
+            <Table w={"100%"}>
+              {testCase.tests.map((test) => (
+                <TestRow
+                  key={test.id}
+                  openSidebar={openSidebar}
+                  project={project}
+                  test={test}
+                  forceExpanded={forceExpanded}
+                />
+              ))}
+            </Table>
+          </div>
+        </Collapse>
+      </Table.Td>
     </>
   );
 }

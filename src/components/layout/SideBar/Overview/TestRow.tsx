@@ -1,4 +1,4 @@
-import { Flex, Progress, Table, Text } from "@mantine/core";
+import { Box, Collapse, Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
 import { useEffect } from "react";
@@ -72,8 +72,12 @@ export const TestRow = ({
           openSidebar();
         }}
       >
-        <Table.Td onClick={onExpandToggle} w={60}>
-          {test.steps.length > 0 ? <ExpandButton opened={opened} /> : null}
+        <Table.Td onClick={onExpandToggle} w={80} ta={"right"}>
+          {test.steps.length > 0 ? (
+            <Box>
+              <ExpandButton opened={opened} />
+            </Box>
+          ) : null}
         </Table.Td>
         <Table.Td>
           <Flex gap={10} align={"center"} mih={54}>
@@ -81,7 +85,7 @@ export const TestRow = ({
             <Text size="sm">{test.title}</Text>
           </Flex>
         </Table.Td>
-        <Table.Td>
+        <Table.Td w={200}>
           <Flex direction={"column"}>
             <Text size="sm" fw={"bold"}>
               {completion}%
@@ -94,28 +98,32 @@ export const TestRow = ({
             />
           </Flex>
         </Table.Td>
-        <Table.Td visibleFrom="md">
+        <Table.Td visibleFrom="md" w={300}>
           <Tags tags={tags} />
         </Table.Td>
-        <Table.Td visibleFrom="md">
+        <Table.Td visibleFrom="md" w={150}>
           {test.lastUpdate ? <RelativeDate timeStamp={test.lastUpdate} /> : ""}
         </Table.Td>
-        <Table.Td visibleFrom="md">
+        <Table.Td visibleFrom="md" w={100}>
           <Avatars collaborators={assignees} />
         </Table.Td>
       </Table.Tr>
 
-      {opened
-        ? test.steps.map((step) => (
-            <StepRow
-              key={step.id}
-              caseId={test.caseId}
-              openSidebar={openSidebar}
-              project={project}
-              step={step}
-            />
-          ))
-        : null}
+      <Table.Td colSpan={8} p={0}>
+        <Collapse in={opened} transitionDuration={200}>
+          <Table w={"100%"}>
+            {test.steps.map((step) => (
+              <StepRow
+                key={step.id}
+                caseId={test.caseId}
+                openSidebar={openSidebar}
+                project={project}
+                step={step}
+              />
+            ))}
+          </Table>
+        </Collapse>
+      </Table.Td>
     </>
   );
 };

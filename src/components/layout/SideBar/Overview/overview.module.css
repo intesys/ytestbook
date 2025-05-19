@@ -15,27 +15,32 @@
 }
 
 .testCaseRow {
-  background-color: lighten(var(--mantine-color-indigo-6), 1);
+  background-color: white; 
 
   @mixin hover {
-    background-color: lighten(var(--mantine-color-indigo-6), .9);
+    background-color: var(--mantine-color-secondary-3);
   }
-
 }
 
 .testRow{
-  background-color: lighten(var(--mantine-color-indigo-6), .8);
+  background-color: var(--mantine-color-secondary-2);
+
+  &:first-of-type {
+    box-shadow: inset rgba(0, 0, 0, 0.2) 0px 5px 9px -7px;
+  }
 
   @mixin hover {
-    background-color: lighten(var(--mantine-color-indigo-6), .7);
-
+    background-color: var(--mantine-color-secondary-4);
   }
 }
 
 .stepRow{
-  background-color: lighten(var(--mantine-color-indigo-6), .7);
+  background-color: var(--mantine-color-secondary-3);
+    &:first-of-type {
+    box-shadow: inset rgba(0, 0, 0, 0.2) 0px 5px 9px -7px;
+  }
 
   @mixin hover {
-    background-color: lighten(var(--mantine-color-indigo-6),.6);
+    background-color: var(--mantine-color-secondary-4);
   }
 }
