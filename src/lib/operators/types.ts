@@ -84,6 +84,7 @@ export type TUseTestCase = {
     stepId?: string,
   ) => void;
   updateCommentResolved: (isResolved: boolean, commentId: string) => void;
+  updateCommentContent: (content: string, commentId: string) => void;
   updateTest: (
     values: TTestDynamicData & { tags: string[]; assignees: string[] },
     testId?: string,

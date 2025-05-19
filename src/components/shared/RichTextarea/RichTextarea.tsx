@@ -1,6 +1,5 @@
-import { Text } from "@mantine/core";
+import { InputError, Text } from "@mantine/core";
 import { Link, RichTextEditor } from "@mantine/tiptap";
-import { EditorView } from "prosemirror-view";
 import "@mantine/tiptap/styles.css";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
@@ -11,19 +10,25 @@ import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import MimeMatcher from "mime-matcher";
-import { Dispatch, FC, SetStateAction, useCallback } from "react";
-import { IMAGE_INSERT_ALLOWED_MIME_TYPES } from "../../lib/constants/generic.ts";
-import { compressImage } from "../../lib/helpers/compressImage.ts";
-import { convertBase64 } from "../../lib/helpers/convertBase64";
-import { RichTextEditorImageControl } from "./RichTextEditorControls/RichTextEditorImageControl";
+import { EditorView } from "prosemirror-view";
+import { Dispatch, FC, SetStateAction, useCallback, useEffect } from "react";
+import { IMAGE_INSERT_ALLOWED_MIME_TYPES } from "../../../lib/constants/generic.ts";
+import { compressImage } from "../../../lib/helpers/compressImage.ts";
+import { convertBase64 } from "../../../lib/helpers/convertBase64.ts";
+import { RichTextEditorImageControl } from "../RichTextEditorControls/RichTextEditorImageControl.tsx";
 
 export const RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS = "rta-link-dropdown";
 
 export const RichTextarea: FC<{
   label?: string;
   value?: string;
+  error?: string;
   onChange: Dispatch<SetStateAction<string>>;
-}> = ({ label, value, onChange }) => {
+  resetUtilities?: {
+    isToReset: boolean;
+    setAsResetted: () => void;
+  };
+}> = ({ label, value, error, resetUtilities, onChange }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -47,6 +52,13 @@ export const RichTextarea: FC<{
     },
     enablePasteRules: false,
   });
+
+  useEffect(() => {
+    if (resetUtilities?.isToReset) {
+      editor?.commands.setContent(value ?? "");
+      resetUtilities.setAsResetted();
+    }
+  }, [editor?.commands, resetUtilities, value]);
 
   const insertImageIntoEditor = useCallback(
     async (
@@ -192,6 +204,7 @@ export const RichTextarea: FC<{
 
         <RichTextEditor.Content />
       </RichTextEditor>
+      {error ? <InputError>{error}</InputError> : null}
     </div>
   );
 };

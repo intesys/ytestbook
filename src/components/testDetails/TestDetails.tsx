@@ -173,6 +173,7 @@ export function TestDetails() {
             createComment={testCase.createComment}
             removeComment={testCase.removeComment}
             updateCommentResolved={testCase.updateCommentResolved}
+            updateCommentContent={testCase.updateCommentContent}
             filter={{
               elements: test.data.steps,
               type: "step",

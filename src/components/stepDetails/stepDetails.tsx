@@ -176,6 +176,7 @@ export const StepDetails = () => {
                 createComment={testCase.createComment}
                 removeComment={testCase.removeComment}
                 updateCommentResolved={testCase.updateCommentResolved}
+                updateCommentContent={testCase.updateCommentContent}
                 showTitle={false}
               />
             </Tabs.Panel>

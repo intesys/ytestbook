@@ -9,36 +9,30 @@ import {
   Stack,
   Switch,
   Text,
-  Textarea,
   Title,
   Tooltip,
 } from "@mantine/core";
 
-import { isNotEmpty, useForm } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
 import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
 import Delete from "../../assets/icons/delete.svg";
 import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
-import { FormErrorMessages } from "../../lib/formErrors.ts";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
-import {
-  TCollaborator,
-  TComment,
-  TCommentDynamicData,
-  TStep,
-  TTest,
-} from "../../types/schema";
+import { TCollaborator, TComment, TStep, TTest } from "../../types/schema";
 import { Avatars } from "../avatars/Avatars";
 import { openDeleteConfirmModal } from "../modals/modals";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { StatusIconWithLabel } from "../statusIcon/StatusIconWithLabel.tsx";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
+import { NewCommentForm } from "./NewCommentForm.tsx";
 import { TFilterForm } from "./types";
 import classes from "./CommentsList.module.css";
 import clsx from "clsx";
+import { EditableHtmlText } from "../shared/EditableHtmlText.tsx";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -47,6 +41,7 @@ type CommentsListProps = Readonly<{
   createComment: TUseTestCase["createComment"];
   removeComment: TUseTestCase["removeComment"];
   updateCommentResolved: TUseTestCase["updateCommentResolved"];
+  updateCommentContent: TUseTestCase["updateCommentContent"];
   filter?: {
     type: "test" | "step";
     elements: (TTest | TStep)[];
@@ -61,22 +56,12 @@ export function CommentsList({
   createComment,
   removeComment,
   updateCommentResolved,
+  updateCommentContent,
   filter,
   showTitle = true,
 }: CommentsListProps) {
   const params = useParams();
   const project = useProject(params.projectId);
-
-  const form = useForm<TCommentDynamicData>({
-    initialValues: {
-      collaboratorId: "",
-      content: "",
-    },
-    validate: {
-      collaboratorId: isNotEmpty(FormErrorMessages.required),
-      content: isNotEmpty(FormErrorMessages.required),
-    },
-  });
 
   const filterForm = useForm<TFilterForm>({
     initialValues: {
@@ -85,25 +70,17 @@ export function CommentsList({
     },
   });
 
-  const nameOptions = useMemo(() => {
-    if (project.data?.collaborators) {
-      const options = project.data.collaborators.map((collaborator) => ({
-        label: collaborator.name,
-        value: collaborator.id,
-      }));
-      options.push({
-        label: USER_ANONYMOUS.name,
-        value: USER_ANONYMOUS.id,
-      });
-      return options;
-    }
-  }, [project.data?.collaborators]);
-
   const toggleIsResolved = useCallback(
     (comment: TComment) => {
       updateCommentResolved(!comment.resolved, comment.id);
     },
     [updateCommentResolved],
+  );
+  const updateContent = useCallback(
+    (content: string, comment: TComment) => {
+      updateCommentContent(content, comment.id);
+    },
+    [updateCommentContent],
   );
 
   // Compute select type filter options
@@ -184,6 +161,13 @@ export function CommentsList({
   return (
     <>
       {showTitle ? <Title order={4}>Notes</Title> : null}
+
+      <NewCommentForm
+        createComment={createComment}
+        project={project}
+        stepId={stepId}
+        testId={testId}
+      />
 
       {comments.length === 0 ? (
         <Text ta={"center"}>There are still no notes here</Text>
@@ -317,9 +301,14 @@ export function CommentsList({
                       projectId={project.data?.id}
                       comment={comment}
                     />
-                    <Text className={classes.fadedElement}>
-                      {comment.content}
-                    </Text>
+
+                    <EditableHtmlText
+                      textProps={{
+                        className: classes.fadedElement,
+                      }}
+                      value={comment.content}
+                      onChange={(content) => updateContent(content, comment)}
+                    />
                   </Flex>
                 </Flex>
               );
@@ -327,30 +316,6 @@ export function CommentsList({
           </Stack>
         </Stack>
       )}
-
-      <form
-        onSubmit={form.onSubmit((values) => {
-          createComment(values, testId, stepId);
-          form.reset();
-        })}
-      >
-        <Flex direction="column" gap={16}>
-          <Select
-            withAsterisk
-            label="Member"
-            data={nameOptions}
-            {...form.getInputProps("collaboratorId")}
-          />
-          <Textarea
-            placeholder="Your comment here"
-            rows={6}
-            {...form.getInputProps("content")}
-          />
-        </Flex>
-        <Flex justify="end" mt={16}>
-          <Button type="submit">Submit</Button>
-        </Flex>
-      </form>
     </>
   );
 }

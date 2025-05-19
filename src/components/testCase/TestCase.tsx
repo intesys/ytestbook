@@ -138,6 +138,7 @@ export function TestCase() {
           createComment={testCase.createComment}
           removeComment={testCase.removeComment}
           updateCommentResolved={testCase.updateCommentResolved}
+          updateCommentContent={testCase.updateCommentContent}
           filter={{
             elements: testCase.data.tests,
             type: "test",

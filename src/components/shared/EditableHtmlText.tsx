@@ -2,7 +2,7 @@ import { Box, Text, TextProps } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { isEditableHtmlTextPopupVisible } from "../../lib/helpers/isEditableHtmlTextPopupVisible";
-import { RichTextarea } from "./RichTextarea";
+import { RichTextarea } from "./RichTextarea/RichTextarea";
 
 type EditableHtmlTextProps = {
   name?: string;
