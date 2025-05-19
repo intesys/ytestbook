@@ -5,6 +5,8 @@ export const routesHelper = {
     `/server/${serverName}/project/${projectId}/empty`,
   projectDetailSettings: (serverName: string, projectId: string) =>
     `/server/${serverName}/project/${projectId}/settings`,
+  projectDetailReports: (serverName: string, projectId: string) =>
+    `/server/${serverName}/project/${projectId}/reports`,
   testCaseDetail: (serverName: string, projectId: string, testCase: string) =>
     `/server/${serverName}/project/${projectId}/testCase/${testCase}`,
   testDetail: (

@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 import slugify from "slugify";
 import { useDocContext } from "../../components/docContext/DocContext";
 import { TJsonExport } from "../../types/json-export";
-import { StatusEnum, TDocType } from "../../types/schema";
+import { StatusEnum, TDocType, TTest } from "../../types/schema";
 import { downloadFile } from "../helpers/downloadFile";
 import { removeTuples } from "../helpers/removeTuples";
 import { TOperatorLoaderStatus, TUseProject } from "./types";
@@ -282,6 +282,55 @@ export function useProject(projectId: string | undefined): TUseProject {
     [changeDoc, projectId],
   );
 
+  const getTestsByTags: TUseProject["getTestsByTags"] = useCallback(() => {
+    if (!projectId) {
+      return {};
+    }
+
+    const project = doc?.projects.find(
+      (item) => projectId && item.id === projectId,
+    );
+    if (!project) {
+      return {};
+    }
+
+    const groupedTags: Record<string, TTest[]> = {};
+    const uniqueTestsWithTags: string[] = [];
+
+    project.tagToTest?.forEach((test) => {
+      const tag = test[0];
+      const testId = test[1];
+      if (!groupedTags[tag]) {
+        groupedTags[tag] = [];
+      }
+      if (!uniqueTestsWithTags.includes(testId)) {
+        uniqueTestsWithTags.push(testId);
+      }
+    }, [] as string[]) ?? [];
+
+    // cycle all testcases and their tests
+    project.testCases.forEach((testCase) => {
+      testCase.tests.forEach((test) => {
+        // test has tags?
+        if (uniqueTestsWithTags.includes(test.id)) {
+          // get all tags for this test
+          const tags = project.tagToTest?.filter(
+            (tuple) => tuple[1] === test.id,
+          );
+
+          // add the test data to groupedTags
+          tags?.forEach((tag) => {
+            if (!groupedTags[tag[0]].includes(test)) {
+              groupedTags[tag[0]].push(test);
+            }
+          });
+        }
+      });
+    });
+
+    return groupedTags;
+  }, [doc?.projects, projectId]);
+
   const updateAllTags: TUseProject["updateAllTags"] = useCallback(
     (newTags) => {
       if (!projectId) {
@@ -435,6 +484,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       removeCollaborator,
       removeTestCase,
       updateProject,
+      getTestsByTags,
     }),
     [
       createCollaborator,
@@ -453,6 +503,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       updateProject,
       updateTestCase,
       updateTestCaseStatus,
+      getTestsByTags,
     ],
   );
 

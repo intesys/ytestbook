@@ -10,12 +10,14 @@ import { useProject } from "../../../lib/operators/useProject";
 import { TProjectDynamicData } from "../../../types/schema";
 import { EditableHtmlText } from "../../shared/EditableHtmlText";
 import classes from "./header.module.scss";
+import { IconReport } from "@tabler/icons-react";
 
 export const Header: React.FC<
   Pick<TProjectDynamicData, "title" | "customer"> & {
     handleSettingsClick?: () => void;
+    handleReportsClick?: () => void;
   }
-> = ({ customer, title, handleSettingsClick }) => {
+> = ({ customer, title, handleSettingsClick, handleReportsClick }) => {
   const params = useParams();
   const project = useProject(params.projectId);
   const [isDetailsOpened, detailsActions] = useDisclosure();
@@ -73,6 +75,18 @@ export const Header: React.FC<
       </div>
 
       {/* <Avatars collaborators={project.data?.collaborators ?? []} /> */}
+      <div className={classes.action}>
+        <Button
+          p={0}
+          variant="transparent"
+          size="24px"
+          onClick={handleReportsClick}
+        >
+          <ThemeIcon color="black" variant="transparent" size={24}>
+            <IconReport />
+          </ThemeIcon>
+        </Button>
+      </div>
       <div className={classes.action}>
         <Button
           p={0}

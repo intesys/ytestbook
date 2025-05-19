@@ -53,6 +53,7 @@ export type TUseProject = {
   getAssigneesByTestId: (testId: TTest["id"]) => TCollaborator[];
   getAssigneesByCaseId: (caseId: TCase["id"]) => TCollaborator[];
   getStatusChangesByStepId: (stepId: TStep["id"]) => TStatusChange[];
+  getTestsByTags: () => Record<string, TTest[]>;
   getCollaborator: (
     collaboratorId: TCollaborator["id"],
   ) => TCollaborator | undefined;

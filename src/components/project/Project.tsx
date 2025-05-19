@@ -33,6 +33,13 @@ export function Project() {
     );
   };
 
+  const goToReports = () => {
+    toggleSidebarStatus(SIDEBAR_STATUS.OPEN);
+    navigate(
+      routesHelper.projectDetailReports(serverName, params.projectId ?? ""),
+    );
+  };
+
   if (project.status === TOperatorLoaderStatus.loading) {
     return (
       <Flex align="center" justify="center" h="100dvh" w={"100%"}>
@@ -53,6 +60,7 @@ export function Project() {
             title={project.data.title}
             customer={project.data.customer}
             handleSettingsClick={goToSettings}
+            handleReportsClick={goToReports}
           />
         </Box>
         <Flex className={classes.content} style={{ flex: 1 }}>
