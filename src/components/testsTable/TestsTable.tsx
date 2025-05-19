@@ -38,16 +38,15 @@ export function TestsTable({
   const [opened, { open, close }] = useDisclosure(false);
 
   const createNewTest = useCallback(
-    (title: string) => {
-      createTest({
+    async (title: string) => {
+      await createTest({
         title,
         assignees: [],
         tags: [],
         description: "",
       });
-      close();
     },
-    [close, createTest],
+    [createTest],
   );
 
   const bulkLoadHandler = useCallback(
