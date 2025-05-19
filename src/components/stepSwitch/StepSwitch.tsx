@@ -10,6 +10,7 @@ import {
 import ArrowsUpdate from "../../assets/icons/arrows_update.svg";
 import { StatusEnum } from "../../types/schema";
 import { StatusIcon } from "../statusIcon/StatusIcon";
+import { getStatusColor } from "../../lib/helpers/getStatusColor";
 
 type StepSwitchProps = {
   currentStatus: StatusEnum;
@@ -19,7 +20,15 @@ type StepSwitchProps = {
 export const StepSwitch = ({ currentStatus, onChange }: StepSwitchProps) => {
   const data: SegmentedControlItem[] = Object.values(StatusEnum).map((s) => ({
     label: (
-      <StatusIcon status={s} color={s !== currentStatus ? "gray" : undefined} />
+      <StatusIcon
+        status={s}
+        color={s !== currentStatus ? "gray" : undefined}
+        hoverColor={`${getStatusColor(s)}`}
+        style={{
+          height: 34,
+          width: 44,
+        }}
+      />
     ),
     value: s,
   }));
@@ -37,6 +46,14 @@ export const StepSwitch = ({ currentStatus, onChange }: StepSwitchProps) => {
           data={data}
           value={currentStatus}
           onChange={(value) => onChange(value as StatusEnum)}
+          styles={{
+            label: {
+              padding: 0,
+            },
+            innerLabel: {
+              padding: 0,
+            },
+          }}
         />
       </Box>
 
