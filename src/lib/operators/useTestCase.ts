@@ -207,6 +207,78 @@ export function useTestCase(
     [changeDoc, projectId, caseId],
   );
 
+  const cloneTest: TUseTestCase["cloneTest"] = useCallback(
+    (testIdToClone) => {
+      if (!projectId || !testIdToClone) {
+        return;
+      }
+      const date = new Date();
+
+      const project = doc?.projects.find(
+        (item) => projectId && item.id === projectId,
+      );
+      const testCase = project?.testCases.find((item) => item.id === caseId);
+      if (!testCase || !project) {
+        return;
+      }
+      const testToClone = testCase.tests.find(
+        (test) => test.id === testIdToClone,
+      );
+
+      if (!testToClone) {
+        return;
+      }
+
+      changeDoc((d) => {
+        const newTestId = crypto.randomUUID();
+        const project = d.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        const testCase = project?.testCases.find((item) => item.id === caseId);
+
+        if (!project || !testCase) {
+          return;
+        }
+
+        testCase?.tests.push({
+          title: `${testToClone.title} - copy`,
+          description: testToClone.description,
+          id: newTestId,
+          caseId: testToClone.caseId,
+          createdAt: date.getTime(),
+          status: StatusEnum.TODO,
+          steps: testToClone.steps.map((step) => ({
+            ...step,
+            id: crypto.randomUUID(),
+            createdAt: date.getTime(),
+            lastUpdate: date.getTime(),
+            status: StatusEnum.TODO,
+            testId: newTestId,
+          })),
+        });
+
+        // Clone the tags
+        const testTags = project.tagToTest?.filter(
+          (tuple) => tuple[1] === testToClone.id,
+        );
+        testTags?.forEach((tag) =>
+          project.tagToTest?.push([tag[0], newTestId]),
+        );
+
+        // Clone the collaborators
+        const testAssignees = project.collaboratorToTest?.filter(
+          (tuple) => tuple[1] === testToClone.id,
+        );
+        testAssignees?.forEach((assigneeId) =>
+          project.collaboratorToTest?.push([assigneeId[0], newTestId]),
+        );
+
+        computeStatus(testCase, testCase.tests, "testCase");
+      });
+    },
+    [projectId, doc?.projects, changeDoc, caseId],
+  );
+
   const removeComment: TUseTestCase["removeComment"] = useCallback(
     (commentId) => {
       changeDoc((d) => {
@@ -289,6 +361,7 @@ export function useTestCase(
       updateCommentResolved,
       updateTest,
       updateTestDescription,
+      cloneTest,
     }),
     [
       createComment,
@@ -299,6 +372,7 @@ export function useTestCase(
       updateCommentResolved,
       updateTest,
       updateTestDescription,
+      cloneTest,
     ],
   );
 
