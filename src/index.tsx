@@ -1,5 +1,6 @@
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import "mantine-datatable/styles.layer.css";
 import { DatesProvider } from "@mantine/dates";
 import "@mantine/dropzone/styles.css";
 import { ModalsProvider } from "@mantine/modals";
