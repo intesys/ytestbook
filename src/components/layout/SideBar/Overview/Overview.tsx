@@ -53,13 +53,12 @@ export const Overview: FC<{
   );
 
   const createNewTestCase = useCallback(
-    (title: string) => {
+    async (title: string) => {
       project.createTestCase({
         title,
       });
-      close();
     },
-    [close, project],
+    [project],
   );
 
   const openSidebar = () => toggle(SIDEBAR_STATUS.OPEN);

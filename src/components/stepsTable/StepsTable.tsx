@@ -49,13 +49,12 @@ export function StepsTable({
   const indeterminate = selectedSteps.length > 0 && !allChecked;
 
   const createNewStep = useCallback(
-    (title: string) => {
+    async (title: string) => {
       createStep({
         title,
       });
-      close();
     },
-    [close, createStep],
+    [createStep],
   );
 
   const bulkLoadHandler = useCallback(
