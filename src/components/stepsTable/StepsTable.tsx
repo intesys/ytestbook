@@ -117,25 +117,23 @@ export function StepsTable({
         <Table verticalSpacing={10} horizontalSpacing={20} withTableBorder>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>
-                <Text fw={"bold"}>
-                  <Checkbox
-                    size="xs"
-                    checked={allChecked}
-                    indeterminate={indeterminate}
-                    onChange={(event) => {
-                      const { checked } = event.currentTarget;
+              <Table.Th w={40}>
+                <Checkbox
+                  size="xs"
+                  checked={allChecked}
+                  indeterminate={indeterminate}
+                  onChange={(event) => {
+                    const { checked } = event.currentTarget;
 
-                      if (checked) {
-                        setSelectedSteps(steps.map((step) => step.id));
-                      } else {
-                        setSelectedSteps([]);
-                      }
-                    }}
-                  />
-                </Text>
+                    if (checked) {
+                      setSelectedSteps(steps.map((step) => step.id));
+                    } else {
+                      setSelectedSteps([]);
+                    }
+                  }}
+                />
               </Table.Th>
-              <Table.Th>
+              <Table.Th w={180}>
                 <Text fw={"bold"}>Status</Text>
               </Table.Th>
               <Table.Th>
@@ -199,9 +197,12 @@ export function StepsTable({
                     )
                   }
                 >
-                  <Table.Td>
+                  <Table.Td w={40}>
                     <Checkbox
                       size="xs"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                      }}
                       checked={selectedSteps.includes(step.id)}
                       onChange={(event) => {
                         const { checked } = event.currentTarget;
@@ -216,7 +217,7 @@ export function StepsTable({
                       }}
                     />
                   </Table.Td>
-                  <Table.Td>
+                  <Table.Td w={180}>
                     <StatusButton
                       step={step}
                       updateStepStatuses={updateStepStatuses}
