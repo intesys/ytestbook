@@ -95,8 +95,14 @@ export type TUseTestCase = {
 
 export type TUseTest = {
   createStep: (values: TStepDynamicData) => void;
-  updateStepStatus: (
-    stepId: string,
+  // updateStepStatus: (
+  //   stepId: string,
+  //   status: StatusEnum,
+  //   collaboratorId?: string,
+  //   notes?: string,
+  // ) => void;
+  updateStepStatuses: (
+    stepIds: string[],
     status: StatusEnum,
     collaboratorId?: string,
     notes?: string,

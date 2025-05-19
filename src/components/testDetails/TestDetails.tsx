@@ -159,7 +159,7 @@ export function TestDetails() {
         <StepsTable
           steps={test.data.steps}
           createStep={test.createStep}
-          updateStepStatus={test.updateStepStatus}
+          updateStepStatuses={test.updateStepStatuses}
           removeStep={test.removeStep}
         />
       </div>

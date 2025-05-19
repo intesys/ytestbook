@@ -95,8 +95,8 @@ export const StepDetails = () => {
 
   const handleStatusChange =
     (status: StatusEnum) => (values: ChangeStatusFormValues) => {
-      test.updateStepStatus(
-        step.data.id,
+      test.updateStepStatuses(
+        [step.data.id],
         status,
         values.collaboratorId,
         values.notes,
