@@ -10,8 +10,7 @@ import {
   Title,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
-import { IconCopy } from "@tabler/icons-react";
+import { IconCloudUp, IconCopy } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { useNavigate } from "react-router";
 import VisibilityOff from "../../../assets/icons/visibility_off.svg";
@@ -19,15 +18,14 @@ import { parseTimestamp } from "../../../lib/date/parseTimestamp";
 import { routesHelper } from "../../../lib/helpers/routesHelper";
 import { useProjectVisibility } from "../../../lib/repositories/useProjectVisibility";
 import { TDocType } from "../../../types/schema";
+import { CloneProjectModalFormValues } from "../../modals/cloneProjectModal/CloneProjectModal";
 import { CopyProjectToServerFormValues } from "../../modals/copyProjectToServer/CopyProjectToServer";
 import { Modals, openDeleteConfirmModal } from "../../modals/modals";
-import {
-  serversHandler,
-  useServersContext,
-} from "../../serversContext/serversContext";
+import { useServersContext } from "../../serversContext/serversContext";
 import { REPOSITORY_TYPE, YtServer } from "../../serversContext/types";
+import { useCloneProject } from "../hooks/useCloneProject";
+import { useCopyOfflineProjectToServer } from "../hooks/useCopyOfflineProjectToServer";
 import classes from "../repositories.module.css";
-import { getDocHandlerFromRepo } from "../utils.repositories";
 
 type ProjectListProps = {
   repo: YtServer;
@@ -38,6 +36,8 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
   const [doc] = useDocument<TDocType>(repositoryId as AnyDocumentId);
   const { hiddenProjectIds, hideProject } = useProjectVisibility();
   const { servers } = useServersContext();
+  const copyOfflineProjectToServer = useCopyOfflineProjectToServer();
+  const cloneProject = useCloneProject();
 
   const navigate = useNavigate();
 
@@ -72,41 +72,21 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
               title: "Copy project to server",
               centered: true,
               innerProps: {
-                handleSubmit: (values: CopyProjectToServerFormValues) => {
-                  const serverRepo = Object.values(servers).find(
-                    (s) => s.id === values.serverId,
-                  );
-
-                  if (
-                    !serverRepo ||
-                    !serversHandler[values.serverId] ||
-                    !serverRepo.repositoryIds[0]
-                  ) {
-                    notifications.show({
-                      withBorder: true,
-                      title: "Error!",
-                      message: "An error occurred while copying project",
-                      color: "red",
-                    });
-                    return;
-                  }
-
-                  const docHandle = getDocHandlerFromRepo(
-                    serverRepo,
-                    serversHandler[values.serverId],
-                    serverRepo.repositoryIds[0],
-                  );
-
-                  docHandle?.change((doc) => {
-                    doc.projects.push(p);
-                  });
-
-                  notifications.show({
-                    withBorder: true,
-                    title: "Success!",
-                    message: "Project copied to remote server",
-                  });
-                },
+                handleSubmit: (values: CopyProjectToServerFormValues) =>
+                  copyOfflineProjectToServer(p, values.serverId),
+              },
+            });
+          };
+          const cloneProjectOnClick = () => {
+            modals.openContextModal({
+              modal: Modals.CloneProjectModal,
+              title: "Clone Project",
+              centered: true,
+              innerProps: {
+                handleSubmit: (values: CloneProjectModalFormValues) =>
+                  cloneProject(p, values),
+                currentName: p.title,
+                currentServerId: repo.id,
               },
             });
           };
@@ -137,7 +117,7 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                   pos="absolute"
                   w={24}
                   top={15 + 30}
-                  right={15}
+                  right={45}
                   style={{
                     zIndex: 10,
                     cursor: "pointer",
@@ -145,9 +125,25 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                   variant="transparent"
                   c="white"
                 >
-                  <IconCopy />
+                  <IconCloudUp />
                 </ActionIcon>
               ) : null}
+
+              <ActionIcon
+                onClick={cloneProjectOnClick}
+                pos="absolute"
+                w={24}
+                top={15 + 30}
+                right={15}
+                style={{
+                  zIndex: 10,
+                  cursor: "pointer",
+                }}
+                variant="transparent"
+                c="white"
+              >
+                <IconCopy />
+              </ActionIcon>
 
               <Card
                 className={classes.projectCard}
