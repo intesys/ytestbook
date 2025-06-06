@@ -34,6 +34,7 @@ import { ShareServer } from "./partials/ShareServer";
 
 export const Repositories: React.FC = () => {
   const { servers, disconnectFromServer, addServer } = useServersContext();
+  console.log("🚀 ~ servers:", servers);
   const { hiddenProjectIds, showAllProjects } = useProjectVisibility();
 
   const addServerCallback = useCallback(
@@ -41,7 +42,12 @@ export const Repositories: React.FC = () => {
       addServer(values.name, {
         id: slugify(values.name),
         name: values.name,
-        repositoryIds: [values.documentId],
+        repositories: [
+          {
+            id: values.documentId,
+            name: `New Server ${values.documentId}`,
+          },
+        ],
         status: SERVER_STATUS.CONNECTING,
         type: REPOSITORY_TYPE.remote,
         url: values.url,
@@ -105,9 +111,7 @@ export const Repositories: React.FC = () => {
                     <Title order={3} mb={0}>
                       {repo.name}
                     </Title>
-                    <Text>
-                      {repo.url} [{repo.repositoryIds[0]}]
-                    </Text>
+                    <Text>{repo.url}</Text>
 
                     <AnchorWithIcon
                       onClick={() => disconnectFromServer(repo.id)}
@@ -115,10 +119,7 @@ export const Repositories: React.FC = () => {
                       label="Disconnect"
                     />
 
-                    <ShareServer
-                      repo={repo}
-                      repositoryId={repo.repositoryIds[0]}
-                    />
+                    <ShareServer repo={repo} repositoryId={""} />
                   </Group>
                 )}
 
@@ -131,19 +132,27 @@ export const Repositories: React.FC = () => {
                   </Group>
                 ) : null}
 
-                <Grid opacity={isConnecting ? 0.5 : 1}>
-                  {repo.repositoryIds[0] ? (
-                    <ProjectList
-                      repo={repo}
-                      repositoryId={repo.repositoryIds[0]}
-                    />
-                  ) : null}
-                  <Actions
-                    repo={repo}
-                    repositoryId={repo.repositoryIds[0]}
-                    isConnecting={isConnecting}
-                  />
-                </Grid>
+                {repo.repositories?.map((repositoryItem) => {
+                  return (
+                    <Box key={repositoryItem.id} mb={20}>
+                      <Title order={4} c="white" mb={10}>
+                        {repositoryItem.id} {repositoryItem.name}
+                      </Title>
+                      <Grid opacity={isConnecting ? 0.5 : 1}>
+                        <ProjectList
+                          repo={repo}
+                          repositoryId={repositoryItem.id}
+                        />
+
+                        <Actions
+                          repo={repo}
+                          repositoryId={repositoryItem.id}
+                          isConnecting={isConnecting}
+                        />
+                      </Grid>
+                    </Box>
+                  );
+                })}
               </RepoContext.Provider>
             </Box>
           );

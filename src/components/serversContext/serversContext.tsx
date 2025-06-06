@@ -28,6 +28,8 @@ const urlPrefix = "automerge:";
 // global handlers need to be a singleton
 export const serversHandler: Record<string, Repo> = {};
 
+(window as any).serversHandler = serversHandler; // for debugging purposes
+
 const ServersContext = createContext<TServersContextValue>({
   servers: {},
   addServer: () => {},
@@ -66,7 +68,10 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
           newServers[serverId].status = SERVER_STATUS.CONNECTED;
 
           const handlesRepoIds = Object.keys(serversHandler[serverId].handles);
-          newServers[serverId].repositoryIds = handlesRepoIds;
+          newServers[serverId].repositories = handlesRepoIds.map((id) => ({
+            id: id,
+            name: `repository-${id}`,
+          }));
 
           return newServers;
         });
@@ -83,7 +88,10 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
           if (!isEqual(servers[serverId], handlesRepoIds)) {
             setServers((currentServers) => {
               const newServers = { ...currentServers };
-              newServers[serverId].repositoryIds = handlesRepoIds;
+              newServers[serverId].repositories = handlesRepoIds.map((id) => ({
+                id: id,
+                name: `repository-${id}`,
+              }));
               return newServers;
             });
           }
@@ -131,7 +139,14 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       type: REPOSITORY_TYPE.offline,
       status: SERVER_STATUS.CONNECTED,
       url: "offline",
-      repositoryIds: offlineRepoId ? [offlineRepoId] : [],
+      repositories: offlineRepoId
+        ? [
+            {
+              id: offlineRepoId,
+              name: "Offline repository",
+            },
+          ]
+        : [],
     };
 
     serversHandler["offline"] = new Repo({
@@ -148,7 +163,12 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         title: "",
       });
 
-      offlineServerInitializer.repositoryIds = [docHandle.url];
+      offlineServerInitializer.repositories = [
+        {
+          id: docHandle.url,
+          name: "Offline repository",
+        },
+      ];
       localStorage.setItem(
         STORAGE_KEYS.SERVER_OFFLINE_REPOSITORY_ID,
         docHandle.url,
@@ -189,7 +209,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
             type: REPOSITORY_TYPE.remote,
             status: SERVER_STATUS.CONNECTING,
             url: server.url,
-            repositoryIds: server.repositoryIds,
+            repositories: server.repositoryIds,
           };
         });
 

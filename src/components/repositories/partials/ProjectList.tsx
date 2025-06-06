@@ -77,10 +77,15 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                     (s) => s.id === values.serverId,
                   );
 
+                  const repositoryId =
+                    serverRepo?.repositories && serverRepo?.repositories[0]
+                      ? serverRepo.repositories[0].id
+                      : undefined;
+
                   if (
                     !serverRepo ||
                     !serversHandler[values.serverId] ||
-                    !serverRepo.repositoryIds[0]
+                    !repositoryId
                   ) {
                     notifications.show({
                       withBorder: true,
@@ -94,7 +99,7 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                   const docHandle = getDocHandlerFromRepo(
                     serverRepo,
                     serversHandler[values.serverId],
-                    serverRepo.repositoryIds[0],
+                    repositoryId,
                   );
 
                   docHandle?.change((doc) => {

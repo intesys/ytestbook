@@ -16,7 +16,7 @@ export const useSyncServersOnStorage = (
         .map((s) => ({
           id: s.id,
           name: s.name,
-          repositoryIds: s.repositoryIds,
+          repositoryIds: s.repositories || [],
           url: s.url,
         })),
     };

@@ -23,9 +23,11 @@ export const Server = () => {
     return <NotFound />;
   }
 
+  const id = serverLoadStatus.server?.repositories?.at(0)?.id;
+
   return (
     <RepoContext.Provider value={serverLoadStatus.handler}>
-      <DocProvider docUrl={serverLoadStatus.server?.repositoryIds[0]}>
+      <DocProvider docUrl={id}>
         <ScrollToTop />
         <Outlet />
       </DocProvider>

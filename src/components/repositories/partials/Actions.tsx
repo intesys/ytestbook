@@ -52,7 +52,7 @@ export const Actions = ({ repo, repositoryId, isConnecting }: ActionsProps) => {
         },
       },
     });
-  }, [repo.repositoryIds, repoHandler, repositoryId]);
+  }, [repo, repoHandler, repositoryId]);
 
   return (
     <Grid.Col span={{ base: 12, sm: 6, md: 4, lg: 3 }}>

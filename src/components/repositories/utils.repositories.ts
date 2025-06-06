@@ -10,7 +10,7 @@ export const getDocHandlerFromRepo = (
   let docHandle: DocHandle<TDocType> | undefined;
 
   // If no repository ids are found create one
-  if (!repo.repositoryIds || repo.repositoryIds.length === 0) {
+  if (!repo.repositories || repo.repositories.length === 0) {
     docHandle = repoHandler.create<TDocType>({
       projects: [],
       description: "",
