@@ -1,7 +1,5 @@
 import { Repo } from "@automerge/automerge-repo";
-import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
-import { isEqual } from "lodash";
 import {
   createContext,
   useCallback,
@@ -12,6 +10,7 @@ import {
 import { STORAGE_KEYS } from "../../lib/constants/localStorageKeys";
 import { TDocType } from "../../types/schema";
 import { openDeleteConfirmModal } from "../modals/modals";
+import { useSyncServersOnStorage } from "./hooks/useSyncServersOnStorage";
 import {
   REPOSITORY_TYPE,
   SERVER_STATUS,
@@ -21,9 +20,7 @@ import {
   TServersProviderProps,
   YtServer,
 } from "./types";
-import { useSyncServersOnStorage } from "./hooks/useSyncServersOnStorage";
-
-const urlPrefix = "automerge:";
+import { useInitServerConnections } from "./hooks/useInitServerConnections";
 
 // global handlers need to be a singleton
 export const serversHandler: Record<string, Repo> = {};
@@ -31,7 +28,9 @@ export const serversHandler: Record<string, Repo> = {};
 const ServersContext = createContext<TServersContextValue>({
   servers: {},
   addServer: () => {},
+  connectToServer: () => {},
   disconnectFromServer: () => {},
+  removeServer: () => {},
 });
 
 export function useServersContext() {
@@ -47,72 +46,70 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
 
   // On server list update save localstroerage
   useSyncServersOnStorage(servers, !isServerLoadedFromStorage);
+  useInitServerConnections(servers, setServers);
 
-  const addListenersToHandler = useCallback(
-    (handler: Repo, serverId: string) => {
-      // handle server disconnected
-      handler.networkSubsystem.addListener("peer-disconnected", () => {
-        setServers((currentServers) => {
-          const newServers = { ...currentServers };
-          newServers[serverId].status = SERVER_STATUS.DISCONNECTED;
-          return newServers;
-        });
-      });
+  // const addListenersToHandler = useCallback(
+  //   (handler: Repo, serverId: string) => {
+  //     // handle server disconnected
+  //     handler.networkSubsystem.addListener("peer-disconnected", () => {
+  //       setServers((currentServers) => {
+  //         const newServers = { ...currentServers };
+  //         newServers[serverId].status = SERVER_STATUS.DISCONNECTED;
+  //         return newServers;
+  //       });
+  //     });
 
-      // handle server connected
-      handler.networkSubsystem.addListener("peer", () => {
-        setServers((currentServers) => {
-          const newServers = { ...currentServers };
-          newServers[serverId].status = SERVER_STATUS.CONNECTED;
+  //     // handle server connected
+  //     handler.networkSubsystem.addListener("peer", () => {
+  //       setServers((currentServers) => {
+  //         const newServers = { ...currentServers };
+  //         newServers[serverId].status = SERVER_STATUS.CONNECTED;
 
-          const handlesRepoIds = Object.keys(serversHandler[serverId].handles);
-          newServers[serverId].repositoryIds = handlesRepoIds;
+  //         const handlesRepoIds = Object.keys(serversHandler[serverId].handles);
+  //         newServers[serverId].repositoryIds = handlesRepoIds;
 
-          return newServers;
-        });
-      });
+  //         return newServers;
+  //       });
+  //     });
 
-      // Sync server repositoryIDs
-      handler.networkSubsystem.addListener("message", (e) => {
-        if (e.type === "sync") {
-          const handlesRepoIds = Object.keys(
-            serversHandler[serverId].handles,
-          ).map((id) =>
-            id.indexOf(urlPrefix) === 0 ? id : `${urlPrefix}${id}`,
-          );
-          if (!isEqual(servers[serverId], handlesRepoIds)) {
-            setServers((currentServers) => {
-              const newServers = { ...currentServers };
-              newServers[serverId].repositoryIds = handlesRepoIds;
-              return newServers;
-            });
-          }
-        }
-      });
-    },
-    [servers],
-  );
+  //     // Sync server repositoryIDs
+  //     handler.networkSubsystem.addListener("message", (e) => {
+  //       if (e.type === "sync") {
+  //         const handlesRepoIds = Object.keys(
+  //           serversHandler[serverId].handles,
+  //         ).map((id) =>
+  //           id.indexOf(urlPrefix) === 0 ? id : `${urlPrefix}${id}`,
+  //         );
+  //         if (!isEqual(servers[serverId], handlesRepoIds)) {
+  //           setServers((currentServers) => {
+  //             const newServers = { ...currentServers };
+  //             newServers[serverId].repositoryIds = handlesRepoIds;
+  //             return newServers;
+  //           });
+  //         }
+  //       }
+  //     });
+  //   },
+  //   [servers],
+  // );
 
-  const addServer = useCallback(
-    (id: string, repo: YtServer) => {
-      const handler = new Repo({
-        network: [new BrowserWebSocketClientAdapter(repo.url)],
-        storage: new IndexedDBStorageAdapter(),
-        sharePolicy: async () => true,
-        enableRemoteHeadsGossiping: true,
-      });
-      serversHandler[repo.id] = handler;
+  const addServer = useCallback((id: string, repo: YtServer) => {
+    // const handler = new Repo({
+    //   network: [new BrowserWebSocketClientAdapter(repo.url)],
+    //   storage: new IndexedDBStorageAdapter(),
+    //   sharePolicy: async () => true,
+    //   enableRemoteHeadsGossiping: true,
+    // });
+    // serversHandler[repo.id] = handler;
 
-      addListenersToHandler(handler, repo.id);
+    // addListenersToHandler(handler, repo.id);
 
-      setServers((currentServers) => {
-        const newServers = { ...currentServers };
-        newServers[id] = repo;
-        return newServers;
-      });
-    },
-    [addListenersToHandler],
-  );
+    setServers((currentServers) => {
+      const newServers = { ...currentServers };
+      newServers[id] = repo;
+      return newServers;
+    });
+  }, []);
 
   // load initial servers from user's local storage
   useEffect(() => {
@@ -132,6 +129,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       status: SERVER_STATUS.CONNECTED,
       url: "offline",
       repositoryIds: offlineRepoId ? [offlineRepoId] : [],
+      opened: true, // offline server is always opened at initialization
     };
 
     serversHandler["offline"] = new Repo({
@@ -172,24 +170,25 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         };
         serversFromStorage.servers.forEach((server) => {
           // init the server repo with network adapter
-          const handler = new Repo({
-            network: [new BrowserWebSocketClientAdapter(server.url)],
-            storage: new IndexedDBStorageAdapter(),
-            sharePolicy: async () => true,
-            enableRemoteHeadsGossiping: true,
-          });
+          // const handler = new Repo({
+          //   network: [new BrowserWebSocketClientAdapter(server.url)],
+          //   storage: new IndexedDBStorageAdapter(),
+          //   sharePolicy: async () => true,
+          //   enableRemoteHeadsGossiping: true,
+          // });
 
-          addListenersToHandler(handler, server.id);
+          // addListenersToHandler(handler, server.id);
 
-          serversHandler[server.id] = handler;
+          // serversHandler[server.id] = handler;
 
           serversInitialized[server.id] = {
             id: server.id,
             name: server.name,
             type: REPOSITORY_TYPE.remote,
-            status: SERVER_STATUS.CONNECTING,
+            status: SERVER_STATUS.IDLE,
             url: server.url,
             repositoryIds: server.repositoryIds,
+            opened: server.opened ?? false, // default to false if not provided
           };
         });
 
@@ -206,7 +205,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
 
     setServers(serversInitialized);
     setIsServerLoadedFromStorage(true);
-  }, [addListenersToHandler, isServerLoadedFromStorage]);
+  }, [isServerLoadedFromStorage]);
 
   const disconnectFromServer = useCallback((serverId: string) => {
     openDeleteConfirmModal("Disconnect from server?", {
@@ -214,17 +213,37 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       handleConfirm: () =>
         setServers((prevServers) => {
           const newServers = { ...prevServers };
-          delete newServers[serverId];
+          newServers[serverId].opened = false;
 
+          return newServers;
+        }),
+    });
+  }, []);
+
+  const removeServer = useCallback((serverId: string) => {
+    openDeleteConfirmModal("Disconnect and remove the server from the list?", {
+      confirmButtonLabel: "Remove",
+      handleConfirm: () =>
+        setServers((prevServers) => {
+          const newServers = { ...prevServers };
+          newServers[serverId].opened = false;
+          delete newServers[serverId];
           try {
             serversHandler[serverId].networkSubsystem.disconnect();
             delete serversHandler[serverId];
           } catch (error) {
             console.log("Error while disconnecting from remote server", error);
           }
-
           return newServers;
         }),
+    });
+  }, []);
+
+  const connectToServer = useCallback((serverId: string) => {
+    setServers((prevServers) => {
+      const newServers = { ...prevServers };
+      newServers[serverId].opened = true;
+      return newServers;
     });
   }, []);
 
@@ -233,7 +252,9 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       value={{
         servers,
         addServer,
+        connectToServer,
         disconnectFromServer,
+        removeServer,
       }}
     >
       {children}

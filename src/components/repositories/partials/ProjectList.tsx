@@ -72,7 +72,7 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
               title: "Copy project to server",
               centered: true,
               innerProps: {
-                handleSubmit: (values: CopyProjectToServerFormValues) => {
+                handleSubmit: async (values: CopyProjectToServerFormValues) => {
                   const serverRepo = Object.values(servers).find(
                     (s) => s.id === values.serverId,
                   );
@@ -91,7 +91,7 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
                     return;
                   }
 
-                  const docHandle = getDocHandlerFromRepo(
+                  const docHandle = await getDocHandlerFromRepo(
                     serverRepo,
                     serversHandler[values.serverId],
                     serverRepo.repositoryIds[0],

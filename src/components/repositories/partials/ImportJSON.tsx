@@ -28,13 +28,17 @@ export const ImportJSON = ({
 
   const tryImportJSON: (
     fileReaderResult?: FileReader["result"],
-  ) => string | false = (fileReaderResult) => {
+  ) => Promise<string | false> = async (fileReaderResult) => {
     try {
       if (!fileReaderResult || typeof fileReaderResult !== "string") {
         throw Error();
       }
 
-      const docHandle = getDocHandlerFromRepo(repo, repoHandler, repositoryId);
+      const docHandle = await getDocHandlerFromRepo(
+        repo,
+        repoHandler,
+        repositoryId,
+      );
       const parsedData: TJsonExport = JSON.parse(fileReaderResult);
 
       // Checking parsedData validity
@@ -115,8 +119,8 @@ export const ImportJSON = ({
 
         const reader = new FileReader();
 
-        reader.onload = function (event) {
-          const projectId = tryImportJSON(event.target?.result);
+        reader.onload = async function (event) {
+          const projectId = await tryImportJSON(event.target?.result);
 
           if (projectId) {
             navigate(routesHelper.projectDetail(repo.id, projectId));
