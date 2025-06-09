@@ -6,6 +6,7 @@ export enum REPOSITORY_TYPE {
 }
 
 export enum SERVER_STATUS {
+  IDLE = "IDLE",
   CONNECTING = "CONNECTING",
   CONNECTED = "CONNECTED",
   DISCONNECTED = "DISCONNECTED",
@@ -16,17 +17,19 @@ export type ServersList = Record<string, YtServer>;
 export type TServersContextValue = {
   servers: ServersList;
   addServer: (id: string, repository: YtServer) => void;
+  connectToServer: (id: string) => void;
   disconnectFromServer: (id: string) => void;
+  removeServer: (id: string) => void;
 };
 
 export type YtServer = {
   type: REPOSITORY_TYPE;
   id: string;
   name: string;
-  // handler: Repo;
   status: SERVER_STATUS;
   url: string;
   repositoryIds: string[];
+  opened: boolean;
 };
 
 export type TServersProviderProps = { children: React.ReactNode };
@@ -48,5 +51,6 @@ export type StorageServersConfig = {
     id: string;
     url: string;
     repositoryIds: string[];
+    opened?: boolean;
   }[];
 };
