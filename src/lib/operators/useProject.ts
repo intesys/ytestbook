@@ -466,6 +466,44 @@ export function useProject(projectId: string | undefined): TUseProject {
     [changeDoc, projectId],
   );
 
+  const resetProject: TUseProject["resetProject"] = useCallback(
+    ({ resetChangelog, resetNotes }) => {
+      if (!projectId) {
+        return;
+      }
+
+      changeDoc((doc) => {
+        const project = doc.projects.find(
+          (item) => projectId && item.id === projectId,
+        );
+        if (!project) {
+          return;
+        }
+        if (resetChangelog) {
+          project.statusChanges = [];
+        }
+        project.testCases.forEach((testCase, testCaseIndex) => {
+          if (resetNotes) {
+            project.testCases[testCaseIndex].comments = [];
+          }
+          project.testCases[testCaseIndex].status = StatusEnum.TODO;
+          testCase.tests.forEach((test, testIndex) => {
+            project.testCases[testCaseIndex].tests[testIndex].status =
+              StatusEnum.TODO;
+
+            test.steps.forEach((step, stepIndex) => {
+              step.status = StatusEnum.TODO;
+              project.testCases[testCaseIndex].tests[testIndex].steps[
+                stepIndex
+              ].status = StatusEnum.TODO;
+            });
+          });
+        });
+      });
+    },
+    [changeDoc, projectId],
+  );
+
   const methods = useMemo(
     () => ({
       getTagsByTestId,
@@ -485,6 +523,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       removeTestCase,
       updateProject,
       getTestsByTags,
+      resetProject,
     }),
     [
       createCollaborator,
@@ -504,6 +543,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       updateTestCase,
       updateTestCaseStatus,
       getTestsByTags,
+      resetProject,
     ],
   );
 
