@@ -10,11 +10,11 @@ import {
 } from "./confirmModal/ConfirmModal.tsx";
 import { CopyProjectToServer } from "./copyProjectToServer/CopyProjectToServer.tsx";
 import { CreateTestbookModal } from "./createTestbookModal/CreateTestbookModal.tsx";
+import { InsertImageModal } from "./insertImageModal/InsertImageModal.tsx";
 import { PromptModal } from "./promptModal/PromptModal.tsx";
+import { ResetProjectModal } from "./ResetProjectModal/ResetProjectModal.tsx";
 import { ShareServerModal } from "./shareServerModal/ShareServerModal.tsx";
 import { TestCaseModal } from "./testCaseModal/TestCaseModal.tsx";
-import { TestModal } from "./testModal/TestModal.tsx";
-import { InsertImageModal } from "./insertImageModal/InsertImageModal.tsx";
 
 export enum Modals {
   AddServerModal = "AddServerModal",
@@ -28,6 +28,7 @@ export enum Modals {
   ShareServerModal = "ShareServerModal",
   TestCaseModal = "TestCaseModal",
   TestModal = "TestModal",
+  ResetProjectModal = "ResetProjectModal",
 }
 
 export const modals = {
@@ -41,7 +42,7 @@ export const modals = {
   [Modals.PromptModal]: PromptModal,
   [Modals.ShareServerModal]: ShareServerModal,
   [Modals.TestCaseModal]: TestCaseModal,
-  [Modals.TestModal]: TestModal,
+  [Modals.ResetProjectModal]: ResetProjectModal,
 };
 
 export const deleteModalsDefaults = {

@@ -69,6 +69,10 @@ export type TUseProject = {
   ) => void;
   removeCollaborator: (id: TCollaborator["id"]) => void;
   removeTestCase: (testCaseId?: string) => void;
+  resetProject: (options: {
+    resetChangelog: boolean;
+    resetNotes: boolean;
+  }) => void;
   updateProject: (
     data: Partial<Pick<TProject, "title" | "customer" | "description">>,
   ) => void;
