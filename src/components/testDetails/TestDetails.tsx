@@ -18,6 +18,7 @@ import { SectionError } from "../shared/SectionError.tsx";
 import { SectionLoading } from "../shared/SectionLoading.tsx";
 import { StepsTable } from "../stepsTable/StepsTable";
 import classes from "./testDetails.module.css";
+import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -113,74 +114,76 @@ export function TestDetails() {
   }
 
   return (
-    <div className={classes.testDetails}>
-      <div className={classes.backButton}>
-        <Button
-          variant="transparent"
-          leftSection={<Image alt="" src={ArrowCircle} />}
-          p={0}
-          onClick={() => {
-            if (project.data && testCase.data) {
-              navigate(
-                routesHelper.testCaseDetail(
-                  serverName,
-                  project.data.id,
-                  testCase.data.id,
-                ),
-              );
-            }
-          }}
-        >
-          <Text c={"black"} style={{ whiteSpace: "normal" }} ta="left">
-            Go to test case — {test.data.title}
-          </Text>
-        </Button>
-      </div>
-      <ContentHeader
-        status={test.data.status}
-        title={test.data.title}
-        tags={queriedData?.tags || []}
-        assignees={queriedData?.assignees || []}
-        completion={completion}
-        handleEditClick={editClickHandler}
-        handleDeleteClick={deleteClickHandler}
-        handleQuickEdit={handleQuickEdit}
-      />
-      <div className={classes.description}>
-        <EditableHtmlText
-          name="description"
-          onChange={(value) => {
-            testCase.updateTestDescription(test.data.id, value);
-          }}
-          value={test.data.description}
-        />
-      </div>
-      <div className={classes.steps}>
-        <StepsTable
-          steps={test.data.steps}
-          createStep={test.createStep}
-          updateStepStatuses={test.updateStepStatuses}
-          removeStep={test.removeStep}
-        />
-      </div>
-      <div className={classes.comments}>
-        {testCase.data && (
-          <CommentsList
-            testId={test.data.id}
-            comments={testCase.data.comments.filter(
-              (comment) => comment.testId === test.data.id,
-            )}
-            createComment={testCase.createComment}
-            removeComment={testCase.removeComment}
-            updateCommentResolved={testCase.updateCommentResolved}
-            updateCommentContent={testCase.updateCommentContent}
-            filter={{
-              elements: test.data.steps,
-              type: "step",
+    <ContentWrapper>
+      <div className={classes.testDetails}>
+        <div className={classes.backButton}>
+          <Button
+            variant="transparent"
+            leftSection={<Image alt="" src={ArrowCircle} />}
+            p={0}
+            onClick={() => {
+              if (project.data && testCase.data) {
+                navigate(
+                  routesHelper.testCaseDetail(
+                    serverName,
+                    project.data.id,
+                    testCase.data.id,
+                  ),
+                );
+              }
             }}
+          >
+            <Text c={"black"} style={{ whiteSpace: "normal" }} ta="left">
+              Go to test case — {test.data.title}
+            </Text>
+          </Button>
+        </div>
+        <ContentHeader
+          status={test.data.status}
+          title={test.data.title}
+          tags={queriedData?.tags || []}
+          assignees={queriedData?.assignees || []}
+          completion={completion}
+          handleEditClick={editClickHandler}
+          handleDeleteClick={deleteClickHandler}
+          handleQuickEdit={handleQuickEdit}
+        />
+        <div className={classes.description}>
+          <EditableHtmlText
+            name="description"
+            onChange={(value) => {
+              testCase.updateTestDescription(test.data.id, value);
+            }}
+            value={test.data.description}
           />
-        )}
+        </div>
+        <div className={classes.steps}>
+          <StepsTable
+            steps={test.data.steps}
+            createStep={test.createStep}
+            updateStepStatuses={test.updateStepStatuses}
+            removeStep={test.removeStep}
+          />
+        </div>
+        <div className={classes.comments}>
+          {testCase.data && (
+            <CommentsList
+              testId={test.data.id}
+              comments={testCase.data.comments.filter(
+                (comment) => comment.testId === test.data.id,
+              )}
+              createComment={testCase.createComment}
+              removeComment={testCase.removeComment}
+              updateCommentResolved={testCase.updateCommentResolved}
+              updateCommentContent={testCase.updateCommentContent}
+              filter={{
+                elements: test.data.steps,
+                type: "step",
+              }}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </ContentWrapper>
   );
 }

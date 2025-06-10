@@ -1,8 +1,8 @@
 .navbar {
   background-color: var(--mantine-color-primary-0);
-  height: auto;
+  height: calc(100vh - var(--header-height)); 
   min-height: 100%;
-  padding: var(--mantine-spacing-lg); /*theme.spacing.lg, */
+  padding: var(--mantine-spacing-lg); 
   transition: all 0.3s ease-in-out;
 
   @media (max-width: $mantine-breakpoint-sm) {
@@ -23,18 +23,14 @@
 }
 
 .navbarHeader.collapsed {
+  width: 100%;
   @media (max-width: $mantine-breakpoint-sm) {
     width: fit-content;
   }
 }
 
-/* 
-navbar_links {
-  marginLeft: `calc(${theme.spacing.md} * -1)`,
-  marginRight: `calc(${theme.spacing.md} * -1)`,
+.navbarContent {
+  overflow-y: auto;
+  scrollbar-color: var(--mantine-color-gray-5) var(--mantine-color-primary-0);
 }
 
-navbar_links_inner {
-  paddingTop: theme.spacing.xl,
-  paddingBottom: theme.spacing.xl,
-} */

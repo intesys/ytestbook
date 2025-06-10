@@ -30,6 +30,7 @@ import { ActionIconWithConfirm } from "../actionIconWithConfirm/ActionIconWithCo
 import { Avatars } from "../avatars/Avatars.tsx";
 import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import classes from "./settings.module.css";
+import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
 
 export function Settings() {
   const params = useParams();
@@ -79,176 +80,180 @@ export function Settings() {
   }
 
   return (
-    <Stack className={classes.settings}>
-      <Stack className={classes.header}>
-        <Title order={3}>Settings</Title>
-      </Stack>
+    <ContentWrapper>
+      <Stack className={classes.settings}>
+        <Stack className={classes.header}>
+          <Title order={3}>Settings</Title>
+        </Stack>
 
-      <Stack className={classes.projectData}>
-        <Title order={4}>Project data</Title>
-      </Stack>
+        <Stack className={classes.projectData}>
+          <Title order={4}>Project data</Title>
+        </Stack>
 
-      <Stack className={classes.collaborators} gap="md">
-        <Title order={4}>Collaborators</Title>
-        {collaborators.length === 0 ? (
-          <Text span>
-            The list is empty. Do you want to{" "}
-            <Anchor onClick={addCollaboratorHandler}>add a Collaborator</Anchor>
-            ?
-          </Text>
-        ) : (
-          <Table verticalSpacing="xs" horizontalSpacing="sm" withTableBorder>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th visibleFrom="sm">
-                  <Text fw="bold">Name</Text>
-                </Table.Th>
-                <Table.Th>
-                  <Text fw="bold" hiddenFrom="sm">
-                    Name
-                  </Text>
-                  <Text fw="bold">Email</Text>
-                </Table.Th>
-                <Table.Th>
-                  <Text fw="bold">&nbsp;</Text>
-                </Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {collaborators.map((collaborator) => {
-                const editCollaboratorHandler = () =>
-                  modals.openContextModal({
-                    modal: Modals.CollaboratorModal,
-                    title: "Edit Collaborator",
-                    innerProps: {
-                      initialValues: {
-                        name: collaborator.name,
-                        email: collaborator.email,
+        <Stack className={classes.collaborators} gap="md">
+          <Title order={4}>Collaborators</Title>
+          {collaborators.length === 0 ? (
+            <Text span>
+              The list is empty. Do you want to{" "}
+              <Anchor onClick={addCollaboratorHandler}>
+                add a Collaborator
+              </Anchor>
+              ?
+            </Text>
+          ) : (
+            <Table verticalSpacing="xs" horizontalSpacing="sm" withTableBorder>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th visibleFrom="sm">
+                    <Text fw="bold">Name</Text>
+                  </Table.Th>
+                  <Table.Th>
+                    <Text fw="bold" hiddenFrom="sm">
+                      Name
+                    </Text>
+                    <Text fw="bold">Email</Text>
+                  </Table.Th>
+                  <Table.Th>
+                    <Text fw="bold">&nbsp;</Text>
+                  </Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {collaborators.map((collaborator) => {
+                  const editCollaboratorHandler = () =>
+                    modals.openContextModal({
+                      modal: Modals.CollaboratorModal,
+                      title: "Edit Collaborator",
+                      innerProps: {
+                        initialValues: {
+                          name: collaborator.name,
+                          email: collaborator.email,
+                        },
+                        id: collaborator.id,
+                        handleSubmit: project.updateCollaborator,
                       },
-                      id: collaborator.id,
-                      handleSubmit: project.updateCollaborator,
-                    },
-                  });
+                    });
 
-                const deleteCollaboratorHandler = () =>
-                  project.removeCollaborator(collaborator.id);
+                  const deleteCollaboratorHandler = () =>
+                    project.removeCollaborator(collaborator.id);
 
-                return (
-                  <Table.Tr key={collaborator.id}>
-                    <Table.Td visibleFrom="sm">
-                      <Group>
-                        <Avatars collaborators={[collaborator]} />
-                        <Text size="sm" visibleFrom="sm">
+                  return (
+                    <Table.Tr key={collaborator.id}>
+                      <Table.Td visibleFrom="sm">
+                        <Group>
+                          <Avatars collaborators={[collaborator]} />
+                          <Text size="sm" visibleFrom="sm">
+                            {collaborator.name}
+                          </Text>
+                        </Group>
+                      </Table.Td>
+                      <Table.Td>
+                        <Text size="sm" hiddenFrom="sm" mb="xs">
                           {collaborator.name}
                         </Text>
-                      </Group>
-                    </Table.Td>
-                    <Table.Td>
-                      <Text size="sm" hiddenFrom="sm" mb="xs">
-                        {collaborator.name}
-                      </Text>
-                      <Text size="sm">{collaborator.email}</Text>
-                    </Table.Td>
-                    <Table.Td>
-                      <Group justify="flex-end">
-                        <ActionIcon
-                          color="dark"
-                          variant="subtle"
-                          radius="xl"
-                          onClick={editCollaboratorHandler}
-                        >
-                          <IconPencil />
-                        </ActionIcon>
+                        <Text size="sm">{collaborator.email}</Text>
+                      </Table.Td>
+                      <Table.Td>
+                        <Group justify="flex-end">
+                          <ActionIcon
+                            color="dark"
+                            variant="subtle"
+                            radius="xl"
+                            onClick={editCollaboratorHandler}
+                          >
+                            <IconPencil />
+                          </ActionIcon>
 
-                        <ActionIconWithConfirm
-                          color="red"
-                          variant="subtle"
-                          radius="xl"
-                          onConfirm={deleteCollaboratorHandler}
-                          icon={<IconTrash />}
-                        />
-                      </Group>
-                    </Table.Td>
-                  </Table.Tr>
-                );
-              })}
-            </Table.Tbody>
-          </Table>
-        )}
-        <Group justify="end">
-          <Button
-            leftSection={<IconUserPlus size={18} />}
-            onClick={addCollaboratorHandler}
-          >
-            Add Collaborator
-          </Button>
-        </Group>
-      </Stack>
-
-      <Stack className={classes.tags}>
-        <Title order={4}>Tags</Title>
-        <TagsInput data={[]} value={tags} onChange={setTags} />
-        <Group justify="end">
-          <Button
-            w={105}
-            leftSection={<IconDeviceFloppy size={18} />}
-            onClick={() => {
-              project.updateAllTags(tags);
-              notifications.show({
-                withBorder: true,
-                title: "Success!",
-                message: "The tags were updated",
-              });
-            }}
-          >
-            Save
-          </Button>
-        </Group>
-      </Stack>
-
-      <Alert className={classes.alert} color="green">
-        <Stack>
-          <Title order={4} c="green.7">
-            Export project
-          </Title>
-
-          <Text span>Export and download this project as a JSON file</Text>
-
+                          <ActionIconWithConfirm
+                            color="red"
+                            variant="subtle"
+                            radius="xl"
+                            onConfirm={deleteCollaboratorHandler}
+                            icon={<IconTrash />}
+                          />
+                        </Group>
+                      </Table.Td>
+                    </Table.Tr>
+                  );
+                })}
+              </Table.Tbody>
+            </Table>
+          )}
           <Group justify="end">
             <Button
-              onClick={project.exportJSON}
-              color="green.6"
-              variant="filled"
-              leftSection={<IconFileExport size={18} />}
+              leftSection={<IconUserPlus size={18} />}
+              onClick={addCollaboratorHandler}
             >
-              Export Project
+              Add Collaborator
             </Button>
           </Group>
         </Stack>
-      </Alert>
 
-      <Alert className={classes.alert} color="red">
-        <Stack>
-          <Title order={4} c="red.7">
-            Delete Testbook
-          </Title>
-
-          <Text span>
-            The Testbook will be permanently deleted. This action is
-            irreversible and can not be undone.
-          </Text>
-
+        <Stack className={classes.tags}>
+          <Title order={4}>Tags</Title>
+          <TagsInput data={[]} value={tags} onChange={setTags} />
           <Group justify="end">
             <Button
-              bg={"red"}
-              leftSection={<IconTrash size={18} />}
-              onClick={deleteTestbookHandler}
+              w={105}
+              leftSection={<IconDeviceFloppy size={18} />}
+              onClick={() => {
+                project.updateAllTags(tags);
+                notifications.show({
+                  withBorder: true,
+                  title: "Success!",
+                  message: "The tags were updated",
+                });
+              }}
             >
-              Delete
+              Save
             </Button>
           </Group>
         </Stack>
-      </Alert>
-    </Stack>
+
+        <Alert className={classes.alert} color="green">
+          <Stack>
+            <Title order={4} c="green.7">
+              Export project
+            </Title>
+
+            <Text span>Export and download this project as a JSON file</Text>
+
+            <Group justify="end">
+              <Button
+                onClick={project.exportJSON}
+                color="green.6"
+                variant="filled"
+                leftSection={<IconFileExport size={18} />}
+              >
+                Export Project
+              </Button>
+            </Group>
+          </Stack>
+        </Alert>
+
+        <Alert className={classes.alert} color="red">
+          <Stack>
+            <Title order={4} c="red.7">
+              Delete Testbook
+            </Title>
+
+            <Text span>
+              The Testbook will be permanently deleted. This action is
+              irreversible and can not be undone.
+            </Text>
+
+            <Group justify="end">
+              <Button
+                bg={"red"}
+                leftSection={<IconTrash size={18} />}
+                onClick={deleteTestbookHandler}
+              >
+                Delete
+              </Button>
+            </Group>
+          </Stack>
+        </Alert>
+      </Stack>
+    </ContentWrapper>
   );
 }

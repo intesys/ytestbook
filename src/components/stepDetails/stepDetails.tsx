@@ -22,6 +22,7 @@ import { StepSwitch } from "../stepSwitch/StepSwitch";
 import { ClosestStepsButtons } from "./ClosestStepsButtons";
 import classes from "./stepDetails.module.css";
 import { StepLog } from "./StepLog";
+import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
 
 export const StepDetails = () => {
   const navigate = useNavigate();
@@ -104,88 +105,90 @@ export const StepDetails = () => {
     };
 
   return (
-    <div className={classes.stepDetails}>
-      <div className={classes.backButton}>
-        <Button
-          variant="transparent"
-          leftSection={<Image alt="Close" src={CircleX} />}
-          p={0}
-          onClick={closeStep}
-        >
-          <Text c={"black"}>Close</Text>
-        </Button>
-      </div>
-      <ContentHeader
-        status={step.data.status}
-        title={step.data.title}
-        handleDeleteClick={handleDeleteClick}
-        handleQuickEdit={handleQuickEdit}
-      />
-      <div className={classes.description}>
-        <EditableHtmlText
-          name="description"
-          onChange={(value) => {
-            test.updateStep(
-              {
-                title: step.data.title,
-                description: value,
-              },
-              step.data.id,
-            );
-          }}
-          value={step.data.description}
+    <ContentWrapper>
+      <div className={classes.stepDetails}>
+        <div className={classes.backButton}>
+          <Button
+            variant="transparent"
+            leftSection={<Image alt="Close" src={CircleX} />}
+            p={0}
+            onClick={closeStep}
+          >
+            <Text c={"black"}>Close</Text>
+          </Button>
+        </div>
+        <ContentHeader
+          status={step.data.status}
+          title={step.data.title}
+          handleDeleteClick={handleDeleteClick}
+          handleQuickEdit={handleQuickEdit}
         />
-      </div>
+        <div className={classes.description}>
+          <EditableHtmlText
+            name="description"
+            onChange={(value) => {
+              test.updateStep(
+                {
+                  title: step.data.title,
+                  description: value,
+                },
+                step.data.id,
+              );
+            }}
+            value={step.data.description}
+          />
+        </div>
 
-      <div className={classes.stepSwitch}>
-        <StepSwitch
-          currentStatus={step.data.status}
-          onChange={onStatusChange}
-        />
-      </div>
+        <div className={classes.stepSwitch}>
+          <StepSwitch
+            currentStatus={step.data.status}
+            onChange={onStatusChange}
+          />
+        </div>
 
-      <div className={classes.closestSteps}>
-        <ClosestStepsButtons
-          caseId={testCase.data?.id}
-          projectId={project.data.id}
-          stepId={step.data.id}
-          steps={test.data?.steps}
-          testId={test.data?.id}
-        />
-      </div>
+        <div className={classes.closestSteps}>
+          <ClosestStepsButtons
+            caseId={testCase.data?.id}
+            projectId={project.data.id}
+            stepId={step.data.id}
+            steps={test.data?.steps}
+            testId={test.data?.id}
+          />
+        </div>
 
-      <div className={classes.comments}>
-        {testCase.data && test.data && (
-          <Tabs defaultValue="notes">
-            <Tabs.List mb="md">
-              <Tabs.Tab value="notes" className={classes.tab}>
-                <Title order={4}>Notes</Title>
-              </Tabs.Tab>
-              <Tabs.Tab value="log" className={classes.tab}>
-                <Title order={4}>Log</Title>
-              </Tabs.Tab>
-            </Tabs.List>
+        <div className={classes.comments}>
+          {testCase.data && test.data && (
+            <Tabs defaultValue="notes">
+              <Tabs.List mb="md">
+                <Tabs.Tab value="notes" className={classes.tab}>
+                  <Title order={4}>Notes</Title>
+                </Tabs.Tab>
+                <Tabs.Tab value="log" className={classes.tab}>
+                  <Title order={4}>Log</Title>
+                </Tabs.Tab>
+              </Tabs.List>
 
-            <Tabs.Panel value="notes" pt="xs">
-              <CommentsList
-                testId={test.data.id}
-                stepId={step.data.id}
-                comments={testCase.data.comments.filter(
-                  (comment) => comment.stepId === step.data.id,
-                )}
-                createComment={testCase.createComment}
-                removeComment={testCase.removeComment}
-                updateCommentResolved={testCase.updateCommentResolved}
-                updateCommentContent={testCase.updateCommentContent}
-                showTitle={false}
-              />
-            </Tabs.Panel>
-            <Tabs.Panel value="log" pt="xs">
-              <StepLog project={project} stepId={step.data.id} />
-            </Tabs.Panel>
-          </Tabs>
-        )}
+              <Tabs.Panel value="notes" pt="xs">
+                <CommentsList
+                  testId={test.data.id}
+                  stepId={step.data.id}
+                  comments={testCase.data.comments.filter(
+                    (comment) => comment.stepId === step.data.id,
+                  )}
+                  createComment={testCase.createComment}
+                  removeComment={testCase.removeComment}
+                  updateCommentResolved={testCase.updateCommentResolved}
+                  updateCommentContent={testCase.updateCommentContent}
+                  showTitle={false}
+                />
+              </Tabs.Panel>
+              <Tabs.Panel value="log" pt="xs">
+                <StepLog project={project} stepId={step.data.id} />
+              </Tabs.Panel>
+            </Tabs>
+          )}
+        </div>
       </div>
-    </div>
+    </ContentWrapper>
   );
 };
