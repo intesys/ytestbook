@@ -1,0 +1,41 @@
+.checkboxTd {
+  max-width: 30px;
+}
+
+.statusTd {
+  max-width: 34px;
+}
+
+.thead{
+  background-color: #eaefff;
+}
+
+.row {
+  cursor: pointer;
+}
+
+.testCaseRow {
+  background-color: lighten(var(--mantine-color-indigo-6), 1);
+
+  @mixin hover {
+    background-color: lighten(var(--mantine-color-indigo-6), .9);
+  }
+
+}
+
+.testRow{
+  background-color: lighten(var(--mantine-color-indigo-6), .8);
+
+  @mixin hover {
+    background-color: lighten(var(--mantine-color-indigo-6), .7);
+
+  }
+}
+
+.stepRow{
+  background-color: lighten(var(--mantine-color-indigo-6), .7);
+
+  @mixin hover {
+    background-color: lighten(var(--mantine-color-indigo-6),.6);
+  }
+}

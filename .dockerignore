@@ -1,0 +1,8 @@
+node_modules
+db
+docs
+electron
+scripts
+server
+yarn.lock
+dist

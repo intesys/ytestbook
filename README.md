@@ -2,7 +2,7 @@
 
 ## What is yTestbook?
 
-It's a free web application to manage software tests. It's mainly intended for handling manual tests, but it could support automatic tests as well.
+It's a free web application to manage software tests. It's mainly intended for handling manual tests, but in the future it will support automatic tests as well.
 
 # What does it do?
 
@@ -18,4 +18,7 @@ Then you can manage test sessions, sunning tests and tracking success and failur
 
 At any time, you can monitor progress and evaluate problems.
 
-You can look at initial analysis in the [docs folder](./docs/requirements.md).
+- Functional analysis in the [docs folder](./docs/requirements.md)
+- Technical analysis is [here](./docs/technical-analysis.md)
+- Code architecture is described [in coding rules](./docs/coding-rules.md)
+- [Libraries and external documentation](./docs/external-dependencies.md)

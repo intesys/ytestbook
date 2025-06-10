@@ -1,0 +1,35 @@
+.testDetails {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 30px 40px;
+  row-gap: 34px;
+  width: 100%;
+  align-content: start;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 30px 15px;
+  }
+}
+
+.backButton {
+  grid-column: 1 / span 12;
+}
+
+.description {
+  grid-column: 1 / span 12;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  grid-column: 1 / span 12;
+  flex-grow: 1;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  grid-column: 1 / span 12;
+}

@@ -45,7 +45,7 @@ The section in preparatory in order to describe tests in a tree structure like:
 Pages:
 
 - Testbook: edit the testbook fields (name, description, version)
-- Members: Manage the users (no authentication logic)
+- Collaborators: Manage the users (no authentication logic)
 - Use cases:
 
   - each use case has:

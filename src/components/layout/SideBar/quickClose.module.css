@@ -1,0 +1,13 @@
+.navbarToogle {
+  right: -34px;
+  position: absolute;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    right: -40px;
+  }
+}
+
+.navbarToogleInner {
+  border: 0px;
+  box-shadow: 2px 2px 9px -4px rgba(0, 0, 0, 0.28);
+}

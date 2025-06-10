@@ -1,0 +1,13 @@
+.group {
+    container-type: inline-size;
+}
+.label {
+    @container (max-width: 100px) {
+        display: none;
+    }
+}
+.statusIcon {
+    &:hover {
+        color: var(--status-icon-hover-color);
+    }
+}

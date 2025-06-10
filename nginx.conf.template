@@ -1,0 +1,62 @@
+server {
+  # We serve the app over HTTP on port 80, expecting TLS to be handled elsewhere.
+  listen 8080;
+  server_name yTestbook
+
+  # Disable nginx server_tokens
+  # By default, the server_tokens directive in nginx displays the nginx version number. It is directly visible in all
+  # automatically generated error pages but also present in all HTTP responses in the Server header.
+  #
+  # This could lead to information disclosure – an unauthorized user could gain knowledge about the version of nginx
+  # that you use. You should disable the server_tokens directive in the nginx configuration file by setting:
+  server_tokens off;
+
+  # Control Resources and Limits
+  # To prevent potential DoS attacks on nginx, you can set buffer size limitations for all clients. You can do this in
+  # the nginx configuration file using the following directives:
+  #
+  # * client_body_buffer_size – use this directive to specify the client request body buffer size. The default value is
+  #   8k or 16k but it is recommended to set this as low as 1k: client_body_buffer_size 1k.
+  client_body_buffer_size 1k;
+  # * client_header_buffer_size – use this directive to specify the header buffer size for the client request header. A
+  #   buffer size of 1k is adequate for most requests.
+  client_header_buffer_size 1k;
+  # * client_max_body_size – use this directive to specify the maximum accepted body size for a client request. A 1k
+  #   directive should be sufficient but you need to increase it if you are receiving file uploads via the POST method.
+  client_max_body_size 20M;
+  # * large_client_header_buffers – use this directive to specify the maximum number and size of buffers to be used to
+  #   read large client request headers. A large_client_header_buffers 2 1k directive sets the maximum number of
+  #   buffers to 2, each with a maximum size of 1k. This directive will accept 2 kB data URI.
+  large_client_header_buffers 4 32k;
+
+  # X-Frame-Options
+  # You use the X-Frame-Options HTTP response header to indicate if a browser should be allowed to render a page in a
+  # <frame> or an <iframe>. This could prevent clickjacking attacks. Therefore, we recommend that you enable this
+  # option for your nginx server.
+  #
+  # To do this, add the following parameter to the nginx configuration file in the server section:
+  add_header X-Frame-Options SAMEORIGIN always;
+
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+  add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=()";
+  add_header Referrer-Policy "same-origin";
+
+  if ($request_method ~ ^(TRACE)$) { 
+    return 405; 
+  }
+
+  location / {
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+    try_files $uri $uri/ /index.html =404;
+
+    # Disable Any Unwanted HTTP methods
+    # We suggest that you disable any HTTP methods, which are not going to be utilized and which are not required to be
+    # implemented on the web server. If you add the following condition in the location block of the nginx virtual host
+    # configuration file, the server will only allow GET, HEAD, and POST methods and will filter out methods such as
+    # DELETE and TRACE.
+    limit_except GET HEAD POST { deny all; }
+  }
+
+  include /etc/nginx/extra-conf.d/*.conf;
+}

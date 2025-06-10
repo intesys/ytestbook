@@ -1,0 +1,7 @@
+.row {
+    cursor: pointer;
+
+    @mixin hover {
+        background-color: var(--mantine-color-gray-1) ;
+    }
+}
