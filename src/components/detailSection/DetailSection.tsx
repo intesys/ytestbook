@@ -1,9 +1,9 @@
 import { Group, useMantineTheme } from "@mantine/core";
-import { useParams } from "react-router-dom";
-import { TestDetails } from "../testDetails/TestDetails";
-import { StepDetails } from "../stepDetails/stepDetails";
-import { useMemo } from "react";
 import { useMediaQuery } from "@mantine/hooks";
+import { useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { StepDetails } from "../stepDetails/stepDetails";
+import { TestDetails } from "../testDetails/TestDetails";
 
 export const DetailSection = () => {
   const params = useParams();
