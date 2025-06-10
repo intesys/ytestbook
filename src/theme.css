@@ -1,5 +1,6 @@
 :root {
   --background-gradient: linear-gradient(75deg, #0f33ce, #9747ff);
+  --header-height: 70px; /* Default header height */
 }
 
 .rta-image {

@@ -16,6 +16,7 @@ import { SectionError } from "../shared/SectionError.tsx";
 import { SectionLoading } from "../shared/SectionLoading.tsx";
 import { TestsTable } from "../testsTable/TestsTable";
 import classes from "./testCase.module.css";
+import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
 
 export function TestCase() {
   const navigate = useNavigate();
@@ -98,53 +99,55 @@ export function TestCase() {
   }
 
   return (
-    <div className={classes.testcase}>
-      <ContentHeader
-        status={testCase.data.status}
-        title={testCase.data.title}
-        jiraLink={testCase.data.jiraLink}
-        completion={queriedData?.completion ?? 0}
-        assignees={queriedData?.assignees ?? []}
-        handleEditClick={editClickHandler}
-        handleDeleteClick={deleteClickHandler}
-        handleQuickEdit={handleQuickEdit}
-        tags={project.getTagsByCaseId(testCase.data.id)}
-      />
-      <div className={classes.description}>
-        <EditableHtmlText
-          name="description"
-          onChange={(value) => {
-            project.updateTestCase(
-              {
-                title: testCase.data.title,
-                jiraLink: testCase.data.jiraLink,
-                description: value,
-              },
-              testCase.data.id,
-            );
-          }}
-          value={testCase.data.description}
+    <ContentWrapper>
+      <div className={classes.testcase}>
+        <ContentHeader
+          status={testCase.data.status}
+          title={testCase.data.title}
+          jiraLink={testCase.data.jiraLink}
+          completion={queriedData?.completion ?? 0}
+          assignees={queriedData?.assignees ?? []}
+          handleEditClick={editClickHandler}
+          handleDeleteClick={deleteClickHandler}
+          handleQuickEdit={handleQuickEdit}
+          tags={project.getTagsByCaseId(testCase.data.id)}
         />
+        <div className={classes.description}>
+          <EditableHtmlText
+            name="description"
+            onChange={(value) => {
+              project.updateTestCase(
+                {
+                  title: testCase.data.title,
+                  jiraLink: testCase.data.jiraLink,
+                  description: value,
+                },
+                testCase.data.id,
+              );
+            }}
+            value={testCase.data.description}
+          />
+        </div>
+        <div className={classes.tests}>
+          <TestsTable
+            tests={testCase.data.tests}
+            createTest={testCase.createTest}
+          />
+        </div>
+        <div className={classes.comments}>
+          <CommentsList
+            comments={testCase.data.comments}
+            createComment={testCase.createComment}
+            removeComment={testCase.removeComment}
+            updateCommentResolved={testCase.updateCommentResolved}
+            updateCommentContent={testCase.updateCommentContent}
+            filter={{
+              elements: testCase.data.tests,
+              type: "test",
+            }}
+          />
+        </div>
       </div>
-      <div className={classes.tests}>
-        <TestsTable
-          tests={testCase.data.tests}
-          createTest={testCase.createTest}
-        />
-      </div>
-      <div className={classes.comments}>
-        <CommentsList
-          comments={testCase.data.comments}
-          createComment={testCase.createComment}
-          removeComment={testCase.removeComment}
-          updateCommentResolved={testCase.updateCommentResolved}
-          updateCommentContent={testCase.updateCommentContent}
-          filter={{
-            elements: testCase.data.tests,
-            type: "test",
-          }}
-        />
-      </div>
-    </div>
+    </ContentWrapper>
   );
 }

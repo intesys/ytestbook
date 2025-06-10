@@ -118,22 +118,20 @@ export function StepsTable({
           <Table.Thead>
             <Table.Tr>
               <Table.Th>
-                <Text fw={"bold"}>
-                  <Checkbox
-                    size="xs"
-                    checked={allChecked}
-                    indeterminate={indeterminate}
-                    onChange={(event) => {
-                      const { checked } = event.currentTarget;
+                <Checkbox
+                  size="xs"
+                  checked={allChecked}
+                  indeterminate={indeterminate}
+                  onChange={(event) => {
+                    const { checked } = event.currentTarget;
 
-                      if (checked) {
-                        setSelectedSteps(steps.map((step) => step.id));
-                      } else {
-                        setSelectedSteps([]);
-                      }
-                    }}
-                  />
-                </Text>
+                    if (checked) {
+                      setSelectedSteps(steps.map((step) => step.id));
+                    } else {
+                      setSelectedSteps([]);
+                    }
+                  }}
+                />
               </Table.Th>
               <Table.Th>
                 <Text fw={"bold"}>Status</Text>
