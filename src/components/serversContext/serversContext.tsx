@@ -45,7 +45,6 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
   children,
 }) => {
   const [servers, setServers] = useState<ServersList>({});
-  console.log("🚀 ~ servers:", servers);
   const [isServerLoadedFromStorage, setIsServerLoadedFromStorage] =
     useState(false);
 

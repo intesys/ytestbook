@@ -11,6 +11,7 @@ import { ContextModalProps } from "@mantine/modals";
 import { useCallback, useMemo } from "react";
 import { FormErrorMessages } from "../../../lib/formErrors.ts";
 import { useServersContext } from "../../serversContext/serversContext.tsx";
+import { getCloneName } from "../../../lib/helpers/getCloneName.ts";
 
 export type CloneProjectModalFormValues = {
   newName: string;
@@ -36,7 +37,7 @@ export function CloneProjectModal({
   const form = useForm<CloneProjectModalFormValues>({
     initialValues: {
       doNotImportNotes: true,
-      newName: `${currentName} - Clone`,
+      newName: getCloneName(currentName),
       resetStatuses: true,
       serverId: currentServerId,
     },

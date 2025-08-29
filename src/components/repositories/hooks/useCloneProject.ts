@@ -39,73 +39,65 @@ export const useCloneProject = () => {
       );
 
       const projectID = crypto.randomUUID();
+      const updateTime = new Date().getTime();
 
-      // TODO: optimize this code performance
       const newProject: TProject = {
         title: options.newName,
         id: projectID,
-        createdAt: new Date().getTime(),
+        createdAt: updateTime,
         collaborators: project.collaborators?.map((collaborator) =>
           detachObjectFromAutomergeProps(collaborator),
         ),
         collaboratorToTest: project.collaboratorToTest?.map((ctt) => [...ctt]),
         tagToTest: project.tagToTest?.map((tagToTest) => [...tagToTest]),
-        testCases: project.testCases.map((testCase) => {
-          return {
-            id: testCase.id,
-            createdAt: new Date().getTime(),
+        testCases: project.testCases.map((testCase) => ({
+          id: testCase.id,
+          createdAt: updateTime,
 
-            comments: options.doNotImportNotes
-              ? []
-              : testCase.comments.map((comment) => ({
-                  caseId: testCase.id,
-                  id: testCase.id,
-                  createdAt: new Date().getTime(),
-                  collaboratorId: comment.collaboratorId,
-                  content: comment.content,
-                  resolved: comment.resolved,
-                  testStatusWhenCreated: comment.testStatusWhenCreated,
-                })),
-            status: options.resetStatuses ? StatusEnum.TODO : testCase.status,
-            tests: testCase.tests.map((test) => {
-              return {
-                id: test.id,
-                status: options.resetStatuses ? StatusEnum.TODO : test.status,
-                steps: test.steps.map((step) => {
-                  return {
-                    status: options.resetStatuses
-                      ? StatusEnum.TODO
-                      : step.status,
-                    id: step.id,
-                    createdAt: new Date().getTime(),
-                    description: step.description ?? "",
-                    testId: test.id,
-                    title: step.title,
-                    lastUpdate: new Date().getTime(),
-                  };
-                }),
+          comments: options.doNotImportNotes
+            ? []
+            : testCase.comments.map((comment) => ({
                 caseId: testCase.id,
-                createdAt: new Date().getTime(),
-                title: test.title,
-                description: test.description ?? "",
-                lastUpdate: new Date().getTime(),
-              };
-            }),
-            completion: testCase.completion,
-            title: testCase.title,
-            projectId: projectID,
-            description: testCase.description ?? "",
-            jiraLink: testCase.jiraLink ?? "",
-            lastUpdate: new Date().getTime(),
-          };
-        }),
-        allTags: project.allTags?.map((tag) => tag),
+                id: testCase.id,
+                createdAt: updateTime,
+                collaboratorId: comment.collaboratorId,
+                content: comment.content,
+                resolved: comment.resolved,
+                testStatusWhenCreated: comment.testStatusWhenCreated,
+              })),
+          status: options.resetStatuses ? StatusEnum.TODO : testCase.status,
+          tests: testCase.tests.map((test) => ({
+            id: test.id,
+            status: options.resetStatuses ? StatusEnum.TODO : test.status,
+            steps: test.steps.map((step) => ({
+              status: options.resetStatuses ? StatusEnum.TODO : step.status,
+              id: step.id,
+              createdAt: updateTime,
+              description: step.description ?? "",
+              testId: test.id,
+              title: step.title,
+              lastUpdate: updateTime,
+            })),
+            caseId: testCase.id,
+            createdAt: updateTime,
+            title: test.title,
+            description: test.description ?? "",
+            lastUpdate: updateTime,
+          })),
+          completion: testCase.completion,
+          title: testCase.title,
+          projectId: projectID,
+          description: testCase.description ?? "",
+          jiraLink: testCase.jiraLink ?? "",
+          lastUpdate: updateTime,
+        })),
+        allTags: [...(project.allTags ?? [])],
         statusChanges: project.statusChanges.map((statusChange) =>
           detachObjectFromAutomergeProps(statusChange),
         ),
         description: project.description,
         customer: project.customer,
-        lastUpdate: new Date().getTime(),
+        lastUpdate: updateTime,
       };
 
       docHandle?.change((doc) => {
