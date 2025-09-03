@@ -1,4 +1,4 @@
-import { Box, Input, Title, TitleProps } from "@mantine/core";
+import { Box, Input, Title, TitleProps, Tooltip } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
@@ -55,12 +55,19 @@ export const EditableTitle: React.FC<EditableTitle> = ({
   if (editing) {
     return (
       <Box ref={ref} onBlur={onBlur} flex={1}>
-        <Input
-          value={internalValue}
-          onChange={onTextInputChange}
-          onKeyDown={onKeyDown}
-          autoFocus
-        />
+        <Tooltip
+          label="Press Enter to save, Esc to undo"
+          position="bottom-start"
+          events={{ hover: false, focus: true, touch: false }}
+          withArrow
+        >
+          <Input
+            value={internalValue}
+            onChange={onTextInputChange}
+            onKeyDown={onKeyDown}
+            autoFocus
+          />
+        </Tooltip>
       </Box>
     );
   }

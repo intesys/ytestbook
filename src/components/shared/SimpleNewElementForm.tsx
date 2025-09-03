@@ -1,4 +1,4 @@
-import { Box, TextInput } from "@mantine/core";
+import { Box, TextInput, Tooltip } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { useClickOutside } from "@mantine/hooks";
 import { useEffect } from "react";
@@ -72,15 +72,22 @@ export const SimpleNewElementForm = ({
   return (
     <Box ref={ref}>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          w={"100%"}
-          required
-          autoFocus
-          {...form.getInputProps("title")}
-          onBlur={onBlur}
-          onKeyDown={onKeyDown}
-          placeholder={placeholder}
-        />
+        <Tooltip
+          label="Press Enter to save, Esc to undo"
+          position="bottom-start"
+          events={{ hover: false, focus: true, touch: false }}
+          withArrow
+        >
+          <TextInput
+            w={"100%"}
+            required
+            autoFocus
+            {...form.getInputProps("title")}
+            onBlur={onBlur}
+            onKeyDown={onKeyDown}
+            placeholder={placeholder}
+          />
+        </Tooltip>
       </form>
     </Box>
   );
