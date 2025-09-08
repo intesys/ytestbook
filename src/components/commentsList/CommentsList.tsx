@@ -284,6 +284,7 @@ export function CommentsList({
                     </Text>
 
                     <CommentBreadcrumbs
+                      className={classes.fadedElement}
                       projectId={project.data?.id}
                       comment={comment}
                     />

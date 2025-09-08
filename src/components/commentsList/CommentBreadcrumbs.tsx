@@ -1,21 +1,22 @@
-import { Anchor, Text } from "@mantine/core";
+import { Anchor, Text, TextProps } from "@mantine/core";
+import { Link } from "react-router-dom";
+import { routesHelper } from "../../lib/helpers/routesHelper";
+import { useServerName } from "../../lib/helpers/useServerName";
 import { useStep } from "../../lib/operators/useStep";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
-import { routesHelper } from "../../lib/helpers/routesHelper";
 import { TComment } from "../../types/schema";
-import { Link } from "react-router-dom";
-import { useServerName } from "../../lib/helpers/useServerName";
-import classes from "./CommentsList.module.css";
 
-type CommentBreadcrumbsProps = {
+interface CommentBreadcrumbsProps extends TextProps {
   readonly projectId: string;
   readonly comment: TComment;
-};
+}
 
 export function CommentBreadcrumbs({
   projectId,
   comment,
+  className,
+  ...textProps
 }: CommentBreadcrumbsProps) {
   const serverName = useServerName();
   const testCase = useTestCase(projectId, comment.caseId);
@@ -30,7 +31,7 @@ export function CommentBreadcrumbs({
   const separator = " > ";
 
   return (
-    <Text size="sm" className={classes.fadedElement}>
+    <Text size="sm" className={className} {...textProps}>
       {testCase.data ? (
         <Anchor
           component={Link}
