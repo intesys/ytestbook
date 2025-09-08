@@ -1,5 +1,6 @@
-import { Button, Group, Image, Tabs, Text, Title } from "@mantine/core";
+import { Box, Button, Group, Image, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CircleX from "../../assets/icons/circle_x.svg";
 import { getStatusLabel } from "../../lib/helpers/getStatusLabel.ts";
@@ -10,8 +11,8 @@ import { useStep } from "../../lib/operators/useStep";
 import { useTest } from "../../lib/operators/useTest";
 import { useTestCase } from "../../lib/operators/useTestCase";
 import { StatusEnum } from "../../types/schema";
-import { CommentsList } from "../commentsList/CommentsList";
 import { ContentHeader } from "../contentHeader/ContentHeader";
+import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
 import { ChangeStatusFormValues } from "../modals/changeStatusModal/ChangeStatusModal.tsx";
 import { Modals } from "../modals/modals.ts";
 import { EditableHtmlText } from "../shared/EditableHtmlText";
@@ -19,10 +20,15 @@ import { SectionError } from "../shared/SectionError";
 import { SectionLoading } from "../shared/SectionLoading";
 import { StatusIcon } from "../statusIcon/StatusIcon.tsx";
 import { StepSwitch } from "../stepSwitch/StepSwitch";
+import { StepTimeline } from "../StepTimeline/StepTimeline.tsx";
+import {
+  ActivityType,
+  StepTimelineComment,
+  StepTimelineItem,
+  StepTimelineStatusUpdate,
+} from "../StepTimeline/stepTimeline.types.ts";
 import { ClosestStepsButtons } from "./ClosestStepsButtons";
 import classes from "./stepDetails.module.css";
-import { StepLog } from "./StepLog";
-import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
 
 export const StepDetails = () => {
   const navigate = useNavigate();
@@ -37,6 +43,36 @@ export const StepDetails = () => {
     params.testId,
     params.stepId,
   );
+
+  const comments: StepTimelineComment[] = useMemo(
+    () =>
+      testCase?.data?.comments
+        .filter((comment) => comment.stepId === step?.data?.id)
+        .map((comment) => ({
+          comment,
+          type: comment.resolved
+            ? ActivityType.Comment
+            : ActivityType.UnsolvedComment,
+          date: comment.createdAt,
+        })) ?? [],
+    [step?.data?.id, testCase?.data?.comments],
+  );
+
+  const statusChanges: StepTimelineStatusUpdate[] = useMemo(
+    () =>
+      project
+        .getStatusChangesByStepId(step?.data?.id ?? "")
+        .map((statusUpdate) => ({
+          statusUpdate,
+          type: ActivityType.StatusUpdate,
+          date: statusUpdate.createdAt,
+        })) ?? [],
+    [project, step?.data?.id],
+  );
+
+  const list: StepTimelineItem[] = useMemo(() => {
+    return [...(comments ?? []), ...(statusChanges ?? [])];
+  }, [comments, statusChanges]);
 
   if (step.loading || project.loading || testCase.loading || test.loading) {
     return <SectionLoading />;
@@ -106,8 +142,8 @@ export const StepDetails = () => {
 
   return (
     <ContentWrapper>
-      <div className={classes.stepDetails}>
-        <div className={classes.backButton}>
+      <Box className={classes.stepDetails}>
+        <Box className={classes.backButton}>
           <Button
             variant="transparent"
             leftSection={<Image alt="Close" src={CircleX} />}
@@ -116,14 +152,14 @@ export const StepDetails = () => {
           >
             <Text c={"black"}>Close</Text>
           </Button>
-        </div>
+        </Box>
         <ContentHeader
           status={step.data.status}
           title={step.data.title}
           handleDeleteClick={handleDeleteClick}
           handleQuickEdit={handleQuickEdit}
         />
-        <div className={classes.description}>
+        <Box className={classes.description}>
           <EditableHtmlText
             name="description"
             onChange={(value) => {
@@ -137,16 +173,16 @@ export const StepDetails = () => {
             }}
             value={step.data.description}
           />
-        </div>
+        </Box>
 
-        <div className={classes.stepSwitch}>
+        <Box className={classes.stepSwitch}>
           <StepSwitch
             currentStatus={step.data.status}
             onChange={onStatusChange}
           />
-        </div>
+        </Box>
 
-        <div className={classes.closestSteps}>
+        <Box className={classes.closestSteps}>
           <ClosestStepsButtons
             caseId={testCase.data?.id}
             projectId={project.data.id}
@@ -154,41 +190,23 @@ export const StepDetails = () => {
             steps={test.data?.steps}
             testId={test.data?.id}
           />
-        </div>
+        </Box>
 
-        <div className={classes.comments}>
-          {testCase.data && test.data && (
-            <Tabs defaultValue="notes">
-              <Tabs.List mb="md">
-                <Tabs.Tab value="notes" className={classes.tab}>
-                  <Title order={4}>Notes</Title>
-                </Tabs.Tab>
-                <Tabs.Tab value="log" className={classes.tab}>
-                  <Title order={4}>Log</Title>
-                </Tabs.Tab>
-              </Tabs.List>
-
-              <Tabs.Panel value="notes" pt="xs">
-                <CommentsList
-                  testId={test.data.id}
-                  stepId={step.data.id}
-                  comments={testCase.data.comments.filter(
-                    (comment) => comment.stepId === step.data.id,
-                  )}
-                  createComment={testCase.createComment}
-                  removeComment={testCase.removeComment}
-                  updateCommentResolved={testCase.updateCommentResolved}
-                  updateCommentContent={testCase.updateCommentContent}
-                  showTitle={false}
-                />
-              </Tabs.Panel>
-              <Tabs.Panel value="log" pt="xs">
-                <StepLog project={project} stepId={step.data.id} />
-              </Tabs.Panel>
-            </Tabs>
-          )}
-        </div>
-      </div>
+        {testCase.data && test.data ? (
+          <Box className={classes.comments}>
+            <StepTimeline
+              list={list}
+              project={project}
+              testId={test.data.id}
+              stepId={step.data.id}
+              createComment={testCase.createComment}
+              removeComment={testCase.removeComment}
+              updateCommentResolved={testCase.updateCommentResolved}
+              updateCommentContent={testCase.updateCommentContent}
+            />
+          </Box>
+        ) : null}
+      </Box>
     </ContentWrapper>
   );
 };
