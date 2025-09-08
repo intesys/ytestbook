@@ -34,15 +34,11 @@ export const StatusIcon = ({
   const tooltip = getStatusLabel(status);
 
   const styles = useMemo(() => {
-    if (hoverColor) {
-      return {
-        "--status-icon-hover-color": hoverColor, // passing the hoverColor through CSS variable since Mantine doesn't support '&:hover' in styles since 7.x
-        ...style,
-      };
-    }
-
-    return style;
-  }, [hoverColor, style]);
+    return {
+      "--status-icon-hover-color": hoverColor ?? statusColor, // passing the hoverColor through CSS variable since Mantine doesn't support '&:hover' in styles since 7.x
+      ...style,
+    };
+  }, [hoverColor, statusColor, style]);
 
   const statusIcon = useMemo(() => {
     const Icon = getStatusIcon(status);
