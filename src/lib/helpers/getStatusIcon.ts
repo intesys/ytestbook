@@ -20,7 +20,7 @@ import { StatusEnum } from "../../types/schema.ts";
  * @param {StatusEnum} status - The status to get the icon for.
  * @returns {IconType} The icon component associated with the status.
  */
-export const getStatusIcon = (status: StatusEnum): IconType => {
+export const getStatusIcon = (status?: StatusEnum): IconType => {
   switch (status) {
     case StatusEnum.BLOCKED:
       return MdDeleteForever;
@@ -34,6 +34,7 @@ export const getStatusIcon = (status: StatusEnum): IconType => {
       return MdPauseCircle;
     case StatusEnum.PENDING:
       return MdPending;
+    default:
     case StatusEnum.TODO:
       return MdNotStarted;
   }
