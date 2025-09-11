@@ -6,6 +6,8 @@ import { addTuples } from "../helpers/addTuples";
 import { computeStatus } from "../helpers/computeStatus.ts";
 import { removeTuples } from "../helpers/removeTuples";
 import { TOperatorLoaderStatus, TUseTestCase } from "./types";
+import { getCloneName } from "../helpers/getCloneName.ts";
+import { notifications } from "@mantine/notifications";
 
 export function useTestCase(
   projectId: string | undefined,
@@ -241,7 +243,7 @@ export function useTestCase(
         }
 
         testCase?.tests.push({
-          title: `${testToClone.title} - copy`,
+          title: getCloneName(testToClone.title),
           description: testToClone.description,
           id: newTestId,
           caseId: testToClone.caseId,
@@ -274,6 +276,12 @@ export function useTestCase(
         );
 
         computeStatus(testCase, testCase.tests, "testCase");
+
+        notifications.show({
+          withBorder: true,
+          title: "Success!",
+          message: "Test cloned successfully",
+        });
       });
     },
     [projectId, doc?.projects, changeDoc, caseId],

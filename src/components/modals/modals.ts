@@ -15,6 +15,7 @@ import { ShareServerModal } from "./shareServerModal/ShareServerModal.tsx";
 import { TestCaseModal } from "./testCaseModal/TestCaseModal.tsx";
 import { TestModal } from "./testModal/TestModal.tsx";
 import { InsertImageModal } from "./insertImageModal/InsertImageModal.tsx";
+import { CloneProjectModal } from "./cloneProjectModal/CloneProjectModal.tsx";
 
 export enum Modals {
   AddServerModal = "AddServerModal",
@@ -28,6 +29,7 @@ export enum Modals {
   ShareServerModal = "ShareServerModal",
   TestCaseModal = "TestCaseModal",
   TestModal = "TestModal",
+  CloneProjectModal = "CloneProjectModal",
 }
 
 export const modals = {
@@ -42,6 +44,7 @@ export const modals = {
   [Modals.ShareServerModal]: ShareServerModal,
   [Modals.TestCaseModal]: TestCaseModal,
   [Modals.TestModal]: TestModal,
+  [Modals.CloneProjectModal]: CloneProjectModal,
 };
 
 export const deleteModalsDefaults = {
