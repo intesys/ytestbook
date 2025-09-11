@@ -50,12 +50,12 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
   }, [repo]);
 
   const findAndSetDoc = useCallback(
-    (docUrl: AutomergeUrl) => {
-      const handle = repo.find<TDocType>(docUrl);
+    async (docUrl: AutomergeUrl) => {
+      const handle = await repo.find<TDocType>(docUrl);
       setState({
         status: DocContextStatusEnum.READY,
         docUrl: handle.url,
-        doc: handle.docSync(),
+        doc: handle.doc(),
         changeDoc: handle.change,
       });
     },

@@ -2,7 +2,7 @@ import { AnyDocumentId, DocHandle, Repo } from "@automerge/automerge-repo";
 import { YtServer } from "../serversContext/types";
 import { TDocType } from "../../types/schema";
 
-export const getDocHandlerFromRepo = (
+export const getDocHandlerFromRepo = async (
   repo: YtServer,
   repoHandler: Repo,
   repositoryId?: string,
@@ -17,7 +17,7 @@ export const getDocHandlerFromRepo = (
       title: "",
     });
   } else if (repositoryId) {
-    docHandle = repoHandler.find<TDocType>(repositoryId as AnyDocumentId);
+    docHandle = await repoHandler.find<TDocType>(repositoryId as AnyDocumentId);
   }
 
   return docHandle;

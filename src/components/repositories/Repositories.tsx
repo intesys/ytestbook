@@ -31,9 +31,19 @@ import { useCheckForServerImport } from "./hooks/useCheckForServerImport";
 import { Actions } from "./partials/Actions";
 import { ProjectList } from "./partials/ProjectList";
 import { ShareServer } from "./partials/ShareServer";
+import { IconLogin, IconTrash } from "@tabler/icons-react";
 
+/**
+ * Component to display and manage repositories and their servers.
+ */
 export const Repositories: React.FC = () => {
-  const { servers, disconnectFromServer, addServer } = useServersContext();
+  const {
+    servers,
+    disconnectFromServer,
+    connectToServer,
+    addServer,
+    removeServer,
+  } = useServersContext();
   const { hiddenProjectIds, showAllProjects } = useProjectVisibility();
 
   const addServerCallback = useCallback(
@@ -42,9 +52,10 @@ export const Repositories: React.FC = () => {
         id: slugify(values.name),
         name: values.name,
         repositoryIds: [values.documentId],
-        status: SERVER_STATUS.CONNECTING,
+        status: SERVER_STATUS.IDLE,
         type: REPOSITORY_TYPE.remote,
         url: values.url,
+        opened: true,
       });
     },
     [addServer],
@@ -91,8 +102,6 @@ export const Repositories: React.FC = () => {
 
           const handler = serversHandler[repo.id];
 
-          const isConnecting = repo.status === SERVER_STATUS.CONNECTING;
-
           return (
             <Box key={repo.id}>
               <RepoContext.Provider value={handler}>
@@ -109,10 +118,24 @@ export const Repositories: React.FC = () => {
                       {repo.url} [{repo.repositoryIds[0]}]
                     </Text>
 
+                    {repo.opened ? (
+                      <AnchorWithIcon
+                        onClick={() => disconnectFromServer(repo.id)}
+                        icon={<Image src={Logout} alt="Disconnect" w={24} />}
+                        label="Disconnect"
+                      />
+                    ) : (
+                      <AnchorWithIcon
+                        onClick={() => connectToServer(repo.id)}
+                        icon={<IconLogin />}
+                        label="Connect"
+                      />
+                    )}
+
                     <AnchorWithIcon
-                      onClick={() => disconnectFromServer(repo.id)}
-                      icon={<Image src={Logout} alt="Disconnect" w={24} />}
-                      label="Disconnect"
+                      onClick={() => removeServer(repo.id)}
+                      icon={<IconTrash />}
+                      label="Remove"
                     />
 
                     <ShareServer
@@ -122,28 +145,30 @@ export const Repositories: React.FC = () => {
                   </Group>
                 )}
 
-                {isConnecting ? (
+                {repo.status === SERVER_STATUS.CONNECTING ? (
                   <Group mb="sm">
-                    <Loader c="white" />
+                    <Loader color="white" />
                     <Title order={4} c="gray.3">
                       Connecting
                     </Title>
                   </Group>
                 ) : null}
 
-                <Grid opacity={isConnecting ? 0.5 : 1}>
-                  {repo.repositoryIds[0] ? (
+                {repo.opened &&
+                repo.status === SERVER_STATUS.CONNECTED &&
+                repo.repositoryIds[0] ? (
+                  <Grid>
                     <ProjectList
                       repo={repo}
                       repositoryId={repo.repositoryIds[0]}
                     />
-                  ) : null}
-                  <Actions
-                    repo={repo}
-                    repositoryId={repo.repositoryIds[0]}
-                    isConnecting={isConnecting}
-                  />
-                </Grid>
+                    <Actions
+                      repo={repo}
+                      repositoryId={repo.repositoryIds[0]}
+                      isConnecting={false}
+                    />
+                  </Grid>
+                ) : null}
               </RepoContext.Provider>
             </Box>
           );

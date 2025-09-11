@@ -18,6 +18,7 @@ export const useSyncServersOnStorage = (
           name: s.name,
           repositoryIds: s.repositoryIds,
           url: s.url,
+          opened: s.opened,
         })),
     };
 

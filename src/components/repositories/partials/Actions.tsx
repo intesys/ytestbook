@@ -19,8 +19,12 @@ type ActionsProps = {
 export const Actions = ({ repo, repositoryId, isConnecting }: ActionsProps) => {
   const repoHandler = useRepo();
 
-  const createTestbookAction = useCallback(() => {
-    const docHandle = getDocHandlerFromRepo(repo, repoHandler, repositoryId);
+  const createTestbookAction = useCallback(async () => {
+    const docHandle = await getDocHandlerFromRepo(
+      repo,
+      repoHandler,
+      repositoryId,
+    );
 
     // check that docHandle has been initialized
     if (!docHandle) {
