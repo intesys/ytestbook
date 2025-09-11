@@ -113,23 +113,27 @@ export function TestCaseRow({
         </Table.Td>
       </Table.Tr>
 
-      <Table.Td colSpan={8} p={0}>
-        <Collapse in={opened} transitionDuration={200}>
-          <div style={{ boxShadow: "0 7px 9px -7px rgba(0,0,0,0.4)" }}>
-            <Table w={"100%"}>
-              {testCase.tests.map((test) => (
-                <TestRow
-                  key={test.id}
-                  openSidebar={openSidebar}
-                  project={project}
-                  test={test}
-                  forceExpanded={forceExpanded}
-                />
-              ))}
-            </Table>
-          </div>
-        </Collapse>
-      </Table.Td>
+      <Table.Tr>
+        <Table.Td colSpan={8} p={0}>
+          <Collapse in={opened} transitionDuration={200}>
+            <div style={{ boxShadow: "0 7px 9px -7px rgba(0,0,0,0.4)" }}>
+              <Table w={"100%"}>
+                <Table.Tbody>
+                  {testCase.tests.map((test) => (
+                    <TestRow
+                      key={test.id}
+                      openSidebar={openSidebar}
+                      project={project}
+                      test={test}
+                      forceExpanded={forceExpanded}
+                    />
+                  ))}
+                </Table.Tbody>
+              </Table>
+            </div>
+          </Collapse>
+        </Table.Td>
+      </Table.Tr>
     </>
   );
 }

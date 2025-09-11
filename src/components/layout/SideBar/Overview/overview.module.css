@@ -15,7 +15,7 @@
 }
 
 .testCaseRow {
-  background-color: white; 
+  background-color: var(--mantine-color-white); 
 
   @mixin hover {
     background-color: var(--mantine-color-secondary-3);

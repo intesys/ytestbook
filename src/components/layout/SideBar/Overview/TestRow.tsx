@@ -109,21 +109,25 @@ export const TestRow = ({
         </Table.Td>
       </Table.Tr>
 
-      <Table.Td colSpan={8} p={0}>
-        <Collapse in={opened} transitionDuration={200}>
-          <Table w={"100%"}>
-            {test.steps.map((step) => (
-              <StepRow
-                key={step.id}
-                caseId={test.caseId}
-                openSidebar={openSidebar}
-                project={project}
-                step={step}
-              />
-            ))}
-          </Table>
-        </Collapse>
-      </Table.Td>
+      <Table.Tr>
+        <Table.Td colSpan={8} p={0}>
+          <Collapse in={opened} transitionDuration={200}>
+            <Table w={"100%"}>
+              <Table.Tbody>
+                {test.steps.map((step) => (
+                  <StepRow
+                    key={step.id}
+                    caseId={test.caseId}
+                    openSidebar={openSidebar}
+                    project={project}
+                    step={step}
+                  />
+                ))}
+              </Table.Tbody>
+            </Table>
+          </Collapse>
+        </Table.Td>
+      </Table.Tr>
     </>
   );
 };
