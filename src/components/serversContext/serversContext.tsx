@@ -25,6 +25,10 @@ import { useInitServerConnections } from "./hooks/useInitServerConnections";
 // global handlers need to be a singleton
 export const serversHandler: Record<string, Repo> = {};
 
+/**
+ * Context to manage the list of servers and their connections.
+ * Provides functions to add, connect, disconnect, and remove servers.
+ */
 const ServersContext = createContext<TServersContextValue>({
   servers: {},
   addServer: () => {},
@@ -48,62 +52,7 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
   useSyncServersOnStorage(servers, !isServerLoadedFromStorage);
   useInitServerConnections(servers, setServers);
 
-  // const addListenersToHandler = useCallback(
-  //   (handler: Repo, serverId: string) => {
-  //     // handle server disconnected
-  //     handler.networkSubsystem.addListener("peer-disconnected", () => {
-  //       setServers((currentServers) => {
-  //         const newServers = { ...currentServers };
-  //         newServers[serverId].status = SERVER_STATUS.DISCONNECTED;
-  //         return newServers;
-  //       });
-  //     });
-
-  //     // handle server connected
-  //     handler.networkSubsystem.addListener("peer", () => {
-  //       setServers((currentServers) => {
-  //         const newServers = { ...currentServers };
-  //         newServers[serverId].status = SERVER_STATUS.CONNECTED;
-
-  //         const handlesRepoIds = Object.keys(serversHandler[serverId].handles);
-  //         newServers[serverId].repositoryIds = handlesRepoIds;
-
-  //         return newServers;
-  //       });
-  //     });
-
-  //     // Sync server repositoryIDs
-  //     handler.networkSubsystem.addListener("message", (e) => {
-  //       if (e.type === "sync") {
-  //         const handlesRepoIds = Object.keys(
-  //           serversHandler[serverId].handles,
-  //         ).map((id) =>
-  //           id.indexOf(urlPrefix) === 0 ? id : `${urlPrefix}${id}`,
-  //         );
-  //         if (!isEqual(servers[serverId], handlesRepoIds)) {
-  //           setServers((currentServers) => {
-  //             const newServers = { ...currentServers };
-  //             newServers[serverId].repositoryIds = handlesRepoIds;
-  //             return newServers;
-  //           });
-  //         }
-  //       }
-  //     });
-  //   },
-  //   [servers],
-  // );
-
   const addServer = useCallback((id: string, repo: YtServer) => {
-    // const handler = new Repo({
-    //   network: [new BrowserWebSocketClientAdapter(repo.url)],
-    //   storage: new IndexedDBStorageAdapter(),
-    //   sharePolicy: async () => true,
-    //   enableRemoteHeadsGossiping: true,
-    // });
-    // serversHandler[repo.id] = handler;
-
-    // addListenersToHandler(handler, repo.id);
-
     setServers((currentServers) => {
       const newServers = { ...currentServers };
       newServers[id] = repo;
@@ -170,17 +119,6 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
         };
         serversFromStorage.servers.forEach((server) => {
           // init the server repo with network adapter
-          // const handler = new Repo({
-          //   network: [new BrowserWebSocketClientAdapter(server.url)],
-          //   storage: new IndexedDBStorageAdapter(),
-          //   sharePolicy: async () => true,
-          //   enableRemoteHeadsGossiping: true,
-          // });
-
-          // addListenersToHandler(handler, server.id);
-
-          // serversHandler[server.id] = handler;
-
           serversInitialized[server.id] = {
             id: server.id,
             name: server.name,

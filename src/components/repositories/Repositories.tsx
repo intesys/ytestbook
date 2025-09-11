@@ -33,6 +33,9 @@ import { ProjectList } from "./partials/ProjectList";
 import { ShareServer } from "./partials/ShareServer";
 import { IconLogin, IconTrash } from "@tabler/icons-react";
 
+/**
+ * Component to display and manage repositories and their servers.
+ */
 export const Repositories: React.FC = () => {
   const {
     servers,
@@ -144,7 +147,7 @@ export const Repositories: React.FC = () => {
 
                 {repo.status === SERVER_STATUS.CONNECTING ? (
                   <Group mb="sm">
-                    <Loader c="white" />
+                    <Loader color="white" />
                     <Title order={4} c="gray.3">
                       Connecting
                     </Title>
