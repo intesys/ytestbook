@@ -10,6 +10,7 @@ export type TContentHeader = {
   handleQuickEdit: (value: string) => void;
   handleEditClick?: () => void;
   handleDeleteClick: () => void;
+  handleCloneClick?: () => void;
 };
 
 export type TJiraTagsColumns = {

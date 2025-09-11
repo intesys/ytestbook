@@ -1,6 +1,7 @@
 import { Button, Group, Progress, Tooltip } from "@mantine/core";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
+import Clone from "../../assets/icons/clone.svg";
 import { Avatars } from "../avatars/Avatars";
 import { EditableTitle } from "../shared/EditableText";
 import { StatusIcon } from "../statusIcon/StatusIcon";
@@ -18,6 +19,7 @@ export function ContentHeader({
   handleQuickEdit,
   handleEditClick,
   handleDeleteClick,
+  handleCloneClick,
 }: TContentHeader) {
   return (
     <div className={classes.header}>
@@ -61,6 +63,16 @@ export function ContentHeader({
           >
             Delete
           </Button>
+          {handleCloneClick ? (
+            <Button
+              leftSection={<img src={Clone} height={24} width={24} />}
+              variant="subtle"
+              c={"black"}
+              onClick={handleCloneClick}
+            >
+              Clone
+            </Button>
+          ) : null}
         </div>
       </div>
     </div>
