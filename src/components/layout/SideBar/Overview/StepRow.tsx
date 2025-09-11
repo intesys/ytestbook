@@ -66,11 +66,11 @@ export const StepRow = ({
         </Flex>
       </Table.Td>
 
-      <Table.Td visibleFrom="md">
+      <Table.Td visibleFrom="md" w={150}>
         {step.lastUpdate ? <RelativeDate timeStamp={step.lastUpdate} /> : ""}
       </Table.Td>
 
-      <Table.Td visibleFrom="md" />
+      <Table.Td visibleFrom="md" w={100} />
     </Table.Tr>
   );
 };

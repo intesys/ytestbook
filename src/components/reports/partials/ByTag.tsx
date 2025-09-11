@@ -31,14 +31,16 @@ export const ByTag = ({ project }: PlainProps) => {
                   <Table.Th>Test</Table.Th>
                   <Table.Th>Status</Table.Th>
                 </Table.Thead>
-                {tests.map((test) => (
-                  <Table.Tr key={test.id}>
-                    <Table.Td>{test.title}</Table.Td>
-                    <Table.Td>
-                      <StatusIconWithLabel status={test.status} />
-                    </Table.Td>
-                  </Table.Tr>
-                ))}
+                <Table.Tbody>
+                  {tests.map((test) => (
+                    <Table.Tr key={test.id}>
+                      <Table.Td>{test.title}</Table.Td>
+                      <Table.Td>
+                        <StatusIconWithLabel status={test.status} />
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
               </Table>
             </>
           );

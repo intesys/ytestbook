@@ -26,15 +26,15 @@ export const theme = createTheme({
     ],
     secondary: [
       "#f5e9ff",
+      "#E1E6FD", // testcase bg
+      "#E1E6FD", // test bg
+      "#D3D9F6", // stepbg
+      "#b7c5fb", // dark hover
       "#e5cfff",
       "#c79bff",
       "#a864ff",
       "#8d36ff",
-      "#7c18ff",
-      "#7407ff",
-      "#6300e5",
       "#5700cd",
-      "#4a00b4",
     ],
     font: [
       "#f5f5f5",
