@@ -18,6 +18,7 @@ import {
   IconDeviceFloppy,
   IconFileExport,
   IconPencil,
+  IconRestore,
   IconTrash,
   IconUserPlus,
 } from "@tabler/icons-react";
@@ -30,6 +31,7 @@ import { ActionIconWithConfirm } from "../actionIconWithConfirm/ActionIconWithCo
 import { Avatars } from "../avatars/Avatars.tsx";
 import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
 import classes from "./settings.module.css";
+import { ResetProjectModalFormValues } from "../modals/ResetProjectModal/ResetProjectModal.tsx";
 
 export function Settings() {
   const params = useParams();
@@ -69,6 +71,29 @@ export function Settings() {
       }),
     [navigate, project?.data?.id, projects],
   );
+
+  const resetProjectHandler = useCallback(() => {
+    modals.openContextModal({
+      modal: Modals.ResetProjectModal,
+      title: "Reset Project",
+      centered: true,
+      innerProps: {
+        handleSubmit: (values: ResetProjectModalFormValues) => {
+          openDeleteConfirmModal(
+            "Are you sure you want to reset this Testbook?",
+            {
+              confirmButtonLabel: "Yes, reset it",
+              handleConfirm: () =>
+                project.resetProject({
+                  resetChangelog: values.removeChangelogs,
+                  resetNotes: values.removeNotes,
+                }),
+            },
+          );
+        },
+      },
+    });
+  }, [project]);
 
   if (project.loading) {
     return (
@@ -222,6 +247,30 @@ export function Settings() {
               leftSection={<IconFileExport size={18} />}
             >
               Export Project
+            </Button>
+          </Group>
+        </Stack>
+      </Alert>
+
+      <Alert className={classes.alert} color="red">
+        <Stack>
+          <Title order={4} c="red.7">
+            Reset Testbook
+          </Title>
+
+          <Text span>
+            The Testbook statuses will be resetted to the initial state.
+            <br />
+            This action is irreversible and can not be undone.
+          </Text>
+
+          <Group justify="end">
+            <Button
+              bg={"red"}
+              leftSection={<IconRestore size={18} />}
+              onClick={resetProjectHandler}
+            >
+              Reset
             </Button>
           </Group>
         </Stack>
