@@ -1,0 +1,6 @@
+.contentWrapper {
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+

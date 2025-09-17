@@ -1,4 +1,4 @@
-import { Group, ThemeIcon, Text } from "@mantine/core";
+import { Group, Text, ThemeIcon } from "@mantine/core";
 import React from "react";
 import {
   MdOutlineRemoveRedEye,

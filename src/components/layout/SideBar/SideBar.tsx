@@ -1,7 +1,9 @@
-import { Box, Group, Stack } from "@mantine/core";
+import { Box, Stack } from "@mantine/core";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import { routesHelper } from "../../../lib/helpers/routesHelper";
+import { useServerName } from "../../../lib/helpers/useServerName";
 import { useProject } from "../../../lib/operators/useProject";
 import { navbarConfig, SIDEBAR_STATUS } from "./const";
 import { Menu } from "./Menu/Menu";
@@ -9,8 +11,6 @@ import { Overview } from "./Overview/Overview";
 import { OverviewHeader } from "./OverviewHeader";
 import { QuickClose } from "./QuickClose";
 import classes from "./sideBar.module.css";
-import { routesHelper } from "../../../lib/helpers/routesHelper";
-import { useServerName } from "../../../lib/helpers/useServerName";
 
 export type WithNavbarStatus = {
   status: SIDEBAR_STATUS;
@@ -66,12 +66,10 @@ export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
           [classes.collapsed]: status === SIDEBAR_STATUS.COLLAPSED,
         })}
       >
-        <Group>
-          <OverviewHeader toggle={toggle} status={status} />
-          <QuickClose toggle={toggle} status={status} />
-        </Group>
+        <OverviewHeader toggle={toggle} status={status} />
+        <QuickClose toggle={toggle} status={status} />
       </Box>
-      <Box>
+      <Box flex={1} className={classes.navbarContent}>
         {status === SIDEBAR_STATUS.FULLSCREEN ? (
           <Overview toggle={toggle} />
         ) : status === SIDEBAR_STATUS.OPEN ? (
