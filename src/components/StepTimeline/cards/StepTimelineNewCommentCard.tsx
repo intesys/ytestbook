@@ -1,6 +1,6 @@
 import { Card, CardProps, Stack, Text } from "@mantine/core";
-import { TUseProject, TUseTestCase } from "../../../lib/operators/types.ts";
-import { NewCommentForm } from "../../commentsList/NewCommentForm.tsx";
+import { NewCommentForm } from "@/components/commentsList/NewCommentForm.tsx";
+import { TUseProject, TUseTestCase } from "@/lib/operators/types.ts";
 
 interface StepTimelineNewCommentCardProps extends CardProps {
   testId?: string;

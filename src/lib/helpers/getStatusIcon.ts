@@ -8,7 +8,7 @@ import {
   MdPending,
   MdReportProblem,
 } from "react-icons/md";
-import { StatusEnum } from "../../types/schema.ts";
+import { StatusEnum } from "@/types/schema.ts";
 
 /**
  * Returns the corresponding icon component for a given status.
