@@ -43,15 +43,19 @@ export const StepTimeline = ({
   const [sort, setSort] = useState<SortOrder>("asc");
 
   // Filter and sort the list based on user selections
-  const filteredList = list
-    .filter((item) => filteredActivities.includes(item.type))
-    .sort((a, b) => {
-      if (sort === "asc") {
-        return a.date - b.date;
-      }
+  const filteredList = useMemo(
+    () =>
+      list
+        .filter((item) => filteredActivities.includes(item.type))
+        .sort((a, b) => {
+          if (sort === "asc") {
+            return a.date - b.date;
+          }
 
-      return b.date - a.date;
-    });
+          return b.date - a.date;
+        }),
+    [filteredActivities, list, sort],
+  );
 
   // Keep common card props in one place for easier adjustments
   // and to ensure consistency across different card types
