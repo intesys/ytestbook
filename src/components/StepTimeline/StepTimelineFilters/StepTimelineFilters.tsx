@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { ActivityType, SortOrder } from "../stepTimeline.types.ts";
 import { ACTIVITIES } from "../stepTimeline.utils.ts";
 import classes from "./StepTimelineFilters.module.css";
@@ -53,6 +53,20 @@ export const StepTimelineFilters = ({
     [setFilteredActivities],
   );
 
+  const activitiesLabel = useMemo(() => {
+    const allActivitiesSelected =
+      filteredActivities.length === ACTIVITIES.length;
+    const noActivitiesSelected = filteredActivities.length === 0;
+
+    if (allActivitiesSelected) {
+      return "All activity";
+    }
+    if (noActivitiesSelected) {
+      return "No activity";
+    }
+    return `${filteredActivities.length} activity`;
+  }, [filteredActivities.length]);
+
   return (
     <Group align="center" justify="flex-end">
       <Button.Group>
@@ -73,11 +87,7 @@ export const StepTimelineFilters = ({
               onClick={activitiesListHandlers.toggle}
               rightSection={<Combobox.Chevron />}
             >
-              {filteredActivities.length === ACTIVITIES.length
-                ? "All activity"
-                : filteredActivities.length === 0
-                  ? "No activity"
-                  : `${filteredActivities.length} activity`}
+              {activitiesLabel}
             </Button>
           </Popover.Target>
 
