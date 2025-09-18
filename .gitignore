@@ -30,3 +30,5 @@ release
 k8s-deployment.yaml
 k8s-ingress.yaml
 k8s-service.yaml
+
+.vite
