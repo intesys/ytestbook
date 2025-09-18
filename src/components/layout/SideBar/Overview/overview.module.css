@@ -6,7 +6,7 @@
   max-width: 34px;
 }
 
-.thead{
+.thead {
   background-color: #eaefff;
 }
 
@@ -15,14 +15,14 @@
 }
 
 .testCaseRow {
-  background-color: var(--mantine-color-white); 
+  background-color: var(--mantine-color-white);
 
   @mixin hover {
     background-color: var(--mantine-color-secondary-3);
   }
 }
 
-.testRow{
+.testRow {
   background-color: var(--mantine-color-secondary-2);
 
   &:first-of-type {
@@ -34,9 +34,9 @@
   }
 }
 
-.stepRow{
+.stepRow {
   background-color: var(--mantine-color-secondary-3);
-    &:first-of-type {
+  &:first-of-type {
     box-shadow: inset rgba(0, 0, 0, 0.2) 0px 5px 9px -7px;
   }
 

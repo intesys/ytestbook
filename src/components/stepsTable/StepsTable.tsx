@@ -1,3 +1,8 @@
+import { MouseEvent, useCallback, useState } from "react";
+import clsx from "clsx";
+import { IoMdAddCircle } from "react-icons/io";
+import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -8,25 +13,20 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import clsx from "clsx";
-import { MouseEvent, useCallback, useState } from "react";
-import { IoMdAddCircle } from "react-icons/io";
-import { useNavigate } from "react-router";
-import { useParams } from "react-router-dom";
-import Delete from "../../assets/icons/delete.svg";
-import { routesHelper } from "../../lib/helpers/routesHelper.ts";
-import { TUseTest } from "../../lib/operators/types";
-import { StatusEnum, TStep } from "../../types/schema.ts";
-import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
-import { BulkAddButton } from "../shared/BulkAddButton/BulkAddButton.tsx";
-import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
-import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
-import { StatusButton } from "../statusButton/StatusButton";
-import classes from "./stepsTable.module.css";
 import { modals } from "@mantine/modals";
-import { useProject } from "../../lib/operators/useProject.ts";
-import { ChangeStatusFormValues } from "../modals/changeStatusModal/ChangeStatusModal.tsx";
-import Edit from "../../assets/icons/edit.svg";
+import Delete from "@/assets/icons/delete.svg";
+import Edit from "@/assets/icons/edit.svg";
+import { ChangeStatusFormValues } from "@/components/modals/changeStatusModal/ChangeStatusModal.tsx";
+import { Modals, openDeleteConfirmModal } from "@/components/modals/modals.ts";
+import { BulkAddButton } from "@/components/shared/BulkAddButton/BulkAddButton.tsx";
+import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate.tsx";
+import { SimpleNewElementForm } from "@/components/shared/SimpleNewElementForm";
+import { StatusButton } from "@/components/statusButton/StatusButton";
+import { routesHelper } from "@/lib/helpers/routesHelper.ts";
+import { TUseTest } from "@/lib/operators/types";
+import { useProject } from "@/lib/operators/useProject.ts";
+import { StatusEnum, TStep } from "@/types/schema.ts";
+import classes from "./stepsTable.module.css";
 
 export function StepsTable({
   steps,
@@ -54,7 +54,7 @@ export function StepsTable({
         title,
       });
     },
-    [createStep],
+    [createStep]
   );
 
   const bulkLoadHandler = useCallback(
@@ -63,7 +63,7 @@ export function StepsTable({
         createNewStep(value);
       });
     },
-    [createNewStep],
+    [createNewStep]
   );
 
   const handleStatusChange = (values: ChangeStatusFormValues) => {
@@ -73,7 +73,7 @@ export function StepsTable({
       selectedSteps,
       values.status as StatusEnum,
       values.collaboratorId,
-      values.notes,
+      values.notes
     );
   };
 
@@ -147,7 +147,7 @@ export function StepsTable({
           <Table.Tbody>
             {steps.map((step) => {
               const removeClickHandler = (
-                event: MouseEvent<HTMLButtonElement>,
+                event: MouseEvent<HTMLButtonElement>
               ) => {
                 event.preventDefault();
                 event.stopPropagation();
@@ -164,16 +164,16 @@ export function StepsTable({
                               params.serverName ?? "",
                               params.projectId ?? "",
                               params.caseId ?? "",
-                              params.testId ?? "",
+                              params.testId ?? ""
                             ),
-                            {},
+                            {}
                           );
                         }
 
                         removeStep(step.id);
                       }
                     },
-                  },
+                  }
                 );
               };
 
@@ -190,9 +190,9 @@ export function StepsTable({
                         params.projectId ?? "",
                         params.caseId ?? "",
                         params.testId ?? "",
-                        step.id ?? "",
+                        step.id ?? ""
                       ),
-                      {},
+                      {}
                     )
                   }
                 >
@@ -210,7 +210,7 @@ export function StepsTable({
                           setSelectedSteps((prev) => [...prev, step.id]);
                         } else {
                           setSelectedSteps((prev) =>
-                            prev.filter((id) => id !== step.id),
+                            prev.filter((id) => id !== step.id)
                           );
                         }
                       }}

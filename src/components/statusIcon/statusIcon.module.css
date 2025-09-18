@@ -1,13 +1,13 @@
 .group {
-    container-type: inline-size;
+  container-type: inline-size;
 }
 .label {
-    @container (max-width: 100px) {
-        display: none;
-    }
+  @container (max-width: 100px) {
+    display: none;
+  }
 }
 .statusIcon {
-    &:hover {
-        color: var(--status-icon-hover-color);
-    }
+  &:hover {
+    color: var(--status-icon-hover-color);
+  }
 }

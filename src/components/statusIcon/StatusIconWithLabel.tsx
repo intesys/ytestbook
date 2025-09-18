@@ -1,8 +1,8 @@
 import { Group, GroupProps, Text, TextProps } from "@mantine/core";
-import { getStatusLabel } from "../../lib/helpers/getStatusLabel.ts";
-import { StatusEnum } from "../../types/schema.ts";
-import classes from "./statusIcon.module.css";
+import { getStatusLabel } from "@/lib/helpers/getStatusLabel.ts";
+import { StatusEnum } from "@/types/schema.ts";
 import { StatusIcon, StatusIconProps } from "./StatusIcon.tsx";
+import classes from "./statusIcon.module.css";
 
 interface StatusIconWithLabelProps extends GroupProps {
   status?: StatusEnum;

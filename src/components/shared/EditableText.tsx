@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { Box, Input, Title, TitleProps, Tooltip } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
-import { useEffect, useState } from "react";
 
 type EditableTitle = {
   name?: string;
@@ -9,12 +9,12 @@ type EditableTitle = {
   value?: string;
 };
 
-export const EditableTitle: React.FC<EditableTitle> = ({
+export const EditableTitle = ({
   onChange,
   value,
   titleProps,
   name,
-}) => {
+}: EditableTitle) => {
   const [editing, handlers] = useDisclosure(false);
   const [internalValue, setInternalValue] = useState<string>(value || "");
 

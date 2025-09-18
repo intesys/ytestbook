@@ -1,7 +1,7 @@
 export function addTuples(
   target: [string, string][],
   secondId: string,
-  firstIdArr: string[],
+  firstIdArr: string[]
 ) {
   const currentFirstIdArr = target
     .filter((tuple) => tuple[1] === secondId)

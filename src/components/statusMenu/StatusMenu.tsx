@@ -1,14 +1,14 @@
-import { Group, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
 import { ReactNode } from "react";
 import { useParams } from "react-router-dom";
-import { getStatusLabel } from "../../lib/helpers/getStatusLabel.ts";
-import { TUseTest } from "../../lib/operators/types";
-import { useProject } from "../../lib/operators/useProject.ts";
-import { StatusEnum, TStep } from "../../types/schema";
-import { ChangeStatusFormValues } from "../modals/changeStatusModal/ChangeStatusModal.tsx";
-import { Modals } from "../modals/modals.ts";
-import { StatusIcon } from "../statusIcon/StatusIcon";
+import { Group, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { ChangeStatusFormValues } from "@/components/modals/changeStatusModal/ChangeStatusModal.tsx";
+import { Modals } from "@/components/modals/modals.ts";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon";
+import { getStatusLabel } from "@/lib/helpers/getStatusLabel.ts";
+import { TUseTest } from "@/lib/operators/types";
+import { useProject } from "@/lib/operators/useProject.ts";
+import { StatusEnum, TStep } from "@/types/schema";
 import { StatusMenuDropdown } from "./StatusMenuDropdown.tsx";
 
 type TProps = {

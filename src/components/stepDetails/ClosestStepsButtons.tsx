@@ -1,12 +1,11 @@
-import { Box, Button, Flex, Text } from "@mantine/core";
-import { getNextStep, getPreviousStep } from "../../lib/helpers/stepsHelpers";
-import { TStep } from "../../types/schema";
-
 import { useNavigate } from "react-router";
-import { routesHelper } from "../../lib/helpers/routesHelper";
-import ArrowCircleDown from "../../assets/icons/arrow_circle_down.svg";
-import ArrowCircleUp from "../../assets/icons/arrow_circle_up.svg";
-import { useServerName } from "../../lib/helpers/useServerName";
+import { Box, Button, Flex, Text } from "@mantine/core";
+import ArrowCircleDown from "@/assets/icons/arrow_circle_down.svg";
+import ArrowCircleUp from "@/assets/icons/arrow_circle_up.svg";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { getNextStep, getPreviousStep } from "@/lib/helpers/stepsHelpers";
+import { useServerName } from "@/lib/helpers/useServerName";
+import { TStep } from "@/types/schema";
 
 type ClosestStepsButtonsProps = {
   stepId: string;
@@ -37,8 +36,8 @@ export const ClosestStepsButtons = ({
         projectId,
         caseId,
         testId,
-        previousStep.id,
-      ),
+        previousStep.id
+      )
     );
   };
 
@@ -52,8 +51,8 @@ export const ClosestStepsButtons = ({
         projectId,
         caseId,
         testId,
-        nextStep.id,
-      ),
+        nextStep.id
+      )
     );
   };
 

@@ -1,21 +1,21 @@
-import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
-import { useDocContext } from "../../components/docContext/DocContext";
-import { StatusEnum, TDocType } from "../../types/schema";
-import { computeStatus } from "../helpers/computeStatus";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { useDocContext } from "@/components/docContext/DocContext";
+import { computeStatus } from "@/lib/helpers/computeStatus";
+import { StatusEnum, TDocType } from "@/types/schema";
 import { TOperatorLoaderStatus, TUseTest } from "./types";
 
 export function useTest(
   projectId: string | undefined,
   caseId: string | undefined,
-  testId: string | undefined,
+  testId: string | undefined
 ): TUseTest {
   const { docUrl } = useDocContext();
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
 
   const test: TUseTest["data"] = useMemo(() => {
     const project = doc?.projects.find(
-      (item) => projectId && item.id === projectId,
+      (item) => projectId && item.id === projectId
     );
     const testCase = project?.testCases.find((item) => item.id === caseId);
     return testCase?.tests.find((test) => test.id === testId);
@@ -32,7 +32,7 @@ export function useTest(
       const date = new Date();
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         const test = testCase?.tests.find((test) => test.id === testId);
@@ -54,7 +54,7 @@ export function useTest(
         computeStatus(testCase, testCase.tests, "testCase");
       });
     },
-    [projectId, caseId, testId, changeDoc],
+    [projectId, caseId, testId, changeDoc]
   );
 
   const updateStepStatuses: TUseTest["updateStepStatuses"] = useCallback(
@@ -65,7 +65,7 @@ export function useTest(
       const date = new Date();
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         const test = testCase?.tests.find((test) => test.id === testId);
@@ -99,7 +99,7 @@ export function useTest(
         });
       });
     },
-    [projectId, caseId, testId, changeDoc],
+    [projectId, caseId, testId, changeDoc]
   );
 
   // const updateStepStatuses: TUseTest["updateStepStatus"] = useCallback(
@@ -150,7 +150,7 @@ export function useTest(
       const date = new Date();
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         const test = testCase?.tests.find((test) => test.id === testId);
@@ -165,14 +165,14 @@ export function useTest(
         step.lastUpdate = test.lastUpdate = project.lastUpdate = date.getTime();
       });
     },
-    [projectId, caseId, testId, changeDoc],
+    [projectId, caseId, testId, changeDoc]
   );
 
   const removeStep: TUseTest["removeStep"] = useCallback(
     (stepId) => {
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         const test = testCase?.tests.find((test) => test.id === testId);
@@ -183,7 +183,7 @@ export function useTest(
         delete test.steps[index];
       });
     },
-    [changeDoc, projectId, caseId, testId],
+    [changeDoc, projectId, caseId, testId]
   );
 
   if (loading) {

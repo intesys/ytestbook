@@ -1,10 +1,10 @@
+import { useCallback, useEffect } from "react";
 import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useCallback, useEffect } from "react";
-import { TCollaboratorDynamicData } from "../../../types/schema.ts";
-import { FormErrorMessages } from "../../../lib/formErrors.ts";
-import { TModalProps } from "../../repositories/types.ts";
+import { TModalProps } from "@/components/repositories/types.ts";
+import { FormErrorMessages } from "@/lib/formErrors.ts";
+import { TCollaboratorDynamicData } from "@/types/schema.ts";
 
 export function CollaboratorModal({
   id,
@@ -41,7 +41,7 @@ export function CollaboratorModal({
       }
       close();
     },
-    [close, collaboratorId, handleSubmit],
+    [close, collaboratorId, handleSubmit]
   );
 
   return (

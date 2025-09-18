@@ -1,6 +1,6 @@
-import { useLocalStorage } from "@mantine/hooks";
-import { STORAGE_KEYS } from "../constants/localStorageKeys";
 import { useCallback, useMemo } from "react";
+import { useLocalStorage } from "@mantine/hooks";
+import { STORAGE_KEYS } from "@/lib/constants/localStorageKeys";
 
 export const useProjectVisibility = () => {
   const [hiddenProjectIds, setHiddenProjectIds] = useLocalStorage<string[]>({
@@ -25,7 +25,7 @@ export const useProjectVisibility = () => {
         setHiddenProjectIds(newList);
       }
     },
-    [hiddenProjectIds, setHiddenProjectIds],
+    [hiddenProjectIds, setHiddenProjectIds]
   );
 
   const showAllProjects = useCallback(() => {
@@ -38,6 +38,6 @@ export const useProjectVisibility = () => {
       hideProject,
       showAllProjects,
     }),
-    [hiddenProjectIds, hideProject, showAllProjects],
+    [hiddenProjectIds, hideProject, showAllProjects]
   );
 };

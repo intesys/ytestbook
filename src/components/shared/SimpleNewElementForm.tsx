@@ -1,7 +1,7 @@
+import { useEffect } from "react";
 import { Box, TextInput, Tooltip } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { useClickOutside } from "@mantine/hooks";
-import { useEffect } from "react";
 
 type FormValues = {
   title: string;

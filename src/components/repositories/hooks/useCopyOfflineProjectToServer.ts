@@ -1,11 +1,11 @@
 import { useCallback } from "react";
+import { notifications } from "@mantine/notifications";
 import {
   serversHandler,
   useServersContext,
-} from "../../serversContext/serversContext";
-import { notifications } from "@mantine/notifications";
+} from "@/components/serversContext/serversContext";
+import { TProject } from "@/types/schema";
 import { getDocHandlerFromRepo } from "../utils.repositories";
-import { TProject } from "../../../types/schema";
 
 export const useCopyOfflineProjectToServer = () => {
   const { servers } = useServersContext();
@@ -31,7 +31,7 @@ export const useCopyOfflineProjectToServer = () => {
       const docHandle = await getDocHandlerFromRepo(
         serverRepo,
         serversHandler[serverId],
-        serverRepo.repositoryIds[0],
+        serverRepo.repositoryIds[0]
       );
 
       docHandle?.change((doc) => {
@@ -44,6 +44,6 @@ export const useCopyOfflineProjectToServer = () => {
         });
       });
     },
-    [servers],
+    [servers]
   );
 };

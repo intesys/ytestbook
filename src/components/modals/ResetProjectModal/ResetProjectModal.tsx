@@ -1,7 +1,7 @@
+import { useCallback } from "react";
 import { Button, Checkbox, Group, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useCallback } from "react";
 
 export type ResetProjectModalFormValues = {
   removeChangelogs: boolean;
@@ -38,7 +38,7 @@ export function ResetProjectModal({
       }
       close();
     },
-    [close, handleSubmit],
+    [close, handleSubmit]
   );
 
   return (

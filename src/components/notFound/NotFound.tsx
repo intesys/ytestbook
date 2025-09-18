@@ -1,6 +1,6 @@
-import { Button, Stack, Title } from "@mantine/core";
 import { useNavigate } from "react-router";
-import { GradientLayout } from "../layout/GradientLayout/GradientLayout";
+import { Button, Stack, Title } from "@mantine/core";
+import { GradientLayout } from "@/components/layout/GradientLayout/GradientLayout";
 
 export const NotFound = () => {
   const navigate = useNavigate();

@@ -1,9 +1,9 @@
-import { ContextModalProps } from "@mantine/modals";
 import { useCallback } from "react";
+import { IconLink, IconUpload } from "@tabler/icons-react";
+import { Tabs } from "@mantine/core";
+import { ContextModalProps } from "@mantine/modals";
 import { AddImageUrlForm } from "./partials/AddImageUrlForm";
 import { UploadImageForm } from "./partials/UploadImageForm";
-import { Tabs } from "@mantine/core";
-import { IconLink, IconUpload } from "@tabler/icons-react";
 
 export type TInsertImageModalProps = {
   handleCancel?: () => void;
@@ -33,7 +33,7 @@ export const InsertImageModal = ({
       }
       close();
     },
-    [close, handleSubmit],
+    [close, handleSubmit]
   );
 
   return (

@@ -1,12 +1,14 @@
-import { List } from "@mantine/core";
 import { useParams } from "react-router-dom";
-import { useProject } from "../../../../lib/operators/useProject";
-import { TestCasesList } from "../../../testCasesList";
+import { List } from "@mantine/core";
+import { TestCasesList } from "@/components/testCasesList";
+import { useProject } from "@/lib/operators/useProject";
 
-export const Menu: React.FC<{ activeCaseId: string; activeTestId: string }> = ({
-  activeCaseId,
-  activeTestId,
-}) => {
+interface MenuProps {
+  activeCaseId: string;
+  activeTestId: string;
+}
+
+export const Menu = ({ activeCaseId, activeTestId }: MenuProps) => {
   const params = useParams();
   const project = useProject(params.projectId);
 

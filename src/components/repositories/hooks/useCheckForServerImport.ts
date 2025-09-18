@@ -1,12 +1,12 @@
-import { modals } from "@mantine/modals";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { QUERY_PARAMS } from "../../../lib/constants/queryParams";
-import { AddServerFormValues } from "../../modals/addServerModal/AddServerModal";
-import { Modals } from "../../modals/modals";
+import { modals } from "@mantine/modals";
+import { AddServerFormValues } from "@/components/modals/addServerModal/AddServerModal";
+import { Modals } from "@/components/modals/modals";
+import { QUERY_PARAMS } from "@/lib/constants/queryParams";
 
 export const useCheckForServerImport = (
-  addServerCallback: (values: AddServerFormValues) => void,
+  addServerCallback: (values: AddServerFormValues) => void
 ) => {
   const [searchParams, setSearchParams] = useSearchParams();
 

@@ -1,23 +1,25 @@
-import { modals } from "@mantine/modals";
-import { RichTextEditor } from "@mantine/tiptap";
+import { useCallback } from "react";
 import { IconPhoto } from "@tabler/icons-react";
 import { Editor } from "@tiptap/react";
-import { useCallback } from "react";
-import { Modals } from "../../modals/modals.ts";
+import { modals } from "@mantine/modals";
+import { RichTextEditor } from "@mantine/tiptap";
+import { Modals } from "@/components/modals/modals.ts";
 
-interface IProps {
+interface RichTextEditorImageControlProps {
   editor: Editor | null;
 }
 export const RICHTEXTAREA_ADD_IMAGE_MODAL_CLASS = "rta-add-image";
 
-export const RichTextEditorImageControl = ({ editor }: IProps) => {
+export const RichTextEditorImageControl = ({
+  editor,
+}: RichTextEditorImageControlProps) => {
   const appendImage = useCallback(
     (url: string) => {
       if (url) {
         editor?.chain().focus().setImage({ src: url }).run();
       }
     },
-    [editor],
+    [editor]
   );
 
   const addImageHandler = useCallback(() => {

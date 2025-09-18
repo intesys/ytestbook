@@ -1,5 +1,5 @@
-import { AutomergeUrl } from "@automerge/automerge-repo";
 import { ChangeFn, ChangeOptions, Doc } from "@automerge/automerge";
+import { AutomergeUrl } from "@automerge/automerge-repo";
 import { TDocType } from "../../types/schema";
 
 export type TDocContextValue = {
@@ -21,7 +21,7 @@ export type TDocContextState =
       changeDoc:
         | ((
             changeFn: ChangeFn<TDocType>,
-            options?: ChangeOptions<TDocType> | undefined,
+            options?: ChangeOptions<TDocType> | undefined
           ) => void)
         | undefined;
     }

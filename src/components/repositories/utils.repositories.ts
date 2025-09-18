@@ -1,11 +1,11 @@
 import { AnyDocumentId, DocHandle, Repo } from "@automerge/automerge-repo";
-import { YtServer } from "../serversContext/types";
-import { TDocType } from "../../types/schema";
+import { YtServer } from "@/components/serversContext/types";
+import { TDocType } from "@/types/schema";
 
 export const getDocHandlerFromRepo = async (
   repo: YtServer,
   repoHandler: Repo,
-  repositoryId?: string,
+  repositoryId?: string
 ) => {
   let docHandle: DocHandle<TDocType> | undefined;
 

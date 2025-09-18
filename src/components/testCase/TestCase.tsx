@@ -1,22 +1,22 @@
-import { modals } from "@mantine/modals";
 import { useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { computeCompletion } from "../../lib/helpers/computeCompletion";
-import { routesHelper } from "../../lib/helpers/routesHelper.ts";
-import { useServerName } from "../../lib/helpers/useServerName.ts";
-import { TOperatorLoaderStatus } from "../../lib/operators/types.ts";
-import { useProject } from "../../lib/operators/useProject";
-import { useTestCase } from "../../lib/operators/useTestCase";
-import { TStep } from "../../types/schema.ts";
-import { CommentsList } from "../commentsList/CommentsList";
-import { ContentHeader } from "../contentHeader/ContentHeader";
-import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
-import { EditableHtmlText } from "../shared/EditableHtmlText";
-import { SectionError } from "../shared/SectionError.tsx";
-import { SectionLoading } from "../shared/SectionLoading.tsx";
-import { TestsTable } from "../testsTable/TestsTable";
+import { modals } from "@mantine/modals";
+import { CommentsList } from "@/components/commentsList/CommentsList";
+import { ContentHeader } from "@/components/contentHeader/ContentHeader";
+import { ContentWrapper } from "@/components/layout/ContentWrapper/ContentWrapper.tsx";
+import { Modals, openDeleteConfirmModal } from "@/components/modals/modals.ts";
+import { EditableHtmlText } from "@/components/shared/EditableHtmlText";
+import { SectionError } from "@/components/shared/SectionError.tsx";
+import { SectionLoading } from "@/components/shared/SectionLoading.tsx";
+import { TestsTable } from "@/components/testsTable/TestsTable";
+import { computeCompletion } from "@/lib/helpers/computeCompletion";
+import { routesHelper } from "@/lib/helpers/routesHelper.ts";
+import { useServerName } from "@/lib/helpers/useServerName.ts";
+import { TOperatorLoaderStatus } from "@/lib/operators/types.ts";
+import { useProject } from "@/lib/operators/useProject";
+import { useTestCase } from "@/lib/operators/useTestCase";
+import { TStep } from "@/types/schema.ts";
 import classes from "./testCase.module.css";
-import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
 
 export function TestCase() {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ export function TestCase() {
       {
         title: value,
       },
-      testCase.data.id,
+      testCase.data.id
     );
   };
 
@@ -72,7 +72,7 @@ export function TestCase() {
       testCase?.data?.id,
       testCase?.data?.jiraLink,
       testCase?.data?.title,
-    ],
+    ]
   );
 
   const deleteClickHandler = useCallback(
@@ -86,9 +86,9 @@ export function TestCase() {
               navigate(routesHelper.projectDetail(serverName, project.data.id));
             }
           },
-        },
+        }
       ),
-    [navigate, project, serverName, testCase?.data?.id],
+    [navigate, project, serverName, testCase?.data?.id]
   );
 
   if (testCase.status === TOperatorLoaderStatus.loading) {
@@ -122,7 +122,7 @@ export function TestCase() {
                   jiraLink: testCase.data.jiraLink,
                   description: value,
                 },
-                testCase.data.id,
+                testCase.data.id
               );
             }}
             value={testCase.data.description}

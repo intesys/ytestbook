@@ -1,4 +1,4 @@
-import { StatusEnum } from "../../../types/schema";
+import { StatusEnum } from "@/types/schema";
 
 /**
  * An ordered array of statuses representing their relative weights for tests.

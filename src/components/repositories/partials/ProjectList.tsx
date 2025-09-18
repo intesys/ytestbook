@@ -1,5 +1,8 @@
+import { useMemo } from "react";
 import { AnyDocumentId } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { IconCloudUp, IconCopy } from "@tabler/icons-react";
+import { useNavigate } from "react-router";
 import {
   ActionIcon,
   Card,
@@ -10,19 +13,16 @@ import {
   Title,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { IconCloudUp, IconCopy } from "@tabler/icons-react";
-import { useMemo } from "react";
-import { useNavigate } from "react-router";
-import VisibilityOff from "../../../assets/icons/visibility_off.svg";
-import { parseTimestamp } from "../../../lib/date/parseTimestamp";
-import { routesHelper } from "../../../lib/helpers/routesHelper";
-import { useProjectVisibility } from "../../../lib/repositories/useProjectVisibility";
-import { TDocType } from "../../../types/schema";
-import { CloneProjectModalFormValues } from "../../modals/cloneProjectModal/CloneProjectModal";
-import { CopyProjectToServerFormValues } from "../../modals/copyProjectToServer/CopyProjectToServer";
-import { Modals, openDeleteConfirmModal } from "../../modals/modals";
-import { useServersContext } from "../../serversContext/serversContext";
-import { REPOSITORY_TYPE, YtServer } from "../../serversContext/types";
+import VisibilityOff from "@/assets/icons/visibility_off.svg";
+import { CloneProjectModalFormValues } from "@/components/modals/cloneProjectModal/CloneProjectModal";
+import { CopyProjectToServerFormValues } from "@/components/modals/copyProjectToServer/CopyProjectToServer";
+import { Modals, openDeleteConfirmModal } from "@/components/modals/modals";
+import { useServersContext } from "@/components/serversContext/serversContext";
+import { REPOSITORY_TYPE, YtServer } from "@/components/serversContext/types";
+import { parseTimestamp } from "@/lib/date/parseTimestamp";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { useProjectVisibility } from "@/lib/repositories/useProjectVisibility";
+import { TDocType } from "@/types/schema";
 import { useCloneProject } from "../hooks/useCloneProject";
 import { useCopyOfflineProjectToServer } from "../hooks/useCopyOfflineProjectToServer";
 import classes from "../repositories.module.css";
@@ -44,7 +44,7 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
   const hasRemoteServers = useMemo(() => {
     return (
       Object.values(servers).filter(
-        (server) => server.type === REPOSITORY_TYPE.remote,
+        (server) => server.type === REPOSITORY_TYPE.remote
       ).length > 0
     );
   }, [servers]);

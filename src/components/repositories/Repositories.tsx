@@ -1,4 +1,7 @@
+import React, { useCallback, useMemo } from "react";
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
+import { IconLogin, IconTrash } from "@tabler/icons-react";
+import slugify from "slugify";
 import {
   Anchor,
   Box,
@@ -12,26 +15,26 @@ import {
   Title,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import React, { useCallback, useMemo } from "react";
-import slugify from "slugify";
-import Dns from "../../assets/icons/dns.svg";
-import Eye from "../../assets/icons/eye.svg";
-import Logout from "../../assets/icons/logout.svg";
-import { useProjectVisibility } from "../../lib/repositories/useProjectVisibility";
-import { GradientLayout } from "../layout/GradientLayout/GradientLayout";
-import { AddServerFormValues } from "../modals/addServerModal/AddServerModal";
-import { Modals } from "../modals/modals";
+import Dns from "@/assets/icons/dns.svg";
+import Eye from "@/assets/icons/eye.svg";
+import Logout from "@/assets/icons/logout.svg";
+import { GradientLayout } from "@/components/layout/GradientLayout/GradientLayout";
+import { AddServerFormValues } from "@/components/modals/addServerModal/AddServerModal";
+import { Modals } from "@/components/modals/modals";
 import {
   serversHandler,
   useServersContext,
-} from "../serversContext/serversContext";
-import { REPOSITORY_TYPE, SERVER_STATUS } from "../serversContext/types";
-import { AnchorWithIcon } from "../shared/AnchorWithIcon";
+} from "@/components/serversContext/serversContext";
+import {
+  REPOSITORY_TYPE,
+  SERVER_STATUS,
+} from "@/components/serversContext/types";
+import { AnchorWithIcon } from "@/components/shared/AnchorWithIcon";
+import { useProjectVisibility } from "@/lib/repositories/useProjectVisibility";
 import { useCheckForServerImport } from "./hooks/useCheckForServerImport";
 import { Actions } from "./partials/Actions";
 import { ProjectList } from "./partials/ProjectList";
 import { ShareServer } from "./partials/ShareServer";
-import { IconLogin, IconTrash } from "@tabler/icons-react";
 
 /**
  * Component to display and manage repositories and their servers.
@@ -58,7 +61,7 @@ export const Repositories: React.FC = () => {
         opened: true,
       });
     },
-    [addServer],
+    [addServer]
   );
 
   useCheckForServerImport(addServerCallback);

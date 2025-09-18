@@ -1,17 +1,17 @@
-import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
-import { useDocContext } from "../../components/docContext/DocContext";
-import { StatusEnum, TComment, TDocType } from "../../types/schema";
-import { addTuples } from "../helpers/addTuples";
-import { computeStatus } from "../helpers/computeStatus.ts";
-import { removeTuples } from "../helpers/removeTuples";
-import { TOperatorLoaderStatus, TUseTestCase } from "./types";
-import { getCloneName } from "../helpers/getCloneName.ts";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { notifications } from "@mantine/notifications";
+import { useDocContext } from "@/components/docContext/DocContext";
+import { addTuples } from "@/lib/helpers/addTuples";
+import { computeStatus } from "@/lib/helpers/computeStatus.ts";
+import { getCloneName } from "@/lib/helpers/getCloneName.ts";
+import { removeTuples } from "@/lib/helpers/removeTuples";
+import { StatusEnum, TComment, TDocType } from "@/types/schema";
+import { TOperatorLoaderStatus, TUseTestCase } from "./types";
 
 export function useTestCase(
   projectId: string | undefined,
-  caseId: string | undefined,
+  caseId: string | undefined
 ): TUseTestCase {
   const { docUrl } = useDocContext();
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
@@ -33,7 +33,7 @@ export function useTestCase(
       changeDoc((d) => {
         const testId = crypto.randomUUID();
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
 
@@ -47,7 +47,7 @@ export function useTestCase(
         values.tags.forEach((tag) => project.tagToTest?.push([tag, testId]));
 
         values.assignees.forEach((assigneeId) =>
-          project.collaboratorToTest?.push([assigneeId, testId]),
+          project.collaboratorToTest?.push([assigneeId, testId])
         );
 
         testCase?.tests.push({
@@ -63,7 +63,7 @@ export function useTestCase(
         computeStatus(testCase, testCase.tests, "testCase");
       });
     },
-    [projectId, caseId, changeDoc],
+    [projectId, caseId, changeDoc]
   );
 
   const createComment: TUseTestCase["createComment"] = useCallback(
@@ -74,7 +74,7 @@ export function useTestCase(
       const date = new Date();
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         if (!testCase) {
@@ -104,7 +104,7 @@ export function useTestCase(
         testCase.comments.push(newComment);
       });
     },
-    [projectId, caseId, changeDoc],
+    [projectId, caseId, changeDoc]
   );
 
   const updateTest: TUseTestCase["updateTest"] = useCallback(
@@ -117,7 +117,7 @@ export function useTestCase(
 
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         const test = testCase?.tests.find((item) => item.id === testId);
@@ -137,15 +137,14 @@ export function useTestCase(
         /**Remove all old testId relationships from tagTotest that are not in 'values'  */
         removeTuples(
           project.tagToTest,
-          (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0]),
+          (tuple) => tuple[1] === testId && !values.tags.includes(tuple[0])
         );
         /**Add new testId tags releationships */
         addTuples(project.tagToTest || [], testId, values.tags);
         /**Remove all old testId relationships from collaboratorToTest that are not in 'values'  */
         removeTuples(
           project.collaboratorToTest,
-          (tuple) =>
-            tuple[1] === testId && !values.assignees.includes(tuple[0]),
+          (tuple) => tuple[1] === testId && !values.assignees.includes(tuple[0])
         );
         /**Add new testId collaborators releationships */
         addTuples(project.collaboratorToTest, testId, values.assignees);
@@ -159,7 +158,7 @@ export function useTestCase(
         test.lastUpdate = date.getTime();
       });
     },
-    [projectId, caseId, changeDoc],
+    [projectId, caseId, changeDoc]
   );
 
   const updateTestDescription: TUseTestCase["updateTestDescription"] =
@@ -171,10 +170,10 @@ export function useTestCase(
         const date = new Date();
         changeDoc((d) => {
           const project = d.projects.find(
-            (item) => projectId && item.id === projectId,
+            (item) => projectId && item.id === projectId
           );
           const testCase = project?.testCases.find(
-            (item) => item.id === caseId,
+            (item) => item.id === caseId
           );
           const test = testCase?.tests.find((test) => test.id === testId);
           if (!project || !testCase || !test) {
@@ -184,7 +183,7 @@ export function useTestCase(
           test.lastUpdate = project.lastUpdate = date.getTime();
         });
       },
-      [projectId, caseId, changeDoc],
+      [projectId, caseId, changeDoc]
     );
 
   const removeTest: TUseTestCase["removeTest"] = useCallback(
@@ -195,7 +194,7 @@ export function useTestCase(
 
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         if (!testCase || !project) {
@@ -206,7 +205,7 @@ export function useTestCase(
         removeTuples(project.tagToTest ?? [], (tuple) => tuple[1] === testId);
       });
     },
-    [changeDoc, projectId, caseId],
+    [changeDoc, projectId, caseId]
   );
 
   const cloneTest: TUseTestCase["cloneTest"] = useCallback(
@@ -217,14 +216,14 @@ export function useTestCase(
       const date = new Date();
 
       const project = doc?.projects.find(
-        (item) => projectId && item.id === projectId,
+        (item) => projectId && item.id === projectId
       );
       const testCase = project?.testCases.find((item) => item.id === caseId);
       if (!testCase || !project) {
         return;
       }
       const testToClone = testCase.tests.find(
-        (test) => test.id === testIdToClone,
+        (test) => test.id === testIdToClone
       );
 
       if (!testToClone) {
@@ -234,7 +233,7 @@ export function useTestCase(
       changeDoc((d) => {
         const newTestId = crypto.randomUUID();
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
 
@@ -261,18 +260,18 @@ export function useTestCase(
 
         // Clone the tags
         const testTags = project.tagToTest?.filter(
-          (tuple) => tuple[1] === testToClone.id,
+          (tuple) => tuple[1] === testToClone.id
         );
         testTags?.forEach((tag) =>
-          project.tagToTest?.push([tag[0], newTestId]),
+          project.tagToTest?.push([tag[0], newTestId])
         );
 
         // Clone the collaborators
         const testAssignees = project.collaboratorToTest?.filter(
-          (tuple) => tuple[1] === testToClone.id,
+          (tuple) => tuple[1] === testToClone.id
         );
         testAssignees?.forEach((assigneeId) =>
-          project.collaboratorToTest?.push([assigneeId[0], newTestId]),
+          project.collaboratorToTest?.push([assigneeId[0], newTestId])
         );
 
         computeStatus(testCase, testCase.tests, "testCase");
@@ -284,14 +283,14 @@ export function useTestCase(
         });
       });
     },
-    [projectId, doc?.projects, changeDoc, caseId],
+    [projectId, doc?.projects, changeDoc, caseId]
   );
 
   const removeComment: TUseTestCase["removeComment"] = useCallback(
     (commentId) => {
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
 
@@ -300,13 +299,13 @@ export function useTestCase(
         }
 
         const index = testCase.comments.findIndex(
-          (comment) => comment.id === commentId,
+          (comment) => comment.id === commentId
         );
 
         delete testCase.comments[index];
       });
     },
-    [changeDoc, projectId, caseId],
+    [changeDoc, projectId, caseId]
   );
 
   const updateCommentResolved: TUseTestCase["updateCommentResolved"] =
@@ -314,16 +313,16 @@ export function useTestCase(
       (isResolved, commentId) => {
         changeDoc((d) => {
           const project = d.projects.find(
-            (item) => projectId && item.id === projectId,
+            (item) => projectId && item.id === projectId
           );
           const testCase = project?.testCases.find(
-            (item) => item.id === caseId,
+            (item) => item.id === caseId
           );
           if (!testCase) {
             return;
           }
           const comment = testCase.comments.find(
-            (comment) => comment.id === commentId,
+            (comment) => comment.id === commentId
           );
           if (!comment) {
             return;
@@ -331,7 +330,7 @@ export function useTestCase(
           comment.resolved = isResolved;
         });
       },
-      [changeDoc, projectId, caseId],
+      [changeDoc, projectId, caseId]
     );
 
   const updateCommentContent: TUseTestCase["updateCommentContent"] =
@@ -339,16 +338,16 @@ export function useTestCase(
       (content, commentId) => {
         changeDoc((d) => {
           const project = d.projects.find(
-            (item) => projectId && item.id === projectId,
+            (item) => projectId && item.id === projectId
           );
           const testCase = project?.testCases.find(
-            (item) => item.id === caseId,
+            (item) => item.id === caseId
           );
           if (!testCase) {
             return;
           }
           const comment = testCase.comments.find(
-            (comment) => comment.id === commentId,
+            (comment) => comment.id === commentId
           );
           if (!comment) {
             return;
@@ -356,7 +355,7 @@ export function useTestCase(
           comment.content = content;
         });
       },
-      [changeDoc, projectId, caseId],
+      [changeDoc, projectId, caseId]
     );
 
   const sharedMethods = useMemo(
@@ -381,7 +380,7 @@ export function useTestCase(
       updateTest,
       updateTestDescription,
       cloneTest,
-    ],
+    ]
   );
 
   if (loading) {

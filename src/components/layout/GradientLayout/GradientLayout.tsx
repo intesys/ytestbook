@@ -1,7 +1,7 @@
-import { Container, Grid, Stack, Image, Box, BoxProps } from "@mantine/core";
-import classes from "./gradientLayout.module.css";
 import { PropsWithChildren } from "react";
-import Logo from "../../../assets/logo.svg";
+import { Box, BoxProps, Container, Grid, Image, Stack } from "@mantine/core";
+import Logo from "@/assets/logo.svg";
+import classes from "./gradientLayout.module.css";
 
 type GradientLayoutProps = BoxProps & PropsWithChildren;
 

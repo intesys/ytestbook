@@ -1,5 +1,3 @@
-import { Repo } from "@automerge/automerge-repo";
-import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
 import {
   createContext,
   useCallback,
@@ -7,9 +5,12 @@ import {
   useEffect,
   useState,
 } from "react";
-import { STORAGE_KEYS } from "../../lib/constants/localStorageKeys";
-import { TDocType } from "../../types/schema";
-import { openDeleteConfirmModal } from "../modals/modals";
+import { Repo } from "@automerge/automerge-repo";
+import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
+import { openDeleteConfirmModal } from "@/components/modals/modals";
+import { STORAGE_KEYS } from "@/lib/constants/localStorageKeys";
+import { TDocType } from "@/types/schema";
+import { useInitServerConnections } from "./hooks/useInitServerConnections"; // global handlers need to be a singleton
 import { useSyncServersOnStorage } from "./hooks/useSyncServersOnStorage";
 import {
   REPOSITORY_TYPE,
@@ -20,7 +21,10 @@ import {
   TServersProviderProps,
   YtServer,
 } from "./types";
-import { useInitServerConnections } from "./hooks/useInitServerConnections";
+
+// global handlers need to be a singleton
+
+// global handlers need to be a singleton
 
 // global handlers need to be a singleton
 export const serversHandler: Record<string, Repo> = {};
@@ -98,18 +102,18 @@ export const ServersProvider: React.FC<TServersProviderProps> = ({
       offlineServerInitializer.repositoryIds = [docHandle.url];
       localStorage.setItem(
         STORAGE_KEYS.SERVER_OFFLINE_REPOSITORY_ID,
-        docHandle.url,
+        docHandle.url
       );
     }
 
     // Load config from localStorage
     const serversFromStorageRaw = localStorage.getItem(
-      STORAGE_KEYS.SERVERS_CONF,
+      STORAGE_KEYS.SERVERS_CONF
     );
 
     if (serversFromStorageRaw && serversFromStorageRaw !== "") {
       const serversFromStorage: StorageServersConfig = JSON.parse(
-        serversFromStorageRaw,
+        serversFromStorageRaw
       );
 
       if (serversFromStorage?.servers) {

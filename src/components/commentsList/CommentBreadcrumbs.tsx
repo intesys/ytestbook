@@ -1,11 +1,11 @@
-import { Anchor, Text, TextProps } from "@mantine/core";
 import { Link } from "react-router-dom";
-import { routesHelper } from "../../lib/helpers/routesHelper";
-import { useServerName } from "../../lib/helpers/useServerName";
-import { useStep } from "../../lib/operators/useStep";
-import { useTest } from "../../lib/operators/useTest";
-import { useTestCase } from "../../lib/operators/useTestCase";
-import { TComment } from "../../types/schema";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { useServerName } from "@/lib/helpers/useServerName";
+import { useStep } from "@/lib/operators/useStep";
+import { useTest } from "@/lib/operators/useTest";
+import { useTestCase } from "@/lib/operators/useTestCase";
+import { TComment } from "@/types/schema.ts";
+import { Anchor, Text, TextProps } from "@mantine/core";
 
 interface CommentBreadcrumbsProps extends TextProps {
   readonly projectId: string;
@@ -25,7 +25,7 @@ export function CommentBreadcrumbs({
     projectId,
     comment.caseId,
     comment.testId,
-    comment.stepId,
+    comment.stepId
   );
 
   const separator = " > ";
@@ -38,7 +38,7 @@ export function CommentBreadcrumbs({
           to={routesHelper.testCaseDetail(
             serverName,
             projectId,
-            comment.caseId,
+            comment.caseId
           )}
         >
           {testCase.data?.title}
@@ -54,7 +54,7 @@ export function CommentBreadcrumbs({
               serverName,
               projectId,
               comment.caseId,
-              test.data.id,
+              test.data.id
             )}
           >
             {test.data?.title}
@@ -72,7 +72,7 @@ export function CommentBreadcrumbs({
               projectId,
               comment.caseId,
               test.data.id,
-              step.data.id,
+              step.data.id
             )}
           >
             {step.data?.title}

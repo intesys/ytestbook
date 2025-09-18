@@ -1,10 +1,10 @@
-import { TOverviewFilters } from "../../components/layout/SideBar/Overview/OverviewFilters.tsx";
-import { StatusEnum, TCollaborator } from "../../types/schema.ts";
+import { TOverviewFilters } from "@/components/layout/SideBar/Overview/OverviewFilters.tsx";
+import { StatusEnum, TCollaborator } from "@/types/schema.ts";
 
 export function checkTextFilter<T extends Record<string, unknown>>(
   obj: T,
   keys: Array<keyof T>,
-  filters: TOverviewFilters,
+  filters: TOverviewFilters
 ) {
   const lowerFilter = filters.textFilter.toLowerCase();
 
@@ -12,7 +12,7 @@ export function checkTextFilter<T extends Record<string, unknown>>(
     filters.textFilter === "" || // Filter is disabled
     keys.some(
       (key) =>
-        (obj[key] ?? "").toString().toLowerCase().indexOf(lowerFilter) >= 0,
+        (obj[key] ?? "").toString().toLowerCase().indexOf(lowerFilter) >= 0
     )
   );
 }
@@ -20,7 +20,7 @@ export function checkTextFilter<T extends Record<string, unknown>>(
 export function checkStatusFilter<T extends Record<string, unknown>>(
   obj: T,
   keys: Array<keyof T>,
-  filters: TOverviewFilters,
+  filters: TOverviewFilters
 ) {
   return (
     filters.statusFilter.length === 0 || // Filter is disabled
@@ -37,7 +37,7 @@ export function checkTagsFilter(tags: string[], filters: TOverviewFilters) {
 
 export function checkAssigneeFilter(
   assignees: TCollaborator[],
-  filters: TOverviewFilters,
+  filters: TOverviewFilters
 ) {
   return (
     filters.assigneeFilter === null || // Filter is disabled

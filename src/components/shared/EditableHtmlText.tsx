@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
 import { Box, Text, TextProps } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
-import { useEffect, useState } from "react";
-import { isEditableHtmlTextPopupVisible } from "../../lib/helpers/isEditableHtmlTextPopupVisible";
-import { RichTextarea } from "./RichTextarea/RichTextarea";
+import { RichTextarea } from "@/components/shared/RichTextarea/RichTextarea.tsx";
+import { isEditableHtmlTextPopupVisible } from "@/lib/helpers/isEditableHtmlTextPopupVisible";
 
 type EditableHtmlTextProps = {
   name?: string;
@@ -23,7 +23,7 @@ export const EditableHtmlText = ({
   const [internalValue, setInternalValue] = useState<string>(
     // IMPORTANT: in this case we want to use OR instead of ?? because
     //            we need to treat "" as falsy value.
-    value || EMPTY_VALUE,
+    value || EMPTY_VALUE
   );
 
   const onExit = () => {

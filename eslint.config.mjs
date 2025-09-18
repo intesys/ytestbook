@@ -1,12 +1,12 @@
+import { fixupPluginRules } from "@eslint/compat";
 import eslint from "@eslint/js";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
-import react from "eslint-plugin-react";
-import tseslint from "typescript-eslint";
-import globals from "globals";
-import eslintPluginReactHooks from "eslint-plugin-react-hooks";
-import { fixupPluginRules } from "@eslint/compat";
-import reactRefresh from "eslint-plugin-react-refresh";
 import promise from "eslint-plugin-promise";
+import react from "eslint-plugin-react";
+import eslintPluginReactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default [
   eslint.configs.recommended,

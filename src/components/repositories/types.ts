@@ -1,4 +1,4 @@
-import { TUseProject } from "../../lib/operators/types";
+import { TUseProject } from "@/lib/operators/types";
 
 export type TActionProps = {
   title?: string;

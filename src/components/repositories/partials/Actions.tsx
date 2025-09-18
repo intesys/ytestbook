@@ -1,14 +1,14 @@
+import { useCallback } from "react";
 import { useRepo } from "@automerge/automerge-repo-react-hooks";
 import { Grid, Stack, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { useCallback } from "react";
-import addCircle from "../../../assets/icons/add_circle.svg";
-import { Modals } from "../../modals/modals";
-import { YtServer } from "../../serversContext/types";
-import { ActionButton } from "../../shared/ActionButton/ActionButton";
-import { ImportJSON } from "./ImportJSON";
+import addCircle from "@/assets/icons/add_circle.svg";
+import { Modals } from "@/components/modals/modals";
+import { YtServer } from "@/components/serversContext/types";
+import { ActionButton } from "@/components/shared/ActionButton/ActionButton";
+import { TProjectDynamicData } from "@/types/schema";
 import { getDocHandlerFromRepo } from "../utils.repositories";
-import { TProjectDynamicData } from "../../../types/schema";
+import { ImportJSON } from "./ImportJSON";
 
 type ActionsProps = {
   repo: YtServer;
@@ -23,7 +23,7 @@ export const Actions = ({ repo, repositoryId, isConnecting }: ActionsProps) => {
     const docHandle = await getDocHandlerFromRepo(
       repo,
       repoHandler,
-      repositoryId,
+      repositoryId
     );
 
     // check that docHandle has been initialized

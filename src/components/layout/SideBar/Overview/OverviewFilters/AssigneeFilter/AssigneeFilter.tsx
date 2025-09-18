@@ -1,11 +1,11 @@
+import { MouseEvent, useCallback } from "react";
 import { Button, Group, Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { MouseEvent, useCallback } from "react";
-import { TCollaborator } from "../../../../../../types/schema.ts";
-import { Avatars } from "../../../../../avatars/Avatars.tsx";
-import { AssigneeSelectList } from "../../../../../shared/AssigneeSelectList/AssigneeSelectList.tsx";
-import { DeleteActionIcon } from "../../../../../shared/DeleteActionIcon.tsx";
-import { SpinningCaret } from "../../../../../shared/SpinningCaret/SpinningCaret.tsx";
+import { Avatars } from "@/components/avatars/Avatars.tsx";
+import { AssigneeSelectList } from "@/components/shared/AssigneeSelectList/AssigneeSelectList.tsx";
+import { DeleteActionIcon } from "@/components/shared/DeleteActionIcon.tsx";
+import { SpinningCaret } from "@/components/shared/SpinningCaret/SpinningCaret.tsx";
+import { TCollaborator } from "@/types/schema.ts";
 
 export type TAssigneeFilterProps = {
   value: TCollaborator | null;
@@ -28,7 +28,7 @@ export const AssigneeFilter = ({
         onChange(value);
       }
     },
-    [toggle, onChange],
+    [toggle, onChange]
   );
 
   const clearFilterHandler = useCallback(
@@ -39,7 +39,7 @@ export const AssigneeFilter = ({
         onChange(null);
       }
     },
-    [onChange],
+    [onChange]
   );
 
   return (

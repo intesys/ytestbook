@@ -1,3 +1,6 @@
+import { useCallback } from "react";
+import { IoMdAddCircle } from "react-icons/io";
+import { useNavigate, useParams } from "react-router";
 import {
   Button,
   Flex,
@@ -9,20 +12,17 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useCallback } from "react";
-import { IoMdAddCircle } from "react-icons/io";
-import { useNavigate, useParams } from "react-router";
-import { computeCompletion } from "../../lib/helpers/computeCompletion";
-import { routesHelper } from "../../lib/helpers/routesHelper.ts";
-import { TUseTestCase } from "../../lib/operators/types";
-import { useProject } from "../../lib/operators/useProject";
-import { TTest } from "../../types/schema";
-import { Avatars } from "../avatars/Avatars";
-import { BulkAddButton } from "../shared/BulkAddButton/BulkAddButton.tsx";
-import { RelativeDate } from "../shared/relativeDate/RelativeDate";
-import { SimpleNewElementForm } from "../shared/SimpleNewElementForm";
-import { StatusIcon } from "../statusIcon/StatusIcon";
-import { Tags } from "../tags/Tags";
+import { Avatars } from "@/components/avatars/Avatars";
+import { BulkAddButton } from "@/components/shared/BulkAddButton/BulkAddButton.tsx";
+import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate";
+import { SimpleNewElementForm } from "@/components/shared/SimpleNewElementForm";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon";
+import { Tags } from "@/components/tags/Tags";
+import { computeCompletion } from "@/lib/helpers/computeCompletion";
+import { routesHelper } from "@/lib/helpers/routesHelper.ts";
+import { TUseTestCase } from "@/lib/operators/types";
+import { useProject } from "@/lib/operators/useProject";
+import { TTest } from "@/types/schema";
 import classes from "./testsTable.module.css";
 
 export function TestsTable({
@@ -46,7 +46,7 @@ export function TestsTable({
         description: "",
       });
     },
-    [createTest],
+    [createTest]
   );
 
   const bulkLoadHandler = useCallback(
@@ -55,7 +55,7 @@ export function TestsTable({
         createNewTest(value);
       });
     },
-    [createNewTest],
+    [createNewTest]
   );
 
   return (
@@ -99,9 +99,9 @@ export function TestsTable({
                         params.serverName ?? "",
                         params.projectId ?? "",
                         params.caseId ?? "",
-                        test.id ?? "",
+                        test.id ?? ""
                       ),
-                      {},
+                      {}
                     )
                   }
                 >

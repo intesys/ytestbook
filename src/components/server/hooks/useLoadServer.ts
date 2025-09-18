@@ -1,11 +1,11 @@
-import { Repo } from "@automerge/automerge-repo";
-import { YtServer } from "../../serversContext/types";
 import { useMemo } from "react";
-import { useServerName } from "../../../lib/helpers/useServerName";
+import { Repo } from "@automerge/automerge-repo";
 import {
   serversHandler,
   useServersContext,
-} from "../../serversContext/serversContext";
+} from "@/components/serversContext/serversContext";
+import { YtServer } from "@/components/serversContext/types";
+import { useServerName } from "@/lib/helpers/useServerName";
 
 export enum LoadServerStatus {
   Loading = "loading",

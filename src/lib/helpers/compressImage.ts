@@ -1,10 +1,10 @@
+import Compressor from "compressorjs";
 import { notifications } from "@mantine/notifications";
 import {
   IMAGE_INSERT_COMPRESSION_QUALITY,
   IMAGE_INSERT_RESIZE_MAX_HEIGHT,
   IMAGE_INSERT_RESIZE_MAX_WIDTH,
-} from "../constants/generic";
-import Compressor from "compressorjs";
+} from "@/lib/constants/generic";
 
 export const compressImage = (file: File | Blob) => {
   return new Promise<File | Blob>((resolve, reject) => {

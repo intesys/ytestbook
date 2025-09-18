@@ -1,10 +1,10 @@
-import { Box, Stack } from "@mantine/core";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
+import clsx from "clsx";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { routesHelper } from "../../../lib/helpers/routesHelper";
-import { useServerName } from "../../../lib/helpers/useServerName";
-import { useProject } from "../../../lib/operators/useProject";
+import { Box, Stack } from "@mantine/core";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { useServerName } from "@/lib/helpers/useServerName";
+import { useProject } from "@/lib/operators/useProject";
 import { navbarConfig, SIDEBAR_STATUS } from "./const";
 import { Menu } from "./Menu/Menu";
 import { Overview } from "./Overview/Overview";
@@ -17,7 +17,7 @@ export type WithNavbarStatus = {
   toggle: (value?: React.SetStateAction<SIDEBAR_STATUS> | undefined) => void;
 };
 
-export const SideBar: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
+export const SideBar = ({ status, toggle }: WithNavbarStatus) => {
   const params = useParams();
   const project = useProject(params.projectId);
   const { pathname } = useLocation();

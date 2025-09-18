@@ -1,3 +1,13 @@
+import { useCallback, useEffect, useState } from "react";
+import {
+  IconDeviceFloppy,
+  IconFileExport,
+  IconPencil,
+  IconRestore,
+  IconTrash,
+  IconUserPlus,
+} from "@tabler/icons-react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   ActionIcon,
   Alert,
@@ -14,25 +24,15 @@ import {
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import {
-  IconDeviceFloppy,
-  IconFileExport,
-  IconPencil,
-  IconRestore,
-  IconTrash,
-  IconUserPlus,
-} from "@tabler/icons-react";
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useProject } from "../../lib/operators/useProject";
-import { useProjects } from "../../lib/operators/useProjects";
-import { TCollaborator } from "../../types/schema.ts";
-import { ActionIconWithConfirm } from "../actionIconWithConfirm/ActionIconWithConfirm.tsx";
-import { Avatars } from "../avatars/Avatars.tsx";
-import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
+import { ActionIconWithConfirm } from "@/components/actionIconWithConfirm/ActionIconWithConfirm.tsx";
+import { Avatars } from "@/components/avatars/Avatars.tsx";
+import { ContentWrapper } from "@/components/layout/ContentWrapper/ContentWrapper.tsx";
+import { Modals, openDeleteConfirmModal } from "@/components/modals/modals.ts";
+import { ResetProjectModalFormValues } from "@/components/modals/ResetProjectModal/ResetProjectModal.tsx";
+import { useProject } from "@/lib/operators/useProject";
+import { useProjects } from "@/lib/operators/useProjects";
+import { TCollaborator } from "@/types/schema.ts";
 import classes from "./settings.module.css";
-import { ResetProjectModalFormValues } from "../modals/ResetProjectModal/ResetProjectModal.tsx";
-import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
 
 export function Settings() {
   const params = useParams();
@@ -59,7 +59,7 @@ export function Settings() {
           handleSubmit: project.createCollaborator,
         },
       }),
-    [project.createCollaborator],
+    [project.createCollaborator]
   );
 
   const deleteTestbookHandler = useCallback(
@@ -70,7 +70,7 @@ export function Settings() {
           navigate("/");
         },
       }),
-    [navigate, project?.data?.id, projects],
+    [navigate, project?.data?.id, projects]
   );
 
   const resetProjectHandler = useCallback(() => {
@@ -89,7 +89,7 @@ export function Settings() {
                   resetChangelog: values.removeChangelogs,
                   resetNotes: values.removeNotes,
                 }),
-            },
+            }
           );
         },
       },

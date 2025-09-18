@@ -1,8 +1,8 @@
+import { useCallback } from "react";
 import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useCallback } from "react";
-import { FormErrorMessages } from "../../../lib/formErrors.ts";
+import { FormErrorMessages } from "@/lib/formErrors.ts";
 
 export type AddServerFormValues = {
   name: string;
@@ -45,7 +45,7 @@ export function AddServerModal({
       }
       close();
     },
-    [close, handleSubmit],
+    [close, handleSubmit]
   );
 
   return (
