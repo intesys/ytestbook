@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Flex,
@@ -12,8 +11,8 @@ import {
   Title,
   Tooltip,
 } from "@mantine/core";
-
 import { useForm } from "@mantine/form";
+import clsx from "clsx";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import CheckCircle from "../../assets/icons/check_circle.svg";
@@ -22,17 +21,16 @@ import Delete from "../../assets/icons/delete.svg";
 import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
 import { TUseTestCase } from "../../lib/operators/types";
 import { useProject } from "../../lib/operators/useProject";
-import { TCollaborator, TComment, TStep, TTest } from "../../types/schema";
-import { Avatars } from "../avatars/Avatars";
+import { TComment, TStep, TTest } from "../../types/schema";
+import { CollaboratorAvatar } from "../CollaboratorAvatar/CollaboratorAvatar.tsx";
 import { openDeleteConfirmModal } from "../modals/modals";
+import { EditableHtmlText } from "../shared/EditableHtmlText.tsx";
 import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
 import { StatusIconWithLabel } from "../statusIcon/StatusIconWithLabel.tsx";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
+import classes from "./CommentsList.module.css";
 import { NewCommentForm } from "./NewCommentForm.tsx";
 import { TFilterForm } from "./types";
-import classes from "./CommentsList.module.css";
-import clsx from "clsx";
-import { EditableHtmlText } from "../shared/EditableHtmlText.tsx";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -146,18 +144,6 @@ export function CommentsList({
     return null;
   }
 
-  const collaboratorAvatar = (collaborator?: TCollaborator) => {
-    if (collaborator) {
-      return <Avatars collaborators={[collaborator]} maxAvatars={1} />;
-    }
-
-    return (
-      <Avatar alt={USER_ANONYMOUS.name}>
-        {USER_ANONYMOUS.name.substring(0, 1)}
-      </Avatar>
-    );
-  };
-
   return (
     <>
       {showTitle ? <Title order={4}>Notes</Title> : null}
@@ -220,7 +206,7 @@ export function CommentsList({
                     [classes.commentSolved]: comment.resolved,
                   })}
                 >
-                  {collaboratorAvatar(collaborator)}
+                  <CollaboratorAvatar collaborator={collaborator} />
                   <Flex
                     direction={"column"}
                     gap={12}
@@ -298,6 +284,7 @@ export function CommentsList({
                     </Text>
 
                     <CommentBreadcrumbs
+                      className={classes.fadedElement}
                       projectId={project.data?.id}
                       comment={comment}
                     />
