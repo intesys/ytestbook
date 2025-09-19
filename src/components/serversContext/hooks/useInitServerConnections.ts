@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { Repo } from "@automerge/automerge-repo";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
-import { isEqual } from "lodash";
+import { isEqual } from "es-toolkit";
 import { serversHandler } from "../serversContext";
 import { REPOSITORY_TYPE, SERVER_STATUS, ServersList } from "../types";
 
