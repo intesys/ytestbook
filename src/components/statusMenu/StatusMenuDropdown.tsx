@@ -1,10 +1,10 @@
 import React from "react";
-import { StatusEnum } from "../../types/schema";
-import { Box, Button, Menu, Text, Image } from "@mantine/core";
-import { StatusIcon } from "../statusIcon/StatusIcon";
-import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
-import { getStatusColor } from "../../lib/helpers/getStatusColor";
-import ArrowDropdown from "../../assets/icons/arrow_drop_down.svg";
+import { Box, Button, Image, Menu, Text } from "@mantine/core";
+import ArrowDropdown from "@/assets/icons/arrow_drop_down.svg";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon";
+import { getStatusColor } from "@/lib/helpers/getStatusColor";
+import { getStatusLabel } from "@/lib/helpers/getStatusLabel";
+import { StatusEnum } from "@/types/schema";
 
 type StatusMenuDropdownProps = {
   onSelect: (status: StatusEnum) => void;

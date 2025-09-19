@@ -1,6 +1,6 @@
-import { ActionIcon, ActionIconProps } from "@mantine/core";
-import { IconX } from "@tabler/icons-react";
 import { MouseEvent, useCallback } from "react";
+import { IconX } from "@tabler/icons-react";
+import { ActionIcon, ActionIconProps } from "@mantine/core";
 
 type TDeleteActionIconProps = ActionIconProps & {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -16,8 +16,9 @@ export const DeleteActionIcon = ({
         onClick(event);
       }
     },
-    [onClick],
+    [onClick]
   );
+
   return (
     <ActionIcon
       color="red"

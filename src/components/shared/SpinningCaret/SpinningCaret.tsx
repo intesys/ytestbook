@@ -1,5 +1,5 @@
-import { IconCaretDownFilled } from "@tabler/icons-react";
 import { ComponentProps } from "react";
+import { IconCaretDownFilled } from "@tabler/icons-react";
 
 export type TSpinningCaretProps = ComponentProps<typeof IconCaretDownFilled> & {
   opened: boolean;

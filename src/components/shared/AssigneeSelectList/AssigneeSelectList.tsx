@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { IconSearch } from "@tabler/icons-react";
 import {
   Combobox,
   Group,
@@ -7,10 +9,8 @@ import {
   TextInput,
   useCombobox,
 } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
-import { TCollaborator } from "../../../types/schema.ts";
-import { Avatars } from "../../avatars/Avatars.tsx";
+import { Avatars } from "@/components/avatars/Avatars.tsx";
+import { TCollaborator } from "@/types/schema.ts";
 
 interface TAssigneeSelectList {
   value: TCollaborator | null;
@@ -29,7 +29,7 @@ export const AssigneeSelectList = ({
 
   const handleValueSelect = (selectedValue: string) => {
     const foundCollaborator = options.find(
-      (collaborator: TCollaborator) => collaborator.id === selectedValue,
+      (collaborator: TCollaborator) => collaborator.id === selectedValue
     );
 
     if (onChange && foundCollaborator) {
@@ -39,7 +39,7 @@ export const AssigneeSelectList = ({
 
   const optionsList = options
     .filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase().trim()),
+      item.name.toLowerCase().includes(search.toLowerCase().trim())
     )
     .map((item) => (
       <Combobox.Option

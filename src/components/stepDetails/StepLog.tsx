@@ -1,10 +1,10 @@
-import { Group, Table, Text } from "@mantine/core";
 import { useMemo } from "react";
-import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
-import { TUseProject } from "../../lib/operators/types";
-import { Avatars } from "../avatars/Avatars.tsx";
-import { RelativeDate } from "../shared/relativeDate/RelativeDate";
-import { StatusIconWithLabel } from "../statusIcon/StatusIconWithLabel.tsx";
+import { Group, Table, Text } from "@mantine/core";
+import { Avatars } from "@/components/avatars/Avatars.tsx";
+import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate";
+import { StatusIconWithLabel } from "@/components/statusIcon/StatusIconWithLabel.tsx";
+import { USER_ANONYMOUS } from "@/lib/constants/generic.ts";
+import { TUseProject } from "@/lib/operators/types";
 import { StepLogNotes } from "./StepLogNotes.tsx";
 
 type StepLogProps = {
@@ -36,7 +36,7 @@ export const StepLog = ({ project, stepId }: StepLogProps) => {
       <Table.Tbody>
         {statusChanges.map((status) => {
           const collaborator = collaborators.find(
-            (collaborator) => collaborator.id === status.collaboratorId,
+            (collaborator) => collaborator.id === status.collaboratorId
           );
 
           return (

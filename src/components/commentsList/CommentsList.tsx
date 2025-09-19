@@ -1,3 +1,6 @@
+import { useCallback, useMemo } from "react";
+import clsx from "clsx";
+import { useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -12,25 +15,22 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import clsx from "clsx";
-import { useCallback, useMemo } from "react";
-import { useParams } from "react-router-dom";
-import CheckCircle from "../../assets/icons/check_circle.svg";
-import CheckCircleFull from "../../assets/icons/check_circle_full.svg";
-import Delete from "../../assets/icons/delete.svg";
-import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
-import { TUseTestCase } from "../../lib/operators/types";
-import { useProject } from "../../lib/operators/useProject";
-import { TComment, TStep, TTest } from "../../types/schema";
-import { CollaboratorAvatar } from "../CollaboratorAvatar/CollaboratorAvatar.tsx";
-import { openDeleteConfirmModal } from "../modals/modals";
-import { EditableHtmlText } from "../shared/EditableHtmlText.tsx";
-import { RelativeDate } from "../shared/relativeDate/RelativeDate.tsx";
-import { StatusIconWithLabel } from "../statusIcon/StatusIconWithLabel.tsx";
+import CheckCircleFull from "@/assets/icons/check_circle_full.svg";
+import CheckCircle from "@/assets/icons/check_circle.svg";
+import Delete from "@/assets/icons/delete.svg";
+import { CollaboratorAvatar } from "@/components/CollaboratorAvatar/CollaboratorAvatar.tsx";
+import { openDeleteConfirmModal } from "@/components/modals/modals.ts";
+import { EditableHtmlText } from "@/components/shared/EditableHtmlText.tsx";
+import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate.tsx";
+import { StatusIconWithLabel } from "@/components/statusIcon/StatusIconWithLabel.tsx";
+import { USER_ANONYMOUS } from "@/lib/constants/generic.ts";
+import { TUseTestCase } from "@/lib/operators/types";
+import { useProject } from "@/lib/operators/useProject";
+import { TComment, TStep, TTest } from "@/types/schema";
 import { CommentBreadcrumbs } from "./CommentBreadcrumbs";
-import classes from "./CommentsList.module.css";
 import { NewCommentForm } from "./NewCommentForm.tsx";
 import { TFilterForm } from "./types";
+import classes from "./CommentsList.module.css";
 
 type CommentsListProps = Readonly<{
   testId?: string;
@@ -72,13 +72,13 @@ export function CommentsList({
     (comment: TComment) => {
       updateCommentResolved(!comment.resolved, comment.id);
     },
-    [updateCommentResolved],
+    [updateCommentResolved]
   );
   const updateContent = useCallback(
     (content: string, comment: TComment) => {
       updateCommentContent(content, comment.id);
     },
-    [updateCommentContent],
+    [updateCommentContent]
   );
 
   // Compute select type filter options
@@ -137,7 +137,7 @@ export function CommentsList({
   const computedComments = useMemo(
     () =>
       filteredComments.toSorted((a, b) => (a.createdAt > b.createdAt ? -1 : 1)),
-    [filteredComments],
+    [filteredComments]
   );
 
   if (!project.data?.id) {
@@ -186,7 +186,7 @@ export function CommentsList({
           <Stack gap={10} mt={40}>
             {computedComments.map((comment) => {
               const collaborator = project.getCollaborator(
-                comment.collaboratorId,
+                comment.collaboratorId
               );
 
               const deleteCommentHandler = () =>
@@ -194,7 +194,7 @@ export function CommentsList({
                   "Are you sure you want to delete this comment?",
                   {
                     handleConfirm: () => removeComment(comment.id),
-                  },
+                  }
                 );
 
               return (

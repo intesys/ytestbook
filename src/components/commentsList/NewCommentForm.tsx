@@ -1,12 +1,12 @@
+import { useCallback, useMemo } from "react";
 import { Button, Flex, Select, Stack } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { useCallback, useMemo } from "react";
-import { USER_ANONYMOUS } from "../../lib/constants/generic";
-import { FormErrorMessages } from "../../lib/formErrors";
-import { TUseProject, TUseTestCase } from "../../lib/operators/types";
-import { TCommentDynamicData } from "../../types/schema";
-import { RichTextarea } from "../shared/RichTextarea/RichTextarea";
-import { useRichTextAreaResetUtilities } from "../shared/RichTextarea/useRichTextAreaResetUtilities";
+import { RichTextarea } from "@/components/shared/RichTextarea/RichTextarea";
+import { useRichTextAreaResetUtilities } from "@/components/shared/RichTextarea/useRichTextAreaResetUtilities";
+import { USER_ANONYMOUS } from "@/lib/constants/generic";
+import { FormErrorMessages } from "@/lib/formErrors";
+import { TUseProject, TUseTestCase } from "@/lib/operators/types";
+import { TCommentDynamicData } from "@/types/schema";
 
 type NewCommentFormProps = {
   createComment: TUseTestCase["createComment"];
@@ -59,7 +59,7 @@ export const NewCommentForm = ({
       form.reset();
       reset();
     },
-    [createComment, testId, stepId, form, reset],
+    [createComment, testId, stepId, form, reset]
   );
 
   return (

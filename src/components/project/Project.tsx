@@ -1,16 +1,16 @@
+import { Outlet, useNavigate, useParams } from "react-router";
 import { Box, Flex, Loader, Stack } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
-import { Outlet, useNavigate, useParams } from "react-router";
-import { routesHelper } from "../../lib/helpers/routesHelper";
-import { useServerName } from "../../lib/helpers/useServerName";
-import { TOperatorLoaderStatus } from "../../lib/operators/types";
-import { useProject } from "../../lib/operators/useProject";
-import { Header } from "../layout/Header/Header";
-import { SideBar } from "../layout/SideBar/SideBar";
-import { SIDEBAR_STATUS } from "../layout/SideBar/const";
-import { NotFound } from "../notFound/NotFound";
-import classes from "./project.module.css";
+import { Header } from "@/components/layout/Header/Header";
+import { SIDEBAR_STATUS } from "@/components/layout/SideBar/const";
+import { SideBar } from "@/components/layout/SideBar/SideBar";
+import { NotFound } from "@/components/notFound/NotFound";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { useServerName } from "@/lib/helpers/useServerName";
+import { TOperatorLoaderStatus } from "@/lib/operators/types";
+import { useProject } from "@/lib/operators/useProject";
 import { useSetSidebarDefaultStatus } from "./useSetSidebarDefaultStatus";
+import classes from "./project.module.css";
 
 export function Project() {
   const params = useParams();
@@ -29,14 +29,14 @@ export function Project() {
   const goToSettings = () => {
     toggleSidebarStatus(SIDEBAR_STATUS.OPEN);
     navigate(
-      routesHelper.projectDetailSettings(serverName, params.projectId ?? ""),
+      routesHelper.projectDetailSettings(serverName, params.projectId ?? "")
     );
   };
 
   const goToReports = () => {
     toggleSidebarStatus(SIDEBAR_STATUS.OPEN);
     navigate(
-      routesHelper.projectDetailReports(serverName, params.projectId ?? ""),
+      routesHelper.projectDetailReports(serverName, params.projectId ?? "")
     );
   };
 

@@ -1,11 +1,11 @@
+import { useCallback } from "react";
 import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useCallback } from "react";
-import { TCaseDynamicData } from "../../../types/schema";
-import { RichTextarea } from "../../shared/RichTextarea/RichTextarea";
-import { FormErrorMessages } from "../../../lib/formErrors";
-import { TModalProps } from "../../repositories/types";
+import { TModalProps } from "@/components/repositories/types";
+import { RichTextarea } from "@/components/shared/RichTextarea/RichTextarea";
+import { FormErrorMessages } from "@/lib/formErrors";
+import { TCaseDynamicData } from "@/types/schema";
 
 export function TestCaseModal({
   id,
@@ -35,7 +35,7 @@ export function TestCaseModal({
 
       close();
     },
-    [close, handleSubmit, caseId],
+    [close, handleSubmit, caseId]
   );
 
   return (

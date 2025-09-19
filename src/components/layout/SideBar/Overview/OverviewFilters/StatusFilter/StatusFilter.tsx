@@ -1,13 +1,13 @@
 import { MouseEvent, useCallback } from "react";
-import { StatusEnum } from "../../../../../../types/schema.ts";
-import { ButtonGroupMultiselect } from "../../../../../shared/ButtonGroupMultiselect/ButtonGroupMultiselect.tsx";
-import { StatusIcon } from "../../../../../statusIcon/StatusIcon.tsx";
+import { ButtonGroupMultiselect } from "@/components/shared/ButtonGroupMultiselect/ButtonGroupMultiselect.tsx";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon.tsx";
+import { StatusEnum } from "@/types/schema.ts";
 
 export type TStatusFilterProps = {
   values: Array<StatusEnum>;
   onChange?: (
     values: StatusEnum[],
-    event: MouseEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLButtonElement>
   ) => void;
 };
 
@@ -18,7 +18,7 @@ export const StatusFilter = ({ values, onChange }: TStatusFilterProps) => {
         onChange(values, event);
       }
     },
-    [onChange],
+    [onChange]
   );
 
   const statusList = [

@@ -1,16 +1,16 @@
 import { useRepo } from "@automerge/automerge-repo-react-hooks";
+import { useNavigate } from "react-router";
+import { z } from "zod";
 import { Text } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
-import { useNavigate } from "react-router";
-import { z } from "zod";
-import FileTypeJson from "../../../assets/icons/bi_filetype-json.svg";
-import { routesHelper } from "../../../lib/helpers/routesHelper";
-import { TJsonExport } from "../../../types/json-export";
-import { YtServer } from "../../serversContext/types";
-import { ActionButton } from "../../shared/ActionButton/ActionButton";
-import classes from "../repositories.module.css";
+import FileTypeJson from "@/assets/icons/bi_filetype-json.svg";
+import { YtServer } from "@/components/serversContext/types";
+import { ActionButton } from "@/components/shared/ActionButton/ActionButton";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { TJsonExport } from "@/types/json-export";
 import { getDocHandlerFromRepo } from "../utils.repositories";
+import classes from "../repositories.module.css";
 
 type ImportJSONProps = {
   repo: YtServer;
@@ -27,7 +27,7 @@ export const ImportJSON = ({
   const navigate = useNavigate();
 
   const tryImportJSON: (
-    fileReaderResult?: FileReader["result"],
+    fileReaderResult?: FileReader["result"]
   ) => Promise<string | false> = async (fileReaderResult) => {
     try {
       if (!fileReaderResult || typeof fileReaderResult !== "string") {
@@ -37,7 +37,7 @@ export const ImportJSON = ({
       const docHandle = await getDocHandlerFromRepo(
         repo,
         repoHandler,
-        repositoryId,
+        repositoryId
       );
       const parsedData: TJsonExport = JSON.parse(fileReaderResult);
 
@@ -72,18 +72,18 @@ export const ImportJSON = ({
                       description: z.string().optional(),
                       testId: z.string(),
                       status: z.string(),
-                    }),
+                    })
                   ),
-                }),
+                })
               ),
               comments: z.array(
                 z.object({
                   id: z.string(),
                   resolved: z.boolean(),
                   content: z.string(),
-                }),
+                })
               ),
-            }),
+            })
           ),
         }),
       });

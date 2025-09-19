@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   Button,
   Group,
@@ -7,10 +8,9 @@ import {
 } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { useMemo } from "react";
-import { copyTextToClipboard } from "../../../lib/helpers/copyToClipboard.ts";
-import { YtServer } from "../../serversContext/types.ts";
-import { QUERY_PARAMS } from "../../../lib/constants/queryParams.ts";
+import { YtServer } from "@/components/serversContext/types.ts";
+import { QUERY_PARAMS } from "@/lib/constants/queryParams.ts";
+import { copyTextToClipboard } from "@/lib/helpers/copyToClipboard.ts";
 
 type TShareServerModalModalInnerProps = {
   repo: YtServer;
@@ -27,7 +27,7 @@ export function ShareServerModal({
         name: repo.name,
         url: repo.url,
         documentId: repositoryId,
-      }),
+      })
     );
 
     return `${window.location.host}/?${QUERY_PARAMS.SERVER_IMPORT}=${serializedServerInfos}`;

@@ -7,10 +7,10 @@ import {
   SegmentedControlItem,
   Text,
 } from "@mantine/core";
-import ArrowsUpdate from "../../assets/icons/arrows_update.svg";
-import { StatusEnum } from "../../types/schema";
-import { StatusIcon } from "../statusIcon/StatusIcon";
-import { getStatusColor } from "../../lib/helpers/getStatusColor";
+import ArrowsUpdate from "@/assets/icons/arrows_update.svg";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon";
+import { getStatusColor } from "@/lib/helpers/getStatusColor";
+import { StatusEnum } from "@/types/schema";
 
 type StepSwitchProps = {
   currentStatus: StatusEnum;

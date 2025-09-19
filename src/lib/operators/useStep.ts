@@ -1,21 +1,21 @@
-import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useMemo } from "react";
-import { useDocContext } from "../../components/docContext/DocContext";
-import { TDocType } from "../../types/schema";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { useDocContext } from "@/components/docContext/DocContext";
+import { TDocType } from "@/types/schema";
 import { TOperatorLoaderStatus, TUseStep } from "./types";
 
 export function useStep(
   projectId: string | undefined,
   caseId: string | undefined,
   testId: string | undefined,
-  stepId: string | undefined,
+  stepId: string | undefined
 ): TUseStep {
   const { docUrl } = useDocContext();
   const [doc] = useDocument<TDocType>(docUrl);
 
   const step: TUseStep["data"] = useMemo(() => {
     const project = doc?.projects.find(
-      (item) => projectId && item.id === projectId,
+      (item) => projectId && item.id === projectId
     );
     const testCase = project?.testCases.find((item) => item.id === caseId);
     const test = testCase?.tests.find((test) => test.id === testId);

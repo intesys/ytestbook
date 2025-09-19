@@ -1,8 +1,8 @@
 .navbar {
   background-color: var(--mantine-color-primary-0);
-  height: calc(100vh - var(--header-height)); 
+  height: calc(100vh - var(--header-height));
   min-height: 100%;
-  padding: var(--mantine-spacing-lg); 
+  padding: var(--mantine-spacing-lg);
   transition: all 0.3s ease-in-out;
 
   @media (max-width: $mantine-breakpoint-sm) {
@@ -33,4 +33,3 @@
   overflow-y: auto;
   scrollbar-color: var(--mantine-color-gray-5) var(--mantine-color-primary-0);
 }
-

@@ -1,6 +1,6 @@
-import { Anchor, Card, CardProps, Stack, Text } from "@mantine/core";
-import { IconCactus } from "@tabler/icons-react";
 import { Dispatch, SetStateAction } from "react";
+import { IconCactus } from "@tabler/icons-react";
+import { Anchor, Card, CardProps, Stack, Text } from "@mantine/core";
 import { ActivityType } from "../stepTimeline.types.ts";
 import { ACTIVITIES } from "../stepTimeline.utils.ts";
 

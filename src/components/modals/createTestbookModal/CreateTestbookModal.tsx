@@ -1,9 +1,9 @@
+import { useCallback } from "react";
 import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useCallback } from "react";
-import { TProjectDynamicData } from "../../../types/schema.ts";
-import { FormErrorMessages } from "../../../lib/formErrors.ts";
+import { FormErrorMessages } from "@/lib/formErrors.ts";
+import { TProjectDynamicData } from "@/types/schema.ts";
 
 type TCreateTestbookModalInnerProps<T> = {
   handleSubmit: (values: T) => void;
@@ -36,7 +36,7 @@ export function CreateTestbookModal({
       }
       close();
     },
-    [close, handleSubmit],
+    [close, handleSubmit]
   );
 
   return (

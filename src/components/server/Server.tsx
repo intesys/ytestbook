@@ -1,10 +1,10 @@
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
 import { Outlet, useParams } from "react-router";
-import { DocProvider } from "../docContext/DocContext";
-import { FullPageSpinner } from "../fullPageSpinner/FullPageSpinner";
-import { NotFound } from "../notFound/NotFound";
+import { DocProvider } from "@/components/docContext/DocContext";
+import { FullPageSpinner } from "@/components/fullPageSpinner/FullPageSpinner";
+import { NotFound } from "@/components/notFound/NotFound";
+import ScrollToTop from "@/components/shared/ScrollToTop";
 import { LoadServerStatus, useLoadServer } from "./hooks/useLoadServer";
-import ScrollToTop from "../shared/ScrollToTop";
 
 export const Server = () => {
   const serverLoadStatus = useLoadServer();

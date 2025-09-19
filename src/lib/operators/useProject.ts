@@ -1,13 +1,13 @@
-import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo } from "react";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import slugify from "slugify";
-import { useDocContext } from "../../components/docContext/DocContext";
-import { TJsonExport } from "../../types/json-export";
-import { StatusEnum, TDocType, TTest } from "../../types/schema";
-import { downloadFile } from "../helpers/downloadFile";
-import { removeTuples } from "../helpers/removeTuples";
+import { useDocContext } from "@/components/docContext/DocContext";
+import { STORAGE_KEYS } from "@/lib/constants/localStorageKeys";
+import { downloadFile } from "@/lib/helpers/downloadFile";
+import { removeTuples } from "@/lib/helpers/removeTuples";
+import { TJsonExport } from "@/types/json-export";
+import { StatusEnum, TDocType, TTest } from "@/types/schema";
 import { TOperatorLoaderStatus, TUseProject } from "./types";
-import { STORAGE_KEYS } from "../constants/localStorageKeys";
 
 export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
@@ -15,7 +15,7 @@ export function useProject(projectId: string | undefined): TUseProject {
 
   const project: TUseProject["data"] = useMemo(
     () => doc?.projects.find((item) => projectId && item.id === projectId),
-    [doc, projectId],
+    [doc, projectId]
   );
 
   const loading = useMemo(() => !doc, [doc]);
@@ -24,7 +24,7 @@ export function useProject(projectId: string | undefined): TUseProject {
   const getTagsByTestId: TUseProject["getTagsByTestId"] = useCallback(
     (testId) => {
       const project = doc?.projects.find(
-        (item) => projectId && item.id === projectId,
+        (item) => projectId && item.id === projectId
       );
       return (
         project?.tagToTest
@@ -32,13 +32,13 @@ export function useProject(projectId: string | undefined): TUseProject {
           .map((tuple) => tuple[0]) || []
       );
     },
-    [doc, projectId],
+    [doc, projectId]
   );
 
   const getTagsByCaseId: TUseProject["getTagsByCaseId"] = useCallback(
     (caseId) => {
       const project = doc?.projects.find(
-        (item) => projectId && item.id === projectId,
+        (item) => projectId && item.id === projectId
       );
       const testCase = project?.testCases.find((item) => item.id === caseId);
       if (!testCase || !project?.tagToTest || !project.allTags) {
@@ -51,13 +51,13 @@ export function useProject(projectId: string | undefined): TUseProject {
         .map((tuple) => tuple[0]);
       return project.allTags.filter((tag) => tags.includes(tag));
     },
-    [doc, projectId],
+    [doc, projectId]
   );
 
   const getAssigneesByTestId: TUseProject["getAssigneesByTestId"] = useCallback(
     (testId) => {
       const project = doc?.projects.find(
-        (item) => projectId && item.id === projectId,
+        (item) => projectId && item.id === projectId
       );
       if (!project?.collaboratorToTest || !project.collaborators) {
         return [];
@@ -66,16 +66,16 @@ export function useProject(projectId: string | undefined): TUseProject {
         .filter((tuple) => tuple[1] === testId)
         .map((tuple) => tuple[0]);
       return project.collaborators.filter((collaborator) =>
-        collaboratorsIdArr.includes(collaborator.id),
+        collaboratorsIdArr.includes(collaborator.id)
       );
     },
-    [doc, projectId],
+    [doc, projectId]
   );
 
   const getAssigneesByCaseId: TUseProject["getAssigneesByCaseId"] = useCallback(
     (caseId) => {
       const project = doc?.projects.find(
-        (item) => projectId && item.id === projectId,
+        (item) => projectId && item.id === projectId
       );
       const testCase = project?.testCases.find((item) => item.id === caseId);
       if (!testCase || !project?.collaboratorToTest || !project.collaborators) {
@@ -86,17 +86,17 @@ export function useProject(projectId: string | undefined): TUseProject {
         .filter((tuple) => testIdArr.includes(tuple[1]))
         .map((tuple) => tuple[0]);
       return project.collaborators.filter((collaborator) =>
-        collaboratorsIdArr.includes(collaborator.id),
+        collaboratorsIdArr.includes(collaborator.id)
       );
     },
-    [doc, projectId],
+    [doc, projectId]
   );
 
   const getStatusChangesByStepId: TUseProject["getStatusChangesByStepId"] =
     useCallback(
       (stepId) => {
         const project = doc?.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
 
         if (!project || !project.statusChanges) {
@@ -104,16 +104,16 @@ export function useProject(projectId: string | undefined): TUseProject {
         }
 
         return project.statusChanges.filter(
-          (status) => status.stepId === stepId,
+          (status) => status.stepId === stepId
         );
       },
-      [doc?.projects, projectId],
+      [doc?.projects, projectId]
     );
 
   const getCollaborator: TUseProject["getCollaborator"] = useCallback(
     (collaboratorId) => {
       const project = doc?.projects.find(
-        (item) => projectId && item.id === projectId,
+        (item) => projectId && item.id === projectId
       );
 
       if (!project) {
@@ -122,7 +122,7 @@ export function useProject(projectId: string | undefined): TUseProject {
 
       return project.collaborators?.find((c) => c.id === collaboratorId);
     },
-    [doc?.projects, projectId],
+    [doc?.projects, projectId]
   );
 
   const exportJSON: TUseProject["exportJSON"] = () => {
@@ -155,7 +155,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       }
       changeDoc((doc) => {
         const project = doc.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         if (!project) {
           return;
@@ -171,7 +171,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         }
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const createTestCase: TUseProject["createTestCase"] = useCallback(
@@ -182,7 +182,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       const date = new Date();
       changeDoc((doc) => {
         const project = doc.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         project?.testCases.push({
           ...values,
@@ -196,7 +196,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         });
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const createCollaborator: TUseProject["createCollaborator"] = useCallback(
@@ -207,7 +207,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       const date = new Date();
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         if (!project) {
           return;
@@ -222,7 +222,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         project.lastUpdate = date.getTime();
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const updateTestCase: TUseProject["updateTestCase"] = useCallback(
@@ -235,7 +235,7 @@ export function useProject(projectId: string | undefined): TUseProject {
 
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
 
         const testCase = project?.testCases.find((item) => item.id === caseId);
@@ -258,7 +258,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         testCase.lastUpdate = date.getTime();
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const updateTestCaseStatus: TUseProject["updateTestCaseStatus"] = useCallback(
@@ -269,7 +269,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       const date = new Date();
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         const testCase = project?.testCases.find((item) => item.id === caseId);
         if (!project || !testCase) {
@@ -279,7 +279,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         project.lastUpdate = date.getTime();
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const getTestsByTags: TUseProject["getTestsByTags"] = useCallback(() => {
@@ -288,7 +288,7 @@ export function useProject(projectId: string | undefined): TUseProject {
     }
 
     const project = doc?.projects.find(
-      (item) => projectId && item.id === projectId,
+      (item) => projectId && item.id === projectId
     );
     if (!project) {
       return {};
@@ -315,7 +315,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         if (uniqueTestsWithTags.includes(test.id)) {
           // get all tags for this test
           const tags = project.tagToTest?.filter(
-            (tuple) => tuple[1] === test.id,
+            (tuple) => tuple[1] === test.id
           );
 
           // add the test data to groupedTags
@@ -339,7 +339,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       const date = new Date();
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         if (!project) {
           return;
@@ -352,7 +352,7 @@ export function useProject(projectId: string | undefined): TUseProject {
           .filter((tag) => !newTags.includes(tag))
           .forEach((tagToRemove) => {
             const index = project.allTags?.findIndex(
-              (tag) => tag === tagToRemove,
+              (tag) => tag === tagToRemove
             );
             if (index !== undefined) project.allTags?.splice(index, 1);
           });
@@ -367,7 +367,7 @@ export function useProject(projectId: string | undefined): TUseProject {
           .filter((tuple) => !newTags.includes(tuple[0]))
           .forEach((tupleToRemove) => {
             const index = project.tagToTest?.findIndex((tuple) =>
-              tuple.every((value, index) => value === tupleToRemove[index]),
+              tuple.every((value, index) => value === tupleToRemove[index])
             );
             if (index !== undefined) project.tagToTest?.splice(index, 1);
           });
@@ -375,7 +375,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         project.lastUpdate = date.getTime();
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const updateCollaborator: TUseProject["updateCollaborator"] = useCallback(
@@ -387,7 +387,7 @@ export function useProject(projectId: string | undefined): TUseProject {
 
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         /**@hribeiro TODO: The collaborators check was introduced to keep compatibility with older projects. To be removed*/
         if (!project || !project.collaborators) {
@@ -395,7 +395,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         }
 
         const collaborator = project.collaborators.find(
-          (collaborator) => collaborator.id === id,
+          (collaborator) => collaborator.id === id
         );
 
         if (!collaborator) {
@@ -407,7 +407,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         project.lastUpdate = date.getTime();
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const removeCollaborator: TUseProject["removeCollaborator"] = useCallback(
@@ -418,7 +418,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       const date = new Date();
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         if (!project) {
           return;
@@ -426,19 +426,19 @@ export function useProject(projectId: string | undefined): TUseProject {
         /**@hribeiro TODO: The next line was introduced to keep compatibility with older projects. To be removed*/
         if (!project.collaborators) project.collaborators = [];
         const index = project.collaborators.findIndex(
-          (collaborator) => collaborator.id === id,
+          (collaborator) => collaborator.id === id
         );
         project.collaborators.splice(index, 1);
 
         /**@hribeiro TODO: The empty array was introduced to keep compatibility with older projects. To be removed*/
         removeTuples(
           project.collaboratorToTest || [],
-          (tuple) => tuple[0] === id,
+          (tuple) => tuple[0] === id
         );
         project.lastUpdate = date.getTime();
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const removeTestCase: TUseProject["removeTestCase"] = useCallback(
@@ -449,7 +449,7 @@ export function useProject(projectId: string | undefined): TUseProject {
 
       changeDoc((d) => {
         const project = d.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
 
         if (!project) {
@@ -457,13 +457,13 @@ export function useProject(projectId: string | undefined): TUseProject {
         }
 
         const index = project.testCases.findIndex(
-          (testCase) => testCase.id === testCaseId,
+          (testCase) => testCase.id === testCaseId
         );
 
         delete project.testCases[index];
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const resetProject: TUseProject["resetProject"] = useCallback(
@@ -474,7 +474,7 @@ export function useProject(projectId: string | undefined): TUseProject {
 
       changeDoc((doc) => {
         const project = doc.projects.find(
-          (item) => projectId && item.id === projectId,
+          (item) => projectId && item.id === projectId
         );
         if (!project) {
           return;
@@ -501,7 +501,7 @@ export function useProject(projectId: string | undefined): TUseProject {
         });
       });
     },
-    [changeDoc, projectId],
+    [changeDoc, projectId]
   );
 
   const methods = useMemo(
@@ -544,7 +544,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       updateTestCaseStatus,
       getTestsByTags,
       resetProject,
-    ],
+    ]
   );
 
   if (loading) {

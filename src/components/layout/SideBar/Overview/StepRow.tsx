@@ -1,13 +1,13 @@
-import { Flex, Table, Text } from "@mantine/core";
 import clsx from "clsx";
 import { useNavigate } from "react-router";
-import { routesHelper } from "../../../../lib/helpers/routesHelper";
-import { useServerName } from "../../../../lib/helpers/useServerName";
-import { TUseProject } from "../../../../lib/operators/types";
-import { useTest } from "../../../../lib/operators/useTest";
-import { TStep } from "../../../../types/schema";
-import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
-import { StatusButton } from "../../../statusButton/StatusButton";
+import { Flex, Table, Text } from "@mantine/core";
+import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate";
+import { StatusButton } from "@/components/statusButton/StatusButton";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { useServerName } from "@/lib/helpers/useServerName";
+import { TUseProject } from "@/lib/operators/types";
+import { useTest } from "@/lib/operators/useTest";
+import { TStep } from "@/types/schema";
 import classes from "./overview.module.css";
 
 type StepRowProps = {
@@ -46,8 +46,8 @@ export const StepRow = ({
             project.data.id,
             caseId,
             step.testId,
-            step.id,
-          ),
+            step.id
+          )
         );
         openSidebar();
       }}

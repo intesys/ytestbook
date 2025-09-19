@@ -1,4 +1,4 @@
-import { TCollaborator } from "../../types/schema.ts";
+import { TCollaborator } from "@/types/schema.ts";
 
 export const USER_ANONYMOUS: TCollaborator = {
   id: "Anonymous",

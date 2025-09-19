@@ -1,16 +1,16 @@
-import { Box, Button, Collapse, Flex, ThemeIcon, Title } from "@mantine/core";
-import { useClickOutside, useDisclosure } from "@mantine/hooks";
-import clsx from "clsx";
 import React, { useState } from "react";
-import { IoCaretUp, IoSettingsSharp } from "react-icons/io5";
-import { Link, useParams } from "react-router-dom";
-import Logo from "../../../assets/logo.svg";
-import { isEditableHtmlTextPopupVisible } from "../../../lib/helpers/isEditableHtmlTextPopupVisible";
-import { useProject } from "../../../lib/operators/useProject";
-import { TProjectDynamicData } from "../../../types/schema";
-import { EditableHtmlText } from "../../shared/EditableHtmlText";
 import classes from "./header.module.scss";
 import { IconReport } from "@tabler/icons-react";
+import clsx from "clsx";
+import { IoCaretUp, IoSettingsSharp } from "react-icons/io5";
+import { Link, useParams } from "react-router-dom";
+import { Box, Button, Collapse, Flex, ThemeIcon, Title } from "@mantine/core";
+import { useClickOutside, useDisclosure } from "@mantine/hooks";
+import Logo from "@/assets/logo.svg";
+import { EditableHtmlText } from "@/components/shared/EditableHtmlText";
+import { isEditableHtmlTextPopupVisible } from "@/lib/helpers/isEditableHtmlTextPopupVisible";
+import { useProject } from "@/lib/operators/useProject";
+import { TProjectDynamicData } from "@/types/schema";
 
 export const Header: React.FC<
   Pick<TProjectDynamicData, "title" | "customer"> & {

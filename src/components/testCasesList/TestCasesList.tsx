@@ -1,11 +1,11 @@
-import { Collapse, NavLink } from "@mantine/core";
-import classes from "./testCasesList.module.scss";
 import { Fragment, useCallback } from "react";
-import { TCase } from "../../types/schema";
+import classes from "./testCasesList.module.scss";
 import { useNavigate, useParams } from "react-router";
-import { StatusIcon } from "../statusIcon/StatusIcon";
-import { useServerName } from "../../lib/helpers/useServerName";
-import { routesHelper } from "../../lib/helpers/routesHelper";
+import { Collapse, NavLink } from "@mantine/core";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { useServerName } from "@/lib/helpers/useServerName";
+import { TCase } from "@/types/schema";
 
 interface IOwnProps {
   data: TCase[];
@@ -25,7 +25,7 @@ export const TestCasesList = ({
     (path: string) => () => {
       navigate(path);
     },
-    [navigate],
+    [navigate]
   );
   return (
     <div className={classes.cases}>
@@ -43,8 +43,8 @@ export const TestCasesList = ({
               routesHelper.testCaseDetail(
                 serverName,
                 projectId ?? "",
-                testCase.id,
-              ),
+                testCase.id
+              )
             )}
           />
           {testCase.tests.length > 0 && (
@@ -66,8 +66,8 @@ export const TestCasesList = ({
                           serverName,
                           projectId ?? "",
                           testCase.id,
-                          test.id,
-                        ),
+                          test.id
+                        )
                       )}
                     />
                   </div>

@@ -6,7 +6,7 @@
  */
 export function humanizeBytes(
   bytes: number,
-  options: { isBinaryUnits?: boolean; decimals?: number; space?: boolean } = {},
+  options: { isBinaryUnits?: boolean; decimals?: number; space?: boolean } = {}
 ): string {
   const { isBinaryUnits = false, decimals = 2, space = true } = options;
 

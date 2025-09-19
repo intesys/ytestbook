@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
   Anchor,
   AnchorProps,
@@ -5,7 +6,6 @@ import {
   GroupProps,
   PolymorphicComponentProps,
 } from "@mantine/core";
-import { ReactNode } from "react";
 
 type AnchorWithIconProps = PolymorphicComponentProps<"a", AnchorProps> & {
   icon: ReactNode;

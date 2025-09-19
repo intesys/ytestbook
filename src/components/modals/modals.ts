@@ -1,8 +1,9 @@
+import merge from "lodash/merge";
 import { ModalProps } from "@mantine/core";
 import { openContextModal } from "@mantine/modals";
-import merge from "lodash/merge";
 import { AddServerModal } from "./addServerModal/AddServerModal.tsx";
 import { ChangeStatusModal } from "./changeStatusModal/ChangeStatusModal.tsx";
+import { CloneProjectModal } from "./cloneProjectModal/CloneProjectModal.tsx";
 import { CollaboratorModal } from "./collaboratorModal/CollaboratorModal.tsx";
 import {
   ConfirmModal,
@@ -16,7 +17,6 @@ import { ResetProjectModal } from "./ResetProjectModal/ResetProjectModal.tsx";
 import { ShareServerModal } from "./shareServerModal/ShareServerModal.tsx";
 import { TestCaseModal } from "./testCaseModal/TestCaseModal.tsx";
 import { TestModal } from "./testModal/TestModal.tsx";
-import { CloneProjectModal } from "./cloneProjectModal/CloneProjectModal.tsx";
 
 export enum Modals {
   AddServerModal = "AddServerModal",
@@ -69,14 +69,14 @@ export const deleteModalsDefaults = {
 export const openDeleteConfirmModal = (
   title: string,
   innerProps: TConfirmModalProps = {},
-  modalProps: Omit<ModalProps, "opened" | "onClose"> = {},
+  modalProps: Omit<ModalProps, "opened" | "onClose"> = {}
 ) =>
   openContextModal(
     merge(deleteModalsDefaults, {
       title,
       ...modalProps,
       innerProps,
-    }),
+    })
   );
 
 declare module "@mantine/modals" {

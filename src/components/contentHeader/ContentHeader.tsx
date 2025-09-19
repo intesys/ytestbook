@@ -1,13 +1,13 @@
 import { Button, Group, Progress, Tooltip } from "@mantine/core";
-import Delete from "../../assets/icons/delete.svg";
-import Edit from "../../assets/icons/edit.svg";
-import Clone from "../../assets/icons/clone.svg";
-import { Avatars } from "../avatars/Avatars";
-import { EditableTitle } from "../shared/EditableText";
-import { StatusIcon } from "../statusIcon/StatusIcon";
+import Clone from "@/assets/icons/clone.svg";
+import Delete from "@/assets/icons/delete.svg";
+import Edit from "@/assets/icons/edit.svg";
+import { Avatars } from "@/components/avatars/Avatars";
+import { EditableTitle } from "@/components/shared/EditableText";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon";
 import { JiraTagsColumns } from "./JiraTagsColumns";
-import classes from "./contentHeader.module.css";
 import { TContentHeader } from "./types";
+import classes from "./contentHeader.module.css";
 
 export function ContentHeader({
   status,

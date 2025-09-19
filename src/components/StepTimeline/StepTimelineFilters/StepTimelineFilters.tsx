@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
+import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import {
   Button,
   Checkbox,
@@ -9,8 +11,6 @@ import {
   Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
-import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { ActivityType, SortOrder } from "../stepTimeline.types.ts";
 import { ACTIVITIES } from "../stepTimeline.utils.ts";
 import classes from "./StepTimelineFilters.module.css";
@@ -50,7 +50,7 @@ export const StepTimelineFilters = ({
         setFilteredActivities(values as ActivityType[]);
       }
     },
-    [setFilteredActivities],
+    [setFilteredActivities]
   );
 
   const activitiesLabel = useMemo(() => {

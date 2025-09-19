@@ -1,4 +1,4 @@
-import { StatusEnum } from "../../../types/schema";
+import { StatusEnum } from "@/types/schema";
 import {
   StatusWeightsForTestCases,
   StatusWeightsForTests,

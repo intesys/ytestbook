@@ -1,24 +1,24 @@
-import { Button, Image, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
 import { useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ArrowCircle from "../../assets/icons/arrow_circle_right.svg";
-import { computeCompletion } from "../../lib/helpers/computeCompletion";
-import { routesHelper } from "../../lib/helpers/routesHelper.ts";
-import { useServerName } from "../../lib/helpers/useServerName.ts";
-import { TOperatorLoaderStatus } from "../../lib/operators/types.ts";
-import { useProject } from "../../lib/operators/useProject";
-import { useTest } from "../../lib/operators/useTest";
-import { useTestCase } from "../../lib/operators/useTestCase";
-import { CommentsList } from "../commentsList/CommentsList";
-import { ContentHeader } from "../contentHeader/ContentHeader";
-import { Modals, openDeleteConfirmModal } from "../modals/modals.ts";
-import { EditableHtmlText } from "../shared/EditableHtmlText";
-import { SectionError } from "../shared/SectionError.tsx";
-import { SectionLoading } from "../shared/SectionLoading.tsx";
-import { StepsTable } from "../stepsTable/StepsTable";
+import { Button, Image, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import ArrowCircle from "@/assets/icons/arrow_circle_right.svg";
+import { CommentsList } from "@/components/commentsList/CommentsList";
+import { ContentHeader } from "@/components/contentHeader/ContentHeader";
+import { ContentWrapper } from "@/components/layout/ContentWrapper/ContentWrapper";
+import { Modals, openDeleteConfirmModal } from "@/components/modals/modals.ts";
+import { EditableHtmlText } from "@/components/shared/EditableHtmlText";
+import { SectionError } from "@/components/shared/SectionError.tsx";
+import { SectionLoading } from "@/components/shared/SectionLoading.tsx";
+import { StepsTable } from "@/components/stepsTable/StepsTable";
+import { computeCompletion } from "@/lib/helpers/computeCompletion";
+import { routesHelper } from "@/lib/helpers/routesHelper.ts";
+import { useServerName } from "@/lib/helpers/useServerName.ts";
+import { TOperatorLoaderStatus } from "@/lib/operators/types.ts";
+import { useProject } from "@/lib/operators/useProject";
+import { useTest } from "@/lib/operators/useTest";
+import { useTestCase } from "@/lib/operators/useTestCase";
 import classes from "./testDetails.module.css";
-import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper";
 
 export function TestDetails() {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export function TestDetails() {
 
   const completion = useMemo(
     () => computeCompletion(test.data?.steps || []),
-    [test.data],
+    [test.data]
   );
 
   const queriedData = useMemo(() => {
@@ -52,7 +52,7 @@ export function TestDetails() {
         tags: queriedData?.tags || [],
         description: test?.data?.description || "",
       },
-      test.data.id,
+      test.data.id
     );
   };
 
@@ -83,7 +83,7 @@ export function TestDetails() {
       test?.data?.id,
       test?.data?.title,
       testCase.updateTest,
-    ],
+    ]
   );
 
   const deleteClickHandler = useCallback(
@@ -96,13 +96,13 @@ export function TestDetails() {
               routesHelper.testCaseDetail(
                 serverName,
                 project.data.id,
-                testCase.data.id,
-              ),
+                testCase.data.id
+              )
             );
           }
         },
       }),
-    [navigate, project.data, serverName, test?.data?.id, testCase],
+    [navigate, project.data, serverName, test?.data?.id, testCase]
   );
 
   const cloneClickHandler = useCallback(() => {
@@ -134,8 +134,8 @@ export function TestDetails() {
                   routesHelper.testCaseDetail(
                     serverName,
                     project.data.id,
-                    testCase.data.id,
-                  ),
+                    testCase.data.id
+                  )
                 );
               }
             }}
@@ -178,7 +178,7 @@ export function TestDetails() {
             <CommentsList
               testId={test.data.id}
               comments={testCase.data.comments.filter(
-                (comment) => comment.testId === test.data.id,
+                (comment) => comment.testId === test.data.id
               )}
               createComment={testCase.createComment}
               removeComment={testCase.removeComment}

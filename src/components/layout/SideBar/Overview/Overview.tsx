@@ -1,3 +1,8 @@
+import { SetStateAction, useCallback, useState } from "react";
+import { IconCactus } from "@tabler/icons-react";
+import { IoMdAddCircle } from "react-icons/io";
+import { MdUnfoldLessDouble, MdUnfoldMoreDouble } from "react-icons/md";
+import { useParams } from "react-router-dom";
 import {
   Anchor,
   Button,
@@ -8,27 +13,24 @@ import {
   ThemeIcon,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconCactus } from "@tabler/icons-react";
-import { FC, SetStateAction, useCallback, useState } from "react";
-import { IoMdAddCircle } from "react-icons/io";
-import { MdUnfoldLessDouble, MdUnfoldMoreDouble } from "react-icons/md";
-import { useParams } from "react-router-dom";
-import { useOverviewFilters } from "../../../../lib/filters/useOverviewFilters.ts";
-import { useProject } from "../../../../lib/operators/useProject";
-import { BulkAddButton } from "../../../shared/BulkAddButton/BulkAddButton.tsx";
-import { SimpleNewElementForm } from "../../../shared/SimpleNewElementForm";
+import { BulkAddButton } from "@/components/shared/BulkAddButton/BulkAddButton.tsx";
+import { SimpleNewElementForm } from "@/components/shared/SimpleNewElementForm";
+import { useOverviewFilters } from "@/lib/filters/useOverviewFilters.ts";
+import { useProject } from "@/lib/operators/useProject";
 import { SIDEBAR_STATUS } from "../const";
-import classes from "./overview.module.css";
 import { OverviewFilters } from "./OverviewFilters.tsx";
 import { TestCaseRow } from "./TestCaseRow";
+import classes from "./overview.module.css";
 
-export const Overview: FC<{
+interface OverviewProps {
   toggle: (value?: SetStateAction<SIDEBAR_STATUS> | undefined) => void;
-}> = ({ toggle }) => {
+}
+
+export const Overview = ({ toggle }: OverviewProps) => {
   const params = useParams();
   const project = useProject(params.projectId);
   const { filters, setFilters, filteredTestCases } = useOverviewFilters(
-    project.data?.testCases ?? [],
+    project.data?.testCases ?? []
   );
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -58,7 +60,7 @@ export const Overview: FC<{
         title,
       });
     },
-    [project],
+    [project]
   );
 
   const openSidebar = () => toggle(SIDEBAR_STATUS.OPEN);
@@ -73,7 +75,7 @@ export const Overview: FC<{
         createNewTestCase(value);
       });
     },
-    [createNewTestCase],
+    [createNewTestCase]
   );
 
   return (

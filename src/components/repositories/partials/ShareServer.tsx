@@ -1,8 +1,8 @@
-import { modals } from "@mantine/modals";
 import { IconShare } from "@tabler/icons-react";
-import { Modals } from "../../modals/modals";
-import { YtServer } from "../../serversContext/types";
-import { AnchorWithIcon } from "../../shared/AnchorWithIcon";
+import { modals } from "@mantine/modals";
+import { Modals } from "@/components/modals/modals";
+import { YtServer } from "@/components/serversContext/types";
+import { AnchorWithIcon } from "@/components/shared/AnchorWithIcon";
 
 type ShareServerProps = {
   repo: YtServer;

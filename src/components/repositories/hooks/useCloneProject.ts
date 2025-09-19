@@ -1,8 +1,8 @@
-import { notifications } from "@mantine/notifications";
 import { useCallback } from "react";
-import { detachObjectFromAutomergeProps } from "../../../lib/repositories/detachObjectFromAutomergeProps";
-import { StatusEnum, TProject } from "../../../types/schema";
-import { CloneProjectModalFormValues } from "../../modals/cloneProjectModal/CloneProjectModal";
+import { notifications } from "@mantine/notifications";
+import { CloneProjectModalFormValues } from "@/components/modals/cloneProjectModal/CloneProjectModal";
+import { detachObjectFromAutomergeProps } from "@/lib/repositories/detachObjectFromAutomergeProps";
+import { StatusEnum, TProject } from "@/types/schema";
 import {
   serversHandler,
   useServersContext,
@@ -15,7 +15,7 @@ export const useCloneProject = () => {
   return useCallback(
     async (project: TProject, options: CloneProjectModalFormValues) => {
       const serverRepo = Object.values(servers).find(
-        (s) => s.id === options.serverId,
+        (s) => s.id === options.serverId
       );
 
       if (
@@ -35,7 +35,7 @@ export const useCloneProject = () => {
       const docHandle = await getDocHandlerFromRepo(
         serverRepo,
         serversHandler[options.serverId],
-        serverRepo.repositoryIds[0],
+        serverRepo.repositoryIds[0]
       );
 
       const projectID = crypto.randomUUID();
@@ -46,7 +46,7 @@ export const useCloneProject = () => {
         id: projectID,
         createdAt: updateTime,
         collaborators: project.collaborators?.map((collaborator) =>
-          detachObjectFromAutomergeProps(collaborator),
+          detachObjectFromAutomergeProps(collaborator)
         ),
         collaboratorToTest: project.collaboratorToTest?.map((ctt) => [...ctt]),
         tagToTest: project.tagToTest?.map((tagToTest) => [...tagToTest]),
@@ -93,7 +93,7 @@ export const useCloneProject = () => {
         })),
         allTags: [...(project.allTags ?? [])],
         statusChanges: project.statusChanges.map((statusChange) =>
-          detachObjectFromAutomergeProps(statusChange),
+          detachObjectFromAutomergeProps(statusChange)
         ),
         description: project.description,
         customer: project.customer,
@@ -110,6 +110,6 @@ export const useCloneProject = () => {
         });
       });
     },
-    [servers],
+    [servers]
   );
 };

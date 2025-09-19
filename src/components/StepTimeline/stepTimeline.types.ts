@@ -1,6 +1,6 @@
-import { TablerIcon } from "@tabler/icons-react";
 import { ReactNode } from "react";
-import { TComment, TStatusChange } from "../../types/schema.ts";
+import { TablerIcon } from "@tabler/icons-react";
+import { TComment, TStatusChange } from "@/types/schema.ts";
 
 export enum ActivityType {
   Comment = "comments",

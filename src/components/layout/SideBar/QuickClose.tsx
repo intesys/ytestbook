@@ -1,15 +1,11 @@
-import { ThemeIcon, UnstyledButton } from "@mantine/core";
 import { MdClose } from "react-icons/md";
-import { WithNavbarStatus } from "./SideBar";
+import { ThemeIcon, UnstyledButton } from "@mantine/core";
 import { SIDEBAR_STATUS } from "./const";
+import { WithNavbarStatus } from "./SideBar";
 import classes from "./quickClose.module.css";
 
-export const QuickClose: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
-  if (status === SIDEBAR_STATUS.COLLAPSED) {
-    return null;
-  }
-
-  return (
+export const QuickClose = ({ status, toggle }: WithNavbarStatus) =>
+  status === SIDEBAR_STATUS.COLLAPSED ? null : (
     <UnstyledButton
       onClick={() => toggle(SIDEBAR_STATUS.COLLAPSED)}
       className={classes.navbarToogle}
@@ -25,4 +21,3 @@ export const QuickClose: React.FC<WithNavbarStatus> = ({ status, toggle }) => {
       </ThemeIcon>
     </UnstyledButton>
   );
-};

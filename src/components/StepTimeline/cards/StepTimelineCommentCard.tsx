@@ -1,3 +1,6 @@
+import { useCallback } from "react";
+import clsx from "clsx";
+import { useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -10,25 +13,21 @@ import {
   ThemeIcon,
   Tooltip,
 } from "@mantine/core";
-import clsx from "clsx";
-import { useCallback } from "react";
-import { useParams } from "react-router-dom";
-import CheckCircle from "../../../assets/icons/check_circle.svg";
-import CheckCircleFull from "../../../assets/icons/check_circle_full.svg";
-import Delete from "../../../assets/icons/delete.svg";
-import { USER_ANONYMOUS } from "../../../lib/constants/generic.ts";
-import { getStatusColor } from "../../../lib/helpers/getStatusColor.ts";
-import { getStatusIcon } from "../../../lib/helpers/getStatusIcon.ts";
-import { getStatusLabel } from "../../../lib/helpers/getStatusLabel.ts";
-import { TUseTestCase } from "../../../lib/operators/types.ts";
-import { useProject } from "../../../lib/operators/useProject.ts";
-import { StatusEnum } from "../../../types/schema.ts";
-import { CollaboratorAvatar } from "../../CollaboratorAvatar/CollaboratorAvatar.tsx";
-import { CommentBreadcrumbs } from "../../commentsList/CommentBreadcrumbs.tsx";
-
-import { openDeleteConfirmModal } from "../../modals/modals.ts";
-import { EditableHtmlText } from "../../shared/EditableHtmlText.tsx";
-import { RelativeDate } from "../../shared/relativeDate/RelativeDate.tsx";
+import CheckCircleFull from "@/assets/icons/check_circle_full.svg";
+import CheckCircle from "@/assets/icons/check_circle.svg";
+import Delete from "@/assets/icons/delete.svg";
+import { CollaboratorAvatar } from "@/components/CollaboratorAvatar/CollaboratorAvatar.tsx";
+import { CommentBreadcrumbs } from "@/components/commentsList/CommentBreadcrumbs.tsx";
+import { openDeleteConfirmModal } from "@/components/modals/modals.ts";
+import { EditableHtmlText } from "@/components/shared/EditableHtmlText.tsx";
+import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate.tsx";
+import { USER_ANONYMOUS } from "@/lib/constants/generic.ts";
+import { getStatusColor } from "@/lib/helpers/getStatusColor.ts";
+import { getStatusIcon } from "@/lib/helpers/getStatusIcon.ts";
+import { getStatusLabel } from "@/lib/helpers/getStatusLabel.ts";
+import { TUseTestCase } from "@/lib/operators/types.ts";
+import { useProject } from "@/lib/operators/useProject.ts";
+import { StatusEnum } from "@/types/schema.ts";
 import { StepTimelineComment } from "../stepTimeline.types.ts";
 import classes from "./StepTimelineCommentCard.module.css";
 
@@ -62,12 +61,12 @@ export const StepTimelineCommentCard = ({
     (content: string) => {
       updateCommentContent(content, item?.comment.id);
     },
-    [item?.comment.id, updateCommentContent],
+    [item?.comment.id, updateCommentContent]
   );
 
   const updateContentHandler = useCallback(
     (content: string) => updateContent(content),
-    [updateContent],
+    [updateContent]
   );
 
   const deleteCommentHandler = useCallback(() => {
@@ -77,7 +76,7 @@ export const StepTimelineCommentCard = ({
   }, [item?.comment.id, removeComment]);
 
   const StatusIcon = getStatusIcon(
-    item?.comment?.testStatusWhenCreated ?? StatusEnum.TODO,
+    item?.comment?.testStatusWhenCreated ?? StatusEnum.TODO
   );
 
   return (

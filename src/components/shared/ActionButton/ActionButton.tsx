@@ -1,12 +1,11 @@
 import {
+  Box,
   Button,
   ButtonProps,
   Group,
-  PolymorphicComponentProps,
   Image,
-  Box,
+  PolymorphicComponentProps,
 } from "@mantine/core";
-
 import classes from "./actionButton.module.css";
 
 type ActionButtonProps = PolymorphicComponentProps<"button", ButtonProps> & {

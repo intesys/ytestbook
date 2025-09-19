@@ -1,9 +1,9 @@
+import { MouseEvent, useCallback } from "react";
 import { Badge, Button, Group, Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { MouseEvent, useCallback } from "react";
-import { DeleteActionIcon } from "../../../../../shared/DeleteActionIcon.tsx";
-import { SelectList } from "../../../../../shared/SelectList/SelectList.tsx";
-import { SpinningCaret } from "../../../../../shared/SpinningCaret/SpinningCaret.tsx";
+import { DeleteActionIcon } from "@/components/shared/DeleteActionIcon.tsx";
+import { SelectList } from "@/components/shared/SelectList/SelectList.tsx";
+import { SpinningCaret } from "@/components/shared/SpinningCaret/SpinningCaret.tsx";
 
 export type TTagsFilterProps = {
   values: Array<string>;
@@ -26,7 +26,7 @@ export const TagsFilter = ({
         onChange([]);
       }
     },
-    [onChange],
+    [onChange]
   );
 
   return (

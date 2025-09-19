@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import {
   Button,
   Checkbox,
@@ -8,10 +9,9 @@ import {
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useCallback, useMemo } from "react";
-import { FormErrorMessages } from "../../../lib/formErrors.ts";
-import { useServersContext } from "../../serversContext/serversContext.tsx";
-import { getCloneName } from "../../../lib/helpers/getCloneName.ts";
+import { useServersContext } from "@/components/serversContext/serversContext.tsx";
+import { FormErrorMessages } from "@/lib/formErrors.ts";
+import { getCloneName } from "@/lib/helpers/getCloneName.ts";
 
 export type CloneProjectModalFormValues = {
   newName: string;
@@ -52,7 +52,7 @@ export function CloneProjectModal({
         value: server.id,
         label: server.name,
       })),
-    [servers],
+    [servers]
   );
 
   const close = useCallback(() => {
@@ -66,7 +66,7 @@ export function CloneProjectModal({
       }
       close();
     },
-    [close, handleSubmit],
+    [close, handleSubmit]
   );
 
   return (

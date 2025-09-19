@@ -1,10 +1,10 @@
 import { useEffect } from "react";
+import { STORAGE_KEYS } from "@/lib/constants/localStorageKeys";
 import { REPOSITORY_TYPE, ServersList, StorageServersConfig } from "../types";
-import { STORAGE_KEYS } from "../../../lib/constants/localStorageKeys";
 
 export const useSyncServersOnStorage = (
   servers: ServersList,
-  isFirstRender: boolean,
+  isFirstRender: boolean
 ) => {
   useEffect(() => {
     if (isFirstRender) {
@@ -24,7 +24,7 @@ export const useSyncServersOnStorage = (
 
     localStorage.setItem(
       STORAGE_KEYS.SERVERS_CONF,
-      JSON.stringify(configToStore),
+      JSON.stringify(configToStore)
     );
   }, [isFirstRender, servers]);
 };

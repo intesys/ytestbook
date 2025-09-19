@@ -1,8 +1,8 @@
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { Repo } from "@automerge/automerge-repo";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
 import { isEqual } from "lodash";
-import { useCallback, useEffect } from "react";
 import { serversHandler } from "../serversContext";
 import { REPOSITORY_TYPE, SERVER_STATUS, ServersList } from "../types";
 
@@ -10,21 +10,24 @@ const urlPrefix = "automerge:";
 
 export const useInitServerConnections = (
   servers: ServersList,
-  setServers: React.Dispatch<React.SetStateAction<ServersList>>,
+  setServers: Dispatch<SetStateAction<ServersList>>
 ) => {
   const addListenersToHandler = useCallback(
     (handler: Repo, serverId: string) => {
       // handle server disconnected
-      handler.networkSubsystem.addListener("peer-disconnected", (payload) => {
-        setServers((currentServers) => {
-          const newServers = { ...currentServers };
-          newServers[serverId].status = SERVER_STATUS.DISCONNECTED;
-          return newServers;
-        });
-      });
+      handler.networkSubsystem.addListener(
+        "peer-disconnected",
+        (/*payload*/) => {
+          setServers((currentServers) => {
+            const newServers = { ...currentServers };
+            newServers[serverId].status = SERVER_STATUS.DISCONNECTED;
+            return newServers;
+          });
+        }
+      );
 
       // handle server connected
-      handler.networkSubsystem.addListener("peer", (payload) => {
+      handler.networkSubsystem.addListener("peer", (/*payload*/) => {
         setServers((currentServers) => {
           const newServers = { ...currentServers };
           newServers[serverId].status = SERVER_STATUS.CONNECTING;
@@ -40,9 +43,9 @@ export const useInitServerConnections = (
       handler.networkSubsystem.addListener("message", (e) => {
         if (e.type === "sync") {
           const handlesRepoIds = Object.keys(
-            serversHandler[serverId].handles,
+            serversHandler[serverId].handles
           ).map((id) =>
-            id.indexOf(urlPrefix) === 0 ? id : `${urlPrefix}${id}`,
+            id.indexOf(urlPrefix) === 0 ? id : `${urlPrefix}${id}`
           );
           if (!isEqual(servers[serverId], handlesRepoIds)) {
             setServers((currentServers) => {
@@ -65,7 +68,7 @@ export const useInitServerConnections = (
         }
       });
     },
-    [servers, setServers],
+    [servers, setServers]
   );
 
   useEffect(() => {

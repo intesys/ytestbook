@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import {
   Button,
   Group,
@@ -8,12 +9,11 @@ import {
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useCallback, useMemo } from "react";
-import { USER_ANONYMOUS } from "../../../lib/constants/generic.ts";
-import { FormErrorMessages } from "../../../lib/formErrors.ts";
-import { TUseProject } from "../../../lib/operators/types.ts";
-import { StatusEnum } from "../../../types/schema.ts";
-import { StatusMenuDropdown } from "../../statusMenu/StatusMenuDropdown.tsx";
+import { StatusMenuDropdown } from "@/components/statusMenu/StatusMenuDropdown.tsx";
+import { USER_ANONYMOUS } from "@/lib/constants/generic.ts";
+import { FormErrorMessages } from "@/lib/formErrors.ts";
+import { TUseProject } from "@/lib/operators/types.ts";
+import { StatusEnum } from "@/types/schema.ts";
 
 export type ChangeStatusFormValues = {
   status: StatusEnum;
@@ -56,7 +56,7 @@ export function ChangeStatusModal({
       }
       close();
     },
-    [close, handleSubmit],
+    [close, handleSubmit]
   );
 
   const nameOptions = useMemo(() => {
@@ -74,7 +74,7 @@ export function ChangeStatusModal({
     (status: StatusEnum) => {
       form.setFieldValue("status", status);
     },
-    [form],
+    [form]
   );
 
   return (

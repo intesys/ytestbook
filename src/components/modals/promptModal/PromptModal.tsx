@@ -1,3 +1,4 @@
+import { ReactNode, useCallback } from "react";
 import {
   Button,
   ButtonProps,
@@ -10,7 +11,6 @@ import {
 } from "@mantine/core";
 import { useField } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { ReactNode, useCallback } from "react";
 
 type TPromptModalCommonProps = {
   cancelButtonLabel?: string;

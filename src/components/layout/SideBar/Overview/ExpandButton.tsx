@@ -1,5 +1,5 @@
-import Expand from "../../../../assets/icons/add_circle_black.svg";
-import Close from "../../../../assets/icons/minus_circle.svg";
+import Expand from "@/assets/icons/add_circle_black.svg";
+import Close from "@/assets/icons/minus_circle.svg";
 
 type ExpandButtonProps = {
   opened: boolean;

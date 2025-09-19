@@ -1,8 +1,8 @@
-import { Group } from "@mantine/core";
 import { Dispatch, SetStateAction, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { useProject } from "../../../../lib/operators/useProject.ts";
-import { StatusEnum, TCollaborator } from "../../../../types/schema.ts";
+import { Group } from "@mantine/core";
+import { useProject } from "@/lib/operators/useProject.ts";
+import { StatusEnum, TCollaborator } from "@/types/schema.ts";
 import { AssigneeFilter } from "./OverviewFilters/AssigneeFilter/AssigneeFilter.tsx";
 import { StatusFilter } from "./OverviewFilters/StatusFilter/StatusFilter.tsx";
 import { TagsFilter } from "./OverviewFilters/TagsFilter/TagsFilter.tsx";
@@ -31,7 +31,7 @@ export const OverviewFilters = ({ filters, setFilters }: Props) => {
         textFilter: value,
       }));
     },
-    [setFilters],
+    [setFilters]
   );
 
   const changeStatusFilterHandler = useCallback(
@@ -41,7 +41,7 @@ export const OverviewFilters = ({ filters, setFilters }: Props) => {
         statusFilter: values,
       }));
     },
-    [setFilters],
+    [setFilters]
   );
 
   const changeTagsFilterHandler = useCallback(
@@ -51,7 +51,7 @@ export const OverviewFilters = ({ filters, setFilters }: Props) => {
         tagsFilter: values,
       }));
     },
-    [setFilters],
+    [setFilters]
   );
 
   const changeAssigneeFilterHandler = useCallback(
@@ -61,7 +61,7 @@ export const OverviewFilters = ({ filters, setFilters }: Props) => {
         assigneeFilter: values,
       }));
     },
-    [setFilters],
+    [setFilters]
   );
 
   return (

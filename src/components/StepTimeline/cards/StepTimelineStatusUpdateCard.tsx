@@ -1,11 +1,11 @@
-import { Card, CardProps, Group, Stack, Text } from "@mantine/core";
 import { useParams } from "react-router-dom";
-import { getStatusLabel } from "../../../lib/helpers/getStatusLabel.ts";
-import { useProject } from "../../../lib/operators/useProject.ts";
-import { CollaboratorAnchor } from "../../CollaboratorAnchor/CollaboratorAnchor.tsx";
-import { InlineFlex } from "../../InlineFlex/InlineFlex.tsx";
-import { RelativeDate } from "../../shared/relativeDate/RelativeDate.tsx";
-import { StatusIcon } from "../../statusIcon/StatusIcon.tsx";
+import { Card, CardProps, Group, Stack, Text } from "@mantine/core";
+import { CollaboratorAnchor } from "@/components/CollaboratorAnchor/CollaboratorAnchor.tsx";
+import { InlineFlex } from "@/components/InlineFlex/InlineFlex.tsx";
+import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate.tsx";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon.tsx";
+import { getStatusLabel } from "@/lib/helpers/getStatusLabel.ts";
+import { useProject } from "@/lib/operators/useProject.ts";
 import { StepTimelineStatusUpdate } from "../stepTimeline.types.ts";
 
 interface StepTimelineStatusUpdateProps extends CardProps {

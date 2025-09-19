@@ -1,6 +1,6 @@
+import { ReactNode, useCallback } from "react";
 import { Button, ButtonProps, Group, Stack } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
-import { ReactNode, useCallback } from "react";
 
 export type TConfirmModalProps = {
   handleCancel?: () => void;

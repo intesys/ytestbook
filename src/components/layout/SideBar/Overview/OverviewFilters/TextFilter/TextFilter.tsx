@@ -1,8 +1,8 @@
+import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
+import { IconSearch } from "@tabler/icons-react";
 import { TextInput } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
-import { IconSearch } from "@tabler/icons-react";
-import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
-import { DeleteActionIcon } from "../../../../../shared/DeleteActionIcon.tsx";
+import { DeleteActionIcon } from "@/components/shared/DeleteActionIcon.tsx";
 import { TOverviewFilters } from "../../OverviewFilters.tsx";
 
 type TTextFilterProps = {
@@ -24,7 +24,7 @@ export const TextFilter = ({ value, onChange }: TTextFilterProps) => {
       setLocalValue(newValue);
       searchHandle(newValue);
     },
-    [setLocalValue, searchHandle],
+    [setLocalValue, searchHandle]
   );
 
   const changeHandler = useCallback(
@@ -32,7 +32,7 @@ export const TextFilter = ({ value, onChange }: TTextFilterProps) => {
       const value = event.currentTarget.value;
       changeValue(value);
     },
-    [changeValue],
+    [changeValue]
   );
 
   const clearFilterHandler = useCallback(
@@ -45,7 +45,7 @@ export const TextFilter = ({ value, onChange }: TTextFilterProps) => {
         onChange("");
       }
     },
-    [changeValue, onChange],
+    [changeValue, onChange]
   );
 
   return (

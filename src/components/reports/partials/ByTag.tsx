@@ -1,6 +1,6 @@
 import { Table, Title } from "@mantine/core";
-import { TUseProject } from "../../../lib/operators/types";
-import { StatusIconWithLabel } from "../../statusIcon/StatusIconWithLabel";
+import { StatusIconWithLabel } from "@/components/statusIcon/StatusIconWithLabel";
+import { TUseProject } from "@/lib/operators/types";
 
 type PlainProps = {
   project: TUseProject;

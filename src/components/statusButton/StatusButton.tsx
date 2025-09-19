@@ -1,6 +1,6 @@
-import { TUseTest } from "../../lib/operators/types";
-import { TStep } from "../../types/schema";
-import { StatusMenu } from "../statusMenu/StatusMenu";
+import { StatusMenu } from "@/components/statusMenu/StatusMenu";
+import { TUseTest } from "@/lib/operators/types";
+import { TStep } from "@/types/schema";
 
 type StatusButtonProps = {
   step: TStep;
@@ -10,12 +10,10 @@ type StatusButtonProps = {
 export const StatusButton = ({
   step,
   updateStepStatuses,
-}: StatusButtonProps) => {
-  return (
-    <StatusMenu
-      step={step}
-      id={step.id}
-      updateStepStatuses={updateStepStatuses}
-    />
-  );
-};
+}: StatusButtonProps) => (
+  <StatusMenu
+    step={step}
+    id={step.id}
+    updateStepStatuses={updateStepStatuses}
+  />
+);

@@ -1,12 +1,12 @@
-import { Group, Text, ThemeIcon } from "@mantine/core";
 import React from "react";
 import {
   MdOutlineRemoveRedEye,
   MdSkipNext,
   MdSkipPrevious,
 } from "react-icons/md";
-import { WithNavbarStatus } from "./SideBar";
+import { Group, Text, ThemeIcon } from "@mantine/core";
 import { SIDEBAR_STATUS } from "./const";
+import { WithNavbarStatus } from "./SideBar";
 import classes from "./overviewHeader.module.css";
 
 export const OverviewHeader: React.FC<WithNavbarStatus> = ({

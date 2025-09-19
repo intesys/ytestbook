@@ -1,12 +1,12 @@
-import { Flex, Loader, SegmentedControl, Stack, Title } from "@mantine/core";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useProject } from "../../lib/operators/useProject";
+import { Flex, Loader, SegmentedControl, Stack, Title } from "@mantine/core";
+import { ContentWrapper } from "@/components/layout/ContentWrapper/ContentWrapper.tsx";
+import { useProject } from "@/lib/operators/useProject";
 import { ByTag } from "./partials/ByTag.tsx";
 import { Plain } from "./partials/Plain.tsx";
-import classes from "./reports.module.css";
 import { ReportTypes, TReportTypes } from "./types.ts";
-import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
+import classes from "./reports.module.css";
 
 export function Reports() {
   const params = useParams();

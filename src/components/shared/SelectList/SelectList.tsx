@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { IconSearch } from "@tabler/icons-react";
 import {
   Checkbox,
   Combobox,
@@ -8,8 +10,6 @@ import {
   TextInput,
   useCombobox,
 } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
 
 export type TSelectList = {
   values: string[];

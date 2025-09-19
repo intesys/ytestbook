@@ -1,32 +1,32 @@
-import { Box, Button, Group, Image, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import CircleX from "../../assets/icons/circle_x.svg";
-import { getStatusLabel } from "../../lib/helpers/getStatusLabel.ts";
-import { routesHelper } from "../../lib/helpers/routesHelper";
-import { useServerName } from "../../lib/helpers/useServerName";
-import { useProject } from "../../lib/operators/useProject";
-import { useStep } from "../../lib/operators/useStep";
-import { useTest } from "../../lib/operators/useTest";
-import { useTestCase } from "../../lib/operators/useTestCase";
-import { StatusEnum } from "../../types/schema";
-import { ContentHeader } from "../contentHeader/ContentHeader";
-import { ContentWrapper } from "../layout/ContentWrapper/ContentWrapper.tsx";
-import { ChangeStatusFormValues } from "../modals/changeStatusModal/ChangeStatusModal.tsx";
-import { Modals } from "../modals/modals.ts";
-import { EditableHtmlText } from "../shared/EditableHtmlText";
-import { SectionError } from "../shared/SectionError";
-import { SectionLoading } from "../shared/SectionLoading";
-import { StatusIcon } from "../statusIcon/StatusIcon.tsx";
-import { StepSwitch } from "../stepSwitch/StepSwitch";
-import { StepTimeline } from "../StepTimeline/StepTimeline.tsx";
+import { Box, Button, Group, Image, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import CircleX from "@/assets/icons/circle_x.svg";
+import { ContentHeader } from "@/components/contentHeader/ContentHeader";
+import { ContentWrapper } from "@/components/layout/ContentWrapper/ContentWrapper.tsx";
+import { ChangeStatusFormValues } from "@/components/modals/changeStatusModal/ChangeStatusModal.tsx";
+import { Modals } from "@/components/modals/modals.ts";
+import { EditableHtmlText } from "@/components/shared/EditableHtmlText";
+import { SectionError } from "@/components/shared/SectionError";
+import { SectionLoading } from "@/components/shared/SectionLoading";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon.tsx";
+import { StepSwitch } from "@/components/stepSwitch/StepSwitch";
+import { StepTimeline } from "@/components/StepTimeline/StepTimeline.tsx";
 import {
   ActivityType,
   StepTimelineComment,
   StepTimelineItem,
   StepTimelineStatusUpdate,
-} from "../StepTimeline/stepTimeline.types.ts";
+} from "@/components/StepTimeline/stepTimeline.types.ts";
+import { getStatusLabel } from "@/lib/helpers/getStatusLabel.ts";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { useServerName } from "@/lib/helpers/useServerName";
+import { useProject } from "@/lib/operators/useProject";
+import { useStep } from "@/lib/operators/useStep";
+import { useTest } from "@/lib/operators/useTest";
+import { useTestCase } from "@/lib/operators/useTestCase";
+import { StatusEnum } from "@/types/schema";
 import { ClosestStepsButtons } from "./ClosestStepsButtons";
 import classes from "./stepDetails.module.css";
 
@@ -41,7 +41,7 @@ export const StepDetails = () => {
     params.projectId,
     params.caseId,
     params.testId,
-    params.stepId,
+    params.stepId
   );
 
   const comments: StepTimelineComment[] = useMemo(
@@ -55,7 +55,7 @@ export const StepDetails = () => {
             : ActivityType.UnsolvedComment,
           date: comment.createdAt,
         })) ?? [],
-    [step?.data?.id, testCase?.data?.comments],
+    [step?.data?.id, testCase?.data?.comments]
   );
 
   const statusChanges: StepTimelineStatusUpdate[] = useMemo(
@@ -67,7 +67,7 @@ export const StepDetails = () => {
           type: ActivityType.StatusUpdate,
           date: statusUpdate.createdAt,
         })) ?? [],
-    [project, step?.data?.id],
+    [project, step?.data?.id]
   );
 
   const list: StepTimelineItem[] = useMemo(() => {
@@ -87,7 +87,7 @@ export const StepDetails = () => {
       {
         title,
       },
-      step.data.id,
+      step.data.id
     );
   };
 
@@ -105,8 +105,8 @@ export const StepDetails = () => {
         serverName,
         params.projectId,
         params.caseId,
-        params.testId,
-      ),
+        params.testId
+      )
     );
   };
 
@@ -136,7 +136,7 @@ export const StepDetails = () => {
         [step.data.id],
         status,
         values.collaboratorId,
-        values.notes,
+        values.notes
       );
     };
 
@@ -168,7 +168,7 @@ export const StepDetails = () => {
                   title: step.data.title,
                   description: value,
                 },
-                step.data.id,
+                step.data.id
               );
             }}
             value={step.data.description}

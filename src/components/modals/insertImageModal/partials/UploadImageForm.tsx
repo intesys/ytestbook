@@ -1,13 +1,13 @@
+import { useMemo, useState } from "react";
 import { Button, Center, Group, Image, Stack, Text } from "@mantine/core";
 import { Dropzone, FileWithPath } from "@mantine/dropzone";
-import { useMemo, useState } from "react";
 import {
   IMAGE_INSERT_ALLOWED_MIME_TYPES,
   IMAGE_UPLOAD_MAX_SIZE,
-} from "../../../../lib/constants/generic";
-import { compressImage } from "../../../../lib/helpers/compressImage";
-import { convertBase64 } from "../../../../lib/helpers/convertBase64";
-import { humanizeBytes } from "../../../../lib/helpers/humanizeBytes";
+} from "@/lib/constants/generic";
+import { compressImage } from "@/lib/helpers/compressImage";
+import { convertBase64 } from "@/lib/helpers/convertBase64";
+import { humanizeBytes } from "@/lib/helpers/humanizeBytes";
 import { TInsertImageModalProps } from "../InsertImageModal";
 
 type UploadImageFormProps = TInsertImageModalProps;

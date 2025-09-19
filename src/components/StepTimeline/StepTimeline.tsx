@@ -1,7 +1,7 @@
-import { CardProps, rem, Stack, ThemeIcon, Timeline } from "@mantine/core";
-import { IconCactus, IconMessagePlus, IconProps } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import { TUseProject, TUseTestCase } from "../../lib/operators/types.ts";
+import { IconCactus, IconMessagePlus, IconProps } from "@tabler/icons-react";
+import { CardProps, rem, Stack, ThemeIcon, Timeline } from "@mantine/core";
+import { TUseProject, TUseTestCase } from "@/lib/operators/types.ts";
 import { StepTimelineCommentCard } from "./cards/StepTimelineCommentCard.tsx";
 import { StepTimelineEmptyCard } from "./cards/StepTimelineEmptyCard.tsx";
 import { StepTimelineNewCommentCard } from "./cards/StepTimelineNewCommentCard.tsx";
@@ -38,7 +38,7 @@ export const StepTimeline = ({
   updateCommentContent,
 }: StepTimelineProps) => {
   const [filteredActivities, setFilteredActivities] = useState<ActivityType[]>(
-    ACTIVITIES.map((a) => a.value),
+    ACTIVITIES.map((a) => a.value)
   );
   const [sort, setSort] = useState<SortOrder>("asc");
 
@@ -54,7 +54,7 @@ export const StepTimeline = ({
 
           return b.date - a.date;
         }),
-    [filteredActivities, list, sort],
+    [filteredActivities, list, sort]
   );
 
   // Keep common card props in one place for easier adjustments
@@ -70,7 +70,7 @@ export const StepTimeline = ({
     () =>
       filteredActivities.includes(ActivityType.Comment) ||
       filteredActivities.includes(ActivityType.UnsolvedComment),
-    [filteredActivities],
+    [filteredActivities]
   );
 
   const newCommentItem = commentsVisible ? (

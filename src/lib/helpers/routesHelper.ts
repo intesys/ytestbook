@@ -13,7 +13,7 @@ export const routesHelper = {
     serverName: string,
     projectId: string,
     testCase: string,
-    testId: string,
+    testId: string
   ) =>
     `/server/${serverName}/project/${projectId}/testCase/${testCase}/test/${testId}`,
   stepDetail: (
@@ -21,7 +21,7 @@ export const routesHelper = {
     projectId: string,
     testCase: string,
     testId: string,
-    stepId: string,
+    stepId: string
   ) =>
     `/server/${serverName}/project/${projectId}/testCase/${testCase}/test/${testId}/step/${stepId}`,
 };

@@ -1,6 +1,6 @@
-import { Button, MantineColor, MantineRadius, Text } from "@mantine/core";
-import clsx from "clsx";
 import { MouseEvent, ReactNode, useCallback } from "react";
+import clsx from "clsx";
+import { Button, MantineColor, MantineRadius, Text } from "@mantine/core";
 import classes from "./ButtonGroupMultiselect.module.css";
 
 export type TButtonGroupOption<Value = string | number> = {
@@ -13,7 +13,7 @@ export type TButtonGroupMultiselect<Value> = {
   values: Array<Value>;
   onChange?: (
     values: Array<Value>,
-    event: MouseEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLButtonElement>
   ) => void;
   showAllNone?: boolean;
   allLabel?: ReactNode;
@@ -63,7 +63,7 @@ export const ButtonGroupMultiselect = <T = any,>({
           onChange(newState, event);
         }
       },
-    [onChange, options, values],
+    [onChange, options, values]
   );
 
   const isSelected = (value: T) => values.indexOf(value) >= 0;
@@ -74,7 +74,7 @@ export const ButtonGroupMultiselect = <T = any,>({
         <Button
           className={clsx(classes.button, classes.buttonInactive)}
           onClick={toggleSelectionHandler(
-            values.length === options.length ? "NONE" : "ALL",
+            values.length === options.length ? "NONE" : "ALL"
           )}
           radius={radius}
           miw={50}

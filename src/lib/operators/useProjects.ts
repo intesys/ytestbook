@@ -1,7 +1,7 @@
-import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback } from "react";
-import { useDocContext } from "../../components/docContext/DocContext";
-import { TDocType } from "../../types/schema";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { useDocContext } from "@/components/docContext/DocContext";
+import { TDocType } from "@/types/schema";
 import { TOperatorLoaderStatus, TUseProjects } from "./types";
 
 export function useProjects(): TUseProjects {
@@ -26,7 +26,7 @@ export function useProjects(): TUseProjects {
         });
       });
     },
-    [changeDoc],
+    [changeDoc]
   );
 
   const updateRepository: TUseProjects["updateRepository"] = (data) => {
@@ -51,7 +51,7 @@ export function useProjects(): TUseProjects {
         d.projects.splice(index, 1);
       });
     },
-    [changeDoc],
+    [changeDoc]
   );
 
   if (doc === undefined) {

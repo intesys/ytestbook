@@ -1,5 +1,3 @@
-import { AutomergeUrl, isValidAutomergeUrl } from "@automerge/automerge-repo";
-import { useRepo } from "@automerge/automerge-repo-react-hooks";
 import React, {
   createContext,
   useCallback,
@@ -7,8 +5,10 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { TDocType } from "../../types/schema";
-import { FullPageSpinner } from "../fullPageSpinner/FullPageSpinner";
+import { AutomergeUrl, isValidAutomergeUrl } from "@automerge/automerge-repo";
+import { useRepo } from "@automerge/automerge-repo-react-hooks";
+import { FullPageSpinner } from "@/components/fullPageSpinner/FullPageSpinner";
+import { TDocType } from "@/types/schema";
 import {
   DocContextStatusEnum,
   TDocContextState,
@@ -59,7 +59,7 @@ export const DocProvider: React.FC<TDocProviderProps> = ({
         changeDoc: handle.change,
       });
     },
-    [repo],
+    [repo]
   );
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+import { MouseEvent, ReactNode, useCallback } from "react";
 import {
   Anchor,
   AnchorProps,
@@ -11,11 +12,10 @@ import {
   Text,
   TextProps,
 } from "@mantine/core";
-import { MouseEvent, ReactNode, useCallback } from "react";
-import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
-import { TCollaborator } from "../../types/schema.ts";
-import { CollaboratorAvatar } from "../CollaboratorAvatar/CollaboratorAvatar.tsx";
-import { InlineFlex } from "../InlineFlex/InlineFlex.tsx";
+import { CollaboratorAvatar } from "@/components/CollaboratorAvatar/CollaboratorAvatar.tsx";
+import { InlineFlex } from "@/components/InlineFlex/InlineFlex.tsx";
+import { USER_ANONYMOUS } from "@/lib/constants/generic.ts";
+import { TCollaborator } from "@/types/schema.ts";
 
 interface CollaboratorAnchorProps extends HoverCardProps {
   collaborator?: TCollaborator;
@@ -83,7 +83,7 @@ export const CollaboratorAnchor = ({
         onClick(event);
       }
     },
-    [onClick],
+    [onClick]
   );
 
   return (

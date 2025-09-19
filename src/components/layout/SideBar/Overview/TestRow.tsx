@@ -1,20 +1,20 @@
+import { useEffect } from "react";
+import clsx from "clsx";
+import { useNavigate } from "react-router";
 import { Box, Collapse, Flex, Progress, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import clsx from "clsx";
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { computeCompletion } from "../../../../lib/helpers/computeCompletion";
-import { routesHelper } from "../../../../lib/helpers/routesHelper";
-import { useServerName } from "../../../../lib/helpers/useServerName";
-import { TUseProject } from "../../../../lib/operators/types";
-import { TTest } from "../../../../types/schema";
-import { Avatars } from "../../../avatars/Avatars";
-import { RelativeDate } from "../../../shared/relativeDate/RelativeDate";
-import { StatusIcon } from "../../../statusIcon/StatusIcon";
-import { Tags } from "../../../tags/Tags";
+import { Avatars } from "@/components/avatars/Avatars.tsx";
+import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate.tsx";
+import { StatusIcon } from "@/components/statusIcon/StatusIcon.tsx";
+import { Tags } from "@/components/tags/Tags.tsx";
+import { computeCompletion } from "@/lib/helpers/computeCompletion";
+import { routesHelper } from "@/lib/helpers/routesHelper";
+import { useServerName } from "@/lib/helpers/useServerName";
+import { TUseProject } from "@/lib/operators/types";
+import { TTest } from "@/types/schema";
 import { ExpandButton } from "./ExpandButton";
-import classes from "./overview.module.css";
 import { StepRow } from "./StepRow";
+import classes from "./overview.module.css";
 
 type TestRowProps = {
   readonly project: TUseProject;
@@ -66,8 +66,8 @@ export const TestRow = ({
               serverName,
               project.data.id,
               test.caseId,
-              test.id,
-            ),
+              test.id
+            )
           );
           openSidebar();
         }}

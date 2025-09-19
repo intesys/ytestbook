@@ -1,7 +1,7 @@
 import { Avatar, AvatarProps } from "@mantine/core";
-import { USER_ANONYMOUS } from "../../lib/constants/generic.ts";
-import { TCollaborator } from "../../types/schema.ts";
-import { Avatars } from "../avatars/Avatars.tsx";
+import { Avatars } from "@/components/avatars/Avatars.tsx";
+import { USER_ANONYMOUS } from "@/lib/constants/generic.ts";
+import { TCollaborator } from "@/types/schema.ts";
 
 interface CollaboratorAvatarProps extends AvatarProps {
   collaborator?: TCollaborator;

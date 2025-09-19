@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { TOverviewFilters } from "../../components/layout/SideBar/Overview/OverviewFilters.tsx";
-import { TCase } from "../../types/schema.ts";
-import { useProject } from "../operators/useProject.ts";
+import { TOverviewFilters } from "@/components/layout/SideBar/Overview/OverviewFilters.tsx";
+import { useProject } from "@/lib/operators/useProject.ts";
+import { TCase } from "@/types/schema.ts";
 import { filterCases } from "./overviewFilters.utils.ts";
 
 const initialFilters: TOverviewFilters = {

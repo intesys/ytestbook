@@ -1,3 +1,5 @@
+import React, { MouseEvent, ReactNode, useCallback, useState } from "react";
+import { IconQuestionMark } from "@tabler/icons-react";
 import {
   ActionIcon,
   ActionIconProps,
@@ -9,9 +11,6 @@ import {
   Tooltip,
   TooltipProps,
 } from "@mantine/core";
-import { IconQuestionMark } from "@tabler/icons-react";
-
-import React, { MouseEvent, ReactNode, useCallback, useState } from "react";
 
 export interface ActionIconWithConfirmProps extends ActionIconProps {
   confirmCancelText?: ReactNode;
@@ -56,7 +55,7 @@ export const ActionIconWithConfirm: React.FC<ActionIconWithConfirmProps> = ({
         onConfirm(event);
       }
     },
-    [onConfirm],
+    [onConfirm]
   );
 
   const popoverClickHandler = (event: MouseEvent) => {

@@ -1,11 +1,11 @@
+import { useCallback } from "react";
 import { Button, Group, MultiSelect, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useCallback } from "react";
-import { FormErrorMessages } from "../../../lib/formErrors";
-import { TTestDynamicData } from "../../../types/schema";
-import { TModalProps } from "../../repositories/types";
-import { RichTextarea } from "../../shared/RichTextarea/RichTextarea";
+import { TModalProps } from "@/components/repositories/types";
+import { RichTextarea } from "@/components/shared/RichTextarea/RichTextarea";
+import { FormErrorMessages } from "@/lib/formErrors";
+import { TTestDynamicData } from "@/types/schema";
 
 type TTestModalForm = TTestDynamicData & {
   tags: string[];
@@ -43,17 +43,17 @@ export function TestModal({
 
       close();
     },
-    [close, handleSubmit, testId],
+    [close, handleSubmit, testId]
   );
 
   const assigneesChangeHandler = useCallback(
     (values: string[]) => form.setFieldValue("assignees", values),
-    [form],
+    [form]
   );
 
   const tagsChangeHandler = useCallback(
     (values: string[]) => form.setFieldValue("tags", values),
-    [form],
+    [form]
   );
 
   return (

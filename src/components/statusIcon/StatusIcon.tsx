@@ -1,14 +1,14 @@
+import { CSSProperties, useMemo } from "react";
 import {
   DefaultMantineColor,
   ThemeIcon,
   ThemeIconVariant,
   Tooltip,
 } from "@mantine/core";
-import { CSSProperties, useMemo } from "react";
-import { getStatusColor } from "../../lib/helpers/getStatusColor";
-import { getStatusIcon } from "../../lib/helpers/getStatusIcon.ts";
-import { getStatusLabel } from "../../lib/helpers/getStatusLabel";
-import { StatusEnum } from "../../types/schema";
+import { getStatusColor } from "@/lib/helpers/getStatusColor";
+import { getStatusIcon } from "@/lib/helpers/getStatusIcon.ts";
+import { getStatusLabel } from "@/lib/helpers/getStatusLabel";
+import { StatusEnum } from "@/types/schema";
 import classes from "./statusIcon.module.css";
 
 export interface StatusIconProps {

@@ -1,7 +1,7 @@
 import { Anchor, Badge, Group, Image, Text } from "@mantine/core";
-import JiraIcon from "../../assets/icons/cib_jira.svg";
-import classes from "./contentHeader.module.css";
+import JiraIcon from "@/assets/icons/cib_jira.svg";
 import { TJiraTagsColumns } from "./types";
+import classes from "./contentHeader.module.css";
 
 // This always returns a component, so the space-between Group (in parent)
 // won't make the buttons jump around.

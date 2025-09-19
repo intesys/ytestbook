@@ -1,6 +1,6 @@
-import { TOverviewFilters } from "../../components/layout/SideBar/Overview/OverviewFilters.tsx";
-import { TCase, TStep, TTest } from "../../types/schema.ts";
-import { TUseProject } from "../operators/types.ts";
+import { TOverviewFilters } from "@/components/layout/SideBar/Overview/OverviewFilters.tsx";
+import { TUseProject } from "@/lib/operators/types.ts";
+import { TCase, TStep, TTest } from "@/types/schema.ts";
 import {
   checkAssigneeFilter,
   checkStatusFilter,
@@ -11,7 +11,7 @@ import {
 export const filterCases = (
   cases: TCase[],
   filters: TOverviewFilters,
-  project: TUseProject,
+  project: TUseProject
 ) => {
   return cases.reduce((accCase: TCase[], nextCase: TCase) => {
     const tags = project.getTagsByCaseId(nextCase.id);
@@ -29,19 +29,19 @@ export const filterCases = (
             const textFilterPasses = checkTextFilter(
               nextStep,
               ["title", "description"],
-              filters,
+              filters
             );
 
             const statusFilterPasses = checkStatusFilter(
               nextStep,
               ["status"],
-              filters,
+              filters
             );
 
             const tagsFilterPasses = checkTagsFilter(tags, filters);
             const assigneeFilterPasses = checkAssigneeFilter(
               assignees,
-              filters,
+              filters
             );
 
             // if the filters are off, or the step is included by the filters
@@ -56,7 +56,7 @@ export const filterCases = (
 
             return accStep;
           },
-          [],
+          []
         );
 
         // Find if each Test is visible or filtered
@@ -64,13 +64,13 @@ export const filterCases = (
         const textFilterPasses = checkTextFilter(
           nextTest,
           ["title", "description"],
-          filters,
+          filters
         );
 
         const statusFilterPasses = checkStatusFilter(
           nextTest,
           ["status"],
-          filters,
+          filters
         );
         const tagsFilterPasses = checkTagsFilter(tags, filters);
         const assigneeFilterPasses = checkAssigneeFilter(assignees, filters);
@@ -88,14 +88,14 @@ export const filterCases = (
         }
         return accTest;
       },
-      [],
+      []
     );
 
     // Find if each TestCase is visible or filtered
     const textFilterPasses = checkTextFilter(
       nextCase,
       ["title", "description"],
-      filters,
+      filters
     );
 
     const statusFilterPasses = checkStatusFilter(nextCase, ["status"], filters);
