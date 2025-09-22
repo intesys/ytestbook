@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { notifications } from "@mantine/notifications";
-import { useDocContext } from "@/components/docContext/DocContext";
+import { useDocContext } from "@/components/docContext/hooks/useDocContext.ts";
 import { addTuples } from "@/lib/helpers/addTuples";
 import { computeStatus } from "@/lib/helpers/computeStatus.ts";
 import { getCloneName } from "@/lib/helpers/getCloneName.ts";

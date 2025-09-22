@@ -1,6 +1,7 @@
+import { ReactNode } from "react";
 import { ChangeFn, ChangeOptions, Doc } from "@automerge/automerge";
 import { AutomergeUrl } from "@automerge/automerge-repo";
-import { TDocType } from "../../types/schema";
+import { TDocType } from "@/types/schema.ts";
 
 export type TDocContextValue = {
   docUrl: AutomergeUrl | undefined;
@@ -29,4 +30,7 @@ export type TDocContextState =
       status: Exclude<DocContextStatusEnum, "READY">;
     };
 
-export type TDocProviderProps = { children: React.ReactNode; docUrl?: string };
+export type TDocContextProviderProps = {
+  children: ReactNode;
+  docUrl?: string;
+};

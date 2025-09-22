@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import slugify from "slugify";
-import { useDocContext } from "@/components/docContext/DocContext";
+import { useDocContext } from "@/components/docContext/hooks/useDocContext.ts";
 import { STORAGE_KEYS } from "@/lib/constants/localStorageKeys";
 import { downloadFile } from "@/lib/helpers/downloadFile";
 import { removeTuples } from "@/lib/helpers/removeTuples";

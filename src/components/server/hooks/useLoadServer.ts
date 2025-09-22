@@ -1,9 +1,7 @@
 import { useMemo } from "react";
 import { Repo } from "@automerge/automerge-repo";
-import {
-  serversHandler,
-  useServersContext,
-} from "@/components/serversContext/serversContext";
+import { useServersContext } from "@/components/serversContext/hooks/useServersContext.ts";
+import { serversHandler } from "@/components/serversContext/serversContext";
 import { YtServer } from "@/components/serversContext/types";
 import { useServerName } from "@/lib/helpers/useServerName";
 

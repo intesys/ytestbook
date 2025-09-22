@@ -10,7 +10,7 @@ import { DatesProvider } from "@mantine/dates";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { modals } from "@/components/modals/modals.ts";
-import { ServersProvider } from "@/components/serversContext/serversContext.tsx";
+import { ServersContextProvider } from "@/components/serversContext/ServersContextProvider.tsx";
 import { MainNavigation } from "@/Navigation.tsx";
 import { theme } from "@/theme.tsx";
 
@@ -28,11 +28,11 @@ root.render(
       <Notifications position="top-right" zIndex={1000} />
       <BrowserRouter>
         <DatesProvider settings={datesSetting}>
-          <ServersProvider>
+          <ServersContextProvider>
             <ModalsProvider modals={modals}>
               <MainNavigation />
             </ModalsProvider>
-          </ServersProvider>
+          </ServersContextProvider>
         </DatesProvider>
       </BrowserRouter>
     </MantineProvider>

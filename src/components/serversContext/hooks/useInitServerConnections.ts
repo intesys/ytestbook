@@ -58,7 +58,7 @@ export const useInitServerConnections = (
       });
 
       handler.synchronizer.on("sync-state", (e) => {
-        const syncState = e.syncState as any;
+        const syncState = e.syncState as unknown as Record<string, unknown>;
         if (syncState["haveResponded"] && syncState["inFlight"]) {
           setServers((currentServers) => {
             const newServers = { ...currentServers };

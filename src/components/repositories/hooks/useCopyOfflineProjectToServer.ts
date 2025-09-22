@@ -1,9 +1,7 @@
 import { useCallback } from "react";
 import { notifications } from "@mantine/notifications";
-import {
-  serversHandler,
-  useServersContext,
-} from "@/components/serversContext/serversContext";
+import { useServersContext } from "@/components/serversContext/hooks/useServersContext.ts";
+import { serversHandler } from "@/components/serversContext/serversContext";
 import { TProject } from "@/types/schema";
 import { getDocHandlerFromRepo } from "../utils.repositories";
 

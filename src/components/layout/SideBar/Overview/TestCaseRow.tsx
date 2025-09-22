@@ -54,7 +54,7 @@ export function TestCaseRow({
     } else {
       handlers.close();
     }
-  }, [forceExpanded]);
+  }, [forceExpanded, handlers]);
 
   if (!project.data?.id) {
     return null;

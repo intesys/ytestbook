@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { Button, Group, Select, Stack } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useServersContext } from "@/components/serversContext/serversContext.tsx";
+import { useServersContext } from "@/components/serversContext/hooks/useServersContext.ts";
 import { REPOSITORY_TYPE } from "@/components/serversContext/types.ts";
 import { FormErrorMessages } from "@/lib/formErrors.ts";
 

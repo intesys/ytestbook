@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { MouseEvent, useEffect } from "react";
 import clsx from "clsx";
 import { useNavigate } from "react-router";
 import { Box, Collapse, Flex, Progress, Table, Text } from "@mantine/core";
@@ -37,7 +37,7 @@ export const TestRow = ({
 
   const navigate = useNavigate();
 
-  const onExpandToggle = (e: React.MouseEvent) => {
+  const onExpandToggle = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -50,7 +50,7 @@ export const TestRow = ({
     } else {
       handlers.close();
     }
-  }, [forceExpanded]);
+  }, [forceExpanded, handlers]);
 
   if (!project.data?.id) {
     return null;

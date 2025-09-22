@@ -1,6 +1,6 @@
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
 import { Outlet, useParams } from "react-router";
-import { DocProvider } from "@/components/docContext/DocContext";
+import { DocContextProvider } from "@/components/docContext/DocContextProvider.tsx";
 import { FullPageSpinner } from "@/components/fullPageSpinner/FullPageSpinner";
 import { NotFound } from "@/components/notFound/NotFound";
 import ScrollToTop from "@/components/shared/ScrollToTop";
@@ -25,10 +25,10 @@ export const Server = () => {
 
   return (
     <RepoContext.Provider value={serverLoadStatus.handler}>
-      <DocProvider docUrl={serverLoadStatus.server?.repositoryIds[0]}>
+      <DocContextProvider docUrl={serverLoadStatus.server?.repositoryIds[0]}>
         <ScrollToTop />
         <Outlet />
-      </DocProvider>
+      </DocContextProvider>
     </RepoContext.Provider>
   );
 };

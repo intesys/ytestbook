@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { useServersContext } from "@/components/serversContext/serversContext.tsx";
+import { useServersContext } from "@/components/serversContext/hooks/useServersContext.ts";
 import { FormErrorMessages } from "@/lib/formErrors.ts";
 import { getCloneName } from "@/lib/helpers/getCloneName.ts";
 
