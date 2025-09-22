@@ -20,7 +20,9 @@ export const EditableTitle = ({
 
   const onExit = () => {
     handlers.toggle();
-    onChange && onChange(internalValue);
+    if (onChange) {
+      onChange(internalValue);
+    }
   };
 
   const ref = useClickOutside(onExit);
@@ -29,7 +31,9 @@ export const EditableTitle = ({
   const switchToEdit = () => handlers.open();
 
   useEffect(() => {
-    value !== undefined && setInternalValue(value);
+    if (value !== undefined) {
+      setInternalValue(value);
+    }
   }, [value]);
 
   const onTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +46,9 @@ export const EditableTitle = ({
       e.preventDefault();
       setInternalValue(e.currentTarget.value);
       handlers.close();
-      onChange && onChange(e.currentTarget.value);
+      if (onChange) {
+        onChange(e.currentTarget.value);
+      }
     }
 
     // Undo on Esc

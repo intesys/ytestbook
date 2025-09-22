@@ -5,5 +5,7 @@
  */
 
 export const copyTextToClipboard = (text: string | undefined) => {
-  text && navigator.clipboard.writeText(text);
+  if (text) {
+    navigator.clipboard.writeText(text);
+  }
 };

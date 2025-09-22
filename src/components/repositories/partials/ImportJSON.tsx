@@ -101,7 +101,7 @@ export const ImportJSON = ({
       });
 
       return projectNewId;
-    } catch (error) {
+    } catch {
       notifications.show({
         message: "yTestbook JSON is not valid",
         color: "red",

@@ -302,7 +302,7 @@ export function useProject(projectId: string | undefined): TUseProject {
     const groupedTags: Record<string, TTest[]> = {};
     const uniqueTestsWithTags: string[] = [];
 
-    project.tagToTest?.forEach((test) => {
+    (project.tagToTest ?? []).forEach((test) => {
       const tag = test[0];
       const testId = test[1];
       if (!groupedTags[tag]) {
@@ -311,7 +311,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       if (!uniqueTestsWithTags.includes(testId)) {
         uniqueTestsWithTags.push(testId);
       }
-    }, [] as string[]) ?? [];
+    });
 
     // cycle all testcases and their tests
     project.testCases.forEach((testCase) => {
