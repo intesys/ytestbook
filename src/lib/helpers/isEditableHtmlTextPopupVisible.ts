@@ -1,5 +1,5 @@
-import { RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS } from "@/components/shared/RichTextarea/RichTextarea.tsx";
-import { RICHTEXTAREA_ADD_IMAGE_MODAL_CLASS } from "@/components/shared/RichTextEditorControls/RichTextEditorImageControl.tsx";
+import { RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS } from "@/components/shared/RichTextarea/richTextArea.utils.ts";
+import { RICHTEXTAREA_ADD_IMAGE_MODAL_CLASS } from "@/components/shared/RichTextEditorControls/richTextEditorControls.utils.ts";
 
 /**
  * Checks if Link Popup of editable html text is visibile

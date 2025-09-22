@@ -27,7 +27,7 @@ export const useOverviewFilters: TUseOverviewFilters = (testCases) => {
   useEffect(() => {
     const filtered = filterCases(testCases, filters, project);
     setFilteredTestCases(filtered);
-  }, [testCases, filters]);
+  }, [testCases, filters, project]);
 
   return { filters, setFilters, filteredTestCases };
 };

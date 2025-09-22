@@ -106,16 +106,16 @@ export function Settings() {
 
   return (
     <ContentWrapper>
-      <Stack className={classes.settings}>
-        <Stack className={classes.header}>
+      <Stack className={classes.settings} w="100%">
+        <Stack>
           <Title order={3}>Settings</Title>
         </Stack>
 
-        <Stack className={classes.projectData}>
+        <Stack>
           <Title order={4}>Project data</Title>
         </Stack>
 
-        <Stack className={classes.collaborators} gap="md">
+        <Stack gap="md">
           <Title order={4}>Collaborators</Title>
           {collaborators.length === 0 ? (
             <Text span>
@@ -214,7 +214,7 @@ export function Settings() {
           </Group>
         </Stack>
 
-        <Stack className={classes.tags}>
+        <Stack>
           <Title order={4}>Tags</Title>
           <TagsInput data={[]} value={tags} onChange={setTags} />
           <Group justify="end">
@@ -223,6 +223,7 @@ export function Settings() {
               leftSection={<IconDeviceFloppy size={18} />}
               onClick={() => {
                 project.updateAllTags(tags);
+
                 notifications.show({
                   withBorder: true,
                   title: "Success!",
@@ -235,7 +236,7 @@ export function Settings() {
           </Group>
         </Stack>
 
-        <Alert className={classes.alert} color="green">
+        <Alert color="green" styles={{ root: { marginTop: 20 } }}>
           <Stack>
             <Title order={4} c="green.7">
               Export project
@@ -256,7 +257,7 @@ export function Settings() {
           </Stack>
         </Alert>
 
-        <Alert className={classes.alert} color="red">
+        <Alert color="red">
           <Stack>
             <Title order={4} c="red.7">
               Reset Testbook
@@ -280,7 +281,7 @@ export function Settings() {
           </Stack>
         </Alert>
 
-        <Alert className={classes.alert} color="red">
+        <Alert color="red">
           <Stack>
             <Title order={4} c="red.7">
               Delete Testbook

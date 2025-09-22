@@ -125,28 +125,33 @@ export function useProject(projectId: string | undefined): TUseProject {
     [doc?.projects, projectId]
   );
 
-  const exportJSON: TUseProject["exportJSON"] = () => {
-    const project = doc?.projects.find((p) => p.id === projectId);
-    if (project) {
-      const jsonContent: TJsonExport = {
-        networkServerUrl: localStorage.getItem(STORAGE_KEYS.SERVERS_CONF) ?? "",
-        project,
-        repository: {
-          id: docUrl ?? "",
-          description: doc?.description ?? "",
-          title: doc?.title ?? "",
-        },
-      };
+  const exportJSON: TUseProject["exportJSON"] = useMemo(
+    () => () => {
+      const project = doc?.projects.find((p) => p.id === projectId);
 
-      const parsedData = JSON.stringify(jsonContent);
+      if (project) {
+        const jsonContent: TJsonExport = {
+          networkServerUrl:
+            localStorage.getItem(STORAGE_KEYS.SERVERS_CONF) ?? "",
+          project,
+          repository: {
+            id: docUrl ?? "",
+            description: doc?.description ?? "",
+            title: doc?.title ?? "",
+          },
+        };
 
-      const slugifiedTitle = slugify(project.title, {
-        lower: true,
-      });
+        const parsedData = JSON.stringify(jsonContent);
 
-      downloadFile(parsedData, `ytestbook-export-${slugifiedTitle}.json`);
-    }
-  };
+        const slugifiedTitle = slugify(project.title, {
+          lower: true,
+        });
+
+        downloadFile(parsedData, `ytestbook-export-${slugifiedTitle}.json`);
+      }
+    },
+    [doc?.description, doc?.projects, doc?.title, docUrl, projectId]
+  );
 
   const updateProject: TUseProject["updateProject"] = useCallback(
     (data) => {

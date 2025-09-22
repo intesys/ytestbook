@@ -6,18 +6,18 @@ import Image from "@tiptap/extension-image";
 import SubScript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import MimeMatcher from "mime-matcher";
 import { EditorView } from "prosemirror-view";
 import { InputError, Text } from "@mantine/core";
 import { Link, RichTextEditor } from "@mantine/tiptap";
+import { RichTextEditorImageControl } from "@/components/shared/RichTextEditorControls/RichTextEditorImageControl.tsx";
 import { IMAGE_INSERT_ALLOWED_MIME_TYPES } from "@/lib/constants/generic.ts";
 import { compressImage } from "@/lib/helpers/compressImage.ts";
 import { convertBase64 } from "@/lib/helpers/convertBase64.ts";
-import { RichTextEditorImageControl } from "../RichTextEditorControls/RichTextEditorImageControl.tsx";
-
-export const RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS = "rta-link-dropdown";
+import { RICHTEXTAREA_LINKEDITORDROPDOWN_CLASS } from "./richTextArea.utils.ts";
 
 export const RichTextarea: FC<{
   label?: string;
@@ -33,6 +33,7 @@ export const RichTextarea: FC<{
     shouldRerenderOnTransaction: true,
     extensions: [
       StarterKit.configure({ link: false }),
+      Underline,
       Link,
       Superscript,
       SubScript,

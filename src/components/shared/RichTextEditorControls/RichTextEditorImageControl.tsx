@@ -4,11 +4,11 @@ import { Editor } from "@tiptap/react";
 import { modals } from "@mantine/modals";
 import { RichTextEditor } from "@mantine/tiptap";
 import { Modals } from "@/components/modals/modals.ts";
+import { RICHTEXTAREA_ADD_IMAGE_MODAL_CLASS } from "./richTextEditorControls.utils.ts";
 
 interface RichTextEditorImageControlProps {
   editor: Editor | null;
 }
-export const RICHTEXTAREA_ADD_IMAGE_MODAL_CLASS = "rta-add-image";
 
 export const RichTextEditorImageControl = ({
   editor,
