@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router";
 import { DetailSection } from "@/components/detailSection/DetailSection";
 import { Empty } from "@/components/empty/Empty";
 import { NotFound } from "@/components/notFound/NotFound";

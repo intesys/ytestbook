@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Group } from "@mantine/core";
 import { useProject } from "@/lib/operators/useProject.ts";
 import { StatusEnum, TCollaborator } from "@/types/schema.ts";

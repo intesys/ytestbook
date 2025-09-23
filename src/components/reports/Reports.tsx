@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Flex, Loader, SegmentedControl, Stack, Title } from "@mantine/core";
 import { ContentWrapper } from "@/components/layout/ContentWrapper/ContentWrapper.tsx";
 import { useProject } from "@/lib/operators/useProject";

@@ -7,7 +7,7 @@ import {
   IconTrash,
   IconUserPlus,
 } from "@tabler/icons-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import {
   ActionIcon,
   Alert,

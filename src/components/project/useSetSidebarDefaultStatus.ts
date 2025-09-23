@@ -1,5 +1,5 @@
 import { SetStateAction, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useIsFirstRender } from "@mantine/hooks";
 import { SIDEBAR_STATUS } from "@/components/layout/SideBar/const";
 

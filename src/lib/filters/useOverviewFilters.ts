@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { TOverviewFilters } from "@/components/layout/SideBar/Overview/OverviewFilters.tsx";
 import { useProject } from "@/lib/operators/useProject.ts";
 import { TCase } from "@/types/schema.ts";

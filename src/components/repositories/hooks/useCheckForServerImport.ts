@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { modals } from "@mantine/modals";
 import { AddServerFormValues } from "@/components/modals/addServerModal/AddServerModal";
 import { Modals } from "@/components/modals/modals";

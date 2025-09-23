@@ -3,7 +3,7 @@ import classes from "./header.module.scss";
 import { IconReport } from "@tabler/icons-react";
 import clsx from "clsx";
 import { IoCaretUp, IoSettingsSharp } from "react-icons/io5";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { Box, Button, Collapse, Flex, ThemeIcon, Title } from "@mantine/core";
 import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import Logo from "@/assets/logo.svg";

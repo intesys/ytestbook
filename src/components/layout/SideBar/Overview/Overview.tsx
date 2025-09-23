@@ -2,7 +2,7 @@ import { SetStateAction, useCallback, useState } from "react";
 import { IconCactus } from "@tabler/icons-react";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdUnfoldLessDouble, MdUnfoldMoreDouble } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import {
   Anchor,
   Button,
