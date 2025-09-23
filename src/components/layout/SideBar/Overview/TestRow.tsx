@@ -1,3 +1,8 @@
+import { MouseEvent, useCallback, useEffect } from "react";
+import clsx from "clsx";
+import { useNavigate } from "react-router";
+import { Box, Collapse, Flex, Progress, Table, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { Avatars } from "@/components/avatars/Avatars.tsx";
 import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate.tsx";
 import { StatusIcon } from "@/components/statusIcon/StatusIcon.tsx";
@@ -7,14 +12,9 @@ import { routesHelper } from "@/lib/helpers/routesHelper";
 import { useServerName } from "@/lib/helpers/useServerName";
 import { TUseProject } from "@/lib/operators/types";
 import { TTest } from "@/types/schema";
-import { Box, Collapse, Flex, Progress, Table, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import clsx from "clsx";
-import { MouseEvent, useEffect } from "react";
-import { useNavigate } from "react-router";
 import { ExpandButton } from "./ExpandButton";
-import classes from "./overview.module.css";
 import { StepRow } from "./StepRow";
+import classes from "./overview.module.css";
 
 type TestRowProps = {
   readonly project: TUseProject;
@@ -37,12 +37,15 @@ export const TestRow = ({
 
   const navigate = useNavigate();
 
-  const onExpandToggle = (e: MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const onExpandToggle = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    toggle();
-  };
+      toggle();
+    },
+    [toggle]
+  );
 
   useEffect(() => {
     if (forceExpanded) {
