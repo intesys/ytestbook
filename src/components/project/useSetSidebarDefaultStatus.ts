@@ -1,6 +1,5 @@
-import { SetStateAction, useEffect } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useIsFirstRender } from "@mantine/hooks";
 import { SIDEBAR_STATUS } from "@/components/layout/SideBar/const";
 
 /**
@@ -11,17 +10,17 @@ export const useSetSidebarDefaultStatus = (
   toggleSidebarStatus: (value?: SetStateAction<SIDEBAR_STATUS>) => void
 ) => {
   const params = useParams();
-  const isFirstRender = useIsFirstRender();
+  const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
 
   useEffect(() => {
     // Execute this check once
-    if (!isFirstRender) {
-      return;
-    }
+    if (isFirstRender) {
+      if (params.caseId || params.testId || params.stepId) {
+        // Open the sidebar if current route is an entity detail
+        toggleSidebarStatus(SIDEBAR_STATUS.OPEN);
+      }
 
-    // Open the sidebar if current route is an entity detail
-    if (params.caseId || params.testId || params.stepId) {
-      toggleSidebarStatus(SIDEBAR_STATUS.OPEN);
+      setIsFirstRender(false);
     }
   }, [
     isFirstRender,
