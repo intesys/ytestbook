@@ -1,8 +1,3 @@
-import { MouseEvent, useEffect } from "react";
-import clsx from "clsx";
-import { useNavigate } from "react-router";
-import { Box, Collapse, Flex, Progress, Table, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { Avatars } from "@/components/avatars/Avatars.tsx";
 import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate.tsx";
 import { StatusIcon } from "@/components/statusIcon/StatusIcon.tsx";
@@ -12,9 +7,14 @@ import { routesHelper } from "@/lib/helpers/routesHelper";
 import { useServerName } from "@/lib/helpers/useServerName";
 import { TUseProject } from "@/lib/operators/types";
 import { TTest } from "@/types/schema";
+import { Box, Collapse, Flex, Progress, Table, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import clsx from "clsx";
+import { MouseEvent, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { ExpandButton } from "./ExpandButton";
-import { StepRow } from "./StepRow";
 import classes from "./overview.module.css";
+import { StepRow } from "./StepRow";
 
 type TestRowProps = {
   readonly project: TUseProject;
@@ -33,7 +33,7 @@ export const TestRow = ({
   const completion = computeCompletion(test.steps);
   const tags = project.getTagsByTestId(test.id);
   const assignees = project.getAssigneesByTestId(test.id);
-  const [opened, handlers] = useDisclosure(false);
+  const [opened, { open, close, toggle }] = useDisclosure(false);
 
   const navigate = useNavigate();
 
@@ -41,16 +41,16 @@ export const TestRow = ({
     e.preventDefault();
     e.stopPropagation();
 
-    handlers.toggle();
+    toggle();
   };
 
   useEffect(() => {
     if (forceExpanded) {
-      handlers.open();
+      open();
     } else {
-      handlers.close();
+      close();
     }
-  }, [forceExpanded, handlers]);
+  }, [forceExpanded, close, open]);
 
   if (!project.data?.id) {
     return null;

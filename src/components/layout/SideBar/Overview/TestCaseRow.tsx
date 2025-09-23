@@ -37,7 +37,7 @@ export function TestCaseRow({
   const completion = computeCompletion(allSteps);
   const tags = project.getTagsByCaseId(testCase.id);
   const assignees = project.getAssigneesByCaseId(testCase.id);
-  const [opened, handlers] = useDisclosure(false);
+  const [opened, { open, close, toggle }] = useDisclosure(false);
 
   const navigate = useNavigate();
 
@@ -45,16 +45,16 @@ export function TestCaseRow({
     e.preventDefault();
     e.stopPropagation();
 
-    handlers.toggle();
+    toggle();
   };
 
   useEffect(() => {
     if (forceExpanded) {
-      handlers.open();
+      open();
     } else {
-      handlers.close();
+      close();
     }
-  }, [forceExpanded, handlers]);
+  }, [forceExpanded, close, open]);
 
   if (!project.data?.id) {
     return null;
