@@ -1,7 +1,5 @@
 import { Flex, FlexProps } from "@mantine/core";
 
-// interface InlineFlexProps extends FlexProps {}
-
 /**
  * Renders a Mantine Flex as an inline-flex span.
  * @param {InlineFlexProps} props - Props to customize the Flex component.
