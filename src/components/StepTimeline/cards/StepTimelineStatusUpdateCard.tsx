@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Card, CardProps, Group, Stack, Text } from "@mantine/core";
 import { CollaboratorAnchor } from "@/components/CollaboratorAnchor/CollaboratorAnchor.tsx";
 import { InlineFlex } from "@/components/InlineFlex/InlineFlex.tsx";

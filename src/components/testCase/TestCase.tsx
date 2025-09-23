@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { modals } from "@mantine/modals";
 import { CommentsList } from "@/components/commentsList/CommentsList";
 import { ContentHeader } from "@/components/contentHeader/ContentHeader";

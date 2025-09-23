@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import clsx from "clsx";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import {
   Box,
   Button,

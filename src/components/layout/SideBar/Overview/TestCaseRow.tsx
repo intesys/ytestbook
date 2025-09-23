@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect } from "react";
+import { MouseEvent, useCallback, useEffect } from "react";
 import clsx from "clsx";
 import { useNavigate } from "react-router";
 import { Collapse, Flex, Progress, Table, Text } from "@mantine/core";
@@ -37,24 +37,27 @@ export function TestCaseRow({
   const completion = computeCompletion(allSteps);
   const tags = project.getTagsByCaseId(testCase.id);
   const assignees = project.getAssigneesByCaseId(testCase.id);
-  const [opened, handlers] = useDisclosure(false);
+  const [opened, { open, close, toggle }] = useDisclosure(false);
 
   const navigate = useNavigate();
 
-  const onExpandToggle = (e: MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const onExpandToggle = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    handlers.toggle();
-  };
+      toggle();
+    },
+    [toggle]
+  );
 
   useEffect(() => {
     if (forceExpanded) {
-      handlers.open();
+      open();
     } else {
-      handlers.close();
+      close();
     }
-  }, [forceExpanded]);
+  }, [forceExpanded, close, open]);
 
   if (!project.data?.id) {
     return null;

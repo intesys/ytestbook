@@ -57,7 +57,7 @@ export const BulkAddButton = ({
         },
       },
     });
-  }, [onBulkLoad]);
+  }, [onBulkLoad, title]);
 
   return (
     <Tooltip label={title} {...tooltipProps}>

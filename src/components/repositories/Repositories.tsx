@@ -21,10 +21,8 @@ import Logout from "@/assets/icons/logout.svg";
 import { GradientLayout } from "@/components/layout/GradientLayout/GradientLayout";
 import { AddServerFormValues } from "@/components/modals/addServerModal/AddServerModal";
 import { Modals } from "@/components/modals/modals";
-import {
-  serversHandler,
-  useServersContext,
-} from "@/components/serversContext/serversContext";
+import { useServersContext } from "@/components/serversContext/hooks/useServersContext.ts";
+import { serversHandler } from "@/components/serversContext/serversContext";
 import {
   REPOSITORY_TYPE,
   SERVER_STATUS,

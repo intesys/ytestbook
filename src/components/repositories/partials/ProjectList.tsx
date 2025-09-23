@@ -17,7 +17,7 @@ import VisibilityOff from "@/assets/icons/visibility_off.svg";
 import { CloneProjectModalFormValues } from "@/components/modals/cloneProjectModal/CloneProjectModal";
 import { CopyProjectToServerFormValues } from "@/components/modals/copyProjectToServer/CopyProjectToServer";
 import { Modals, openDeleteConfirmModal } from "@/components/modals/modals";
-import { useServersContext } from "@/components/serversContext/serversContext";
+import { useServersContext } from "@/components/serversContext/hooks/useServersContext.ts";
 import { REPOSITORY_TYPE, YtServer } from "@/components/serversContext/types";
 import { parseTimestamp } from "@/lib/date/parseTimestamp";
 import { routesHelper } from "@/lib/helpers/routesHelper";

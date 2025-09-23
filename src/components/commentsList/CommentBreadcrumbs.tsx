@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Anchor, Text, TextProps } from "@mantine/core";
 import { routesHelper } from "@/lib/helpers/routesHelper";
 import { useServerName } from "@/lib/helpers/useServerName";

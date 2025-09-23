@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import slugify from "slugify";
-import { useDocContext } from "@/components/docContext/DocContext";
+import { useDocContext } from "@/components/docContext/hooks/useDocContext.ts";
 import { STORAGE_KEYS } from "@/lib/constants/localStorageKeys";
 import { downloadFile } from "@/lib/helpers/downloadFile";
 import { removeTuples } from "@/lib/helpers/removeTuples";
@@ -125,28 +125,33 @@ export function useProject(projectId: string | undefined): TUseProject {
     [doc?.projects, projectId]
   );
 
-  const exportJSON: TUseProject["exportJSON"] = () => {
-    const project = doc?.projects.find((p) => p.id === projectId);
-    if (project) {
-      const jsonContent: TJsonExport = {
-        networkServerUrl: localStorage.getItem(STORAGE_KEYS.SERVERS_CONF) ?? "",
-        project,
-        repository: {
-          id: docUrl ?? "",
-          description: doc?.description ?? "",
-          title: doc?.title ?? "",
-        },
-      };
+  const exportJSON: TUseProject["exportJSON"] = useMemo(
+    () => () => {
+      const project = doc?.projects.find((p) => p.id === projectId);
 
-      const parsedData = JSON.stringify(jsonContent);
+      if (project) {
+        const jsonContent: TJsonExport = {
+          networkServerUrl:
+            localStorage.getItem(STORAGE_KEYS.SERVERS_CONF) ?? "",
+          project,
+          repository: {
+            id: docUrl ?? "",
+            description: doc?.description ?? "",
+            title: doc?.title ?? "",
+          },
+        };
 
-      const slugifiedTitle = slugify(project.title, {
-        lower: true,
-      });
+        const parsedData = JSON.stringify(jsonContent);
 
-      downloadFile(parsedData, `ytestbook-export-${slugifiedTitle}.json`);
-    }
-  };
+        const slugifiedTitle = slugify(project.title, {
+          lower: true,
+        });
+
+        downloadFile(parsedData, `ytestbook-export-${slugifiedTitle}.json`);
+      }
+    },
+    [doc?.description, doc?.projects, doc?.title, docUrl, projectId]
+  );
 
   const updateProject: TUseProject["updateProject"] = useCallback(
     (data) => {
@@ -297,7 +302,7 @@ export function useProject(projectId: string | undefined): TUseProject {
     const groupedTags: Record<string, TTest[]> = {};
     const uniqueTestsWithTags: string[] = [];
 
-    project.tagToTest?.forEach((test) => {
+    (project.tagToTest ?? []).forEach((test) => {
       const tag = test[0];
       const testId = test[1];
       if (!groupedTags[tag]) {
@@ -306,7 +311,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       if (!uniqueTestsWithTags.includes(testId)) {
         uniqueTestsWithTags.push(testId);
       }
-    }, [] as string[]) ?? [];
+    });
 
     // cycle all testcases and their tests
     project.testCases.forEach((testCase) => {
@@ -547,31 +552,33 @@ export function useProject(projectId: string | undefined): TUseProject {
     ]
   );
 
-  if (loading) {
+  return useMemo(() => {
+    if (loading) {
+      return {
+        status: TOperatorLoaderStatus.loading,
+        data: undefined,
+        loading: true,
+        error: false,
+        ...methods,
+      };
+    }
+
+    if (error || !project) {
+      return {
+        status: TOperatorLoaderStatus.error,
+        data: undefined,
+        loading: false,
+        error: true,
+        ...methods,
+      };
+    }
+
     return {
-      status: TOperatorLoaderStatus.loading,
-      data: undefined,
-      loading: true,
+      status: TOperatorLoaderStatus.loaded,
+      data: project,
+      loading: false,
       error: false,
       ...methods,
     };
-  }
-
-  if (error || !project) {
-    return {
-      status: TOperatorLoaderStatus.error,
-      data: undefined,
-      loading: false,
-      error: true,
-      ...methods,
-    };
-  }
-
-  return {
-    status: TOperatorLoaderStatus.loaded,
-    data: project,
-    loading: false,
-    error: false,
-    ...methods,
-  };
+  }, [error, loading, methods, project]);
 }

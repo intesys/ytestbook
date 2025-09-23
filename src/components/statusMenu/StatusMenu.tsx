@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Group, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { ChangeStatusFormValues } from "@/components/modals/changeStatusModal/ChangeStatusModal.tsx";

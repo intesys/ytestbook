@@ -1,8 +1,7 @@
 import { MouseEvent, useCallback, useState } from "react";
 import clsx from "clsx";
 import { IoMdAddCircle } from "react-icons/io";
-import { useNavigate } from "react-router";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import {
   Button,
   Checkbox,

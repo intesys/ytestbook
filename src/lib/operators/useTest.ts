@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { useDocContext } from "@/components/docContext/DocContext";
+import { useDocContext } from "@/components/docContext/hooks/useDocContext.ts";
 import { computeStatus } from "@/lib/helpers/computeStatus";
 import { StatusEnum, TDocType } from "@/types/schema";
 import { TOperatorLoaderStatus, TUseTest } from "./types";

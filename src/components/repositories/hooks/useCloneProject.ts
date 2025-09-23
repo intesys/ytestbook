@@ -1,12 +1,10 @@
 import { useCallback } from "react";
 import { notifications } from "@mantine/notifications";
 import { CloneProjectModalFormValues } from "@/components/modals/cloneProjectModal/CloneProjectModal";
+import { useServersContext } from "@/components/serversContext/hooks/useServersContext.ts";
+import { serversHandler } from "@/components/serversContext/serversContext.tsx";
 import { detachObjectFromAutomergeProps } from "@/lib/repositories/detachObjectFromAutomergeProps";
 import { StatusEnum, TProject } from "@/types/schema";
-import {
-  serversHandler,
-  useServersContext,
-} from "../../serversContext/serversContext";
 import { getDocHandlerFromRepo } from "../utils.repositories";
 
 export const useCloneProject = () => {

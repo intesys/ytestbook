@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import { merge } from "es-toolkit";
 import { ModalProps } from "@mantine/core";
 import { openContextModal } from "@mantine/modals";
 import { AddServerModal } from "./addServerModal/AddServerModal.tsx";

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { List } from "@mantine/core";
 import { TestCasesList } from "@/components/testCasesList";
 import { useProject } from "@/lib/operators/useProject";

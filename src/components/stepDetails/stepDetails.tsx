@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { Box, Button, Group, Image, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import CircleX from "@/assets/icons/circle_x.svg";

@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { Button, Image, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import ArrowCircle from "@/assets/icons/arrow_circle_right.svg";

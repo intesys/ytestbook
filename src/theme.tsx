@@ -85,4 +85,20 @@ export const theme = createTheme({
       },
     },
   },
+  components: {
+    Alert: {
+      styles: {
+        root: {
+          overflow: "visible",
+        },
+      },
+    },
+    Image: {
+      styles: {
+        root: {
+          flexGrow: 1,
+        },
+      },
+    },
+  },
 });
