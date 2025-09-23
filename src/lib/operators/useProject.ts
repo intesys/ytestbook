@@ -552,31 +552,33 @@ export function useProject(projectId: string | undefined): TUseProject {
     ]
   );
 
-  if (loading) {
+  return useMemo(() => {
+    if (loading) {
+      return {
+        status: TOperatorLoaderStatus.loading,
+        data: undefined,
+        loading: true,
+        error: false,
+        ...methods,
+      };
+    }
+
+    if (error || !project) {
+      return {
+        status: TOperatorLoaderStatus.error,
+        data: undefined,
+        loading: false,
+        error: true,
+        ...methods,
+      };
+    }
+
     return {
-      status: TOperatorLoaderStatus.loading,
-      data: undefined,
-      loading: true,
+      status: TOperatorLoaderStatus.loaded,
+      data: project,
+      loading: false,
       error: false,
       ...methods,
     };
-  }
-
-  if (error || !project) {
-    return {
-      status: TOperatorLoaderStatus.error,
-      data: undefined,
-      loading: false,
-      error: true,
-      ...methods,
-    };
-  }
-
-  return {
-    status: TOperatorLoaderStatus.loaded,
-    data: project,
-    loading: false,
-    error: false,
-    ...methods,
-  };
+  }, [error, loading, methods, project]);
 }
