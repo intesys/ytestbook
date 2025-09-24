@@ -31,20 +31,15 @@ export function TestModal({
     },
   });
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: TTestModalForm) => {
-      if (handleSubmit) {
-        handleSubmit(values, testId);
-      }
+  const handleFormSubmit = (values: TTestModalForm) => {
+    if (handleSubmit) {
+      handleSubmit(values, testId);
+    }
 
-      close();
-    },
-    [close, handleSubmit, testId]
-  );
+    close();
+  };
 
   const assigneesChangeHandler = useCallback(
     (values: string[]) => form.setFieldValue("assignees", values),

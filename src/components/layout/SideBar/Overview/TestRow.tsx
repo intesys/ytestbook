@@ -37,15 +37,12 @@ export const TestRow = ({
 
   const navigate = useNavigate();
 
-  const onExpandToggle = useCallback(
-    (e: MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+  const onExpandToggle = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-      toggle();
-    },
-    [toggle]
-  );
+    toggle();
+  };
 
   useEffect(() => {
     if (forceExpanded) {

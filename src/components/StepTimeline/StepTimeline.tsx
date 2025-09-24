@@ -43,19 +43,15 @@ export const StepTimeline = ({
   const [sort, setSort] = useState<SortOrder>("asc");
 
   // Filter and sort the list based on user selections
-  const filteredList = useMemo(
-    () =>
-      list
-        .filter((item) => filteredActivities.includes(item.type))
-        .sort((a, b) => {
-          if (sort === "asc") {
-            return a.date - b.date;
-          }
+  const filteredList = list
+    .filter((item) => filteredActivities.includes(item.type))
+    .sort((a, b) => {
+      if (sort === "asc") {
+        return a.date - b.date;
+      }
 
-          return b.date - a.date;
-        }),
-    [filteredActivities, list, sort]
-  );
+      return b.date - a.date;
+    });
 
   // Keep common card props in one place for easier adjustments
   // and to ensure consistency across different card types
@@ -66,12 +62,9 @@ export const StepTimeline = ({
   // Determine if comments are visible based on current filters
   // This helps to decide whether to show the "new comment" card or not
   // As there is no point in showing it if comments are filtered out.
-  const commentsVisible = useMemo(
-    () =>
-      filteredActivities.includes(ActivityType.Comment) ||
-      filteredActivities.includes(ActivityType.UnsolvedComment),
-    [filteredActivities]
-  );
+  const commentsVisible =
+    filteredActivities.includes(ActivityType.Comment) ||
+    filteredActivities.includes(ActivityType.UnsolvedComment);
 
   const newCommentItem = commentsVisible ? (
     <Timeline.Item

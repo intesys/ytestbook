@@ -31,16 +31,13 @@ export const AssigneeFilter = ({
     [toggle, onChange]
   );
 
-  const clearFilterHandler = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation();
+  const clearFilterHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
 
-      if (onChange) {
-        onChange(null);
-      }
-    },
-    [onChange]
-  );
+    if (onChange) {
+      onChange(null);
+    }
+  };
 
   return (
     <Popover radius="lg" opened={opened} onChange={toggle}>

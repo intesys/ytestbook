@@ -45,30 +45,21 @@ export function ChangeStatusModal({
     },
   });
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: ChangeStatusFormValues) => {
-      if (handleSubmit) {
-        handleSubmit(values);
-      }
-      close();
-    },
-    [close, handleSubmit]
-  );
-
-  const nameOptions = useMemo(() => {
-    if (project.data?.collaborators) {
-      return (project.data.collaborators ?? [])
-        .concat(USER_ANONYMOUS)
-        .map((collaborator) => ({
-          label: collaborator.name,
-          value: collaborator.id,
-        }));
+  const handleFormSubmit = (values: ChangeStatusFormValues) => {
+    if (handleSubmit) {
+      handleSubmit(values);
     }
-  }, [project.data?.collaborators]);
+    close();
+  };
+
+  const nameOptions = (project.data?.collaborators ?? [])
+    .concat(USER_ANONYMOUS)
+    .map((collaborator) => ({
+      label: collaborator.name,
+      value: collaborator.id,
+    }));
 
   const onStatusChange = useCallback(
     (status: StatusEnum) => {

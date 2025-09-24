@@ -25,19 +25,14 @@ export function CreateTestbookModal({
     },
   });
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: TProjectDynamicData) => {
-      if (handleSubmit) {
-        handleSubmit(values);
-      }
-      close();
-    },
-    [close, handleSubmit]
-  );
+  const handleFormSubmit = (values: TProjectDynamicData) => {
+    if (handleSubmit) {
+      handleSubmit(values);
+    }
+    close();
+  };
 
   return (
     <form onSubmit={form.onSubmit(handleFormSubmit)}>

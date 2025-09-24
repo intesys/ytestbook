@@ -21,12 +21,9 @@ export const TestCasesList = ({
   const { projectId, caseId, testId } = useParams();
   const navigate = useNavigate();
   const serverName = useServerName();
-  const handleClick = useCallback(
-    (path: string) => () => {
-      navigate(path);
-    },
-    [navigate]
-  );
+  const handleClick = (path: string) => () => {
+    navigate(path);
+  };
   return (
     <div className={classes.cases}>
       {data.map((testCase) => (

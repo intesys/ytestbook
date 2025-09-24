@@ -41,13 +41,10 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
 
   const navigate = useNavigate();
 
-  const hasRemoteServers = useMemo(() => {
-    return (
-      Object.values(servers).filter(
-        (server) => server.type === REPOSITORY_TYPE.remote
-      ).length > 0
-    );
-  }, [servers]);
+  const hasRemoteServers =
+    Object.values(servers).filter(
+      (server) => server.type === REPOSITORY_TYPE.remote
+    ).length > 0;
 
   return (
     <>

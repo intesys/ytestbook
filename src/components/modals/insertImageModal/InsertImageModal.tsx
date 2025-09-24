@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { IconLink, IconUpload } from "@tabler/icons-react";
 import { Tabs } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
@@ -15,26 +14,21 @@ export const InsertImageModal = ({
   context,
   innerProps: { handleCancel, handleSubmit },
 }: ContextModalProps<TInsertImageModalProps>) => {
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const cancelHandler = useCallback(() => {
+  const cancelHandler = () => {
     if (handleCancel) {
       handleCancel();
     }
     close();
-  }, [close, handleCancel]);
+  };
 
-  const submitHandler = useCallback(
-    (value: string) => {
-      if (handleSubmit) {
-        handleSubmit(value);
-      }
-      close();
-    },
-    [close, handleSubmit]
-  );
+  const submitHandler = (value: string) => {
+    if (handleSubmit) {
+      handleSubmit(value);
+    }
+    close();
+  };
 
   return (
     <Tabs defaultValue="upload">

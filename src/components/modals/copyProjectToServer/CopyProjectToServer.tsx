@@ -31,19 +31,14 @@ export function CopyProjectToServer({
     },
   });
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: CopyProjectToServerFormValues) => {
-      if (handleSubmit) {
-        handleSubmit(values);
-      }
-      close();
-    },
-    [close, handleSubmit]
-  );
+  const handleFormSubmit = (values: CopyProjectToServerFormValues) => {
+    if (handleSubmit) {
+      handleSubmit(values);
+    }
+    close();
+  };
 
   const serversOptions = useMemo(
     () =>

@@ -21,8 +21,8 @@ export function useTest(
     return testCase?.tests.find((test) => test.id === testId);
   }, [doc, projectId, caseId, testId]);
 
-  const loading = useMemo(() => !doc, [doc]);
-  const error = useMemo(() => !!doc && !test, [doc, test]);
+  const loading = !doc;
+  const error = !!doc && !test;
 
   const createStep: TUseTest["createStep"] = useCallback(
     (values) => {

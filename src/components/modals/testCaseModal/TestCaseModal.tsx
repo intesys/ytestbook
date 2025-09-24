@@ -23,20 +23,15 @@ export function TestCaseModal({
     },
   });
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: TCaseDynamicData) => {
-      if (handleSubmit) {
-        handleSubmit(values, caseId);
-      }
+  const handleFormSubmit = (values: TCaseDynamicData) => {
+    if (handleSubmit) {
+      handleSubmit(values, caseId);
+    }
 
-      close();
-    },
-    [close, handleSubmit, caseId]
-  );
+    close();
+  };
 
   return (
     <form onSubmit={form.onSubmit(handleFormSubmit)}>

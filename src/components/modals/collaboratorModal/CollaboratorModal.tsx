@@ -30,19 +30,14 @@ export function CollaboratorModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.setValues, initialValues]);
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: TCollaboratorDynamicData) => {
-      if (handleSubmit) {
-        handleSubmit(values, collaboratorId);
-      }
-      close();
-    },
-    [close, collaboratorId, handleSubmit]
-  );
+  const handleFormSubmit = (values: TCollaboratorDynamicData) => {
+    if (handleSubmit) {
+      handleSubmit(values, collaboratorId);
+    }
+    close();
+  };
 
   return (
     <form onSubmit={form.onSubmit(handleFormSubmit)}>

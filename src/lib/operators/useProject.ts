@@ -13,13 +13,12 @@ export function useProject(projectId: string | undefined): TUseProject {
   const { docUrl } = useDocContext();
   const [doc, changeDoc] = useDocument<TDocType>(docUrl);
 
-  const project: TUseProject["data"] = useMemo(
-    () => doc?.projects.find((item) => projectId && item.id === projectId),
-    [doc, projectId]
+  const project: TUseProject["data"] = doc?.projects.find(
+    (item) => projectId && item.id === projectId
   );
 
-  const loading = useMemo(() => !doc, [doc]);
-  const error = useMemo(() => !!doc && !project, [doc, project]);
+  const loading = !doc;
+  const error = !!doc && !project;
 
   const getTagsByTestId: TUseProject["getTagsByTestId"] = useCallback(
     (testId) => {
@@ -125,33 +124,29 @@ export function useProject(projectId: string | undefined): TUseProject {
     [doc?.projects, projectId]
   );
 
-  const exportJSON: TUseProject["exportJSON"] = useMemo(
-    () => () => {
-      const project = doc?.projects.find((p) => p.id === projectId);
+  const exportJSON: TUseProject["exportJSON"] = useCallback(() => {
+    const project = doc?.projects.find((p) => p.id === projectId);
 
-      if (project) {
-        const jsonContent: TJsonExport = {
-          networkServerUrl:
-            localStorage.getItem(STORAGE_KEYS.SERVERS_CONF) ?? "",
-          project,
-          repository: {
-            id: docUrl ?? "",
-            description: doc?.description ?? "",
-            title: doc?.title ?? "",
-          },
-        };
+    if (project) {
+      const jsonContent: TJsonExport = {
+        networkServerUrl: localStorage.getItem(STORAGE_KEYS.SERVERS_CONF) ?? "",
+        project,
+        repository: {
+          id: docUrl ?? "",
+          description: doc?.description ?? "",
+          title: doc?.title ?? "",
+        },
+      };
 
-        const parsedData = JSON.stringify(jsonContent);
+      const parsedData = JSON.stringify(jsonContent);
 
-        const slugifiedTitle = slugify(project.title, {
-          lower: true,
-        });
+      const slugifiedTitle = slugify(project.title, {
+        lower: true,
+      });
 
-        downloadFile(parsedData, `ytestbook-export-${slugifiedTitle}.json`);
-      }
-    },
-    [doc?.description, doc?.projects, doc?.title, docUrl, projectId]
-  );
+      downloadFile(parsedData, `ytestbook-export-${slugifiedTitle}.json`);
+    }
+  }, [doc, docUrl, projectId]);
 
   const updateProject: TUseProject["updateProject"] = useCallback(
     (data) => {
