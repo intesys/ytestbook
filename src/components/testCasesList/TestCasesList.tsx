@@ -1,4 +1,4 @@
-import { Fragment, useCallback } from "react";
+import { Fragment } from "react";
 import classes from "./testCasesList.module.scss";
 import { useNavigate, useParams } from "react-router";
 import { Collapse, NavLink } from "@mantine/core";

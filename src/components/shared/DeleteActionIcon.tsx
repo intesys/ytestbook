@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback } from "react";
+import { MouseEvent } from "react";
 import { IconX } from "@tabler/icons-react";
 import { ActionIcon, ActionIconProps } from "@mantine/core";
 

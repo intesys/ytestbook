@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { AnyDocumentId } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { IconCloudUp, IconCopy } from "@tabler/icons-react";

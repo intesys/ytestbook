@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useEffect } from "react";
+import { MouseEvent, useEffect } from "react";
 import clsx from "clsx";
 import { useNavigate } from "react-router";
 import { Box, Collapse, Flex, Progress, Table, Text } from "@mantine/core";
