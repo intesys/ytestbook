@@ -68,18 +68,12 @@ export function CommentsList({
     },
   });
 
-  const toggleIsResolved = useCallback(
-    (comment: TComment) => {
-      updateCommentResolved(!comment.resolved, comment.id);
-    },
-    [updateCommentResolved]
-  );
-  const updateContent = useCallback(
-    (content: string, comment: TComment) => {
-      updateCommentContent(content, comment.id);
-    },
-    [updateCommentContent]
-  );
+  const toggleIsResolved = (comment: TComment) => {
+    updateCommentResolved(!comment.resolved, comment.id);
+  };
+  const updateContent = (content: string, comment: TComment) => {
+    updateCommentContent(content, comment.id);
+  };
 
   // Compute select type filter options
   const filterOptions = useMemo(() => {
@@ -134,10 +128,8 @@ export function CommentsList({
   ]);
 
   // Sort comments
-  const computedComments = useMemo(
-    () =>
-      filteredComments.toSorted((a, b) => (a.createdAt > b.createdAt ? -1 : 1)),
-    [filteredComments]
+  const computedComments = filteredComments.toSorted((a, b) =>
+    a.createdAt > b.createdAt ? -1 : 1
   );
 
   if (!project.data?.id) {

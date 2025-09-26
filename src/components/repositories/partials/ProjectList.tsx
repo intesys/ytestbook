@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { AnyDocumentId } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { IconCloudUp, IconCopy } from "@tabler/icons-react";
@@ -41,13 +40,10 @@ export const ProjectList = ({ repo, repositoryId }: ProjectListProps) => {
 
   const navigate = useNavigate();
 
-  const hasRemoteServers = useMemo(() => {
-    return (
-      Object.values(servers).filter(
-        (server) => server.type === REPOSITORY_TYPE.remote
-      ).length > 0
-    );
-  }, [servers]);
+  const hasRemoteServers =
+    Object.values(servers).filter(
+      (server) => server.type === REPOSITORY_TYPE.remote
+    ).length > 0;
 
   return (
     <>

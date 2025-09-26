@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode, useCallback } from "react";
+import { MouseEvent, ReactNode } from "react";
 import {
   Anchor,
   AnchorProps,
@@ -77,14 +77,11 @@ export const CollaboratorAnchor = ({
     }
   }
 
-  const clickHandler = useCallback(
-    (event: MouseEvent<HTMLAnchorElement>) => {
-      if (onClick) {
-        onClick(event);
-      }
-    },
-    [onClick]
-  );
+  const clickHandler = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (onClick) {
+      onClick(event);
+    }
+  };
 
   return (
     <HoverCard

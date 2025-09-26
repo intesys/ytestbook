@@ -44,31 +44,25 @@ export const StepDetails = () => {
     params.stepId
   );
 
-  const comments: StepTimelineComment[] = useMemo(
-    () =>
-      testCase?.data?.comments
-        .filter((comment) => comment.stepId === step?.data?.id)
-        .map((comment) => ({
-          comment,
-          type: comment.resolved
-            ? ActivityType.Comment
-            : ActivityType.UnsolvedComment,
-          date: comment.createdAt,
-        })) ?? [],
-    [step?.data?.id, testCase?.data?.comments]
-  );
+  const comments: StepTimelineComment[] =
+    testCase?.data?.comments
+      .filter((comment) => comment.stepId === step?.data?.id)
+      .map((comment) => ({
+        comment,
+        type: comment.resolved
+          ? ActivityType.Comment
+          : ActivityType.UnsolvedComment,
+        date: comment.createdAt,
+      })) ?? [];
 
-  const statusChanges: StepTimelineStatusUpdate[] = useMemo(
-    () =>
-      project
-        .getStatusChangesByStepId(step?.data?.id ?? "")
-        .map((statusUpdate) => ({
-          statusUpdate,
-          type: ActivityType.StatusUpdate,
-          date: statusUpdate.createdAt,
-        })) ?? [],
-    [project, step?.data?.id]
-  );
+  const statusChanges: StepTimelineStatusUpdate[] =
+    project
+      .getStatusChangesByStepId(step?.data?.id ?? "")
+      .map((statusUpdate) => ({
+        statusUpdate,
+        type: ActivityType.StatusUpdate,
+        date: statusUpdate.createdAt,
+      })) ?? [];
 
   const list: StepTimelineItem[] = useMemo(() => {
     return [...(comments ?? []), ...(statusChanges ?? [])];

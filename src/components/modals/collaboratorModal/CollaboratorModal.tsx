@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
@@ -30,19 +30,14 @@ export function CollaboratorModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.setValues, initialValues]);
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: TCollaboratorDynamicData) => {
-      if (handleSubmit) {
-        handleSubmit(values, collaboratorId);
-      }
-      close();
-    },
-    [close, collaboratorId, handleSubmit]
-  );
+  const handleFormSubmit = (values: TCollaboratorDynamicData) => {
+    if (handleSubmit) {
+      handleSubmit(values, collaboratorId);
+    }
+    close();
+  };
 
   return (
     <form onSubmit={form.onSubmit(handleFormSubmit)}>

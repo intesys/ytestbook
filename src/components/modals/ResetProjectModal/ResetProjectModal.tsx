@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { Button, Checkbox, Group, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
@@ -27,19 +26,14 @@ export function ResetProjectModal({
     validate: {},
   });
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: ResetProjectModalFormValues) => {
-      if (handleSubmit) {
-        handleSubmit(values);
-      }
-      close();
-    },
-    [close, handleSubmit]
-  );
+  const handleFormSubmit = (values: ResetProjectModalFormValues) => {
+    if (handleSubmit) {
+      handleSubmit(values);
+    }
+    close();
+  };
 
   return (
     <form onSubmit={form.onSubmit(handleFormSubmit)}>

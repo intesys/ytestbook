@@ -102,7 +102,7 @@ export function TestDetails() {
           }
         },
       }),
-    [navigate, project.data, serverName, test?.data?.id, testCase]
+    [test?.data?.id]
   );
 
   const cloneClickHandler = useCallback(() => {

@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
@@ -34,19 +33,14 @@ export function AddServerModal({
     },
   });
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: AddServerFormValues) => {
-      if (handleSubmit) {
-        handleSubmit(values);
-      }
-      close();
-    },
-    [close, handleSubmit]
-  );
+  const handleFormSubmit = (values: AddServerFormValues) => {
+    if (handleSubmit) {
+      handleSubmit(values);
+    }
+    close();
+  };
 
   return (
     <form onSubmit={form.onSubmit(handleFormSubmit)}>

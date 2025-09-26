@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactNode, useCallback, useState } from "react";
+import React, { MouseEvent, ReactNode, useState } from "react";
 import { IconQuestionMark } from "@tabler/icons-react";
 import {
   ActionIcon,
@@ -47,16 +47,13 @@ export const ActionIconWithConfirm: React.FC<ActionIconWithConfirmProps> = ({
     setOpened((opened) => !opened);
   };
 
-  const onConfirmHandler = useCallback(
-    (event: MouseEvent) => {
-      setOpened(false);
+  const onConfirmHandler = (event: MouseEvent) => {
+    setOpened(false);
 
-      if (onConfirm) {
-        onConfirm(event);
-      }
-    },
-    [onConfirm]
-  );
+    if (onConfirm) {
+      onConfirm(event);
+    }
+  };
 
   const popoverClickHandler = (event: MouseEvent) => {
     event.stopPropagation();

@@ -1,4 +1,4 @@
-import { ReactNode, useCallback } from "react";
+import { ReactNode } from "react";
 import { Button, ButtonProps, Group, Stack } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
 
@@ -25,23 +25,21 @@ export function ConfirmModal({
     cancelButtonProps = {},
   },
 }: ContextModalProps<TConfirmModalProps>) {
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const cancelHandler = useCallback(() => {
+  const cancelHandler = () => {
     if (handleCancel) {
       handleCancel();
     }
     close();
-  }, [close, handleCancel]);
+  };
 
-  const confirmHandler = useCallback(() => {
+  const confirmHandler = () => {
     if (handleConfirm) {
       handleConfirm();
     }
     close();
-  }, [close, handleConfirm]);
+  };
 
   return (
     <Stack>

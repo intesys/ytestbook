@@ -48,22 +48,19 @@ export function PromptModal({
     validation,
   },
 }: ContextModalProps<TPromptModalProps>) {
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
   const field = useField({
     initialValue,
     validate: validation ?? undefined,
   });
 
-  const cancelHandler = useCallback(() => {
+  const cancelHandler = () => {
     if (handleCancel) {
       handleCancel();
     }
     close();
-  }, [close, handleCancel]);
-
+  };
   const submitHandler = useCallback(() => {
     field.validate().then((errors) => {
       if (errors) {

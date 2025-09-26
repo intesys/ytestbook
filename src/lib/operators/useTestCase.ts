@@ -21,8 +21,8 @@ export function useTestCase(
     return p?.testCases.find((item) => item.id === caseId);
   }, [doc, projectId, caseId]);
 
-  const loading = useMemo(() => !doc, [doc]);
-  const error = useMemo(() => !!doc && !testCase, [doc, testCase]);
+  const loading = !doc;
+  const error = !!doc && !testCase;
 
   const createTest: TUseTestCase["createTest"] = useCallback(
     (values) => {

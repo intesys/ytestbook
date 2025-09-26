@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Group, Table, Text } from "@mantine/core";
 import { Avatars } from "@/components/avatars/Avatars.tsx";
 import { RelativeDate } from "@/components/shared/relativeDate/RelativeDate";
@@ -14,9 +13,9 @@ type StepLogProps = {
 
 export const StepLog = ({ project, stepId }: StepLogProps) => {
   const statusChanges = project.getStatusChangesByStepId(stepId);
-  const collaborators = useMemo(() => {
-    return (project.data?.collaborators ?? [])?.concat(USER_ANONYMOUS);
-  }, [project.data?.collaborators]);
+  const collaborators = (project.data?.collaborators ?? [])?.concat(
+    USER_ANONYMOUS
+  );
 
   return (
     <Table>

@@ -65,9 +65,7 @@ export const Overview = ({ toggle }: OverviewProps) => {
 
   const openSidebar = () => toggle(SIDEBAR_STATUS.OPEN);
 
-  const expandCollapseClick = useCallback(() => {
-    setExpanded((expanded) => !expanded);
-  }, [setExpanded]);
+  const expandCollapseClick = () => setExpanded((expanded) => !expanded);
 
   const bulkLoadHandler = useCallback(
     (values: string[]) => {

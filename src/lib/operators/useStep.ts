@@ -22,8 +22,8 @@ export function useStep(
     return test?.steps.find((step) => step.id === stepId);
   }, [doc, projectId, caseId, testId, stepId]);
 
-  const loading = useMemo(() => !doc, [doc]);
-  const error = useMemo(() => !!doc && !step, [doc, step]);
+  const loading = !doc;
+  const error = !!doc && !step;
 
   if (loading) {
     return {

@@ -1,4 +1,3 @@
-import { useCallback, useMemo } from "react";
 import {
   Button,
   Checkbox,
@@ -46,28 +45,19 @@ export function CloneProjectModal({
     },
   });
 
-  const serversOptions = useMemo(
-    () =>
-      Object.values(servers).map((server) => ({
-        value: server.id,
-        label: server.name,
-      })),
-    [servers]
-  );
+  const serversOptions = Object.values(servers).map((server) => ({
+    value: server.id,
+    label: server.name,
+  }));
 
-  const close = useCallback(() => {
-    context.closeModal(id);
-  }, [context, id]);
+  const close = () => context.closeModal(id);
 
-  const handleFormSubmit = useCallback(
-    (values: CloneProjectModalFormValues) => {
-      if (handleSubmit) {
-        handleSubmit(values);
-      }
-      close();
-    },
-    [close, handleSubmit]
-  );
+  const handleFormSubmit = (values: CloneProjectModalFormValues) => {
+    if (handleSubmit) {
+      handleSubmit(values);
+    }
+    close();
+  };
 
   return (
     <form onSubmit={form.onSubmit(handleFormSubmit)}>
