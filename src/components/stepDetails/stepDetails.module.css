@@ -4,6 +4,7 @@
   padding: 30px 40px;
   row-gap: 34px;
   width: 100%;
+  height: fit-content;
   background-color: var(--mantine-color-gray-0);
   align-content: start;
 
