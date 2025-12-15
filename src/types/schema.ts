@@ -116,6 +116,6 @@ export type TStatusChange = {
   createdAt: number;
   targetStatus?: StatusEnum;
   previousStatus?: StatusEnum;
-  collaboratorId?: string;
-  notes?: string;
+  collaboratorId: string | null;
+  notes: string | null;
 };

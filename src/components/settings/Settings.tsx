@@ -45,7 +45,7 @@ export function Settings() {
   const [tags, setTags] = useState<string[]>([]);
   const [collaborators, setCollaborators] = useState<TCollaborator[]>([]);
 
-  const settings = useMemo(() => project.getSettings(), [project]);
+  const projectSettings = useMemo(() => project.getSettings(), [project]);
 
   useEffect(() => {
     if (project.data?.allTags) {
@@ -129,7 +129,7 @@ export function Settings() {
           <Stack>
             <Switch
               checked={
-                settings?.enableUpdateStatusDialog ??
+                projectSettings?.enableUpdateStatusDialog ??
                 DEFAULT_PROJECT_SETTINGS.enableUpdateStatusDialog
               }
               label="Enable Update Status dialog"
