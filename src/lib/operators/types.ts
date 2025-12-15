@@ -8,6 +8,7 @@ import {
   TDocType,
   TProject,
   TProjectDynamicData,
+  TProjectSettings,
   TStatusChange,
   TStep,
   TStepDynamicData,
@@ -52,6 +53,7 @@ export type TUseProject = {
   getTagsByCaseId: (caseId: TCase["id"]) => string[];
   getAssigneesByTestId: (testId: TTest["id"]) => TCollaborator[];
   getAssigneesByCaseId: (caseId: TCase["id"]) => TCollaborator[];
+  getSettings: () => undefined | TProjectSettings;
   getStatusChangesByStepId: (stepId: TStep["id"]) => TStatusChange[];
   getTestsByTags: () => Record<string, TTest[]>;
   getCollaborator: (
@@ -76,6 +78,7 @@ export type TUseProject = {
   updateProject: (
     data: Partial<Pick<TProject, "title" | "customer" | "description">>
   ) => void;
+  updateSettings: (settings: Partial<TProjectSettings>) => void;
 } & TOperatorLoader<TProject>;
 
 export type TUseTestCase = {
