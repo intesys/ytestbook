@@ -78,6 +78,9 @@ export type TCollaborator = {
 } & TCollaboratorDynamicData;
 
 export type TProjectSettings = {
+  /**
+   * If true, when changing the status of a step, a dialog will appear to allow adding notes and selecting the collaborator responsible for the change.
+   */
   enableUpdateStatusDialog?: boolean;
 };
 
@@ -94,8 +97,8 @@ export type TProject = {
   testCases: TCase[];
   allTags: string[] | undefined;
   collaborators:
-    | TCollaborator[]
-    | undefined /**@hribeiro TODO: undefined for compatibility. To be removed */;
+  | TCollaborator[]
+  | undefined /**@hribeiro TODO: undefined for compatibility. To be removed */;
   tagToTest: [string, string][] | undefined;
   collaboratorToTest: [string, string][] | undefined;
   statusChanges: TStatusChange[];
