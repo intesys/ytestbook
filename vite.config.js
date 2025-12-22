@@ -7,9 +7,12 @@ import wasm from "vite-plugin-wasm";
 
 export default defineConfig({
   plugins: [topLevelAwait(), wasm(), react(), VitePWA({
-      registerType: "autoUpdate",
+      registerType: "prompt",
       devOptions: {
         enabled: true
+      },
+      workbox: {
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024 // 5MB
       },
       manifest: {
         name: "yTestbook",
