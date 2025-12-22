@@ -1,9 +1,9 @@
-import { IconWindowMaximize } from "@tabler/icons-react";
 import { ActionIcon, Button, Flex, Group, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { IconWindowMaximize } from "@tabler/icons-react";
 
 interface IProps {
-  notes?: string;
+  notes?: string | null;
 }
 
 const NOTES_LIMIT_LENGTH = 10;
