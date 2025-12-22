@@ -69,6 +69,7 @@
     "@types/react-router-dom": "5.3.3",
     "@typescript-eslint/eslint-plugin": "8.44.1",
     "@typescript-eslint/parser": "8.44.1",
+    "@vite-pwa/assets-generator": "^1.0.2",
     "@vitejs/plugin-react": "5.0.3",
     "eslint": "9.36.0",
     "eslint-config-prettier": "10.1.8",
@@ -86,7 +87,8 @@
     "sugarss": "5.0.1",
     "typescript": "5.9.2",
     "typescript-eslint": "8.44.1",
-    "vite": "7.1.7"
+    "vite": "7.1.7",
+    "vite-plugin-pwa": "^1.2.0"
   },
   "engines": {
     "node": "22.19.0"
