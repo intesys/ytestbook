@@ -77,10 +77,15 @@ export type TCollaborator = {
   createdAt: number;
 } & TCollaboratorDynamicData;
 
+export type TProjectSettings = {
+  enableUpdateStatusDialog?: boolean;
+};
+
 export type TProjectDynamicData = {
   title: string;
   customer: string;
   lastUpdate?: number;
+  settings?: TProjectSettings;
 };
 
 export type TProject = {
@@ -111,6 +116,6 @@ export type TStatusChange = {
   createdAt: number;
   targetStatus?: StatusEnum;
   previousStatus?: StatusEnum;
-  collaboratorId?: string;
-  notes?: string;
+  collaboratorId: string | null;
+  notes: string | null;
 };

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import {
   IconDeviceFloppy,
   IconFileExport,
@@ -13,10 +13,12 @@ import {
   Alert,
   Anchor,
   Button,
+  Divider,
   Flex,
   Group,
   Loader,
   Stack,
+  Switch,
   Table,
   TagsInput,
   Text,
@@ -29,6 +31,7 @@ import { Avatars } from "@/components/avatars/Avatars.tsx";
 import { ContentWrapper } from "@/components/layout/ContentWrapper/ContentWrapper.tsx";
 import { Modals, openDeleteConfirmModal } from "@/components/modals/modals.ts";
 import { ResetProjectModalFormValues } from "@/components/modals/ResetProjectModal/ResetProjectModal.tsx";
+import { DEFAULT_PROJECT_SETTINGS } from "@/lib/constants/generic.ts";
 import { useProject } from "@/lib/operators/useProject";
 import { useProjects } from "@/lib/operators/useProjects";
 import { TCollaborator } from "@/types/schema.ts";
@@ -41,6 +44,8 @@ export function Settings() {
   const navigate = useNavigate();
   const [tags, setTags] = useState<string[]>([]);
   const [collaborators, setCollaborators] = useState<TCollaborator[]>([]);
+
+  const projectSettings = useMemo(() => project.getSettings(), [project]);
 
   useEffect(() => {
     if (project.data?.allTags) {
@@ -96,6 +101,15 @@ export function Settings() {
     });
   }, [project]);
 
+  const enableUpdateStatusDialogChangeHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      project.updateSettings({
+        enableUpdateStatusDialog: event.currentTarget.checked,
+      });
+    },
+    [project]
+  );
+
   if (project.loading) {
     return (
       <Flex align="center" justify="center" h="100dvh" w="100%">
@@ -107,16 +121,30 @@ export function Settings() {
   return (
     <ContentWrapper>
       <Stack className={classes.settings} w="100%">
-        <Stack>
-          <Title order={3}>Settings</Title>
-        </Stack>
+        <Title order={3}>Settings</Title>
 
         <Stack>
-          <Title order={4}>Project data</Title>
+          <Title order={4}>Project Settings</Title>
+
+          <Stack>
+            <Switch
+              checked={
+                projectSettings?.enableUpdateStatusDialog ??
+                DEFAULT_PROJECT_SETTINGS.enableUpdateStatusDialog
+              }
+              label="Enable Update Status dialog"
+              description="When this setting is enabled, during a status update you will have to assign the test to a collaborator, and you could add some extra notes about the change updates"
+              onChange={enableUpdateStatusDialogChangeHandler}
+            ></Switch>
+          </Stack>
         </Stack>
+
+        <Divider />
+
+        <Title order={4}>Project data</Title>
 
         <Stack gap="md">
-          <Title order={4}>Collaborators</Title>
+          <Title order={5}>Collaborators</Title>
           {collaborators.length === 0 ? (
             <Text span>
               The list is empty. Do you want to{" "}
@@ -215,11 +243,10 @@ export function Settings() {
         </Stack>
 
         <Stack>
-          <Title order={4}>Tags</Title>
+          <Title order={5}>Tags</Title>
           <TagsInput data={[]} value={tags} onChange={setTags} />
           <Group justify="end">
             <Button
-              w={105}
               leftSection={<IconDeviceFloppy size={18} />}
               onClick={() => {
                 project.updateAllTags(tags);
@@ -231,7 +258,7 @@ export function Settings() {
                 });
               }}
             >
-              Save
+              Save Tags
             </Button>
           </Group>
         </Stack>

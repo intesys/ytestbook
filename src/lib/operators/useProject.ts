@@ -2,11 +2,12 @@ import { useCallback, useMemo } from "react";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import slugify from "slugify";
 import { useDocContext } from "@/components/docContext/hooks/useDocContext.ts";
+import { DEFAULT_PROJECT_SETTINGS } from "@/lib/constants/generic.ts";
 import { STORAGE_KEYS } from "@/lib/constants/localStorageKeys";
 import { downloadFile } from "@/lib/helpers/downloadFile";
 import { removeTuples } from "@/lib/helpers/removeTuples";
 import { TJsonExport } from "@/types/json-export";
-import { StatusEnum, TDocType, TTest } from "@/types/schema";
+import { StatusEnum, TDocType, TProjectSettings, TTest } from "@/types/schema";
 import { TOperatorLoaderStatus, TUseProject } from "./types";
 
 export function useProject(projectId: string | undefined): TUseProject {
@@ -509,12 +510,58 @@ export function useProject(projectId: string | undefined): TUseProject {
     [changeDoc, projectId]
   );
 
+  const getSettings: TUseProject["getSettings"] = useCallback(() => {
+    if (!projectId) {
+      return;
+    }
+
+    const project = doc?.projects.find(
+      (item) => projectId && item.id === projectId
+    );
+
+    if (!project) {
+      return;
+    }
+
+    return project?.settings ?? DEFAULT_PROJECT_SETTINGS;
+  }, [doc?.projects, projectId]);
+
+  const updateSettings: TUseProject["updateSettings"] = useCallback(
+    (newSettings: Partial<TProjectSettings>) => {
+      if (!newSettings) {
+        return;
+      }
+
+      if (!projectId) {
+        return;
+      }
+
+      changeDoc((doc) => {
+        const project = doc.projects.find(
+          (item) => projectId && item.id === projectId
+        );
+        if (!project) {
+          return;
+        }
+
+        const activeSettings = project.settings || {};
+
+        project.settings = {
+          ...activeSettings,
+          ...newSettings,
+        };
+      });
+    },
+    [changeDoc, projectId]
+  );
+
   const methods = useMemo(
     () => ({
       getTagsByTestId,
       getTagsByCaseId,
       getAssigneesByTestId,
       getAssigneesByCaseId,
+      getSettings,
       getStatusChangesByStepId,
       getCollaborator,
       exportJSON,
@@ -527,6 +574,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       removeCollaborator,
       removeTestCase,
       updateProject,
+      updateSettings,
       getTestsByTags,
       resetProject,
     }),
@@ -537,6 +585,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       getAssigneesByCaseId,
       getAssigneesByTestId,
       getCollaborator,
+      getSettings,
       getStatusChangesByStepId,
       getTagsByCaseId,
       getTagsByTestId,
@@ -547,6 +596,7 @@ export function useProject(projectId: string | undefined): TUseProject {
       updateProject,
       updateTestCase,
       updateTestCaseStatus,
+      updateSettings,
       getTestsByTags,
       resetProject,
     ]

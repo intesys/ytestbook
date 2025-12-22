@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { Box, Button, Image, Menu, Text } from "@mantine/core";
 import ArrowDropdown from "@/assets/icons/arrow_drop_down.svg";
 import { StatusIcon } from "@/components/statusIcon/StatusIcon";
@@ -19,6 +19,12 @@ export const StatusMenuDropdown = ({
 }: StatusMenuDropdownProps) => {
   const statusColor = getStatusColor(currentStatus);
   const statusLabel = getStatusLabel(currentStatus);
+
+  const clickHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    // Prevent a click on the status button from propagating to parent elements,
+    // switching to the step detail view.
+    event.stopPropagation();
+  };
 
   return (
     <Menu shadow="md" width={200}>
@@ -43,6 +49,7 @@ export const StatusMenuDropdown = ({
                 />
               </Box>
             }
+            onClick={clickHandler}
           >
             <Box hiddenFrom="md">
               <StatusIcon status={currentStatus} />

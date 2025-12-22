@@ -93,8 +93,8 @@ export function useTest(
             stepId: step.id,
             targetStatus: status,
             testId,
-            collaboratorId,
-            notes,
+            collaboratorId: collaboratorId ?? null,
+            notes: notes ?? null,
           });
         });
       });

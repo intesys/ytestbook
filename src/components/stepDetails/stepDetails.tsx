@@ -44,6 +44,8 @@ export const StepDetails = () => {
     params.stepId
   );
 
+  const projectSettings = useMemo(() => project.getSettings(), [project]);
+
   const comments: StepTimelineComment[] = useMemo(
     () =>
       testCase?.data?.comments
@@ -111,23 +113,28 @@ export const StepDetails = () => {
   };
 
   const onStatusChange = (status: StatusEnum) => {
-    modals.openContextModal({
-      modal: Modals.ChangeStatusModal,
-      title: (
-        <Group wrap="nowrap" gap={6}>
-          Update Status to{" "}
-          <Group gap={6} wrap="nowrap">
-            <StatusIcon status={status} showTooltip={false} />
-            <Text span>{getStatusLabel(status)}</Text>
+    if (projectSettings?.enableUpdateStatusDialog === true) {
+      modals.openContextModal({
+        modal: Modals.ChangeStatusModal,
+        title: (
+          <Group wrap="nowrap" gap={6}>
+            Update Status to{" "}
+            <Group gap={6} wrap="nowrap">
+              <StatusIcon status={status} showTooltip={false} />
+              <Text span>{getStatusLabel(status)}</Text>
+            </Group>
           </Group>
-        </Group>
-      ),
-      centered: true,
-      innerProps: {
-        project,
-        handleSubmit: handleStatusChange(status),
-      },
-    });
+        ),
+        centered: true,
+        innerProps: {
+          project,
+          handleSubmit: handleStatusChange(status),
+        },
+      });
+    } else {
+      // just update the status without asking for more info
+      test.updateStepStatuses([step.data.id], status);
+    }
   };
 
   const handleStatusChange =

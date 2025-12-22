@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { useParams } from "react-router";
 import { Group, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
@@ -21,25 +21,30 @@ type TProps = {
 export function StatusMenu({ id, step, target, updateStepStatuses }: TProps) {
   const params = useParams();
   const project = useProject(params.projectId);
+  const projectSettings = useMemo(() => project.getSettings(), [project]);
 
   const onStatusChange = (status: StatusEnum) => {
-    modals.openContextModal({
-      modal: Modals.ChangeStatusModal,
-      title: (
-        <Group wrap="nowrap" gap={6}>
-          Update Status to{" "}
-          <Group gap={6} wrap="nowrap">
-            <StatusIcon status={status} showTooltip={false} />
-            <Text span>{getStatusLabel(status)}</Text>
+    if (projectSettings?.enableUpdateStatusDialog === true) {
+      modals.openContextModal({
+        modal: Modals.ChangeStatusModal,
+        title: (
+          <Group wrap="nowrap" gap={6}>
+            Update Status to{" "}
+            <Group gap={6} wrap="nowrap">
+              <StatusIcon status={status} showTooltip={false} />
+              <Text span>{getStatusLabel(status)}</Text>
+            </Group>
           </Group>
-        </Group>
-      ),
-      centered: true,
-      innerProps: {
-        project,
-        handleSubmit: handleStatusChange(status),
-      },
-    });
+        ),
+        centered: true,
+        innerProps: {
+          project,
+          handleSubmit: handleStatusChange(status),
+        },
+      });
+    } else {
+      updateStepStatuses([id], status);
+    }
   };
 
   const handleStatusChange =
