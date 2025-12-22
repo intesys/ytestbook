@@ -8,13 +8,13 @@ It's a free web application to manage software tests. It's mainly intended for h
 
 It allows you to define:
 
-- what you want to test (we call it test cases);
-- how you expect your software works in different scenarios (tests);
-- for each test, you can describe all the steps required to run it.
+- what you want to test (we call it **test cases**);
+- how you expect your software works in different scenarios (**tests**);
+- for each test, you can describe all the **steps** required to run it.
 
-You can also organize your tests using tags.
+You can also organize your tests using **tags**.
 
-Then you can manage test sessions, sunning tests and tracking success and failures, adding comments, assigning tasks and much more.
+Then you can manage test sessions, running tests and tracking success and failures, adding comments, assigning tasks and much more.
 
 At any time, you can monitor progress and evaluate problems.
 
